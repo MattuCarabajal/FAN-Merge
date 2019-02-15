@@ -1,0 +1,11 @@
+/bin/
+/lib/
+/test-putput/
+/.classpath
+*.jar
+*.exe
+*.log
+*.project
+*.md
+*.xml
+/classpath/
