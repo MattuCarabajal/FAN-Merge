@@ -52,6 +52,8 @@ import DataProvider.ExcelUtils;
 
 public class TestBase {
 	protected static WebDriver driver;
+		
+		public static String urlMerge = "https://crm--merge02.cs47.my.salesforce.com/";
 	
 		public static String urlAmbiente = "https://telecomcrm--uat.cs53.my.salesforce.com";
 		//public static String urlAmbiente = "https://crm--sit.cs14.my.salesforce.com/";
@@ -452,6 +454,14 @@ public class TestBase {
 			waitForClickeable(driver, By.id("idp_section_buttons"));
 		    Login page0 = new Login(driver);
 		    page0.ingresarFraude();
+		}
+		
+		//Ingreso a Merge
+		public void loginMerge(WebDriver driver) {
+			driver.get(urlMerge);
+			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		    Login page0 = new Login(driver);
+		    page0.ingresarMerge();
 		}
 		
 		public void elegirmodulo(String modulo){

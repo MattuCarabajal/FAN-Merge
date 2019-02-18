@@ -47,10 +47,10 @@ public class AltadeLineas extends TestBase {
 		//driver.manage().deleteAllCookies();
 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}		
 		SalesBase SB = new SalesBase(driver);
-		loginOfCom(driver);  
+		loginMerge(driver);  
 		CustomerCare cc = new CustomerCare(driver);
 		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}	
-		driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
+		//driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
 		sleep(10000);
 		try{
 			SB.cerrarPestaniaGestion(driver);}

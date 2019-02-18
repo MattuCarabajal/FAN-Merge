@@ -65,6 +65,15 @@ public class Login extends BasePage {
 	@FindBy (how = How.ID, using = "TxtContrasenia")
 	private WebElement PassF;
    
+	@FindBy (how = How.ID, using = "username")
+	private WebElement usernameMerge;
+	
+	@FindBy (how = How.ID, using = "password")
+	private WebElement passwordMerge;
+	
+	@FindBy (how = How.ID, using = "Login")
+	private WebElement loginMerge;
+	
 	@FindBy (how = How.CSS, using = ".btn.btn-lg.btn-primary.btn-block.btn-signin")
 	private WebElement ClickF;
 	//Constructor
@@ -388,4 +397,13 @@ public class Login extends BasePage {
 		  loginButton2.click();
 		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
+	
+	//*************** Merge: Usuario Florangel
+	public void ingresarMerge() {
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		  usernameMerge.sendKeys("florangel.rojas@xappia.com.fan.merge02");
+		  passwordMerge.sendKeys("Testa10k");
+		  loginMerge.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		 }
 }
