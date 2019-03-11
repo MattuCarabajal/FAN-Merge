@@ -63,7 +63,7 @@ public class AltadeLineas extends TestBase {
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
 		Accounts accountPage = new Accounts(driver);
-		goToLeftPanel2(driver, "Inicio");
+		goToLeftPanel3(driver, "Inicio");
 		sleep(5000);
 		SalesBase SB = new SalesBase(driver);
 		driver.switchTo().defaultContent();

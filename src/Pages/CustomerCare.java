@@ -377,7 +377,7 @@ public class CustomerCare extends BasePage {
 		driver.findElement(By.className("card-top")).click();
 		WebElement card = driver.findElement(By.cssSelector(".console-card.active")).findElement(By.className("actions"));
 		for (WebElement x : card.findElements(By.className("slds-text-body_regular"))) {
-			if (x.getText().contains("Detalle de Consumos"))
+			if (x.getText().contains("Detalles de Consumo"))
 				x.click();
 		}
 		sleep(5000);
