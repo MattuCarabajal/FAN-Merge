@@ -53,16 +53,18 @@ public class GestionesPerfilAgente extends TestBase{
 		cc = new CustomerCare(driver);
 		sb = new SalesBase(driver);
 		mk = new Marketing(driver);
-		loginAgente(driver);
+		loginMerge(driver);
 		//sleep(22000);
-		try {
-			cc.cajonDeAplicaciones("Consola FAN");
-		} catch(Exception e) {
-			waitForClickeable(driver,By.id("tabBar"));
-			//sleep(3000);
-			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
-			sleep(6000);
-		}
+//		try {
+//			cc.cajonDeAplicaciones("Consola FAN");
+//		} catch(Exception e) {
+			try {
+				waitForClickeable(driver,By.id("tabBar"));
+				//sleep(3000);
+				driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
+				sleep(6000);
+			}catch(Exception ex) {}
+//		}
 		driver.switchTo().defaultContent();
 		sleep(3000);
 		
@@ -395,7 +397,7 @@ public class GestionesPerfilAgente extends TestBase{
 	}
 	
 	@Test (groups = {"GestionesPerfilAgente", "ConsultaDeSaldo", "Ciclo1"}, dataProvider = "ConsultaSaldo")
-	public void TS_134814_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_Agentes(String sDNI){
+	public void TS134814_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_Agentes(String sDNI){
 		imagen = "TS134814";
 		detalles = null;
 		detalles = imagen + "Consulta de Saldo -DNI:" + sDNI;
@@ -543,7 +545,7 @@ public class GestionesPerfilAgente extends TestBase{
 		boolean a = false;
 		List <WebElement> saldo = driver.findElements(By.className("header-right"));
 		for(WebElement x : saldo) {
-			if(x.getText().toLowerCase().contains("balance")) {
+			if(x.getText().toLowerCase().contains("saldo")) {
 				a = true;
 			}
 			Assert.assertTrue(a);
@@ -609,7 +611,7 @@ public class GestionesPerfilAgente extends TestBase{
 		CustomerCare cCC = new CustomerCare(driver);
 		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SearchClientDocumentType")));
 		sleep(1000);
-		SalesBase sSB = new SalesBase(driver);
+		SalesBase sSB = new SalesBase(driver); 
 		sSB.BuscarCuenta("DNI", cDNI);
 		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
 		System.out.println("id "+accid);
@@ -1399,9 +1401,9 @@ public class GestionesPerfilAgente extends TestBase{
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(15000);
+//		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+//		driver.findElement(By.className("card-top")).click();
+//		sleep(15000);
 		cCC.irADetalleDeConsumos();
 		sleep(12000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter")));
@@ -1774,7 +1776,7 @@ public class GestionesPerfilAgente extends TestBase{
 	}
 	
 	@Test (groups= {"GestionesPerfilAgente", "Ciclo2", "Vista360"}, dataProvider = "CuentaVista360")
-	public void TS134819_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_Agentes(String sDNI, String sLinea,String sNombre){
+	public void TS134819_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea, String sEmail, String sMovil){
 		imagen = "TS134819";
 		detalles = null;
 		detalles = imagen + "-Vista 360 - DNI: "+ sDNI+ "- Nombre: " + sNombre;
@@ -1800,7 +1802,7 @@ public class GestionesPerfilAgente extends TestBase{
 	}
 	
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
-	public void TS_134824_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre,String sEmail,String sMovil){
+	public void TS134824_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre,String sEmail,String sMovil){
 		boolean gest = false;
 		imagen = "TS13824";
 		detalles = null;
@@ -1824,7 +1826,7 @@ public class GestionesPerfilAgente extends TestBase{
 	}
 	
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
-	public void TS_134832_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre,String sEmail,String sMovil){
+	public void TS134832_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre,String sEmail,String sMovil){
 		imagen = "TS13832";
 		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
@@ -1855,7 +1857,7 @@ public class GestionesPerfilAgente extends TestBase{
 		List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
 		for (WebElement cell : tableRows_2) {
 			try {
-				if (cell.getText().equals("30")) {
+				if (cell.getText().equals("28")) {
 					cell.click();
 					sleep(5000);
 				}
@@ -1863,16 +1865,16 @@ public class GestionesPerfilAgente extends TestBase{
 		}
 		sleep(3000);
 		driver.findElement(By.id("text-input-id-2")).click();
-		WebElement table_3 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
-		sleep(3000);
-		List<WebElement> tableRows_3 = table_3.findElements(By.xpath("//tr//td"));
-		for (WebElement cell : tableRows_3) {
-			try {
-				if (cell.getText().equals("03")) {
-					cell.click();
-				}
-			} catch (Exception e) {}
-		}
+//		WebElement table_3 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
+//		sleep(3000);
+//		List<WebElement> tableRows_3 = table_3.findElements(By.xpath("//tr//td"));
+//		for (WebElement cell : tableRows_3) {
+//			try {
+//				if (cell.getText().equals("03")) {
+//					cell.click();
+//				}
+//			} catch (Exception e) {}
+//		}
 		sleep(3000);
 		List<WebElement> tipo = driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"));
 			for(WebElement t : tipo){
@@ -1893,7 +1895,7 @@ public class GestionesPerfilAgente extends TestBase{
 	}
 	
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
-	public void TS_134823_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre,String sEmail,String sMovil){
+	public void TS134823_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre,String sEmail,String sMovil){
 		imagen = "TS13823";
 		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;

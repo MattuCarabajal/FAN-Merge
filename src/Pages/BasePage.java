@@ -274,7 +274,7 @@ public class BasePage {
 	}
 	
 	protected void waitForVisibilityOf(WebElement elem) {
-		(new WebDriverWait(driver, 8)).until(ExpectedConditions.visibilityOf(elem));
+		(new WebDriverWait(driver, 15)).until(ExpectedConditions.visibilityOf(elem));
 	}
 	
 	protected void waitForVisibilityOfElementLocated(By locator) {

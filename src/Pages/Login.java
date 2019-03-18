@@ -83,6 +83,15 @@ public class Login extends BasePage {
         PageFactory.initElements(driver, this);
     }
 	
+	public void ingresarGeneral() {
+		  logininterno.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		  Ecom_User_ID.sendKeys("uat569076");//UAT 
+		  Ecom_Password.sendKeys("Testa10k");
+		  loginButton2.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		 }
+	
 	//Methods
 	public void ingresarSCPconTodo() { 
 		 try {logininterno.click();}

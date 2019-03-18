@@ -261,7 +261,7 @@ public class TestBase {
 	}
 	    
 	public void waitFor(WebDriver driver, By element) {
-		(new WebDriverWait(driver, 15)).until(ExpectedConditions.visibilityOfElementLocated(element));
+		(new WebDriverWait(driver, 25)).until(ExpectedConditions.visibilityOfElementLocated(element));
 	}
 	
 	public void waitForClickeable(WebDriver driver, By element) {
@@ -338,6 +338,12 @@ public class TestBase {
 		    page0.ingresarAndres();
 		}
 		
+		public void loginGeneral(WebDriver driver) {
+			driver.get(urlAmbiente);
+			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		    Login page0 = new Login(driver);
+		    page0.ingresarGeneral();
+		}
 		/**Ingresa con los datos de la cuenta Elena
 		 * Para el Modulo Sales tiene vinculado el perfil de Call center		 */
 		public void loginTelefonico(WebDriver driver) {
@@ -673,7 +679,7 @@ public class TestBase {
 		if(urlAmbiente.contains("sit"))
 			try {Thread.sleep(miliseconds+5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		else
-			try {Thread.sleep(miliseconds+2000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+			try {Thread.sleep(miliseconds+5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	
 	public List<String> obtenerElAtributoDeLosElementos(String atributo, List<WebElement> elementos) {
@@ -1864,7 +1870,7 @@ public class TestBase {
 		
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,5,"Vista 360");
 		
-		return (testObjArray);
+		return (testObjArray); 
 		
 	}
 	

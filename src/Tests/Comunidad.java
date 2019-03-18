@@ -205,7 +205,7 @@ public class Comunidad extends TestBase {
 	}
 
 	@Test (groups = {"Communities","Desktop","E2E"})
-	public void TS_135798_CRM_PRE_Community_Desktop_Menu(){
+	public void TS135798_CRM_PRE_Community_Desktop_Menu(){
 		driver.findElement(By.className("profileName")).click();
 		sleep(5000);
 		System.out.println(driver.findElement(By.cssSelector(".home.uiMenuItem")).getText());

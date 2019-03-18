@@ -49,7 +49,6 @@ public class AltadeLineas extends TestBase {
 		SalesBase SB = new SalesBase(driver);
 		loginMerge(driver);  
 		CustomerCare cc = new CustomerCare(driver);
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}	
 		//driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
 		sleep(10000);
 		try{

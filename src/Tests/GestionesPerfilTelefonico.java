@@ -71,13 +71,21 @@ public class GestionesPerfilTelefonico extends TestBase{
 		mk = new Marketing(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
-		loginTelefonico(driver);
-//		WebElement dynamicElement = (new WebDriverWait(driver, 10))
-//				  .until(ExpectedConditions.elementToBeClickable(By.id("tabBar")));//.presenceOfElementLocated(By.id("dynamicElement")));
-//		//sleep(22000);
-		waitForClickeable(driver,By.id("tabBar"));
-		driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
-		sleep(21000);
+		loginMerge(driver);
+//		try {
+//			cc.cajonDeAplicaciones("Consola FAN");
+//		} catch(Exception e) {
+		//sleep(3000);
+			try {
+				waitForClickeable(driver,By.id("tabBar"));
+				driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
+			}catch(org.openqa.selenium.TimeoutException ex1) {  
+				
+			}
+			sleep(6000);
+//		}
+		driver.switchTo().defaultContent();
+		sleep(6000);
 			
 	}
 	
@@ -689,7 +697,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 		boolean a = false;
 		List <WebElement> saldo = driver.findElements(By.className("header-right"));
 		for(WebElement x : saldo) {
-			if(x.getText().toLowerCase().contains("balance")) {
+			if(x.getText().toLowerCase().contains("saldo")) {
 				a = true;
 			}
 			Assert.assertTrue(a);
@@ -720,7 +728,9 @@ public class GestionesPerfilTelefonico extends TestBase{
 		driver.findElement(By.xpath("//*[text() = 'Todos']")).click();
 		if (driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).isDisplayed()) {
 			driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-			Assert.assertTrue(true);
+			TestBase TB = new TestBase();
+			TB.waitFor(driver, By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium"));
+			Assert.assertTrue(driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).isDisplayed());
 		} else
 			Assert.assertTrue(false);
 	}
@@ -1813,7 +1823,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(10000);
+		sleep(18000);
 		cc.irAHistoriales();
 		WebElement historialDeRecargas = null;
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
@@ -1962,7 +1972,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 		Assert.assertTrue(ajustePositivo);
 	}
 	
-	@Test (groups = {"GestionesPerfilTelefonico","HistorialDeReacargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
+	@Test (groups = {"GestionesPerfilTelefonico","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
 	public void TS135469_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_Telefonico(String sDNI){
 	boolean enc = false;
 	imagen = "TS135469";
@@ -2109,7 +2119,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 		Assert.assertTrue(iMainBalance > uiMainBalance);
 	}
 	
-	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeReacargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
+	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
 	public void TS135467_CRM_Movil_Prepago_Historial_de_Packs_Fan_Front_Telefonico(String cDNI) {
 		boolean enc = false;
 		imagen = "TS135467";
@@ -2118,7 +2128,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(20000);
+		sleep(25000);
 		CustomerCare cc = new CustomerCare(driver);
 		cc.irAHistoriales();
 		sleep(8000);
@@ -2129,7 +2139,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 			if(UnH.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText().equals("Historial de packs")) {
 				enc = true;
 				driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
-				sleep(5000);
+				sleep(7000);
 				driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")));
 				driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
 				sleep(5000);
@@ -2940,6 +2950,10 @@ public class GestionesPerfilTelefonico extends TestBase{
 		List <WebElement> fecha = driver.findElements(By.cssSelector(".slds-truncate.slds-th__action"));		
 		for(WebElement x : fecha) {
 			if(x.getText().toLowerCase().equals("canal")) {
+				x.click();
+				TestBase TB = new TestBase();
+				TB.waitFor(driver, By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium"));
+				Assert.assertTrue(driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).isDisplayed());
 				a= true;
 			}
 		}
@@ -3030,39 +3044,40 @@ public class GestionesPerfilTelefonico extends TestBase{
 	
 	@Test (groups = {"GestionesPerfilTelefonico","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
 	public void TS135477_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internet_40_Mb_FAN_Front_Telefonico(String sDNI){
-	imagen = "TS135477";
-	detalles = null;
-	detalles = imagen+"-HistorialDePacksTelefonico - DNI:"+sDNI;
-	driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-	sb.BuscarCuenta("DNI", sDNI);
-	driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-	sleep(20000);
-	CustomerCare cc = new CustomerCare(driver);
-	cc.irAHistoriales();
-	sleep(8000);
-	driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-card.slds-m-around--small.ta-fan-slds")));
-	driver.findElements(By.className("slds-card"));
-	System.out.println(driver.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText());
-	driver.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText().equals("Historial de packs");
-	driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
-	sleep(8000);
-	driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter")));
-	driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-	sleep(8000);
-	driver.findElement(By.id("text-input-03")).click();
-	List <WebElement>NomPack = driver.findElement(By.cssSelector(".slds-dropdown__list.slds-dropdown--length-5")).findElements(By.tagName("li"));
-	String pack = "Internet 40 Mb";
-	for(WebElement Pack : NomPack) {
-		if(Pack.getText().equalsIgnoreCase(pack)) {
-			System.out.println(Pack.getText());
-			Pack.click();
-			break;
-			}
-		else {
-			System.out.println(pack +": no existe");
-			break;
+		imagen = "TS135477";
+		detalles = null;
+		detalles = imagen+"-HistorialDePacksTelefonico - DNI:"+sDNI;
+		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+		sb.BuscarCuenta("DNI", sDNI);
+		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		sleep(20000);
+		CustomerCare cc = new CustomerCare(driver);
+		cc.irAHistoriales();
+		sleep(8000);
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-card.slds-m-around--small.ta-fan-slds")));
+		driver.findElements(By.className("slds-card"));
+		System.out.println(driver.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText());
+		driver.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText().equals("Historial de packs");
+		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		sleep(8000);
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter")));
+		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
+		sleep(8000);
+		driver.findElement(By.id("text-input-03")).click();
+		List <WebElement>NomPack = driver.findElement(By.cssSelector(".slds-dropdown__list.slds-dropdown--length-5")).findElements(By.tagName("li"));
+		String pack = "Internet 40 Mb";
+		boolean estaPack = false;
+		for(WebElement Pack : NomPack) {
+			if(Pack.getText().equalsIgnoreCase(pack)) {
+				Pack.click();
+				estaPack = true;
+				break;
 			}
 		}
+		Assert.assertTrue(estaPack, "No esta el pack "+pack+" en el deplegable");
+		TestBase TB = new TestBase();
+		TB.waitFor(driver, By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium"));
+		Assert.assertTrue(driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).isDisplayed());
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico","ResumenDeCuenta","E2E", "Ciclo4"},  dataProvider = "CuentaModificacionDeDatos")
@@ -3632,7 +3647,9 @@ public class GestionesPerfilTelefonico extends TestBase{
 		}
 		if (driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).isDisplayed()) {
 			driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-			Assert.assertTrue(true);
+			TestBase TB = new TestBase();
+			TB.waitFor(driver, By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium"));
+			Assert.assertTrue(driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).isDisplayed());
 		} else
 			Assert.assertTrue(false);
 	}
@@ -3671,7 +3688,9 @@ public class GestionesPerfilTelefonico extends TestBase{
 		}
 		if (driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).isDisplayed()) {
 			driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-			Assert.assertTrue(true);
+			TestBase TB = new TestBase();
+			TB.waitFor(driver, By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium"));
+			Assert.assertTrue(driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).isDisplayed());
 		} else
 			Assert.assertTrue(false);
 	}
@@ -3699,7 +3718,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 		sleep(8000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-03")));
 		WebElement canal = driver.findElement(By.id("text-input-03"));
-		canal.click();
+		//canal.click();
 		System.out.println(canal.getText());
 		Assert.assertTrue(canal.isDisplayed());
 		try {

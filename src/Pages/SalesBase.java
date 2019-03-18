@@ -232,7 +232,8 @@ public void BuscarCuenta(String Type, String NDNI){
 	//sleep(2000);
 	TB.waitForClickeable(driver, By.id("SearchClientsDummy"));
 	btnbuscar.click();
-	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	TB.waitFor(driver, By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope"));
+	//try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 }
 
 
@@ -417,8 +418,8 @@ for(WebElement e: btns){
 		catch(Exception ex1) {driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-valid.ng-empty")).sendKeys(plan);}
 		try {Thread.sleep(20000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		List<WebElement> productos = driver.findElements(By.cssSelector(".slds-media.cpq-product-item-container"));
-		List<WebElement> botones = driver.findElements(By.cssSelector(".slds-button.slds-button_neutral.add-button"));
-		for (int i = 0; i <= productos.size(); i++) {
+		List<WebElement> botones = driver.findElements(By.cssSelector(".slds-button.slds-button_neutral.icon-add_shopping_cart.icon-only.cpq-add-button"));
+		for (int i = 0; i <= productos.size()-1; i++) {
 			System.out.println(i + ". " + productos.get(i).getText());
 			if (productos.get(i).getText().substring(0, productos.get(i).getText().indexOf("\n")).equalsIgnoreCase(plan)) {
 				//System.out.println(plan);
@@ -601,8 +602,8 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
  public void Crear_DomicilioLegal(String provincia, String localidad, 
 		 String calle, String local, String altura, String piso, String dpto,
 		 String CP){
-	
-		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	 waitForVisibilityOf(driver.findElement(By.id("State")));
+		//try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		List<WebElement> check = driver.findElements(By.cssSelector(".slds-checkbox--faux"));
 
 	 setSimpleDropdown(driver.findElement(By.id("State")), provincia);
@@ -938,16 +939,12 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 		public void cerrarPestaniaGestion(WebDriver driver) {
 			TestBase TB = new TestBase();
 			List<WebElement> pestas = driver.findElements(By.className("x-tab-strip-closable"));
-			//System.out.println(driver.findElement(By.cssSelector(".x-tab-strip-closable.x-tab-strip-active")).getText());
 			pestas.addAll(driver.findElements(By.cssSelector(".x-tab-strip-closable.x-tab-strip-active")));
 			for (WebElement UnB : pestas) {
 				try {
 				System.out.println(UnB.getText());
-				//if(UnB.getText().equalsIgnoreCase("gesti\u00f3n de clientes")) {
-					((JavascriptExecutor) driver).executeScript("arguments[0].click();", UnB.findElement(By.className("x-tab-strip-close")));	
-					sleep(1000);
-					//break;
-				//}
+				((JavascriptExecutor) driver).executeScript("arguments[0].click();", UnB.findElement(By.className("x-tab-strip-close")));	
+				sleep(1000);
 				}catch(Exception ex1) {} 
 			}
 		}
