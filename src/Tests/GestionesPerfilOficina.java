@@ -2672,7 +2672,7 @@ public class GestionesPerfilOficina extends TestBase {
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(18000);
-		cc.seleccionarCardPornumeroLinea(cLinea, driver);
+		cc.seleccionarCardPornumeroLinea(sLinea, driver);
 		sleep(3000);
 		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "detalles de consumo");
 		sleep(12000);
@@ -3380,7 +3380,7 @@ public class GestionesPerfilOficina extends TestBase {
 		sleep(3000);
 		driver.findElement(By.className("card-top")).click();
 		sleep(3000);
-		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "productos y servicios");
+		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "mis servicios");
 		sleep(10000);
 		boolean a = false;
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium")));
@@ -3539,7 +3539,7 @@ public class GestionesPerfilOficina extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
 		sleep(3000);
-		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "productos y servicios");
+		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "mis servicios");
 		sleep(10000);
 		boolean a = false;
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium")));
@@ -4485,7 +4485,7 @@ public class GestionesPerfilOficina extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360")
-	public void TS134349_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_abiertas_Plazo_vencido_Asistencia_registrada_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre, String sEmail, String sMovil) {
+	public void TS134349_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_abiertas_Plazo_vencido_Asistencia_registrada_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134349";
 		detalles = null;
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI+" - Nombre: "+sNombre;

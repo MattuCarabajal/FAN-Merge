@@ -232,8 +232,8 @@ public void BuscarCuenta(String Type, String NDNI){
 	//sleep(2000);
 	TB.waitForClickeable(driver, By.id("SearchClientsDummy"));
 	btnbuscar.click();
-	TB.waitFor(driver, By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope"));
-	//try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	//TB.waitFor(driver, By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope"));
+	try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 }
 
 
