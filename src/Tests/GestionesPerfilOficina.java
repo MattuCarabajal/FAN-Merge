@@ -2672,7 +2672,7 @@ public class GestionesPerfilOficina extends TestBase {
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(18000);
-		cc.seleccionarCardPornumeroLinea(cLinea, driver);
+		cc.seleccionarCardPornumeroLinea(sLinea, driver);
 		sleep(3000);
 		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "detalles de consumo");
 		sleep(12000);

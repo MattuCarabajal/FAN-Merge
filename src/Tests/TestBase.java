@@ -53,7 +53,7 @@ import DataProvider.ExcelUtils;
 public class TestBase {
 	protected static WebDriver driver;
 		
-		public static String urlMerge = "https://crm--merge02.cs47.my.salesforce.com/";
+		public static String urlMerge = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
 	
 		public static String urlAmbiente = "https://telecomcrm--uat.cs53.my.salesforce.com";
 		//public static String urlAmbiente = "https://crm--sit.cs14.my.salesforce.com/";
