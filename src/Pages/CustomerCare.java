@@ -1808,6 +1808,7 @@ public class CustomerCare extends BasePage {
 			}
 		}
 		historialDeRecargas.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		sleep(8000);
 	}
 	
 	public void verificacionDeHistorial(String sHistorial) {
