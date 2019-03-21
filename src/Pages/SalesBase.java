@@ -171,6 +171,9 @@ final WebDriver driver;
 	@FindBy(how=How.ID, using="SearchClientDocumentNumber")
 	private WebElement DNI;
 	
+	@FindBy(how = How.CSS, using = ".slds-tree__item.ng-scope")
+	private WebElement clickearCuenta;
+	
 	@FindBy(css = ".x-plain-header.sd_primary_tabstrip.x-unselectable .x-tab-strip-closable")
 	private List<WebElement> pestaniasPrimarias;
 	
@@ -232,7 +235,10 @@ public void BuscarCuenta(String Type, String NDNI){
 	//sleep(2000);
 	TB.waitForClickeable(driver, By.id("SearchClientsDummy"));
 	btnbuscar.click();
-	sleep(7000);
+	//TB.waitFor(driver, By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope"));
+	/*TB.waitFor(driver, (By.cssSelector(".slds-tree__item.ng-scope")));
+	clickearCuenta.click();*/
+	try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 }
 
 
