@@ -3905,7 +3905,7 @@ public class GestionesPerfilOficina extends TestBase {
 	}
 	
 	
-	@Test (groups = {"GestionesPerfilOficina","HistorialDeReacargas","E2E", "Ciclo1"},  dataProvider = "HistoriaRecarga")
+	@Test (groups = {"GestionesPerfilOficina","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "HistoriaRecarga")
 	public void TS135468_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_OOCC(String sDNI, String sLinea){
 		imagen = "TS135468";
 		detalles = null;
@@ -3962,7 +3962,7 @@ public class GestionesPerfilOficina extends TestBase {
 		Assert.assertTrue(enc);
 	}
 
-	@Test (groups = {"GestionesPerfilOficina","HistorialDeReacargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
+	@Test (groups = {"GestionesPerfilOficina","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
 	public void TS135361_CRM_Movil_Prepago_Otros_Historiales_Historial_de_ajustes_FAN_Front_OOCC_S138(String sDNI){
 		imagen = "TS135361";
 		detalles = null;
