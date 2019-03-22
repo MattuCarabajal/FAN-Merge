@@ -410,7 +410,7 @@ public class Login extends BasePage {
 	//*************** Merge: Usuario Florangel
 	public void ingresarMerge() {
 		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		  usernameMerge.sendKeys("florangel.rojas@xappia.com.fan.merge02");
+		  usernameMerge.sendKeys("florangel.rojas@xappia.com.fan.sit02");
 		  passwordMerge.sendKeys("Testa10k");
 		  loginMerge.click();
 		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}

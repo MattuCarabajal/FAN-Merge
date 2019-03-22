@@ -2712,9 +2712,17 @@ public class GestionesPerfilOficina extends TestBase {
 		sleep(15000);
 		cc.seleccionarCardPornumeroLinea(sLinea, driver);
 		sleep(3000);
-		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "detalle de consumos");
+		cc.irADetalleDeConsumos();
 		sleep(5000);
+		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-01")));
+		driver.findElements(By.id("text-input-01")).get(0).click();
+		try{
+			driver.findElement(By.id("listbox-option-248")).click();
+			}
+		catch (Exception e){}
 		Boolean a = false;
+		buscarYClick(driver.findElements(By.cssSelector(".slds-button.slds-button--brand")),"equals","consultar");
+		sleep(3000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("unit-div")));
 		List <WebElement> voz = driver.findElements(By.className("unit-div"));
 			for(WebElement v : voz){
@@ -3372,6 +3380,7 @@ public class GestionesPerfilOficina extends TestBase {
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
+		sleep(5000);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));

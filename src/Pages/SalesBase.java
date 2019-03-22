@@ -171,6 +171,9 @@ final WebDriver driver;
 	@FindBy(how=How.ID, using="SearchClientDocumentNumber")
 	private WebElement DNI;
 	
+	@FindBy(how = How.CSS, using = ".slds-tree__item.ng-scope")
+	private WebElement clickearCuenta;
+	
 	@FindBy(css = ".x-plain-header.sd_primary_tabstrip.x-unselectable .x-tab-strip-closable")
 	private List<WebElement> pestaniasPrimarias;
 	
@@ -232,7 +235,10 @@ public void BuscarCuenta(String Type, String NDNI){
 	//sleep(2000);
 	TB.waitForClickeable(driver, By.id("SearchClientsDummy"));
 	btnbuscar.click();
-	sleep(7000);
+	//TB.waitFor(driver, By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope"));
+	/*TB.waitFor(driver, (By.cssSelector(".slds-tree__item.ng-scope")));
+	clickearCuenta.click();*/
+	try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 }
 
 
@@ -731,14 +737,15 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 		driver.findElement(By.id("SearchClientDocumentNumber")).click();
 		driver.findElement(By.id("SearchClientDocumentNumber")).sendKeys(Integer.toString(intAleatorio));
 		driver.findElement(By.id("SearchClientsDummy")).click();
-		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		List <WebElement> cc = driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding"));
-		for (WebElement x : cc) {
-			if (x.getText().toLowerCase().contains("+ crear nuevo cliente")) {
-				x.click();
-				break;
-			}
-		}
+		try {Thread.sleep(8000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		driver.findElement(By.id("rdbNewClient")).click();
+//		List <WebElement> cc = driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding"));
+//		for (WebElement x : cc) {
+//			if (x.getText().toLowerCase().contains("crear nuevo cliente")) {
+//				x.click();
+//				break;
+//			}
+//		}
 		try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	

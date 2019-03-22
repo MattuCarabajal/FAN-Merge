@@ -31,7 +31,7 @@ import Tests.TestBase;
  * @author Quelys
  *
  */
-public class PagePerfilTelefonico extends TestBase{
+public class PagePerfilTelefonico extends TestBase {
 	
 	CustomerCare cCC = new CustomerCare(driver);
 	Marketing mM = new Marketing(driver);
