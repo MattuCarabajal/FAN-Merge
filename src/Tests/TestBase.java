@@ -804,11 +804,11 @@ public class TestBase {
 	private String dataProviderE2E() {
 		String sDataProviderE2E;
 		
-		if (urlMerge.contains("SIT")) {
+		if (urlAmbiente.contains("SIT")) {
 			sDataProviderE2E = "E2ESIT.xlsx";
 		}
 		else {
-			if (urlMerge.contains("uat")) {
+			if (urlAmbiente.contains("uat")) {
 				sDataProviderE2E = "E2EUAT.xlsx";
 			}
 			else {
