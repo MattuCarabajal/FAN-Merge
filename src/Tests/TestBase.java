@@ -53,10 +53,8 @@ import DataProvider.ExcelUtils;
 public class TestBase {
 	protected static WebDriver driver;
 		
-		public static String urlMerge = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
-	
-		public static String urlAmbiente = "https://telecomcrm--uat.cs53.my.salesforce.com";
-		//public static String urlAmbiente = "https://crm--sit.cs14.my.salesforce.com/";
+		//public static String urlAmbiente = "https://telecomcrm--uat.cs53.my.salesforce.com";
+		public static String urlAmbiente = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
 		
 		// viejo public String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";
 		public static String urlSCP = "https://telecomcrm--uat.cs53.my.salesforce.com";
@@ -464,7 +462,7 @@ public class TestBase {
 		
 		//Ingreso a Merge
 		public void loginMerge(WebDriver driver) {
-			driver.get(urlMerge);
+			driver.get(urlAmbiente);
 			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		    Login page0 = new Login(driver);
 		    page0.ingresarMerge();
