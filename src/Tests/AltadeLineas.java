@@ -55,7 +55,7 @@ public class AltadeLineas extends TestBase {
 			SB.cerrarPestaniaGestion(driver);}
 		catch(Exception ex1) {
 		}
-		goToLeftPanel2(driver, "Inicio");
+		goToLeftPanel3(driver, "Inicio");
 		sleep(5000);
 	}
 	
@@ -261,12 +261,12 @@ public class AltadeLineas extends TestBase {
 		tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
 		invoSer.ValidarInfoCuenta(Linea, sNombre,sApellido, sPlan);
-		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
+		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));*/
 	}
 	
 	
 	@Test(groups={"Sales", "AltaLineaDatos","E2E"}, priority=2, dataProvider="AltaLineaExistenteOfComPresencial")//verificado
-	public void TS119298_CRM_Movil_PRE_Alta_Linea_Cliente_Existente_OFCOM_Efectivo_Presencial_DNI(String sDni, String sNombre, String sApellido, String sPlan) throws IOException {
+	public void TS119298_CRM_Movil_PRE_Alta_Linea_Cliente_Existente_OFCOM_Efectivo_Presencial_DNI(String sDni, String sPlan, String sNombre, String sApellido) throws IOException {
 		imagen = "TS119298";
 		CustomerCare cc = new CustomerCare(driver);
 		SalesBase sb = new SalesBase(driver);
@@ -281,6 +281,7 @@ public class AltadeLineas extends TestBase {
 				break;
 			}
 		}
+		sb.elegirplan(sPlan);
 		sleep(18000);
 		sb.ResolverEntrega(driver, "Presencial","nada","nada");
 		sleep(7000);
@@ -319,7 +320,6 @@ public class AltadeLineas extends TestBase {
 		
 		sleep(14000);
 		driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-valid.ng-empty")));
-		sb.elegirplan(sPlan);
 		sb.continuar();
 		sleep(22000);
 		WebElement sig = driver.findElement(By.id("LineAssignment_nextBtn"));

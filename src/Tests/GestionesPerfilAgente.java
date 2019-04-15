@@ -627,17 +627,17 @@ public class GestionesPerfilAgente extends TestBase{
 		sleep(3000);
 		invoSer.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
 	}
-	@Test (groups = {"GestionesPerfilAgente", "Vista360","Ciclo2"}, dataProvider="ProductosyServicios")
-	public void TS134818_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_FAN_Front_Agentes(String cDNI){
+	@Test (groups = {"GestionesPerfilAgente", "Vista360","Ciclo2"}, dataProvider="CuentaVista360")
+	public void TS134818_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134818";
 		detalles = null;
-		detalles = imagen + "Vista 360-DNI:" + cDNI;
+		detalles = imagen + "Vista 360-DNI:" + sDNI;
 		BasePage cambioFrameByID=new BasePage();
 		CustomerCare cCC = new CustomerCare(driver);
 		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SearchClientDocumentType")));
 		sleep(1000);
 		SalesBase sSB = new SalesBase(driver); 
-		sSB.BuscarCuenta("DNI", cDNI);
+		sSB.BuscarCuenta("DNI", sDNI);
 		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
 		System.out.println("id "+accid);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
@@ -739,7 +739,7 @@ public class GestionesPerfilAgente extends TestBase{
 	}
 		
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
-	public void TS134821_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Visualizacion_e_ingreso_a_las_ultimas_gestiones_FAN_Front_Agentes(String sDNI, String sLinea,String sNombre, String sEmail, String sMovil){
+	public void TS134821_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Visualizacion_e_ingreso_a_las_ultimas_gestiones_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134821";
 		detalles = null;
 		detalles = imagen + "Vista 360 -DNI:" + sDNI;
@@ -1023,15 +1023,15 @@ public class GestionesPerfilAgente extends TestBase{
 		sleep(7000);
 	}
 	
-	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E","ConsultaPorGestion", "Ciclo2"}, dataProvider = "CuentaModificacionDeDatos")
-	public void TS134831_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_Cerrada_Informacion_brindada_FAN_Front_Agentes(String sDNI, String sLinea) {
+	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E","ConsultaPorGestion", "Ciclo2"}, dataProvider = "CuentaVista360")
+	public void TS134831_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_Cerrada_Informacion_brindada_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea) {
 		imagen = "TS134831";
 		detalles = null;
 		detalles = imagen+"-Vista 360 -DNI:"+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
+		sleep(18000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
 		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "gestiones");
@@ -1801,7 +1801,7 @@ public class GestionesPerfilAgente extends TestBase{
 	}
 	
 	@Test (groups= {"GestionesPerfilAgente", "Ciclo2", "Vista360"}, dataProvider = "CuentaVista360")
-	public void TS134819_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea, String sEmail, String sMovil){
+	public void TS134819_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134819";
 		detalles = null;
 		detalles = imagen + "-Vista 360 - DNI: "+ sDNI+ "- Nombre: " + sNombre;
@@ -1827,7 +1827,7 @@ public class GestionesPerfilAgente extends TestBase{
 	}
 	
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
-	public void TS134824_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre,String sEmail,String sMovil){
+	public void TS134824_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
 		boolean gest = false;
 		imagen = "TS13824";
 		detalles = null;
@@ -1851,7 +1851,7 @@ public class GestionesPerfilAgente extends TestBase{
 	}
 	
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
-	public void TS134832_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre,String sEmail,String sMovil){
+	public void TS134832_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
 		imagen = "TS13832";
 		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
@@ -1920,7 +1920,7 @@ public class GestionesPerfilAgente extends TestBase{
 	}
 	
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
-	public void TS134823_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre,String sEmail,String sMovil){
+	public void TS134823_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
 		imagen = "TS13823";
 		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
