@@ -736,16 +736,17 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 		dni.setSimpleDropdown(driver.findElement(By.id("SearchClientDocumentType")),"DNI");
 		driver.findElement(By.id("SearchClientDocumentNumber")).click();
 		driver.findElement(By.id("SearchClientDocumentNumber")).sendKeys(Integer.toString(intAleatorio));
+		sleep(3500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
 		try {Thread.sleep(8000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		driver.findElement(By.id("rdbNewClient")).click();
-//		List <WebElement> cc = driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding"));
-//		for (WebElement x : cc) {
-//			if (x.getText().toLowerCase().contains("crear nuevo cliente")) {
-//				x.click();
-//				break;
-//			}
-//		}
+//		driver.findElement(By.id("rdbNewClient")).findElement(By.cssSelector(".slds-form-element__label")).click();
+		List <WebElement> cc = driver.findElements(By.cssSelector(".slds-form-element__label"));
+		for (WebElement x : cc) {
+			if (x.getText().toLowerCase().contains("crear nuevo cliente")) {
+				x.click();
+				break;
+			}
+		}
 		try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	
