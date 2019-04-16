@@ -141,6 +141,7 @@ public class GestionesPerfilOficina extends TestBase {
 		}
 		
 		sleep(10000);
+		
 	}
 
 	@AfterMethod(alwaysRun=true)
@@ -416,8 +417,6 @@ public class GestionesPerfilOficina extends TestBase {
 		//String orden = cc.obtenerOrdenMontoyTN(driver, "Recarga");
 		System.out.println("orden = "+orden);
 		sOrders.add("Recargas" + orden + ", cuenta:"+accid+", DNI: " + cDNI +", Monto:"+orden.split("-")[2]);
-		
-		
 		Assert.assertTrue(invoSer.PagoEnCaja("1006", accid, "1001", orden.split("-")[2], orden.split("-")[1],driver));
 		sleep(5000);
 		driver.navigate().refresh();
@@ -2822,6 +2821,7 @@ public class GestionesPerfilOficina extends TestBase {
 		detalles = null;
 		detalles = imagen + "- Historial de packs - DNI: "+cDNI;
 		boolean enc = false;
+		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
@@ -4370,26 +4370,28 @@ public class GestionesPerfilOficina extends TestBase {
 				}
 			} catch (Exception e) {}
 		}
-		driver.findElement(By.id("text-input-id-2")).click();
+		/*driver.findElement(By.id("text-input-id-2")).click();
 		WebElement table_2 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
 		sleep(3000);
 		List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
 		for (WebElement cell : tableRows_2) {
 			try {
-				if (cell.getText().equals("01")) {
+				if (cell.getText().equals(dia)) {
 					cell.click();
 				}
 			} catch (Exception e) {}
-		}
+		}*/
+		elegirFechaFin(driver, (By.id("text-input-id-2")));
 		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-03")));
 		driver.findElement(By.id("text-input-03")).click();
 		driver.findElement(By.xpath("//*[text() = 'Ordenes']")).click();
 		sleep(5000);
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")).click();
-		sleep(5000);
+		sleep(12000);
 		WebElement nroCaso = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")).findElement(By.tagName("tbody")).findElement(By.tagName("tr"));
 		nroCaso.findElements(By.tagName("td")).get(2).click();
-		sleep(5000);
+		System.out.println(nroCaso);
+		sleep(15000);
 		WebElement estado = null;
 		driver.switchTo().frame(cambioFrame(driver, By.name("ta_clone")));
 		for (WebElement x : driver.findElements(By.className("detailList"))) {
@@ -4405,7 +4407,7 @@ public class GestionesPerfilOficina extends TestBase {
 		Assert.assertTrue(gestion);
 	}
 
-				
+
 	@Test (groups = {"GestionesPerfilOficina", "Vista360", "E2E","ConsultaPorGestion", "Ciclo2"}, dataProvider = "CuentaModificacionDeDatos")
 	public void TS134370_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_OOCC(String sDNI , String sLinea) {
 		imagen = "TS134370";
