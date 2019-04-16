@@ -160,6 +160,19 @@ public class TestBase {
 		}
 	}
 	
+	public void goToLeftPanel4(WebDriver driver, String selection) {
+		WebElement element = driver.findElement(By.className("x-btn-split"));
+		Actions builder = new Actions(driver);   
+		builder.moveToElement(element, 245, 20).click().build().perform();
+		List<WebElement> optiones = driver.findElements(By.tagName("li"));
+		for(WebElement option : optiones) {
+			if(option.findElement(By.tagName("span")).getText().toLowerCase().equals(selection.toLowerCase())) {
+				option.findElement(By.tagName("a")).click();
+				break;
+			}
+		}	
+	}
+	
 	public void login(WebDriver driver) {
 		driver.get(urlAmbiente);
 		try {Thread.sleep(4000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
@@ -1867,6 +1880,15 @@ public class TestBase {
 	public Object[][] CuentaVista360() throws Exception{
 		
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,3,"Vista 360");
+		
+		return (testObjArray); 
+		
+	}
+	
+	@DataProvider
+	public Object[][] CuentaVista360Version2() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,9,"Vista_2 360");
 		
 		return (testObjArray); 
 		
