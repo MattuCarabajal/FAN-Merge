@@ -94,7 +94,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
 		sleep(10000);
-		goToLeftPanel2(driver, "Inicio");
+		goToLeftPanel3(driver, "Inicio");
 		sleep(15000);
 		try {
 			sb.cerrarPestaniaGestion(driver);
@@ -3957,25 +3957,26 @@ public class GestionesPerfilTelefonico extends TestBase{
 		driver.findElement(By.className("card-top")).click();
 		sleep(15000);
 		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals","mis servicios");
-		sleep(10000);
+		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-card.slds-m-around--small.ta-fan-slds")));
-		Boolean p = false;
-		Boolean s = false;
-		List<WebElement> plan = driver.findElements(By.cssSelector(".slds-card.slds-m-around--small.ta-fan-slds"));
-		for(WebElement pl : plan){
-			System.out.println(pl.getText());
-			if(pl.getText().toLowerCase().contains("plan")){
-				p = true;
-			}
-		}
-		List <WebElement> servic = driver.findElements(By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium"));
-		for(WebElement ser: servic){
-			if(ser.getText().toLowerCase().contains("servicios incluidos")){
-			s = true;
-			}
-		}
-		Assert.assertTrue(p);
-		Assert.assertTrue(s);
+		ArrayList<String> txt1 = new ArrayList<String>();
+		ArrayList<String> txt2 = new ArrayList<String>();
+		txt2.add("Contestador Personal");
+		txt2.add("DDI con Roaming Internacional");
+		txt2.add("Voz");
+		txt2.add("SMS Saliente");
+		txt2.add("SMS Entrante");
+		txt2.add("MMS");
+		txt2.add("Datos");
+		WebElement serv= driver.findElements(By.cssSelector(".slds-p-bottom--small")).get(1);
+		System.out.println(serv.getText());
+		 List <WebElement> servicios = serv.findElement(By.tagName("tbody")).findElements(By.tagName("td")); 
+		 for(WebElement s: servicios){
+			 System.out.println(s.getText());
+			 txt1.add(s.getText());
+			 }
+			 Assert.assertTrue(txt2.contains(txt1));
+
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
