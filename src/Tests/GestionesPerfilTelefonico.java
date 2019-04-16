@@ -665,7 +665,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 	}
 		
 	@Test (groups = {"GestionesPerfilTelefonico", "ConsultaDeSaldo", "Ciclo1" }, dataProvider = "ConsultaSaldo")
-	public void TS_134811_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_Telefonico(String sDNI) {
+	public void TS134811_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134811";
 		detalles = null;
 		detalles = imagen + " -Consulta de Saldo - DNI: " + sDNI;
@@ -673,37 +673,35 @@ public class GestionesPerfilTelefonico extends TestBase{
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
-		cc.openleftpanel();
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		WebElement cred = driver.findElement(By.xpath("//*[@id=\"j_id0:j_id5\"]/div/div/ng-include/div/div[2]/div[1]/ng-include/section[1]/div[2]/ul[2]/li[1]/span[3]"));
-		Assert.assertTrue(!(cred.getText().isEmpty()));
+		CBS cCBS = new CBS();
+		CBS_Mattu cCBSM = new CBS_Mattu();
+		String sMainBalance = cCBS.ObtenerValorResponse(cCBSM.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer credito = Integer.parseInt(sMainBalance.substring(0, 5));
+		System.out.println(credito);
+		Assert.assertTrue(false);  //Credito recarga: Informacion no disponible
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "ConsultaDeSaldo", "Ciclo1"}, dataProvider = "ConsultaSaldo")
-	public void TS_134813_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_Telefonico(String sDNI) {
+	public void TS134813_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134813";
 		detalles = null;
 		detalles = imagen + " -Consulta de saldo - DNI: " + sDNI;
-		Marketing mk = new Marketing(driver);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
-		cc.openleftpanel();
 		mk.closeActiveTab();
-		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("profile-edit")));
-		buscarYClick(driver.findElements(By.className("left-sidebar-section-header")), "equals", "facturaci\u00f3n");
-		sleep(20000);
+		cc.irAFacturacion();
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		boolean a = false;
-		List <WebElement> saldo = driver.findElements(By.className("header-right"));
-		for(WebElement x : saldo) {
-			if(x.getText().toLowerCase().contains("saldo")) {
-				a = true;
-			}
-			Assert.assertTrue(a);
-		}
+		String saldo = driver.findElement(By.className("header-right")).getText();
+		saldo = saldo.replaceAll("[^\\d]", "");
+		Integer saldoEnCard = Integer.parseInt(saldo);	
+		CBS_Mattu cCBSM = new CBS_Mattu();
+		CBS cCBS = new CBS();
+		String response = cCBS.ObtenerValorResponse(cCBSM.verificarSaldo(sAccountKey), "ars:TotalOutStandAmt");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
+		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
 
 	
@@ -2157,9 +2155,9 @@ public class GestionesPerfilTelefonico extends TestBase{
 		imagen = "TS135351";
 		boolean gestion = false;
 		detalles = null;
-		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
+		detalles = imagen +" -Vista 360-DNI: " + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sb.BuscarCuenta("DNI", sDNI);
+		sb.BuscarCuenta("DNI", "64747868");
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(25000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
@@ -2169,25 +2167,23 @@ public class GestionesPerfilTelefonico extends TestBase{
 		driver.findElement(By.xpath("//*[text() = 'Casos']")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")).click();
 		sleep(9000);
-		WebElement nroCaso = driver.findElement(By.cssSelector(".slds-p-bottom--small")).findElement(By.tagName("table")).findElement(By.tagName("tbody")).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).findElement(By.tagName("div")).findElement(By.tagName("a"));
-		cc.obligarclick(nroCaso);
-		sleep(15000);
+		String nroCaso = driver.findElement(By.cssSelector(".slds-p-bottom--small")).findElement(By.tagName("table")).findElement(By.tagName("tbody")).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).findElement(By.tagName("div")).findElement(By.tagName("a")).getText();
+		driver.switchTo().defaultContent();
+		sb.cerrarPestaniaGestion(driver);
+		cc.buscarCaso(nroCaso);
 		WebElement estado = null;
-		driver.switchTo().frame(cambioFrame(driver, By.className("pbSubsection")));
-		for (WebElement x : driver.findElements(By.className("pbSubsection"))) {
-			System.out.println(x.getText());
+		driver.switchTo().frame(cambioFrame(driver, By.className("detailList")));
+		for (WebElement x : driver.findElements(By.className("detailList"))) {
 			if (x.getText().toLowerCase().contains("propietario del caso"))
 				estado = x;
-			}
-		System.out.println(estado);
-		for (WebElement x : estado.findElement(By.className("detailList")).findElements(By.tagName("tr"))) {
+		}
+		for (WebElement x : estado.findElements(By.tagName("tr"))) {
 			System.out.println(x.getText());
 			if (x.getText().toLowerCase().contains("estado"))
-				estado = x;
-			
+				estado = x;			
 		}
-		if (estado.getText().toLowerCase().contains("en espera de ejecuci\u00f3n") || (estado.getText().toLowerCase().contains("informada") ||(estado.getText().toLowerCase().contains("realizada exitosa")))){
-			gestion = true;}
+		if (estado.getText().toLowerCase().contains("en espera de ejecuci\u00f3n") || (estado.getText().toLowerCase().contains("informada") ||(estado.getText().toLowerCase().contains("resuelta exitosa"))))
+			gestion = true;
 		Assert.assertTrue(gestion);
 	}
 	
@@ -3983,11 +3979,10 @@ public class GestionesPerfilTelefonico extends TestBase{
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
-	public void TS_134809_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre){
+	public void TS134809_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre){
 		imagen = "TS134809";
 		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
-		CustomerCare cCC=new CustomerCare(driver);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
@@ -3995,60 +3990,69 @@ public class GestionesPerfilTelefonico extends TestBase{
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
 		sleep(5000);
-		cCC.irAGestiones();
+		cc.irAGestiones();
 		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-id-1")));
 		driver.findElement(By.id("text-input-id-1")).click();
-		WebElement table = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
-		sleep(3000);
-		List<WebElement> tableRows = table.findElements(By.xpath("//tr//td"));
-		for (WebElement cell : tableRows) {
-			try {
-				if (cell.getText().equals("03")) {
-					cell.click();
-				}
-			} catch (Exception e) {}
-		}
+		driver.findElement(By.cssSelector(".slds-button.slds-button--icon-container.nds-button.nds-button_icon-container")).click();
+		driver.findElement(By.xpath("//*[text() = '01']")).click();
 		driver.findElement(By.id("text-input-id-2")).click();
-		WebElement table_2 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
-		sleep(3000);
-		List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
-		for (WebElement cell : tableRows_2) {
-			try {
-				if (cell.getText().equals("30")) {
-					cell.click();
-					sleep(5000);
-				}
-			} catch (Exception e) {}
-		}
-		sleep(3000);
-		driver.findElement(By.id("text-input-id-2")).click();
-		WebElement table_3 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
-		sleep(3000);
-		List<WebElement> tableRows_3 = table_3.findElements(By.xpath("//tr//td"));
-		for (WebElement cell : tableRows_3) {
-			try {
-				if (cell.getText().equals("03")) {
-					cell.click();
-				}
-			} catch (Exception e) {}
-		}
-		sleep(3000);
-		List<WebElement> tipo = driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"));
-			for(WebElement t : tipo){
-				if(t.getText().toLowerCase().equals("todos")){
-					t.click();
-				}
-			}
-		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")).click();
-		sleep(9000);
-		Boolean asd = true;
-		List <WebElement> cuadro = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-			for(WebElement c : cuadro){
-				if(c.getText().toLowerCase().contains("Order")){
-					asd = false;
-				}
-			}
-		Assert.assertTrue(asd);	
+		driver.findElement(By.xpath("//*[text() = '01']")).click();
+		
+		
+		
+		
+		
+//		WebElement table = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
+//		sleep(3000);
+//		List<WebElement> tableRows = table.findElements(By.xpath("//tr//td"));
+//		for (WebElement cell : tableRows) {
+//			try {
+//				if (cell.getText().equals("03")) {
+//					cell.click();
+//				}
+//			} catch (Exception e) {}
+//		}
+//		driver.findElement(By.id("text-input-id-2")).click();
+//		WebElement table_2 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
+//		sleep(3000);
+//		List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
+//		for (WebElement cell : tableRows_2) {
+//			try {
+//				if (cell.getText().equals("30")) {
+//					cell.click();
+//					sleep(5000);
+//				}
+//			} catch (Exception e) {}
+//		}
+//		sleep(3000);
+//		driver.findElement(By.id("text-input-id-2")).click();
+//		WebElement table_3 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
+//		sleep(3000);
+//		List<WebElement> tableRows_3 = table_3.findElements(By.xpath("//tr//td"));
+//		for (WebElement cell : tableRows_3) {
+//			try {
+//				if (cell.getText().equals("03")) {
+//					cell.click();
+//				}
+//			} catch (Exception e) {}
+//		}
+//		sleep(3000);
+//		List<WebElement> tipo = driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"));
+//			for(WebElement t : tipo){
+//				if(t.getText().toLowerCase().equals("todos")){
+//					t.click();
+//				}
+//			}
+//		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")).click();
+//		sleep(9000);
+//		Boolean asd = false;
+//		List <WebElement> cuadro = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+//			for(WebElement c : cuadro){
+//				if(c.getText().toLowerCase().contains("Order")){
+//					asd = true;
+//				}
+//			}
+		Assert.assertTrue(false);	
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico","E2E","Ciclo3","ABMDeServicios"}, dataProvider="BajaServicios")
@@ -4440,34 +4444,25 @@ public class GestionesPerfilTelefonico extends TestBase{
 		try {
 			cc.openleftpanel();
 		}
-		catch(Exception eE) {
-			//Always Empty
-		}
+		catch(Exception e) {}
 		WebElement wProfileBoxDetails = driver.findElement(By.className("profile-box-details"));
-		//System.out.println("Name: " + wProfileBoxDetails.findElement(By.cssSelector(".slds-text-heading_large.title-card")).findElement(By.tagName("h1")).getText().toLowerCase());
 		Assert.assertTrue(wProfileBoxDetails.findElement(By.cssSelector(".slds-text-heading_large.title-card")).findElement(By.tagName("h1")).getText().toLowerCase().contains(sNombre.toLowerCase()));
 		String sWebDNI = wProfileBoxDetails.findElement(By.className("detail-card")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(1).findElements(By.tagName("td")).get(1).getText();
 		Assert.assertTrue(sWebDNI.equals(sDNI));
 		Assert.assertTrue(sWebDNI.matches("[0-9]+"));
 		List<WebElement> wWebList = wProfileBoxDetails.findElements(By.className("profile-edit"));
-		List<String> sTextList = new ArrayList();
+		List<String> sTextList = new ArrayList<String>();
 		sTextList.add("Actualizar datos" + "Reseteo de Clave");
 		ppt = new PagePerfilTelefonico(driver);
 		Assert.assertTrue(ppt.forEach(wWebList, sTextList));
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@class='left-sidebar-section-header'] //span[contains(text(),'Segmentaci')]")).getText().equalsIgnoreCase("Segmentaci\u00f3n"));
 		try {
 			driver.findElement(By.xpath("//div[@class='left-sidebar-section-header'] //span[contains(text(),'Segmentaci')] /.. /.. /.. /.. /..")).click();
-		}
-		catch (Exception eE) {
-			//Always Empty
-		}
+		} catch (Exception e) {}
 		sleep(5000);
 		WebElement wL = driver.findElements(By.className("left-sidebar-section-container")).get(1);
-		//System.out.println("Segmento :" + wL.findElements(By.tagName("table")).get(0).findElement(By.tagName("tbody")).findElement(By.tagName("td")).findElement(By.tagName("div")).getText());
 		Assert.assertTrue(wL.findElements(By.tagName("table")).get(0).findElement(By.tagName("tbody")).findElement(By.tagName("td")).findElement(By.tagName("div")).getText().equalsIgnoreCase("Segmento:"));
-		//System.out.println("Alta Reciente :" + wL.findElements(By.tagName("table")).get(0).findElement(By.tagName("tbody")).findElement(By.tagName("td")).findElements(By.tagName("div")).get(1).getText());
 		Assert.assertTrue(wL.findElements(By.tagName("table")).get(0).findElement(By.tagName("tbody")).findElement(By.tagName("td")).findElements(By.tagName("div")).get(1).getText().toLowerCase().contains("alta reciente"));
-		//System.out.println("Atributos :" + wL.findElements(By.tagName("table")).get(1).findElement(By.tagName("tbody")).findElement(By.tagName("td")).findElement(By.tagName("div")).getText());
 		Assert.assertTrue(wL.findElements(By.tagName("table")).get(1).findElement(By.tagName("tbody")).findElement(By.tagName("td")).findElement(By.tagName("div")).getText().equalsIgnoreCase("Atributos:"));
 	}
 	

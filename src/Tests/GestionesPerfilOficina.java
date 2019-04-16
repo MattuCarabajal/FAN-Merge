@@ -25,6 +25,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.w3c.dom.Document;
 
 import Pages.Accounts;
 import Pages.BasePage;
@@ -2591,44 +2592,43 @@ public class GestionesPerfilOficina extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "ConsultaDeSaldo", "Ciclo1"}, dataProvider = "ConsultaSaldo")
-	public void TS_134373_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_OOCC(String sDNI){
+	public void TS134373_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_OOCC(String sDNI, String sLinea, String sAccountKey) {
 		imagen ="TS134373";
 		detalles = null;
-		detalles = imagen + "- Consulta de Saldo - DNI:"+sDNI;
+		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		WebElement cred = driver.findElement(By.xpath("//*[@id=\"j_id0:j_id5\"]/div/div/ng-include/div/div[2]/div[1]/ng-include/section[1]/div[2]/ul[2]/li[1]/span[3]"));
-		Assert.assertTrue(!(cred.getText().isEmpty()));
+		CBS cCBS = new CBS();
+		CBS_Mattu cCBSM = new CBS_Mattu();
+		String sMainBalance = cCBS.ObtenerValorResponse(cCBSM.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer credito = Integer.parseInt(sMainBalance.substring(0, 5));
+		System.out.println(credito);
+		Assert.assertTrue(false);  //Credito recarga: Informacion no disponible
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "ConsultaDeSaldo", "Ciclo1"}, dataProvider = "ConsultaSaldo")
-	public void TS_134376_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_OOCC(String sDNI) {
-		imagen="TS134376";
+	public void TS134376_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_OOCC(String sDNI, String sLinea, String sAccountKey) {
+		imagen ="TS134376";
 		detalles = null;
-		detalles = imagen + "- Consulta de Saldo - DNI:" +sDNI;
-		Marketing mk = new Marketing(driver);
+		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
-		cc.openleftpanel();
 		mk.closeActiveTab();
-		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("profile-edit")));
-		buscarYClick(driver.findElements(By.className("left-sidebar-section-header")), "equals", "facturaci\u00f3n");
-		sleep(20000);
+		cc.irAFacturacion();
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		boolean a = false;
-		List <WebElement> saldo = driver.findElements(By.className("header-right"));
-		for(WebElement x : saldo) {
-			if(x.getText().toLowerCase().contains("balance")) {
-				a = true;
-			}
-			Assert.assertTrue(a);
-		}
+		String saldo = driver.findElement(By.className("header-right")).getText();
+		saldo = saldo.replaceAll("[^\\d]", "");
+		Integer saldoEnCard = Integer.parseInt(saldo);	
+		CBS_Mattu cCBSM = new CBS_Mattu();
+		CBS cCBS = new CBS();
+		String response = cCBS.ObtenerValorResponse(cCBSM.verificarSaldo(sAccountKey), "ars:TotalOutStandAmt");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
+		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "DetalleDeConsumo", "Ciclo2"}, dataProvider = "CuentaProblemaRecarga")
