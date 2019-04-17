@@ -4401,23 +4401,24 @@ public class GestionesPerfilOficina extends TestBase {
 		List<WebElement> tableRows = table.findElements(By.xpath("//tr//td"));
 		for (WebElement cell : tableRows) {
 			try {
-				if (cell.getText().equals("26")) {
+				if (cell.getText().equals("17")) {
 					cell.click();
 				}
 			} catch (Exception e) {}
 		}
-		/*driver.findElement(By.id("text-input-id-2")).click();
-		WebElement table_2 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
+		String day = fechaDeHoy();
+		String dia = day.substring(0, 2);
 		sleep(3000);
-		List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
-		for (WebElement cell : tableRows_2) {
+		driver.switchTo().defaultContent();
+		WebElement fecha = driver.findElement(By.id("text-input-id-2"));
+		List<WebElement> tableRows2 = fecha.findElements(By.xpath("//tr//td"));
+		for (WebElement x: tableRows2) {
 			try {
-				if (cell.getText().equals(dia)) {
-					cell.click();
+				if (x.getText().equals(dia)) {
+					x.click();
 				}
 			} catch (Exception e) {}
-		}*/
-		elegirFechaFin(driver, (By.id("text-input-id-2")));
+		}
 		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-03")));
 		driver.findElement(By.id("text-input-03")).click();
 		driver.findElement(By.xpath("//*[text() = 'Ordenes']")).click();
@@ -6296,7 +6297,8 @@ public class GestionesPerfilOficina extends TestBase {
 		sleep(3000);
 		driver.findElement(By.className("card-top")).click();
 		sleep(3000);
-		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "detalle de consumos");
+		CustomerCare cCC = new CustomerCare(driver);
+		cCC.irADetalleDeConsumos();
 		sleep(9500);
 		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-02")));
 		System.out.println(driver.findElement(By.id("text-input-02")).getAttribute("value"));
