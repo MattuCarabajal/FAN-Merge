@@ -395,7 +395,7 @@ public class GestionesPerfilAgente extends TestBase{
 	}
 	
 	@Test (groups = {"GestionesPerfilAgente", "ConsultaDeSaldo", "Ciclo1"}, dataProvider = "ConsultaSaldo")
-	public void TS134814_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_Agentes(String sDNI){
+	public void TS134814_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_Agentes(String sDNI, String sLinea, String sAccountKey){
 		imagen = "TS134814";
 		detalles = null;
 		detalles = imagen + "Consulta de Saldo -DNI:" + sDNI;
@@ -403,10 +403,13 @@ public class GestionesPerfilAgente extends TestBase{
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
-		cc.openleftpanel();
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		WebElement cred = driver.findElement(By.xpath("//*[@id=\"j_id0:j_id5\"]/div/div/ng-include/div/div[2]/div[1]/ng-include/section[1]/div[2]/ul[2]/li[1]/span[3]"));
-		Assert.assertTrue(!(cred.getText().isEmpty()));
+		CBS cCBS = new CBS();
+		CBS_Mattu cCBSM = new CBS_Mattu();
+		String sMainBalance = cCBS.ObtenerValorResponse(cCBSM.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer credito = Integer.parseInt(sMainBalance.substring(0, 5));
+		System.out.println(credito);
+		Assert.assertTrue(false);  //Credito recarga: Informacion no disponible
 	}
 	@Test (groups = {"GestionesPerfilAgente", "DetalleDeConsumo","Ciclo2"}, dataProvider="CuentaProblemaRecarga") 
 	public void TS134827_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_Datos_FAN_Front_Agentes(String cDNI, String cLinea){
@@ -549,32 +552,25 @@ public class GestionesPerfilAgente extends TestBase{
 	}
 	
 	@Test (groups = {"GestionesPerfilAgente", "ConsultaDeSaldo", "Ciclo1"}, dataProvider = "ConsultaSaldo")
-	public void TS_134815_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_Agentes(String sDNI) {
+	public void TS134815_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_Agentes(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134815";
 		detalles = null;
 		detalles = imagen + "Consulta de saldo -DNI:" + sDNI;
-		Marketing mk = new Marketing(driver);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
-		cc.openleftpanel();
 		mk.closeActiveTab();
-		//cc.irAFacturacion();
-		sleep(5000);
 		cc.irAFacturacion();
-		/*driver.switchTo().frame(cambioFrame(driver, By.className("profile-edit")));
-		buscarYClick(driver.findElements(By.className("left-sidebar-section-header")), "equals", "facturaci\u00f3n");*/
-		sleep(20000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		boolean a = false;
-		List <WebElement> saldo = driver.findElements(By.className("header-right"));
-		for(WebElement x : saldo) {
-			if(x.getText().toLowerCase().contains("saldo")) {
-				a = true;
-			}
-			Assert.assertTrue(a);
-		}
+		String saldo = driver.findElement(By.className("header-right")).getText();
+		saldo = saldo.replaceAll("[^\\d]", "");
+		Integer saldoEnCard = Integer.parseInt(saldo);	
+		CBS_Mattu cCBSM = new CBS_Mattu();
+		CBS cCBS = new CBS();
+		String response = cCBS.ObtenerValorResponse(cCBSM.verificarSaldo(sAccountKey), "ars:TotalOutStandAmt");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
+		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
 	
 	@Test(groups = {"GestionesPerfilAgente","Sales", "PreparacionNominacion","E2E","Ciclo1"}, dataProvider="DatosSalesNominacionNuevoAgente") 
@@ -646,9 +642,18 @@ public class GestionesPerfilAgente extends TestBase{
 		driver.findElement(By.className("card-top")).click();
 		sleep(3000);
 		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "mis servicios");
-		sleep(5000);
+		sleep(10000);
+		boolean a = false;
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium")));
-		Assert.assertTrue(driver.findElement(By.cssSelector(".via-slds.slds-m-around--small.ng-scope")).isDisplayed());
+		WebElement wTabla = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody"));
+		List <WebElement> lTabla = wTabla.findElements(By.tagName("tr"));
+ 		for(WebElement x : lTabla) {
+ 			if(x.getText().toLowerCase().contains("activo")){
+ 			System.out.println(x.getText());
+ 			a = true;
+ 			}
+ 		}
+		Assert.assertTrue(a);
 	}
 	
 	@Test (groups = {"GestionesPerfilAgente", "Nominacion", "Ciclo1"}, dataProvider="DatosNoNominacionNuevoAgente")
@@ -751,10 +756,20 @@ public class GestionesPerfilAgente extends TestBase{
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		cc.irAGestiones();
 		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")));
+		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-03")));
+		driver.findElement(By.id("text-input-03")).click();
+		driver.findElement(By.xpath("//*[text() = 'Ordenes']")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")).click();
-		sleep(3000);
-		Assert.assertTrue(driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")).isDisplayed());
+		sleep(5000);
+		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+driver.findElement(By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-m-around--medium")).getLocation().y+" )");
+		WebElement nroCaso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-m-around--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody")).findElement(By.tagName("tr"));
+		//System.out.println(nroCaso.findElements(By.tagName("td")).get(2).findElement(By.tagName("div")).findElement(By.tagName("a")).getText());
+		boolean ingresar = false;
+		if(nroCaso.findElements(By.tagName("td")).get(2).findElement(By.tagName("div")).findElement(By.tagName("a")).isDisplayed()) {
+			nroCaso.findElements(By.tagName("td")).get(2).findElement(By.tagName("div")).findElement(By.tagName("a")).click();
+			ingresar = true;
+		}
+		Assert.assertTrue(ingresar);
 	}
 	
 	@Test (groups = {"GestionesPerfilAgente", "ModificarDatos", "E2E", "Ciclo3"}, dataProvider = "CuentaModificacionDeDatos")
@@ -1029,7 +1044,7 @@ public class GestionesPerfilAgente extends TestBase{
 		detalles = null;
 		detalles = imagen+"-Vista 360 -DNI:"+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sb.BuscarCuenta("DNI", sDNI);
+		sb.BuscarCuenta("DNI", "34372815");
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(18000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
@@ -1043,7 +1058,7 @@ public class GestionesPerfilAgente extends TestBase{
 		List<WebElement> tableRows = table.findElements(By.xpath("//tr//td"));
 		for (WebElement cell : tableRows) {
 			try {
-				if (cell.getText().equals("25")) {
+				if (cell.getText().equals("16")) {
 					cell.click();
 				}
 			} catch (Exception e) {}
@@ -1054,17 +1069,28 @@ public class GestionesPerfilAgente extends TestBase{
 		List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
 		for (WebElement cell : tableRows_2) {
 			try {
-				if (cell.getText().equals("01")) {
+				if (cell.getText().equals("16")) {
 					cell.click();
 				}
 			} catch (Exception e) {}
 		}
+		driver.findElement(By.id("text-input-03")).click();
+		driver.findElement(By.xpath("//*[text() = 'Casos']")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")).click();
 		sleep(3000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")));
 		sleep(5000);
-		WebElement tabla = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header"));
-		Assert.assertTrue(tabla.isDisplayed());
+		boolean verificacion = false;
+		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+driver.findElement(By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-m-around--medium")).getLocation().y+" )");
+		WebElement nroCaso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-m-around--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody"));
+		List <WebElement> lista = nroCaso.findElements(By.tagName("tr"));
+		for(WebElement x : lista) {
+			if(x.getText().toLowerCase().contains("resuelta exitosa") || x.getText().toLowerCase().contains("realizada exitosa")) {
+				System.out.println(x.getText());
+				verificacion = true;
+			}
+		}
+		Assert.assertTrue(verificacion);
 	}
 	
 	@Test (groups = {"GestionesPerfilAgente", "ABMDeServicios", "E2E", "Ciclo3"}, dataProvider = "BajaServicios")
@@ -1828,26 +1854,44 @@ public class GestionesPerfilAgente extends TestBase{
 	
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
 	public void TS134824_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
-		boolean gest = false;
 		imagen = "TS13824";
 		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
+		boolean historial = false, recarga = false, renovacion = false, servicios = false, suscripciones = false, inconvenientes = false, diagnostico = false, numeros = false, cambioSim = false, cambioPlan = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(12000);
+		sleep(20000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
 		sleep(5000);
 		WebElement wFlyOutActionCard = driver.findElement(By.className("community-flyout-actions-card"));
 		List<WebElement> wGestiones = wFlyOutActionCard.findElements(By.tagName("li"));
 		for (WebElement wAux : wGestiones) {
-			if (wAux.isDisplayed()) {
-				System.out.println(wAux.getText());
-				gest= true;
-			}
+			if (wAux.getText().toLowerCase().contains("historial de suspensiones"))
+					historial = true;
+			if(wAux.getText().toLowerCase().contains("recarga de cr\u00e9dito"))
+					recarga = true;
+			if(wAux.getText().toLowerCase().contains("renovacion de datos"))
+					renovacion = true;	
+			if(wAux.getText().toLowerCase().contains("alta/baja de servicios"))
+					servicios = true;
+			if(wAux.getText().toLowerCase().contains("suscripciones"))
+					suscripciones = true;
+			if(wAux.getText().toLowerCase().contains("inconvenientes de recargas"))
+					inconvenientes = true;
+			if(wAux.getText().toLowerCase().contains("diagn\u00f3stico"))
+					diagnostico = true;
+			if(wAux.getText().toLowerCase().contains("n\u00fameros gratis"))
+					numeros = true;
+			if(wAux.getText().toLowerCase().contains("cambio simcard"))
+					cambioSim = true;
+			if(wAux.getText().toLowerCase().contains("cambio de plan"))
+					cambioPlan = true;
+					
+					
 		}
-	Assert.assertTrue(gest);
+	Assert.assertTrue(historial && recarga && renovacion && servicios && suscripciones && inconvenientes && diagnostico && numeros && cambioSim && cambioPlan);
 	}
 	
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")

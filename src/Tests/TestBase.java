@@ -798,7 +798,7 @@ public class TestBase {
 	private String dataProviderCuentas() {
 		String sDataProviderCuentas;
 		
-		if (urlAmbiente.contains("sit")) {
+		if (urlAmbiente.contains("sit".toUpperCase())) {
 			sDataProviderCuentas = "CuentasSIT.xlsx";
 		}
 		else {
@@ -1827,7 +1827,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] ConsultaSaldo() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,1,"SaldoConsulta");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,3,"SaldoConsulta");
 		
 		return (testObjArray);
 		
