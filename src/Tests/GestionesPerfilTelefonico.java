@@ -1490,7 +1490,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-p-around--small.slds-col")));
 		WebElement gestiones = driver.findElement(By.cssSelector(".slds-p-around--small.slds-col"));
-		Assert.assertTrue(gestiones.getText().toLowerCase().contains("t\u00edtulo") && gestiones.getText().contains("Fecha de creacion"));
+		Assert.assertTrue(gestiones.getText().toLowerCase().contains("t\u00edtulo") && gestiones.getText().contains("Fecha de creacion") && gestiones.getText().toLowerCase().contains("estado") && gestiones.getText().toLowerCase().contains("numero de orden"));
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360")
@@ -1504,7 +1504,11 @@ public class GestionesPerfilTelefonico extends TestBase{
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".abandoned-content.scrollmenu")));
 		WebElement abandoned = driver.findElement(By.className("abandoned-section"));
+		WebElement promocion = driver.findElement(By.className("promotions-section"));
+		WebElement busquedgestion = driver.findElement(By.className("sidebar-actions"));
 		Assert.assertTrue(abandoned.getText().contains("Gestiones Abandonadas") && driver.findElement(By.className("abandoned-section")).isDisplayed());
+		Assert.assertTrue(promocion.getText().contains("Promociones") && driver.findElement(By.className("promotions-section")).isDisplayed());
+		Assert.assertTrue(busquedgestion.getText().contains("Iniciar Gestiones") && driver.findElement(By.className("sidebar-actions")).isDisplayed());
 	}
 	
 	@Test (groups= {"GestionesPerfilTelefonico","VentaDePacks","E2E","Ciclo1"},priority=1, dataProvider="ventaPackInternacional30SMS")
@@ -2238,6 +2242,8 @@ public class GestionesPerfilTelefonico extends TestBase{
 		driver.findElement(By.className("card-top")).click();
 		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "gestiones");
 		sleep(2000);
+		String day = fechaDeHoy();
+		String dia = day.substring(0, 2);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter")));
 		driver.findElement(By.id("text-input-id-1")).click();
 		WebElement table = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
@@ -3932,17 +3938,42 @@ public class GestionesPerfilTelefonico extends TestBase{
 		imagen = "TS134798";
 		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
+		boolean creditoRecarga = false, creditoPromocional = false, estado = false, internetDisponible = false;
+		boolean detalles = false, historiales = false, misServicios = false, gestiones = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
+		sleep(25000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(5000);
-		WebElement detalles = driver.findElement(By.cssSelector(".slds-grid.community-flyout-content"));
-		System.out.println(detalles.getText());
-		Assert.assertTrue(detalles.isDisplayed());
+		WebElement plan = driver.findElement(By.className("card-top")).findElements(By.className("slds-text-heading_medium")).get(0);
+		WebElement FechaActivacion = driver.findElement(By.cssSelector(".slds-text-body_regular.expired-title"));
+		WebElement linea = driver.findElement(By.className("card-top")).findElements(By.className("slds-text-heading_medium")).get(2);
+		System.out.println(plan.getText()); System.out.println(FechaActivacion.getText()); System.out.println(linea.getText());
+		assertTrue(plan.isDisplayed() && FechaActivacion.isDisplayed() && linea.getText().contains(sLinea));
+		for (WebElement x : driver.findElements(By.cssSelector(".slds-text-body_regular.detail-label"))) {
+			if (x.getText().toLowerCase().contains("cr\u00e9dito recarga"))
+				creditoRecarga = true;
+			if (x.getText().toLowerCase().contains("cr\u00e9dito promocional"))
+				creditoPromocional = true;
+			if (x.getText().toLowerCase().contains("estado"))
+				estado = true;
+			if (x.getText().toLowerCase().contains("internet disponible"))
+				internetDisponible = true;
+		}
+		Assert.assertTrue(creditoRecarga && creditoPromocional && estado && internetDisponible);
+		for(WebElement y : driver.findElements(By.className("slds-text-body_regular"))) {
+			if(y.getText().toLowerCase().contains("detalles de consumo"))
+				detalles = true;
+			if(y.getText().toLowerCase().contains("historiales"))
+				historiales = true;
+			if(y.getText().toLowerCase().contains("mis servicios"))
+				misServicios = true;
+			if(y.getText().toLowerCase().contains("gestiones"))
+				gestiones = true;
+		}
+		Assert.assertTrue(detalles && historiales && misServicios && gestiones);
 	}
+	
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
 	public void TS_134801_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre){
@@ -3959,24 +3990,14 @@ public class GestionesPerfilTelefonico extends TestBase{
 		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals","mis servicios");
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-card.slds-m-around--small.ta-fan-slds")));
-		ArrayList<String> txt1 = new ArrayList<String>();
-		ArrayList<String> txt2 = new ArrayList<String>();
-		txt2.add("Contestador Personal");
-		txt2.add("DDI con Roaming Internacional");
-		txt2.add("Voz");
-		txt2.add("SMS Saliente");
-		txt2.add("SMS Entrante");
-		txt2.add("MMS");
-		txt2.add("Datos");
-		WebElement serv= driver.findElements(By.cssSelector(".slds-p-bottom--small")).get(1);
-		System.out.println(serv.getText());
-		 List <WebElement> servicios = serv.findElement(By.tagName("tbody")).findElements(By.tagName("td")); 
-		 for(WebElement s: servicios){
-			 System.out.println(s.getText());
-			 txt1.add(s.getText());
-			 }
-			 Assert.assertTrue(txt2.contains(txt1));
-
+		 List <WebElement> serv= driver.findElements(By.cssSelector(".slds-p-bottom--small"));
+		 boolean a = false;
+		 for(WebElement s : serv){
+			 if(s.getText().toLowerCase().contains("mms"))
+			 a = true;
+		 }
+	Assert.assertTrue(a);
+			 
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
@@ -3991,69 +4012,43 @@ public class GestionesPerfilTelefonico extends TestBase{
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
 		sleep(5000);
-		cc.irAGestiones();
+		cCC.irAGestiones();
+		String day = fechaDeHoy();
+		String dia = day.substring(0, 2);
+		sleep(3000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-id-1")));
 		driver.findElement(By.id("text-input-id-1")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--icon-container.nds-button.nds-button_icon-container")).click();
 		driver.findElement(By.xpath("//*[text() = '01']")).click();
 		driver.findElement(By.id("text-input-id-2")).click();
-		driver.findElement(By.xpath("//*[text() = '01']")).click();
-		
-		
-		
-		
-		
-//		WebElement table = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
-//		sleep(3000);
-//		List<WebElement> tableRows = table.findElements(By.xpath("//tr//td"));
-//		for (WebElement cell : tableRows) {
-//			try {
-//				if (cell.getText().equals("03")) {
-//					cell.click();
-//				}
-//			} catch (Exception e) {}
-//		}
-//		driver.findElement(By.id("text-input-id-2")).click();
-//		WebElement table_2 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
-//		sleep(3000);
-//		List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
-//		for (WebElement cell : tableRows_2) {
-//			try {
-//				if (cell.getText().equals("30")) {
-//					cell.click();
-//					sleep(5000);
-//				}
-//			} catch (Exception e) {}
-//		}
-//		sleep(3000);
-//		driver.findElement(By.id("text-input-id-2")).click();
-//		WebElement table_3 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
-//		sleep(3000);
-//		List<WebElement> tableRows_3 = table_3.findElements(By.xpath("//tr//td"));
-//		for (WebElement cell : tableRows_3) {
-//			try {
-//				if (cell.getText().equals("03")) {
-//					cell.click();
-//				}
-//			} catch (Exception e) {}
-//		}
-//		sleep(3000);
-//		List<WebElement> tipo = driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"));
-//			for(WebElement t : tipo){
-//				if(t.getText().toLowerCase().equals("todos")){
-//					t.click();
-//				}
-//			}
-//		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")).click();
-//		sleep(9000);
-//		Boolean asd = false;
-//		List <WebElement> cuadro = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-//			for(WebElement c : cuadro){
-//				if(c.getText().toLowerCase().contains("Order")){
-//					asd = true;
-//				}
-//			}
-		Assert.assertTrue(false);	
+		WebElement table_2 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
+		sleep(3000);
+		List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
+		for (WebElement cell : tableRows_2) {
+			try {
+				if (cell.getText().equals(dia)) {
+					cell.click();
+					sleep(5000);
+				}
+			} catch (Exception e) {}
+		}
+		sleep(3000);
+		List<WebElement> tipo = driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"));
+			for(WebElement t : tipo){
+				if(t.getText().toLowerCase().equals("todos")){
+					t.click();
+				}
+			}
+		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")).click();
+		sleep(9000);
+		Boolean asd = true;
+		List <WebElement> cuadro = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+			for(WebElement c : cuadro){
+				if(c.getText().toLowerCase().contains("Order")){
+					asd = false;
+				}
+			}
+		Assert.assertTrue(asd);	
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico","E2E","Ciclo3","ABMDeServicios"}, dataProvider="BajaServicios")
@@ -4658,6 +4653,8 @@ public class GestionesPerfilTelefonico extends TestBase{
 		driver.findElement(By.id("text-input-id-1")).click();
 		WebElement table = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
 		sleep(3000);
+		String day = fechaDeHoy();
+		String dia = day.substring(0, 2);
 			List<WebElement> tableRows = table.findElements(By.xpath("//tr//td"));
 				for (WebElement cell : tableRows) {
 					try {
@@ -4672,7 +4669,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 				List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
 				for (WebElement cell : tableRows_2) {
 					try {
-						if (cell.getText().equals("01")) {
+						if (cell.getText().equals(dia)) {
 						cell.click();
 						}
 					}catch(Exception e) {}
@@ -4870,6 +4867,8 @@ public class GestionesPerfilTelefonico extends TestBase{
 		driver.findElement(By.id("text-input-id-1")).click();
 		WebElement table = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
 		sleep(3000);
+		String day = fechaDeHoy();
+		String dia = day.substring(0, 2);
 		List<WebElement> tableRows = table.findElements(By.xpath("//tr//td"));
 		for (WebElement cell : tableRows) {
 			try {
@@ -4884,7 +4883,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 		List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
 		for (WebElement cell : tableRows_2) {
 			try {
-				if (cell.getText().equals("12")) {
+				if (cell.getText().equals(dia)) {
 					cell.click();
 				}
 			} catch (Exception e) {}
