@@ -4012,6 +4012,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
 		sleep(5000);
+		CustomerCare cCC = new CustomerCare(driver);
 		cCC.irAGestiones();
 		String day = fechaDeHoy();
 		String dia = day.substring(0, 2);
