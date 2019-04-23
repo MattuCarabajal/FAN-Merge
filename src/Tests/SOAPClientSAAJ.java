@@ -42,7 +42,7 @@ public class SOAPClientSAAJ {
 	    		sEndPoint = sPagoSimuladoSIT;
 	    		break;
 	    	case "pago en caja":
-	    		if (TestBase.urlAmbiente.contains("sit"))
+	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
 	    			sEndPoint = sPagoEnCajaSIT;
 	    		else
 	    			sEndPoint = sPagoEnCajaUAT;
@@ -60,25 +60,25 @@ public class SOAPClientSAAJ {
 	    			sEndPoint = sQueryFreeUnitUAT;
 	    		break;
 	    	case "notificar resultado orden":
-	    		if (TestBase.urlAmbiente.contains("sit"))
+	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
 	    			sEndPoint = sNotificarResultadoOrdenSIT;
 	    		else
 	    			sEndPoint = sNotificarResultadoOrdenUAT;
 	    		break;
 	    	case "obtener informacion orden":
-	    		if (TestBase.urlAmbiente.contains("sit"))
+	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
 	    			sEndPoint = sObtenerInformacionOrdenSIT;
 	    		else
 	    			sEndPoint = sObtenerInformacionOrdenUAT;
 	    		break;
 	    	case "alta suscripcion":
-	    		if (TestBase.urlAmbiente.contains("sit"))
+	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
 	    			sEndPoint = sRealizarAltaSuscripSIT;
 	    		else
 	    			sEndPoint = sRealizarAltaSuscripUAT;
 	    		break;
 	    	case "notificar pago":
-	    		if (TestBase.urlAmbiente.contains("sit"))
+	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
 	    			sEndPoint = sPagoSimuladoSIT;
 	    		else
 	    			sEndPoint = sPagoSimuladoUAT;

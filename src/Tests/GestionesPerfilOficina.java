@@ -4490,8 +4490,6 @@ public class GestionesPerfilOficina extends TestBase {
 				}
 			} catch (Exception e) {}
 		}
-		String day = fechaDeHoy();
-		String dia = day.substring(0, 2);
 		sleep(3000);
 		driver.switchTo().defaultContent();
 		WebElement fecha = driver.findElement(By.id("text-input-id-2"));
@@ -6117,7 +6115,7 @@ public class GestionesPerfilOficina extends TestBase {
 		Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 
-	@Test (groups = {"GestionesPerfilOficina","Autogestion","E2E", "Ciclo3"},  dataProvider = "CuentaModificacionDeDatos")
+	@Test (groups = {"GestionesPerfilOficina","Autogestion","E2E", "Ciclo3"},  dataProvider = "Diagnostico")
 	public void TS105418_CRM_Movil_Repro_Autogestion_0800_Inconv_con_derivacion_a_representante_Resuelto(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS105418";
 		detalles = null;
