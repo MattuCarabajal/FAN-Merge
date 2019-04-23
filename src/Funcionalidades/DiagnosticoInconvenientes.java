@@ -167,7 +167,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		assertTrue(caso);
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","Autogestion","E2E", "Ciclo3"},  dataProvider = "CuentaModificacionDeDatos")
+	@Test (groups = {"GestionesPerfilOficina","Autogestion","E2E", "Ciclo3"},  dataProvider = "Diagnostico")
 	public void TS105418_CRM_Movil_Repro_Autogestion_0800_Inconv_con_derivacion_a_representante_Resuelto(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS105418";
 		detalles = null;
@@ -179,7 +179,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(10000);
 		cc.irAGestion("diagn\u00f3stico de autogesti\u00f3n");
 		sleep(15000);
-		tech.listadoDeSeleccion("0800", "Otros", "Incov con derivaci\u00f3n a representante");
+		tech.listadoDeSeleccion("0800", "0800-444-0531", "Incov con derivaci\u00f3n a representante");
 		sleep(4000);
 		tech.verificarNumDeGestion();
 		Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
