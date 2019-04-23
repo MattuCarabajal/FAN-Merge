@@ -186,7 +186,7 @@ public class Vista360 extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
+		sleep(25000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		sleep(3000);
 		driver.findElement(By.className("card-top")).click();
@@ -216,8 +216,10 @@ public class Vista360 extends TestBase {
 		WebElement lista = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody"));
 		List <WebElement> consumos = lista.findElements(By.tagName("tr"));
 		for(WebElement x : consumos) {
+			if(x.getText().contains("Internet 50 MB Dia") || x.getText().contains("Promocion Personal WhatApp") || x.getText().contains("Reseteo 200 MB por Dia")){
 			b = true;
-		}
+			}
+		}	
 		Assert.assertTrue(b);
 	}
 	
