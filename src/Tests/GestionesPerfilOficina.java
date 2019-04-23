@@ -1016,7 +1016,7 @@ public class GestionesPerfilOficina extends TestBase {
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
-		cc.irAGestion("inconvenientes");
+		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("Step-TipodeAjuste_nextBtn")));
 		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO POSPAGO");

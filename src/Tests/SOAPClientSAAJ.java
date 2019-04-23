@@ -54,7 +54,7 @@ public class SOAPClientSAAJ {
 	    			sEndPoint = sQueryCustomerInfoUAT;
 	    		break;
 	    	case "unidades libres":
-	    		if (TestBase.urlAmbiente.contains("sit"))
+	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
 	    			sEndPoint = sQueryFreeUnitSIT;
 	    		else
 	    			sEndPoint = sQueryFreeUnitUAT;
