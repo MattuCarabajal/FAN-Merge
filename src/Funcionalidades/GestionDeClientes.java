@@ -1,7 +1,5 @@
 package Funcionalidades;
 
-import static org.testng.Assert.assertTrue;
-
 import java.awt.AWTException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,10 +10,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import Pages.Accounts;
 import Pages.CustomerCare;
@@ -152,9 +147,8 @@ public class GestionDeClientes extends TestBase {
 		sleep(10000);
 		boolean a = false;
 		for(WebElement x : driver.findElements(By.className("slds-form-element__control"))){
-			if(x.getText().toLowerCase().equals("no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.")) {
+			if(x.getText().toLowerCase().equals("no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente."))
 				a = true;
-			}
 		}
 		Assert.assertTrue(a);
 	}
@@ -168,9 +162,8 @@ public class GestionDeClientes extends TestBase {
 		selectByText(driver.findElement(By.id("SearchClientDocumentType")), "Libreta de Enrolamiento");
 		sleep(10000);
 		boolean a = false;
-		if(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("libreta de enrolamiento")) {
+		if(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("libreta de enrolamiento"))
 			a = true;
-		}
 		Assert.assertTrue(a);
 	}
 	
@@ -183,7 +176,7 @@ public class GestionDeClientes extends TestBase {
 		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
 		sleep(10000);
 		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
-		assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
+		Assert.assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
 	}
 	
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
@@ -215,7 +208,6 @@ public class GestionDeClientes extends TestBase {
 		boolean assertCondition = true;
 		for (WebElement fila : filasDeResultados) {
 			List<WebElement> elements  = fila.findElements(By.cssSelector(".slds-truncate.ng-binding"));
-			System.out.println(elements.get(0).getText());
 			if (!elements.get(0).getText().substring(0,4).equals("Juan")) {
 				assertCondition = false;
 			}
@@ -235,9 +227,8 @@ public class GestionDeClientes extends TestBase {
 		sleep(10000);
 		boolean a = false;
 		for(WebElement x : driver.findElements(By.className("slds-form-element__control"))){
-			if(x.getText().toLowerCase().equals("no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.")) {
+			if(x.getText().toLowerCase().equals("no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente."))
 				a = true;
-			}
 		}
 		Assert.assertTrue(a);
 	}
@@ -268,9 +259,8 @@ public class GestionDeClientes extends TestBase {
 		sleep(10000);
 		boolean a = false;
 		for(WebElement x : driver.findElements(By.className("slds-form-element__control"))){
-			if(x.getText().toLowerCase().equals("no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.")) {
+			if(x.getText().toLowerCase().equals("no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente."))
 				a = true;
-			}
 		}
 		Assert.assertTrue(a);
 	}
@@ -286,8 +276,7 @@ public class GestionDeClientes extends TestBase {
 		driver.findElement(By.id("SearchClientsDummy")).click();
 		sleep(10000);
 		List<WebElement> datos = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.cssSelector(".slds-truncate.ng-binding"));
-		Assert.assertTrue(datos.get(3).getText().equals(sDNI));
-		
+		Assert.assertTrue(datos.get(3).getText().equals(sDNI));		
 	}
 	
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
@@ -299,7 +288,7 @@ public class GestionDeClientes extends TestBase {
 		sb.BuscarAvanzada("","",sRazon,"","");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		sleep(10000);
 		List<WebElement> vacio = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
 		Assert.assertTrue(vacio.get(0).findElement(By.tagName("a")).getText().isEmpty());
 	}
@@ -330,9 +319,8 @@ public class GestionDeClientes extends TestBase {
 		sleep(10000);
 		boolean a = false;
 		for(WebElement x : driver.findElements(By.className("slds-form-element__control"))){
-			if(x.getText().toLowerCase().equals("no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.")) {
+			if(x.getText().toLowerCase().equals("no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente."))
 				a = true;
-			}
 		}
 		Assert.assertTrue(a);
 	}
