@@ -4411,7 +4411,7 @@ public class GestionesPerfilOficina extends TestBase {
 				}
 			} catch (Exception e) {}
 		}
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		WebElement fecha = driver.findElement(By.id("text-input-id-2"));
 		sleep(3000);
 		List<WebElement> tableRows2 = fecha.findElements(By.xpath("//tr//td"));
@@ -4435,7 +4435,7 @@ public class GestionesPerfilOficina extends TestBase {
 		}*/
 		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-03")));
 		driver.findElement(By.id("text-input-03")).click();
-		driver.findElement(By.xpath("//*[text() = 'Ordenes']")).click();
+		driver.findElement(By.xpath("//*[text() = 'Casos']")).click();
 		sleep(5000);
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")).click();
 		sleep(12000);
@@ -6311,7 +6311,7 @@ public class GestionesPerfilOficina extends TestBase {
 		sleep(3000);
 		driver.findElement(By.className("card-top")).click();
 		sleep(3000);
-		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "detalle de consumos");
+		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "detalles de consumo");
 		sleep(9500);
 		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-02")));
 		System.out.println(driver.findElement(By.id("text-input-02")).getAttribute("value"));
@@ -6335,7 +6335,14 @@ public class GestionesPerfilOficina extends TestBase {
 		Select pagina = new Select (driver.findElement(By.cssSelector(".slds-select.ng-pristine.ng-untouched.ng-valid.ng-not-empty")));
 		pagina.selectByVisibleText("30");
 		sleep(7500);
-		Assert.assertTrue(driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody")).isDisplayed());
+		boolean b = false;
+		WebElement lista = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody"));
+		List <WebElement> consumos = lista.findElements(By.tagName("tr"));
+		for(WebElement x : consumos) {
+			System.out.println(x.getText().replaceAll("\\s", " "));
+			b = true;
+		}
+		Assert.assertTrue(b);
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "HistorialDeRecargas", "E2E", "Ciclo2"}, dataProvider = "HistoriaRecarga")
