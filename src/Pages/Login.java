@@ -410,8 +410,8 @@ public class Login extends BasePage {
 	//*************** Merge: Flor
 	/*public void ingresarMerge() {
 		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		  usernameMerge.sendKeys("florangel.rojas@xappia.com.fan.sit02");
-		  passwordMerge.sendKeys("Testa10k");
+		  usernameMerge.sendKeys("u577822@telecom.com.ar.sit02");
+		  passwordMerge.sendKeys("Atos.001");
 		  loginMerge.click();
 		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		 }*/
@@ -431,4 +431,12 @@ public class Login extends BasePage {
 		  loginMerge.click();
 		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		 }
+	
+	public void ingresarFANFront() {
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		  usernameMerge.sendKeys("u577822@telecom.com.ar.sit02");
+		  passwordMerge.sendKeys("Atos.001");
+		  loginMerge.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	}
 }

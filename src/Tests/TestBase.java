@@ -481,6 +481,13 @@ public class TestBase {
 		    page0.ingresarMerge();
 		}
 		
+		public void loginFANFront(WebDriver driver) {
+			driver.get(urlAmbiente);
+			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		    Login page0 = new Login(driver);
+		    page0.ingresarFANFront();
+		}
+		
 		public void elegirmodulo(String modulo){
 			try {Thread.sleep(4000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 			String a = driver.findElement(By.id("tsidLabel")).getText();
@@ -1444,19 +1451,26 @@ public class TestBase {
 	}
 	
 	public void CambiarPerfil(String perfil, WebDriver driver) {
-		sleep(2000);
+		/*sleep(2000);
 		System.out.println("llegue aqui");
 		driver.switchTo().defaultContent();
 		driver.findElement(By.id("userNavButton")).click();
 		sleep(6000);
 		driver.findElement(By.id("userNav-menuItems")).findElements(By.tagName("a")).get(2).click();
 		sleep(6000);
-		driver.findElement(By.id("userDropdown")).click();
-		sleep(3000);
-		driver.findElement(By.id("logout")).click();
-		sleep(5000);
+		//driver.findElement(By.id("userDropdown")).click();
+		//sleep(3000);
+		driver.findElement(By.id("app_logout")).click();
+		sleep(5000);*/
+//		driver.findElement(By.cssSelector(".menuButton.menuButtonRounded")).click();
+//		driver.findElement(By.xpath("//*[text() = 'Finalizar sesión']")).click();
+//		sleep(5000);
 		driver.get(urlAmbiente);
-		driver.findElement(By.id("cancel_idp_hint")).click();
+		driver.findElement(By.id("userNav")).click();
+		sleep(2000);
+		System.out.println(driver.findElement(By.id("userNav-menuItems")).findElements(By.tagName("a")).get(4).getText());
+		driver.findElement(By.id("userNav-menuItems")).findElements(By.tagName("a")).get(4).click();
+		//driver.findElement(By.id("cancel_idp_hint")).click();
 		 switch(perfil.toLowerCase()){
 		 case "agente":
 			 loginAgente(driver);
@@ -1485,6 +1499,8 @@ public class TestBase {
 		 case "logisticayentrega":
 		 	loginLogisticaYEntrega(driver);
 		 	break;
+		 case "fanfront":
+			 loginFANFront(driver);
 		 }
 		 sleep(10000);
 	}

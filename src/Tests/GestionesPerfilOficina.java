@@ -1016,7 +1016,7 @@ public class GestionesPerfilOficina extends TestBase {
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
-		cc.irAGestion("inconvenientes");
+		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("Step-TipodeAjuste_nextBtn")));
 		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO POSPAGO");
@@ -2847,44 +2847,81 @@ public class GestionesPerfilOficina extends TestBase {
 	}
 	
 
-	@Test(groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "validaDocumentacion")
-	public void TS135496_CRM_Movil_REPRO_Busqueda_DNI_Numero_de_Documento(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail ){
+	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
+	public void TS135496_CRM_Movil_REPRO_Busqueda_DNI_Numero_de_Documento(String sDNI, String sNumeroDeCuenta,
+			String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135496";
 		detalles = null;
 		detalles = imagen + "- Gestion de clientes - DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		List<WebElement> solapas = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
-		assertTrue(solapas.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException ex) {
+			Thread.currentThread().interrupt();
+		}
+		//List<WebElement> solapas = driver.findElement(By.className("slds-tabs--scoped__nav"))
+		//		.findElements(By.tagName("li"));
+		
+		List<WebElement> datos = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.cssSelector(".slds-truncate.ng-binding"));
+//		System.out.println(datos.getText());
+//		List<WebElement> datosList = datos.findElements(By.cssSelector(".slds-truncate.ng-binding"));
+//		for (WebElement dato : datos) {
+//			if (dato.get)
+//			WebElement dni = dato.getText());
+//		}
+//		
+//		System.out.println(datos.get(3).getText());
+//		System.out.println(sDNI);
+		assertTrue(datos.get(3).getText().equals(sDNI));
+		//assertTrue(datos.findElements(arg0).get(4).getText().equals(sDNI));
 	}
 	
-	@Test(groups={"Sales","GestionDeClientes", "Ciclo1"}, dataProvider = "validaDocumentacion")
-	public void TS135503_CRM_Movil_REPRO_Busqueda_Apellido(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail){
+	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
+	public void TS135503_CRM_Movil_REPRO_Busqueda_Apellido(String sDNI, String sNumeroDeCuenta, String sNombre,
+			String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135503";
 		detalles = null;
-		detalles = imagen + "- Gestion de Clientes - DNI: "+sDNI;
+		detalles = imagen + "- Gestion de Clientes - DNI: " + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sb.BuscarAvanzada("",sApellido,"","","");
+		sb.BuscarAvanzada("", sApellido, "", "", "");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		List<WebElement> solapas = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
-		assertTrue(solapas.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException ex) {
+			Thread.currentThread().interrupt();
+		}
+///////////////////////////////////////		
+		List<WebElement> datos = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.cssSelector(".slds-truncate.ng-binding"));
+//		System.out.println(datos.get(3).getText());
+//		System.out.println(sDNI);
+		assertTrue(datos.get(3).getText().equals(sDNI));
+		
+//		assertTrue(solapas.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
 	}
 	
-	@Test(groups={"Sales","GestionDeClientes", "Ciclo1"}, dataProvider = "validaDocumentacion")
-	public void TS135509_CRM_Movil_REPRO_Busqueda_Numero_de_Cuenta(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail){
+	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
+	public void TS135509_CRM_Movil_REPRO_Busqueda_Numero_de_Cuenta(String sDNI, String sNumeroDeCuenta, String sNombre,
+			String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135509";
 		detalles = null;
-		detalles = imagen + "- Gestion de Clientes - DNI: "+sDNI;
+		detalles = imagen + "- Gestion de Clientes - DNI: " + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("", "", "", sNumeroDeCuenta, "");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		List<WebElement> solapas = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
-		assertTrue(solapas.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException ex) {
+			Thread.currentThread().interrupt();
+		}
+//		List<WebElement> solapas = driver.findElement(By.className("slds-tabs--scoped__nav"))
+//				.findElements(By.tagName("li"));
+//		assertTrue(solapas.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
+		///////////////////////////////////////////////////////////////////////////////////////////////
+		List<WebElement> datos = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.cssSelector(".slds-truncate.ng-binding"));
+		assertTrue(datos.get(3).getText().equals(sDNI));
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "Nominacion", "Ciclo1"}, dataProvider = "DatosSalesNominacionExistenteOfCom")
@@ -3218,18 +3255,40 @@ public class GestionesPerfilOficina extends TestBase {
 		Assert.assertTrue(libreta);
 	}
 	
-	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "validaDocumentacion")
-	public void TS135501_CRM_Movil_REPRO_Busqueda_Nombre(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
+	public void TS135501_CRM_Movil_REPRO_Busqueda_Nombre(String sDNI, String sNumeroDeCuenta, String sNombre,
+			String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135501";
 		detalles = null;
-		detalles = imagen+" - Gestion de clientes - Nombre: "+sNombre;
+		detalles = imagen + " - Gestion de clientes - Nombre: " + sNombre;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sb.BuscarAvanzada(sNombre,"","","","");
+		sb.BuscarAvanzada(sNombre, "", "", "", "");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
-		assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException ex) {
+			Thread.currentThread().interrupt();
+		}
+//		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav"))
+//				.findElements(By.tagName("li"));
+//		assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
+//		WebElement completeTable = driver.findElement(By.cssSelector(".slds-tabs--scoped.ng-scope")).findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-tree slds-table--tree.table.tableCSS"));
+
+		List<WebElement> filasDeResultados = driver.findElements(By.cssSelector("[class='slds-tabs--scoped ng-scope'] [class='slds-tabs--scoped__content'] div table tbody [class='searchClient-body slds-hint-parent ng-scope']"));
+//		System.out.println(completeTable.get(0).getText());
+		boolean assertCondition = true;
+		for (WebElement fila : filasDeResultados) {
+			List<WebElement> elements  = fila.findElements(By.cssSelector(".slds-truncate.ng-binding"));
+			System.out.println(elements.get(0).getText());
+			if (!elements.get(0).getText().substring(0,4).equals("Juan")) {
+				assertCondition = false;
+			}
+		}
+		
+//		List<WebElement> datos = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.cssSelector(".slds-truncate.ng-binding"));
+//		assertTrue(datos.get(3).getText().equals(sDNI));
+		assertTrue(assertCondition);
 	}
 	
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
@@ -3270,18 +3329,28 @@ public class GestionesPerfilOficina extends TestBase {
 		Assert.assertTrue(a);
 	}
 	
-	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "validaDocumentacion")
-	public void TS135505_CRM_Movil_REPRO_Busqueda_Razon_Social(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
+	public void TS135505_CRM_Movil_REPRO_Busqueda_Razon_Social(String sDNI, String sNumeroDeCuenta, String sNombre,
+			String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135505";
 		detalles = null;
-		detalles = imagen+" - Gestion de clientes - Razon social: "+sRazon;
+		detalles = imagen + " - Gestion de clientes - Razon social: " + sRazon;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sb.BuscarAvanzada("","",sRazon,"","");
+		sb.BuscarAvanzada("", "", sRazon, "", "");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
-		assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException ex) {
+			Thread.currentThread().interrupt();
+		}
+//		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav"))
+//				.findElements(By.tagName("li"));
+//		assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
+		List<WebElement> datos = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.cssSelector(".slds-truncate.ng-binding"));
+//		System.out.println(datos.get(3).getText());
+		assertTrue(datos.get(3).getText().equals(sDNI));
+		
 	}
 	
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
@@ -3298,18 +3367,28 @@ public class GestionesPerfilOficina extends TestBase {
 		Assert.assertTrue(vacio.get(0).findElement(By.tagName("a")).getText().isEmpty());
 	}
 	
-	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "validaDocumentacion")
-	public void TS135507_CRM_Movil_REPRO_Busqueda_Email(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
+	public void TS135507_CRM_Movil_REPRO_Busqueda_Email(String sDNI, String sNumeroDeCuenta, String sNombre,
+			String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135507";
 		detalles = null;
-		detalles = imagen+" - Gestion de clientes - Email: "+sEmail;
+		detalles = imagen + " - Gestion de clientes - Email: " + sEmail;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sb.BuscarAvanzada("","","","",sEmail);
+		sb.BuscarAvanzada("", "", "", "", sEmail);
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
-		assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException ex) {
+			Thread.currentThread().interrupt();
+		}
+//		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav"))
+//				.findElements(By.tagName("li"));
+//		assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
+		
+		List<WebElement> datos = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.cssSelector(".slds-truncate.ng-binding"));
+//		System.out.println(datos.get(3).getText());
+		assertTrue(datos.get(3).getText().equals(sDNI));
 	}
 	
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
@@ -4424,7 +4503,7 @@ public class GestionesPerfilOficina extends TestBase {
 		}
 		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-03")));
 		driver.findElement(By.id("text-input-03")).click();
-		driver.findElement(By.xpath("//*[text() = 'Ordenes']")).click();
+		driver.findElement(By.xpath("//*[text() = 'Casos']")).click();
 		sleep(5000);
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")).click();
 		sleep(12000);
@@ -6325,7 +6404,14 @@ public class GestionesPerfilOficina extends TestBase {
 		Select pagina = new Select (driver.findElement(By.cssSelector(".slds-select.ng-pristine.ng-untouched.ng-valid.ng-not-empty")));
 		pagina.selectByVisibleText("30");
 		sleep(7500);
-		Assert.assertTrue(driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody")).isDisplayed());
+		boolean b = false;
+		WebElement lista = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody"));
+		List <WebElement> consumos = lista.findElements(By.tagName("tr"));
+		for(WebElement x : consumos) {
+			System.out.println(x.getText().replaceAll("\\s", " "));
+			b = true;
+		}
+		Assert.assertTrue(b);
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "HistorialDeRecargas", "E2E", "Ciclo2"}, dataProvider = "HistoriaRecarga")
