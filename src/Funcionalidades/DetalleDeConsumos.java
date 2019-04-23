@@ -241,7 +241,7 @@ public class DetalleDeConsumos extends TestBase {
 		}
 	}
 	
-	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
+	//----------------------------------------------- TELEFONICO --------------------------------------------------------\\
 	
 	@Test(groups = { "GestionesPerfilOficina", "DetalleDeConsumo", "Ciclo2" }, dataProvider = "CuentaVista360")
 	public void TS_134802_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_visualizacion_y_busqueda_de_los_distintos_consumos_realizados_por_el_cliente_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
