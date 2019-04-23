@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -1586,11 +1587,12 @@ public class GestionesPerfilTelefonico extends TestBase{
 		//Blocked
 	}
 	
-	@Test (groups= {"GestionPerfilTelefonico", "Ciclo2", "Vista360"}, dataProvider = "documentacionVista360")
-	public void TS_134800_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_Telefonico(String sDNI) {
+	@Test(groups = { "GestionPerfilTelefonico", "Ciclo2", "Vista360" }, dataProvider = "documentacionVista360")
+	public void TS_134800_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_Telefonico(
+			String sDNI) {
 		imagen = "TS134800";
 		detalles = null;
-		detalles = imagen+"-Vista 360-DNI:"+sDNI;
+		detalles = imagen + "-Vista 360-DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
@@ -1602,19 +1604,40 @@ public class GestionesPerfilTelefonico extends TestBase{
 		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "mis servicios");
 		sleep(10000);
 		boolean a = false;
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium")));
+		driver.switchTo().frame(cambioFrame(driver,
+				By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium")));
 		WebElement verif = driver.findElement(By.cssSelector(".via-slds.slds-m-around--small.ng-scope"));
-		if(verif.getText().toLowerCase().contains("servicios incluidos")) {
+		if (verif.getText().toLowerCase().contains("servicios incluidos")) {
 			a = true;
 		}
 		Assert.assertTrue(a);
+		///// Verificacion de todos los elementos de la tabla SERVICIOS INCLUIDOS;
+		WebElement tabla = driver.findElement(
+				By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium"));
+		List<WebElement> elementosDeLaTabla = tabla.findElement(By.cssSelector(
+				"[class='slds-grid slds-wrap slds-card slds-m-bottom--small slds-p-around--medium'] [class='slds-p-bottom--small'] "))
+				.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+		System.out.println(elementosDeLaTabla.get(0).getText());
+		ArrayList<String> tablaComparar = new ArrayList<String>(Arrays.asList("Contestador Personal",
+				"DDI con Roaming Internacional", "Voz", "SMS Saliente", "SMS Entrante", "MMS", "Datos"));
+		for (int i = 0; i < tablaComparar.size(); i++) {
+			String nombre = elementosDeLaTabla.get(i).findElements(By.tagName("td")).get(0).getText();
+			String nombreComparar = tablaComparar.get(i);
+			String estado = elementosDeLaTabla.get(i).findElements(By.tagName("td")).get(2).getText();
+			// System.out.println(nombre);
+			// System.out.println(nombreComparar);
+			// System.out.println("Estado " + estado);
+			Assert.assertTrue(nombre.equals(nombreComparar));
+			Assert.assertTrue(estado.equals("Activo"));
+		}
 	}
 	
-	@Test (groups= {"GestionPerfilTelefonico", "Ciclo2", "Vista360"}, dataProvider = "CuentaVista360")
-	public void TS134799_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Telefonico(String sDNI, String sLinea,String sNombre) {
+	@Test(groups = { "GestionPerfilTelefonico", "Ciclo2", "Vista360" }, dataProvider = "CuentaVista360")
+	public void TS134799_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Telefonico(
+			String sDNI, String sLinea, String sNombre) {
 		imagen = "134799";
 		detalles = null;
-		detalles = imagen+"-Vista 360-DNI:"+sDNI;
+		detalles = imagen + "-Vista 360-DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
@@ -1623,7 +1646,22 @@ public class GestionesPerfilTelefonico extends TestBase{
 		sleep(3000);
 		driver.findElement(By.className("card-top")).click();
 		sleep(3000);
-		Assert.assertTrue(driver.findElement(By.cssSelector(".console-flyout.active.flyout")).isDisplayed());
+		WebElement desplegable = driver.findElement(By.cssSelector(".console-flyout.active.flyout"));
+		// Se muestra
+		Assert.assertTrue(desplegable.isDisplayed());
+		// Verificacion del contenido del desplegable
+		ArrayList<String> elementosDesplegableIzquierdoComparar = new ArrayList<String>(
+				Arrays.asList("Historial de Suspensiones", "Recarga de crédito", "Renovacion de Datos",
+						"Alta/Baja de Servicios", "Suscripciones", "Inconvenientes con Recargas", "Diagnóstico",
+						"Números Gratis", "Cambio SimCard", "Cambio de Plan"));
+		List<WebElement> elementosDesplegableIzquierdo = desplegable.findElements(
+				By.cssSelector("[class='console-flyout active flyout'] [class='community-flyout-actions-card'] ul li"));
+		int i = 0;
+		for (WebElement fila : elementosDesplegableIzquierdo) {
+			Assert.assertTrue(fila.getText().equals(elementosDesplegableIzquierdoComparar.get(i)));
+			i++;
+		}
+		Assert.assertTrue(true);
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "ModificarDatos", "E2E", "Ciclo3"}, dataProvider = "CuentaModificacionDeDatos")
@@ -4012,6 +4050,7 @@ public class GestionesPerfilTelefonico extends TestBase{
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
 		sleep(5000);
+		CustomerCare cCC = new CustomerCare(driver);
 		cCC.irAGestiones();
 		String day = fechaDeHoy();
 		String dia = day.substring(0, 2);
@@ -4422,44 +4461,120 @@ public class GestionesPerfilTelefonico extends TestBase{
 		Assert.assertTrue(gGF.FlowConsultaServicioActivo(driver, sLinea, "DDI sin Roaming Internacional"));
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","Vista360","E2E", ""}, dataProvider="CuentaVista360")
-	public void TS134794_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_Telefonico(String sDNI, String sNombre, String sLinea) {
+	@Test(groups = { "GestionesPerfilOficina", "Vista360", "E2E", "" }, dataProvider = "CuentaVista360")
+	public void TS134794_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_Telefonico(
+			String sDNI, String sNombre, String sLinea) {
 		imagen = "TS134794";
-		detalles = imagen+" - Vista360 - DNI: "+sDNI;
-		BasePage cambioFrameByID=new BasePage();
+		detalles = imagen + " - Vista360 - DNI: " + sDNI;
+		BasePage cambioFrameByID = new BasePage();
 		sleep(30000);
 		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SearchClientDocumentType")));
 		sleep(1000);
 		SalesBase sSB = new SalesBase(driver);
-		sSB.BuscarCuenta("DNI",sDNI);
-		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
-		System.out.println("id "+accid);
-		detalles +="-Cuenta:"+accid;
+		sSB.BuscarCuenta("DNI", sDNI);
+		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope"))
+				.findElements(By.tagName("td")).get(5).getText();
+		System.out.println("id " + accid);
+		detalles += "-Cuenta:" + accid;
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
 		sleep(18000);
 		try {
 			cc.openleftpanel();
+		} catch (Exception eE) {
+			// Always Empty
 		}
-		catch(Exception e) {}
+		// Visualizacion panel izquierdo superior Datos de Cliente
 		WebElement wProfileBoxDetails = driver.findElement(By.className("profile-box-details"));
-		Assert.assertTrue(wProfileBoxDetails.findElement(By.cssSelector(".slds-text-heading_large.title-card")).findElement(By.tagName("h1")).getText().toLowerCase().contains(sNombre.toLowerCase()));
-		String sWebDNI = wProfileBoxDetails.findElement(By.className("detail-card")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(1).findElements(By.tagName("td")).get(1).getText();
+		// System.out.println("Name: " +
+		// wProfileBoxDetails.findElement(By.cssSelector(".slds-text-heading_large.title-card")).findElement(By.tagName("h1")).getText().toLowerCase()
+		Assert.assertTrue(wProfileBoxDetails.findElement(By.tagName("h1")).getText().toLowerCase()
+				.contains(sNombre.toLowerCase())); // Changed
+		String sWebDNI = wProfileBoxDetails.findElement(By.className("detail-card")).findElement(By.tagName("tbody"))
+				.findElements(By.tagName("tr")).get(1).findElements(By.tagName("td")).get(1).getText();
 		Assert.assertTrue(sWebDNI.equals(sDNI));
 		Assert.assertTrue(sWebDNI.matches("[0-9]+"));
+		String npsText = wProfileBoxDetails.findElement(By.className("detail-card")).findElement(By.tagName("tbody"))
+				.findElements(By.tagName("tr")).get(2).findElements(By.tagName("td")).get(0).getText();
+		System.out.println(npsText);
+		Assert.assertTrue(npsText.equals("NPS:"));
 		List<WebElement> wWebList = wProfileBoxDetails.findElements(By.className("profile-edit"));
-		List<String> sTextList = new ArrayList<String>();
-		sTextList.add("Actualizar datos" + "Reseteo de Clave");
-		ppt = new PagePerfilTelefonico(driver);
-		Assert.assertTrue(ppt.forEach(wWebList, sTextList));
-		Assert.assertTrue(driver.findElement(By.xpath("//div[@class='left-sidebar-section-header'] //span[contains(text(),'Segmentaci')]")).getText().equalsIgnoreCase("Segmentaci\u00f3n"));
-		try {
-			driver.findElement(By.xpath("//div[@class='left-sidebar-section-header'] //span[contains(text(),'Segmentaci')] /.. /.. /.. /.. /..")).click();
-		} catch (Exception e) {}
-		sleep(5000);
-		WebElement wL = driver.findElements(By.className("left-sidebar-section-container")).get(1);
-		Assert.assertTrue(wL.findElements(By.tagName("table")).get(0).findElement(By.tagName("tbody")).findElement(By.tagName("td")).findElement(By.tagName("div")).getText().equalsIgnoreCase("Segmento:"));
-		Assert.assertTrue(wL.findElements(By.tagName("table")).get(0).findElement(By.tagName("tbody")).findElement(By.tagName("td")).findElements(By.tagName("div")).get(1).getText().toLowerCase().contains("alta reciente"));
-		Assert.assertTrue(wL.findElements(By.tagName("table")).get(1).findElement(By.tagName("tbody")).findElement(By.tagName("td")).findElement(By.tagName("div")).getText().equalsIgnoreCase("Atributos:"));
+		Assert.assertTrue(wWebList.get(0).getText().toLowerCase().equals("actualizar datos"));
+		Assert.assertTrue(wWebList.get(1).getText().toLowerCase().equals("reseteo clave"));
+		// Visualizacion panel izquierdo - Datos personales y Segmentacion
+		driver.findElement(By.xpath(
+				"//div[@class='left-sidebar-section-header'] //span[contains(text(),'Datos Personales')] /.. /.. /.. /.. /.."))
+				.click();
+		String headerDatosPersonales = driver
+				.findElement(By.xpath(
+						"//div[@class='left-sidebar-section-header'] //span[contains(text(),'Datos Personales')]"))
+				.getText();
+		Assert.assertTrue(headerDatosPersonales.equals("Datos Personales"));
+
+		driver.findElement(By.xpath(
+				"//div[@class='left-sidebar-section-header'] //span[contains(text(),'Segmentaci')] /.. /.. /.. /.. /.."))
+				.click();
+		String headerSegmentacion = driver
+				.findElement(
+						By.xpath("//div[@class='left-sidebar-section-header'] //span[contains(text(),'Segmentaci')]"))
+				.getText();
+		Assert.assertTrue(headerSegmentacion.equalsIgnoreCase("Segmentaci\u00f3n"));
+
+		List<WebElement> panelesIzquierdos = driver.findElements(By.cssSelector(".left-sidebar-section-container"));
+		// WebElement datosPersonales = panelesIzquierdos.get(0);
+		// WebElement segmentacion = panelesIzquierdos.get(1);
+		List<WebElement> datosPersonales = panelesIzquierdos.get(0).findElements(By.cssSelector(".client-data-label"));
+		List<WebElement> segmentacion = panelesIzquierdos.get(1).findElements(By.cssSelector(".client-data-label"));
+
+		ArrayList<String> datosPersonalesComparar = new ArrayList<String>(Arrays.asList("Correo Electr\u00f3nico:",
+				"M\u00f3vil:", "Tel\u00e9fono alternativo:", "Club Personal:", "Categor\u00eda:"));
+		ArrayList<String> segmentacionComparar = new ArrayList<String>(Arrays.asList("Segmento:", "Atributos:"));
+
+		System.out.println();
+		for (int i = 0; i < datosPersonales.size(); i++) {
+			Assert.assertTrue(datosPersonales.get(i).getText().equals(datosPersonalesComparar.get(i)));
+		}
+		System.out.println();
+
+		for (int i = 0; i < segmentacion.size(); i++) {
+			WebElement campo = segmentacion.get(i);
+			String textoDelCampo = campo.getText();
+			Assert.assertTrue(textoDelCampo.equals(segmentacionComparar.get(i)));
+			if (textoDelCampo.equals("Segmento:")) {
+				String valorDelCampo = driver.findElement(By.xpath(
+						"/html/body/div/div[1]/ng-include/div[4]/ng-include/div/div[2]/table[1]/tbody/tr/td/div[2]"))
+						.getText();
+				System.out.println("Valor es : " + valorDelCampo);
+				Assert.assertTrue(valorDelCampo.equals("Alta reciente - Masivo"));
+			}
+		}
+
+		// try {
+		// driver.findElement(By.xpath(
+		// "//div[@class='left-sidebar-section-header']
+		// //span[contains(text(),'Segmentaci')] /.. /.. /.. /.. /.."))
+		// .click();
+		// } catch (Exception eE) {
+		// // Always Empty
+		// }
+		// sleep(5000);
+		// WebElement wL =
+		// driver.findElements(By.className("left-sidebar-section-container")).get(1);
+		// // System.out.println("Segmento :" +
+		// //
+		// wL.findElements(By.tagName("table")).get(0).findElement(By.tagName("tbody")).findElement(By.tagName("td")).findElement(By.tagName("div")).getText());
+		// Assert.assertTrue(wL.findElements(By.tagName("table")).get(0).findElement(By.tagName("tbody"))
+		// .findElement(By.tagName("td")).findElement(By.tagName("div")).getText().equalsIgnoreCase("Segmento:"));
+		// // System.out.println("Alta Reciente :" +
+		// //
+		// wL.findElements(By.tagName("table")).get(0).findElement(By.tagName("tbody")).findElement(By.tagName("td")).findElements(By.tagName("div")).get(1).getText());
+		// Assert.assertTrue(wL.findElements(By.tagName("table")).get(0).findElement(By.tagName("tbody"))
+		// .findElement(By.tagName("td")).findElements(By.tagName("div")).get(1).getText().toLowerCase()
+		// .contains("alta reciente"));
+		// // System.out.println("Atributos :" +
+		// //
+		// wL.findElements(By.tagName("table")).get(1).findElement(By.tagName("tbody")).findElement(By.tagName("td")).findElement(By.tagName("div")).getText());
+		// Assert.assertTrue(wL.findElements(By.tagName("table")).get(1).findElement(By.tagName("tbody"))
+		// .findElement(By.tagName("td")).findElement(By.tagName("div")).getText().equalsIgnoreCase("Atributos:"));
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "ResumenDeCuenta", "E2E","Ciclo4"}, dataProvider = "CuentaReintegros")

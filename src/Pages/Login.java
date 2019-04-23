@@ -408,6 +408,14 @@ public class Login extends BasePage {
 	}
 	
 	//*************** Merge: Flor
+	/*public void ingresarMerge() {
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		  usernameMerge.sendKeys("u577822@telecom.com.ar.sit02");
+		  passwordMerge.sendKeys("Atos.001");
+		  loginMerge.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		 }*/
+	
 	public void ingresarMerge() {
 		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		  usernameMerge.sendKeys("u577822@telecom.com.ar.sit02");
