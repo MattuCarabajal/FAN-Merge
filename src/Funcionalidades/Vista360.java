@@ -1,7 +1,5 @@
 package Funcionalidades;
 
-import static org.testng.Assert.assertTrue;
-
 import java.awt.AWTException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,13 +13,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import Pages.Accounts;
-import Pages.BasePage;
 import Pages.CustomerCare;
 import Pages.PagePerfilTelefonico;
 import Pages.SalesBase;
@@ -143,7 +137,6 @@ public class Vista360 extends TestBase {
 		List <WebElement> servicios = driver.findElement(By.className("slds-p-bottom--small")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
 		for(WebElement s : servicios) {
 			if (s.getText().toLowerCase().contains("activo"))
-				System.out.println(s.getText());
 				a = true;
 		}
 		Assert.assertTrue(a);
@@ -198,11 +191,9 @@ public class Vista360 extends TestBase {
 		sleep(3000);
 		driver.findElement(By.className("card-top")).click();
 		sleep(3000);
-		CustomerCare cCC = new CustomerCare(driver);
-		cCC.irADetalleDeConsumos();
+		cc.irADetalleDeConsumos();
 		sleep(9500);
 		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-02")));
-		System.out.println(driver.findElement(By.id("text-input-02")).getAttribute("value"));
 		driver.findElement(By.id("text-input-02")).click();
 		List<WebElement> pres = driver.findElement(By.id("option-list-01")).findElements(By.tagName("li"));
 		for(WebElement p : pres){
@@ -225,7 +216,6 @@ public class Vista360 extends TestBase {
 		WebElement lista = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody"));
 		List <WebElement> consumos = lista.findElements(By.tagName("tr"));
 		for(WebElement x : consumos) {
-			System.out.println(x.getText().replaceAll("\\s", " "));
 			b = true;
 		}
 		Assert.assertTrue(b);
@@ -341,7 +331,6 @@ public class Vista360 extends TestBase {
 		sleep(12000);
 		WebElement nroCaso = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")).findElement(By.tagName("tbody")).findElement(By.tagName("tr"));
 		nroCaso.findElements(By.tagName("td")).get(2).click();
-		System.out.println(nroCaso);
 		sleep(15000);
 		WebElement estado = null;
 		driver.switchTo().frame(cambioFrame(driver, By.name("ta_clone")));
@@ -363,11 +352,9 @@ public class Vista360 extends TestBase {
 		imagen = "TS134380";
 		detalles = null;
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI;
-		BasePage cambioFrameByID=new BasePage();
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SearchClientDocumentType")));
+		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sleep(1000);
-		SalesBase sSB = new SalesBase(driver);
-		sSB.BuscarCuenta("DNI", sDNI);
+		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
 		sleep(25000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
@@ -377,10 +364,6 @@ public class Vista360 extends TestBase {
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium")));
 		WebElement wTabla = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody"));
-		List <WebElement> lTabla = wTabla.findElements(By.tagName("tr"));
- 		for(WebElement x : lTabla) {
- 			System.out.println(x.getText());
- 		}
 		Assert.assertTrue(wTabla.isDisplayed());
 	}
 	
@@ -444,8 +427,7 @@ public class Vista360 extends TestBase {
 		WebElement plan = driver.findElement(By.className("card-top")).findElements(By.className("slds-text-heading_medium")).get(0);
 		WebElement FechaActivacion = driver.findElement(By.cssSelector(".slds-text-body_regular.expired-title"));
 		WebElement linea = driver.findElement(By.className("card-top")).findElements(By.className("slds-text-heading_medium")).get(2);
-		System.out.println(plan.getText()); System.out.println(FechaActivacion.getText()); System.out.println(linea.getText());
-		assertTrue(plan.isDisplayed() && FechaActivacion.isDisplayed() && linea.getText().contains(sLinea));
+		Assert.assertTrue(plan.isDisplayed() && FechaActivacion.isDisplayed() && linea.getText().contains(sLinea));
 		for (WebElement x : driver.findElements(By.cssSelector(".slds-text-body_regular.detail-label"))) {
 			if (x.getText().toLowerCase().contains("cr\u00e9dito recarga"))
 				creditoRecarga = true;
@@ -474,14 +456,11 @@ public class Vista360 extends TestBase {
 	public void TS134746_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_OOCC(String sDNI,String sNombre, String sLinea) {
 		imagen = "TS134746";
 		detalles = imagen+" - Vista360 - DNI: "+sDNI+" - Linea: "+sLinea;
-		BasePage cambioFrameByID=new BasePage();
 		sleep(30000);
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SearchClientDocumentType")));
+		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sleep(1000);
-		SalesBase sSB = new SalesBase(driver);
-		sSB.BuscarCuenta("DNI",sDNI);
+		sb.BuscarCuenta("DNI",sDNI);
 		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
-		System.out.println("id "+accid);
 		detalles +="-Cuenta:"+accid;
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
 		sleep(18000);
@@ -531,7 +510,6 @@ public class Vista360 extends TestBase {
 		WebElement plan = driver.findElement(By.className("card-top")).findElements(By.className("slds-text-heading_medium")).get(0);
 		WebElement FechaActivacion = driver.findElement(By.cssSelector(".slds-text-body_regular.expired-title"));
 		WebElement linea = driver.findElement(By.className("card-top")).findElements(By.className("slds-text-heading_medium")).get(2);
-		System.out.println(plan.getText()); System.out.println(FechaActivacion.getText()); System.out.println(linea.getText());
 		Assert.assertTrue(plan.isDisplayed() && FechaActivacion.isDisplayed() && linea.getText().contains(sLinea));
 		for (WebElement x : driver.findElements(By.cssSelector(".slds-text-body_regular.detail-label"))) {
 			if (x.getText().toLowerCase().contains("cr\u00e9dito recarga"))
@@ -580,7 +558,6 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(a);
 		WebElement tabla = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium"));
 		List<WebElement> elementosDeLaTabla = tabla.findElement(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small slds-p-around--medium'] [class='slds-p-bottom--small'] ")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-		System.out.println(elementosDeLaTabla.get(0).getText());
 		ArrayList<String> tablaComparar = new ArrayList<String>(Arrays.asList("Contestador Personal", "DDI con Roaming Internacional", "Voz", "SMS Saliente", "SMS Entrante", "MMS", "Datos"));
 		for (int i = 0; i < tablaComparar.size(); i++) {
 			String nombre = elementosDeLaTabla.get(i).findElements(By.tagName("td")).get(0).getText();
@@ -606,13 +583,13 @@ public class Vista360 extends TestBase {
 		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals","mis servicios");
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-card.slds-m-around--small.ta-fan-slds")));
-		 List <WebElement> serv= driver.findElements(By.cssSelector(".slds-p-bottom--small"));
-		 boolean a = false;
-		 for(WebElement s : serv){
-			 if(s.getText().toLowerCase().contains("mms"))
-			 a = true;
-		 }
-		 Assert.assertTrue(a);
+		List <WebElement> serv= driver.findElements(By.cssSelector(".slds-p-bottom--small"));
+		boolean a = false;
+		for(WebElement s : serv){
+			if(s.getText().toLowerCase().contains("mms"))
+			a = true;
+		}
+		Assert.assertTrue(a);
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
@@ -627,8 +604,7 @@ public class Vista360 extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
 		sleep(5000);
-		CustomerCare cCC = new CustomerCare(driver);
-		cCC.irAGestiones();
+		cc.irAGestiones();
 		String day = fechaDeHoy();
 		String dia = day.substring(0, 2);
 		sleep(3000);
@@ -671,14 +647,11 @@ public class Vista360 extends TestBase {
 	public void TS134794_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_Telefonico(String sDNI, String sNombre, String sLinea) {
 		imagen = "TS134794";
 		detalles = imagen + " - Vista360 - DNI: " + sDNI;
-		BasePage cambioFrameByID = new BasePage();
 		sleep(30000);
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SearchClientDocumentType")));
+		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sleep(1000);
-		SalesBase sSB = new SalesBase(driver);
-		sSB.BuscarCuenta("DNI", sDNI);
+		sb.BuscarCuenta("DNI", sDNI);
 		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
-		System.out.println("id " + accid);
 		detalles += "-Cuenta:" + accid;
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
 		sleep(18000);
@@ -691,7 +664,6 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(sWebDNI.equals(sDNI));
 		Assert.assertTrue(sWebDNI.matches("[0-9]+"));
 		String npsText = wProfileBoxDetails.findElement(By.className("detail-card")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(2).findElements(By.tagName("td")).get(0).getText();
-		System.out.println(npsText);
 		Assert.assertTrue(npsText.equals("NPS:"));
 		List<WebElement> wWebList = wProfileBoxDetails.findElements(By.className("profile-edit"));
 		Assert.assertTrue(wWebList.get(0).getText().toLowerCase().equals("actualizar datos"));
@@ -914,8 +886,7 @@ public class Vista360 extends TestBase {
 		WebElement plan = driver.findElement(By.className("card-top")).findElements(By.className("slds-text-heading_medium")).get(0);
 		WebElement FechaActivacion = driver.findElement(By.cssSelector(".slds-text-body_regular.expired-title"));
 		WebElement linea = driver.findElement(By.className("card-top")).findElements(By.className("slds-text-heading_medium")).get(2);
-		System.out.println(plan.getText()); System.out.println(FechaActivacion.getText()); System.out.println(linea.getText());
-		assertTrue(plan.isDisplayed() && FechaActivacion.isDisplayed() && linea.getText().contains(sLinea));
+		Assert.assertTrue(plan.isDisplayed() && FechaActivacion.isDisplayed() && linea.getText().contains(sLinea));
 		for (WebElement x : driver.findElements(By.cssSelector(".slds-text-body_regular.detail-label"))) {
 			if (x.getText().toLowerCase().contains("cr\u00e9dito recarga"))
 				creditoRecarga = true;
@@ -985,7 +956,6 @@ public class Vista360 extends TestBase {
 		imagen = "TS13832";
 		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
-		CustomerCare cCC=new CustomerCare(driver);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
@@ -993,7 +963,7 @@ public class Vista360 extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
 		sleep(5000);
-		cCC.irAGestiones();
+		cc.irAGestiones();
 		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-id-1")));
 		String day = fechaDeHoy();
 		String dia = day.substring(0, 2);
@@ -1067,13 +1037,9 @@ public class Vista360 extends TestBase {
 		imagen = "TS134818";
 		detalles = null;
 		detalles = imagen + "Vista 360-DNI:" + sDNI;
-		BasePage cambioFrameByID=new BasePage();
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SearchClientDocumentType")));
+		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sleep(1000);
-		SalesBase sSB = new SalesBase(driver); 
-		sSB.BuscarCuenta("DNI", sDNI);
-		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
-		System.out.println("id "+accid);
+		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
 		sleep(20000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
@@ -1086,10 +1052,8 @@ public class Vista360 extends TestBase {
 		WebElement wTabla = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody"));
 		List <WebElement> lTabla = wTabla.findElements(By.tagName("tr"));
  		for(WebElement x : lTabla) {
- 			if(x.getText().toLowerCase().contains("activo")){
- 				System.out.println(x.getText());
+ 			if(x.getText().toLowerCase().contains("activo"))
  				a = true;
- 			}
  		}
 		Assert.assertTrue(a);
 	}
@@ -1193,10 +1157,8 @@ public class Vista360 extends TestBase {
 		WebElement nroCaso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-m-around--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody"));
 		List <WebElement> lista = nroCaso.findElements(By.tagName("tr"));
 		for(WebElement x : lista) {
-			if(x.getText().toLowerCase().contains("resuelta exitosa") || x.getText().toLowerCase().contains("realizada exitosa")) {
-				System.out.println(x.getText());
+			if(x.getText().toLowerCase().contains("resuelta exitosa") || x.getText().toLowerCase().contains("realizada exitosa"))
 				verificacion = true;
-			}
 		}
 		Assert.assertTrue(verificacion);
 	}
