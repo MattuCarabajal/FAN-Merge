@@ -97,7 +97,7 @@ public class GestionesPerfilOficina extends TestBase {
 	@BeforeMethod(alwaysRun = true)
 	public void setup() throws Exception {
 		sleep(3000);
-		goToLeftPanel4(driver, "Inicio");
+		goToLeftPanel3(driver, "Inicio");
 		sleep(10000);
 		try {
 			sb.cerrarPestaniaGestion(driver);
@@ -5044,10 +5044,10 @@ public class GestionesPerfilOficina extends TestBase {
 			} catch (Exception e) {
 			}
 		}
-		String day = fechaDeHoy();
-		String dia = day.substring(0, 2);
 		sleep(3000);
-		driver.switchTo().defaultContent();
+		driver.findElement(By.id("text-input-id-1")).sendKeys(Keys.ENTER);
+		sleep(3000);
+		driver.findElement(By.id("text-input-id-2")).click();
 		WebElement fecha = driver.findElement(By.id("text-input-id-2"));
 		List<WebElement> tableRows2 = fecha.findElements(By.xpath("//tr//td"));
 		for (WebElement x : tableRows2) {
@@ -5066,24 +5066,26 @@ public class GestionesPerfilOficina extends TestBase {
 				".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont"))
 				.click();
 		sleep(12000);
-		WebElement nroCaso = driver.findElement(By.cssSelector(
-				".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header"))
-				.findElement(By.tagName("tbody")).findElement(By.tagName("tr"));
-		nroCaso.findElements(By.tagName("td")).get(2).click();
-		System.out.println(nroCaso);
+		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+ driver.findElement(By.cssSelector(".slds-p-bottom--small")).getLocation().y+" )");
+		List <WebElement> nroCaso = driver.findElement(By.cssSelector(".slds-p-bottom--small")).findElement(By.tagName("table")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+		for(WebElement x : nroCaso) {
+			if(x.getText().toLowerCase().contains("informada") || x.getText().toLowerCase().contains("en espera del cliente")) {
+				x.findElements(By.tagName("td")).get(2).findElement(By.tagName("div")).findElement(By.tagName("a")).click();
+				break;
+			}
+		}
 		sleep(15000);
 		WebElement estado = null;
-		driver.switchTo().frame(cambioFrame(driver, By.name("ta_clone")));
+		driver.switchTo().frame(cambioFrame(driver, By.className("publisherTextAreaInner")));
 		for (WebElement x : driver.findElements(By.className("detailList"))) {
-			if (x.getText().toLowerCase().contains("n\u00famero de pedido"))
+			if (x.getText().toLowerCase().contains("n\u00famero del caso"))
 				estado = x;
 		}
-		for (WebElement x : estado.findElements(By.tagName("tr"))) {
+		for (WebElement x : estado.findElement(By.tagName("tbody")).findElements(By.tagName("tr"))) {
 			if (x.getText().toLowerCase().contains("estado"))
 				estado = x;
 		}
-		if (estado.getText().toLowerCase().contains("activada")
-				|| (estado.getText().toLowerCase().contains("iniciada")))
+		if (estado.getText().toLowerCase().contains("en espera del cliente") || (estado.getText().toLowerCase().contains("informada")))
 			gestion = true;
 		Assert.assertTrue(gestion);
 	}
@@ -6853,10 +6855,8 @@ public class GestionesPerfilOficina extends TestBase {
 		Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 
-	@Test(groups = { "GestionesPerfilOficina", "Autogestion", "E2E",
-			"Ciclo3" }, dataProvider = "CuentaModificacionDeDatos")
-	public void TS105418_CRM_Movil_Repro_Autogestion_0800_Inconv_con_derivacion_a_representante_Resuelto(String sDNI,
-			String sLinea) throws InterruptedException {
+	@Test (groups = {"GestionesPerfilOficina","Autogestion","E2E", "Ciclo3"},  dataProvider = "Diagnostico")
+	public void TS105418_CRM_Movil_Repro_Autogestion_0800_Inconv_con_derivacion_a_representante_Resuelto(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS105418";
 		detalles = null;
 		detalles = imagen + "- Autogestion - DNI: " + sDNI;
