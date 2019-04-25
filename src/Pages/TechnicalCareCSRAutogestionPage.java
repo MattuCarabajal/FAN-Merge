@@ -200,7 +200,7 @@ public class TechnicalCareCSRAutogestionPage extends BasePage {
 		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("srchErrorDiv_Case")));
 		getCaseBody().click();		
 		sleep(5000);
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("ep")));
+		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.cssSelector(".hasMotif.caseTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
 		WebElement cerrarcaso=getCerrarcaso();
 		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+cerrarcaso.getLocation().y+")");
 		 sleep(4000);
