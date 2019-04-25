@@ -110,7 +110,7 @@ public class CustomerCare extends BasePage {
 	@FindBy(css = ".x-plain-body.sd_nav_tabpanel_body.x-tab-panel-body-top .x-tab-strip-closable")
 	private List<WebElement> pestanasSecundarias;
 	
-	@FindBy(css = ".console-card.active")
+	@FindBy(css = ".card-info")
 	public List<WebElement> lineasPrepago;
 	
 	@FindBy(css = ".via-slds.slds-m-around--small.ng-scope")
@@ -418,9 +418,9 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public void irAMisServicios() {
-		obtenerAccionLineaPrepago("Mis Servicios").click();
+		obtenerAccionLineaPrepago("Mis servicios").click();
 		sleep(3000);
-		cambiarAFrameActivo();
+		//cambiarAFrameActivo();
 	}
 	
 	public void irAProductosyServicios() {
@@ -486,7 +486,7 @@ public class CustomerCare extends BasePage {
 		driver.switchTo().defaultContent();
 		for (WebElement t : panelesCentrales) {
 			if (!t.getAttribute("class").contains("x-hide-display")) {
-				driver.switchTo().frame(t.findElement(By.cssSelector("div iframe")));
+				driver.switchTo().frame(t.findElement(By.cssSelector(" div iframe")));
 			}
 		}
 	}
@@ -1456,7 +1456,7 @@ public class CustomerCare extends BasePage {
 	public void buscarCaso(String nCaso) {
 		driver.switchTo().defaultContent();
 		sleep(1000);
-		WebElement Buscador = driver.findElement(By.xpath("//input[@id='phSearchInput']"));
+		WebElement Buscador = driver.findElement(By.id("phSearchInput"));
 		Buscador.sendKeys(nCaso);
 		sleep(2000);
 		try {

@@ -64,7 +64,7 @@ public class TechnicalCareCSRAutogestionPage extends BasePage {
 	@FindBy(xpath="//*[@class='imgItemContainer ng-scope']") 
 	private List<WebElement> listaDeInconvenientes;
 	
-	@FindBy(xpath= "//*[@id='topButtonRow']/input[2]")
+	@FindBy(xpath= "//*[@id='bottomButtonRow']/input[5]")
 	private WebElement cerrarcaso;
 	
 	@FindBy(id="cas7")
