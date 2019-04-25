@@ -436,10 +436,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(10000);
+		sleep(20000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
-		sleep(5000);
+		sleep(8000);
 		cCC.irAGestionEnCard("Diagn\u00f3stico");
 		driver.switchTo().frame(cambioFrame(driver, By.id("Motive")));
 		driver.findElement(By.name("loopname")).click();
@@ -466,14 +466,22 @@ public class DiagnosticoInconvenientes extends TestBase {
 		evento.click();
 		evento.sendKeys("Evento Masivo");
 		sleep(8000);
+		String caso = null;
 		buscarYClick(driver.findElements(By.id("AddressSection_nextBtn")), "equals", "continuar");
-		String caso = driver.findElement(By.xpath("//*[@id='MassiveIncidentMessage']/div/p/p[2]/span/strong")).getText();
+		List <WebElement> lista = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
+		for(WebElement x : lista) {
+			if(x.getText().toLowerCase().contains("su gesti\u00f3n")) {
+				caso = x.findElement(By.tagName("div")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
+			}
+		}
+		//String caso = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).getText();
 		System.out.println(caso);
 		driver.switchTo().defaultContent();
 		tech.buscarCaso(caso);
 		driver.switchTo().frame(cambioFrame(driver, By.id("srchErrorDiv_Case")));
 		String estado= driver.findElement(By.xpath("//*[@id='Case_body']/table/tbody/tr[2]/td[3]")).getText();
 		Assert.assertTrue(estado.equalsIgnoreCase("Pendiente evento masivo"));
+		Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));	
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
