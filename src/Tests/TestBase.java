@@ -53,10 +53,8 @@ import DataProvider.ExcelUtils;
 public class TestBase {
 	protected static WebDriver driver;
 		
-		public static String urlMerge = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
-	
-		public static String urlAmbiente = "https://telecomcrm--uat.cs53.my.salesforce.com";
-		//public static String urlAmbiente = "https://crm--sit.cs14.my.salesforce.com/";
+		//public static String urlAmbiente = "https://telecomcrm--uat.cs53.my.salesforce.com";
+		public static String urlAmbiente = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
 		
 		// viejo public String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";
 		public static String urlSCP = "https://telecomcrm--uat.cs53.my.salesforce.com";
@@ -160,6 +158,19 @@ public class TestBase {
 				break;
 			}
 		}
+	}
+	
+	public void goToLeftPanel4(WebDriver driver, String selection) {
+		WebElement element = driver.findElement(By.className("x-btn-split"));
+		Actions builder = new Actions(driver);   
+		builder.moveToElement(element, 245, 20).click().build().perform();
+		List<WebElement> optiones = driver.findElements(By.tagName("li"));
+		for(WebElement option : optiones) {
+			if(option.findElement(By.tagName("span")).getText().toLowerCase().equals(selection.toLowerCase())) {
+				option.findElement(By.tagName("a")).click();
+				break;
+			}
+		}	
 	}
 	
 	public void login(WebDriver driver) {
@@ -464,10 +475,17 @@ public class TestBase {
 		
 		//Ingreso a Merge
 		public void loginMerge(WebDriver driver) {
-			driver.get(urlMerge);
+			driver.get(urlAmbiente);
 			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		    Login page0 = new Login(driver);
 		    page0.ingresarMerge();
+		}
+		
+		public void loginFANFront(WebDriver driver) {
+			driver.get(urlAmbiente);
+			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		    Login page0 = new Login(driver);
+		    page0.ingresarFANFront();
 		}
 		
 		public void elegirmodulo(String modulo){
@@ -787,7 +805,7 @@ public class TestBase {
 	private String dataProviderCuentas() {
 		String sDataProviderCuentas;
 		
-		if (urlAmbiente.contains("sit")) {
+		if (urlAmbiente.contains("sit".toUpperCase())) {
 			sDataProviderCuentas = "CuentasSIT.xlsx";
 		}
 		else {
@@ -806,7 +824,7 @@ public class TestBase {
 	private String dataProviderE2E() {
 		String sDataProviderE2E;
 		
-		if (urlAmbiente.contains("sit")) {
+		if (urlAmbiente.contains("SIT")) {
 			sDataProviderE2E = "E2ESIT.xlsx";
 		}
 		else {
@@ -1433,19 +1451,26 @@ public class TestBase {
 	}
 	
 	public void CambiarPerfil(String perfil, WebDriver driver) {
-		sleep(2000);
+		/*sleep(2000);
 		System.out.println("llegue aqui");
 		driver.switchTo().defaultContent();
 		driver.findElement(By.id("userNavButton")).click();
 		sleep(6000);
 		driver.findElement(By.id("userNav-menuItems")).findElements(By.tagName("a")).get(2).click();
 		sleep(6000);
-		driver.findElement(By.id("userDropdown")).click();
-		sleep(3000);
-		driver.findElement(By.id("logout")).click();
-		sleep(5000);
+		//driver.findElement(By.id("userDropdown")).click();
+		//sleep(3000);
+		driver.findElement(By.id("app_logout")).click();
+		sleep(5000);*/
+//		driver.findElement(By.cssSelector(".menuButton.menuButtonRounded")).click();
+//		driver.findElement(By.xpath("//*[text() = 'Finalizar sesión']")).click();
+//		sleep(5000);
 		driver.get(urlAmbiente);
-		driver.findElement(By.id("cancel_idp_hint")).click();
+		driver.findElement(By.id("userNav")).click();
+		sleep(2000);
+		System.out.println(driver.findElement(By.id("userNav-menuItems")).findElements(By.tagName("a")).get(4).getText());
+		driver.findElement(By.id("userNav-menuItems")).findElements(By.tagName("a")).get(4).click();
+		//driver.findElement(By.id("cancel_idp_hint")).click();
 		 switch(perfil.toLowerCase()){
 		 case "agente":
 			 loginAgente(driver);
@@ -1474,6 +1499,8 @@ public class TestBase {
 		 case "logisticayentrega":
 		 	loginLogisticaYEntrega(driver);
 		 	break;
+		 case "fanfront":
+			 loginFANFront(driver);
 		 }
 		 sleep(10000);
 	}
@@ -1816,7 +1843,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] ConsultaSaldo() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,1,"SaldoConsulta");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,3,"SaldoConsulta");
 		
 		return (testObjArray);
 		
@@ -1869,6 +1896,15 @@ public class TestBase {
 	public Object[][] CuentaVista360() throws Exception{
 		
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,3,"Vista 360");
+		
+		return (testObjArray); 
+		
+	}
+	
+	@DataProvider
+	public Object[][] CuentaVista360Version2() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,9,"Vista_2 360");
 		
 		return (testObjArray); 
 		

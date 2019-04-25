@@ -407,7 +407,7 @@ public class Login extends BasePage {
 		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	
-	//*************** Merge: Usuario Florangel
+	//*************** Merge: Flor
 	public void ingresarMerge() {
 		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		  usernameMerge.sendKeys("florangel.rojas@xappia.com.fan.sit02");
@@ -415,4 +415,28 @@ public class Login extends BasePage {
 		  loginMerge.click();
 		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		 }
+	
+	/*public void ingresarMerge() {
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		  usernameMerge.sendKeys("u577822@telecom.com.ar.sit02");
+		  passwordMerge.sendKeys("Atos.001");
+		  loginMerge.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		 }*/
+	
+	public void ingresarMerge2() {
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		  usernameMerge.sendKeys("ezequiel-matias.girola@atos.net.sit02");
+		  passwordMerge.sendKeys("Atos.001");
+		  loginMerge.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		 }
+	
+	public void ingresarFANFront() {
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		  usernameMerge.sendKeys("u577822@telecom.com.ar.sit02");
+		  passwordMerge.sendKeys("Atos.001");
+		  loginMerge.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	}
 }

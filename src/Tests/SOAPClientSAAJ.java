@@ -21,18 +21,19 @@ public class SOAPClientSAAJ {
 	//UAT
 	static String sPagoEnCajaUAT = "http://10.75.39.146:8080/services/ArServices";
 		
-	static String sPagoSimuladoSIT = "http://mdwtpbust1.telecom.com.ar:8701/notificarPago";
-	static String sPagoSimuladoUAT = "http://mdwtpbusu1.telecom.com.ar:8701/notificarPago";
+	static String sPagoSimuladoSIT = "http://mdwtpbust2.telecom.com.ar:8701/notificarPago";
+	static String sPagoSimuladoUAT = "http://mdwtpbusu2.telecom.com.ar:8701/notificarPago";
 	static String sQueryCustomerInfoUAT = "http://10.75.39.146:8080/services/BcServices";
 	static String sQueryCustomerInfoSIT = "http://10.75.197.163:8080/services/BcServices";
 	static String sQueryFreeUnitSIT = "http://10.75.197.163:8080/services/BbServices";
 	static String sQueryFreeUnitUAT = "http://10.75.39.146:8080/services/BbServices";
-	static String sObtenerInformacionOrdenUAT = "https://mdwtpbusu1.telecom.com.ar:8702/obtenerInformacionOrden";
-	static String sObtenerInformacionOrdenSIT = "https://mdwtpbust1.telecom.com.ar:8702/obtenerInformacionOrden";
-	static String sNotificarResultadoOrdenUAT = "https://mdwtpbusu1.telecom.com.ar:8702/notificarResultadoOrden";
-	static String sNotificarResultadoOrdenSIT = "https://mdwtpbust1.telecom.com.ar:8702/notificarResultadoOrden";
-	static String sRealizarAltaSuscripUAT = "http://mdwtpbusu1.telecom.com.ar:8701/realizarAltaSuscripInfotaiment?WSDL";
-	static String sRealizarAltaSuscripSIT = "http://mdwtpbust1.telecom.com.ar:8701/realizarAltaSuscripInfotaiment?WSDL";
+	static String sObtenerInformacionOrdenUAT = "https://mdwtpbusu2.telecom.com.ar:8702/obtenerInformacionOrden";
+	static String sObtenerInformacionOrdenSIT = "https://mdwtpbust2.telecom.com.ar:8702/obtenerInformacionOrden";
+	static String sNotificarResultadoOrdenUAT = "https://mdwtpbusu2.telecom.com.ar:8702/notificarResultadoOrden";
+	static String sNotificarResultadoOrdenSIT = "https://mdwtpbust2.telecom.com.ar:8702/notificarResultadoOrden";
+	static String sRealizarAltaSuscripUAT = "http://mdwtpbusu2.telecom.com.ar:8701/realizarAltaSuscripInfotaiment?WSDL";
+	static String sRealizarAltaSuscripSIT = "http://mdwtpbust2.telecom.com.ar:8701/realizarAltaSuscripInfotaiment?WSDL";
+	static String sVerificarSaldoEnFacturacion = "http://10.75.197.163:8080/services/ArServices";
 	
 	public Document callSoapWebService(String soapMessageString, String sEndPoint) {
 		Document doc = null;
@@ -41,50 +42,51 @@ public class SOAPClientSAAJ {
 	    		sEndPoint = sPagoSimuladoSIT;
 	    		break;
 	    	case "pago en caja":
-	    		if (TestBase.urlAmbiente.contains("sit"))
+	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
 	    			sEndPoint = sPagoEnCajaSIT;
 	    		else
 	    			sEndPoint = sPagoEnCajaUAT;
 	    		break;
 	    	case "datos usuario":
-	    		if (TestBase.urlAmbiente.contains("sit"))
+	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
 	    			sEndPoint = sQueryCustomerInfoSIT;
 	    		else
 	    			sEndPoint = sQueryCustomerInfoUAT;
 	    		break;
 	    	case "unidades libres":
-	    		if (TestBase.urlAmbiente.contains("sit"))
+	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
 	    			sEndPoint = sQueryFreeUnitSIT;
 	    		else
 	    			sEndPoint = sQueryFreeUnitUAT;
 	    		break;
 	    	case "notificar resultado orden":
-	    		if (TestBase.urlAmbiente.contains("sit"))
+	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
 	    			sEndPoint = sNotificarResultadoOrdenSIT;
 	    		else
 	    			sEndPoint = sNotificarResultadoOrdenUAT;
 	    		break;
 	    	case "obtener informacion orden":
-	    		if (TestBase.urlAmbiente.contains("sit"))
+	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
 	    			sEndPoint = sObtenerInformacionOrdenSIT;
 	    		else
 	    			sEndPoint = sObtenerInformacionOrdenUAT;
 	    		break;
 	    	case "alta suscripcion":
-	    		if (TestBase.urlAmbiente.contains("sit"))
+	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
 	    			sEndPoint = sRealizarAltaSuscripSIT;
 	    		else
 	    			sEndPoint = sRealizarAltaSuscripUAT;
 	    		break;
 	    	case "notificar pago":
-	    		if (TestBase.urlAmbiente.contains("sit"))
+	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
 	    			sEndPoint = sPagoSimuladoSIT;
 	    		else
 	    			sEndPoint = sPagoSimuladoUAT;
 	    		break;
-	    		
+	    	case "verificar saldo":
+	    		sEndPoint = sVerificarSaldoEnFacturacion;
+	    		break;
     	}
-    	
     	try {
         	// Create SOAP Connection
         	SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();

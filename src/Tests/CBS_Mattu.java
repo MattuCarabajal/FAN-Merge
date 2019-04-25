@@ -380,4 +380,13 @@ public class CBS_Mattu extends TestBase {
 		Assert.assertTrue(cCBS.ObtenerValorResponse(sResponse, "ns2:resultDesc").equalsIgnoreCase("ok")&&cCBS.ObtenerValorResponse(sResponse, "ns2:resultCode").equalsIgnoreCase("0"));
 		System.out.println("sResponse: " + sResponse);
 	}
+	
+	@Test
+	public Document verificarSaldo(String sAccountKey) {
+		String sEndPoint = "verificar saldo";
+		SOAPClientSAAJ sSCS = new SOAPClientSAAJ();
+		CBS cCBS = new CBS();
+		Document response = cCBS.sValidacion_VerificarSaldo(sSCS.callSoapWebService(cCBS.sRequestVerificarSaldoEnFacturacion(sAccountKey), sEndPoint));
+		return response;
+	}
 }

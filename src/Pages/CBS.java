@@ -483,7 +483,7 @@ public class CBS {
 				+ "\r\n                				<cbs:AccessSecurity>\r\n"
 				+ "\r\n                                                               <cbs:LoginSystemCode>101</cbs:LoginSystemCode>\r\n"
 				+ "\r\n                                                               <cbs:Password>yVEy3349bxN6lvViA8yK6Cd1JsRRcKO5QMmml3e7qp0=</cbs:Password>\r\n"
-				+ "\r\n                                                               <cbs:RemoteIP>10.75.197.142</cbs:RemoteIP>\r\n"
+				+ "\r\n                                                               <cbs:RemoteIP>10.75.197.163</cbs:RemoteIP>\r\n"
 				+ "\r\n                                               </cbs:AccessSecurity>\r\n"
 				+ "\r\n                                               <cbs:OperatorInfo>\r\n"
 				+ "\r\n                                                               <cbs:OperatorID>101</cbs:OperatorID>\r\n"
@@ -920,5 +920,97 @@ public class CBS {
 				+ "\r\n   </soapenv:Body>\r\n"
 				+ "\r\n</soapenv:Envelope>";
 		return sOrder;
+	}
+	
+	public String sRequestVerificarSaldoEnFacturacion(String sAccountKey) {
+		sAccountKey = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ars=\"http://www.huawei.com/bme/cbsinterface/arservices\" xmlns:cbs=\"http://www.huawei.com/bme/cbsinterface/cbscommon\" xmlns:arc=\"http://cbs.huawei.com/ar/wsservice/arcommon\">\r\n" + 
+				"\r\n" + 
+				"   <soapenv:Header/>\r\n" + 
+				"\r\n" + 
+				"   <soapenv:Body>\r\n" + 
+				"\r\n" + 
+				"      <ars:QueryBalanceRequestMsg>\r\n" + 
+				"\r\n" + 
+				"         <RequestHeader>\r\n" + 
+				"\r\n" + 
+				"            <cbs:Version>5.5</cbs:Version>\r\n" + 
+				"\r\n" + 
+				"            <cbs:BusinessCode></cbs:BusinessCode>\r\n" + 
+				"\r\n" + 
+				"            <cbs:MessageSeq>63633363</cbs:MessageSeq>\r\n" + 
+				"\r\n" + 
+				"            <cbs:OwnershipInfo>\r\n" + 
+				"\r\n" + 
+				"               <cbs:BEID>10101</cbs:BEID>\r\n" + 
+				"\r\n" + 
+				"               <cbs:BRID>101</cbs:BRID>\r\n" + 
+				"\r\n" + 
+				"            </cbs:OwnershipInfo>\r\n" + 
+				"\r\n" + 
+				"            <cbs:AccessSecurity>\r\n" + 
+				"\r\n" + 
+				"                                                                <cbs:LoginSystemCode>117</cbs:LoginSystemCode>\r\n" + 
+				"\r\n" + 
+				"               <cbs:Password>BGGEPm7q7l19gc+Z48pWz//0r31b0HV5LynosEn0kMs=</cbs:Password>\r\n" + 
+				"\r\n" + 
+				"               <cbs:RemoteIP>10.75.197.142</cbs:RemoteIP>\r\n" + 
+				"\r\n" + 
+				"            </cbs:AccessSecurity>\r\n" + 
+				"\r\n" + 
+				"            <cbs:OperatorInfo>\r\n" + 
+				"\r\n" + 
+				"               <cbs:OperatorID>101</cbs:OperatorID>\r\n" + 
+				"\r\n" + 
+				"               <cbs:ChannelID>1</cbs:ChannelID>\r\n" + 
+				"\r\n" + 
+				"            </cbs:OperatorInfo>\r\n" + 
+				"\r\n" + 
+				"            <cbs:AccessMode>12</cbs:AccessMode>\r\n" + 
+				"\r\n" + 
+				"            <cbs:MsgLanguageCode>2048</cbs:MsgLanguageCode>\r\n" + 
+				"\r\n" + 
+				"            <cbs:TimeFormat>\r\n" + 
+				"\r\n" + 
+				"               <cbs:TimeType>1</cbs:TimeType>\r\n" + 
+				"\r\n" + 
+				"               <cbs:TimeZoneID>8</cbs:TimeZoneID>\r\n" + 
+				"\r\n" + 
+				"            </cbs:TimeFormat>\r\n" + 
+				"\r\n" + 
+				"            <cbs:AdditionalProperty>\r\n" + 
+				"\r\n" + 
+				"               <cbs:Code>108</cbs:Code>\r\n" + 
+				"\r\n" + 
+				"               <cbs:Value>109</cbs:Value>\r\n" + 
+				"\r\n" + 
+				"            </cbs:AdditionalProperty>\r\n" + 
+				"\r\n" + 
+				"         </RequestHeader>\r\n" + 
+				"\r\n" + 
+				"         <QueryBalanceRequest>\r\n" + 
+				"\r\n" + 
+				"            <ars:QueryObj>\r\n" + 
+				"\r\n" + 
+				"               <ars:AcctAccessCode>\r\n" + 
+				"\r\n" + 
+				"                  <arc:AccountKey>" + sAccountKey;
+		sAccountKey += "</arc:AccountKey>\r\n" + 
+				"\r\n" + 
+				"               </ars:AcctAccessCode>\r\n" + 
+				"\r\n" + 
+				"            </ars:QueryObj>\r\n" + 
+				"\r\n" + 
+				"         </QueryBalanceRequest>\r\n" + 
+				"\r\n" + 
+				"      </ars:QueryBalanceRequestMsg>\r\n" + 
+				"\r\n" + 
+				"   </soapenv:Body>\r\n" + 
+				"\r\n" + 
+				"</soapenv:Envelope>";
+		return sAccountKey;
+	}
+	
+public Document sValidacion_VerificarSaldo(Document sResponse) {
+		return sResponse;
 	}
 }
