@@ -110,7 +110,8 @@ public class CustomerCare extends BasePage {
 	@FindBy(css = ".x-plain-body.sd_nav_tabpanel_body.x-tab-panel-body-top .x-tab-strip-closable")
 	private List<WebElement> pestanasSecundarias;
 	
-	@FindBy(css = ".console-card.active")
+//	@FindBy(css = ".console-card.active")
+	@FindBy(css = ".card-info")
 	public List<WebElement> lineasPrepago;
 	
 	@FindBy(css = ".via-slds.slds-m-around--small.ng-scope")
@@ -420,7 +421,7 @@ public class CustomerCare extends BasePage {
 	public void irAMisServicios() {
 		obtenerAccionLineaPrepago("Mis Servicios").click();
 		sleep(3000);
-		cambiarAFrameActivo();
+//		cambiarAFrameActivo();
 	}
 	
 	public void irAProductosyServicios() {

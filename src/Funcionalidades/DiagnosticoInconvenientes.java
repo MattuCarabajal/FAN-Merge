@@ -997,8 +997,9 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
-		sleep(5000);
-		cCC.irAProductosyServicios();
+		driver.switchTo().frame(cambioFrame(driver, By.className("card-info")));
+		sleep(15000);
+		cCC.irAMisServicios();
 		tech.verDetalles();
 	    tech.clickDiagnosticarServicio("sms", "SMS Saliente", true);
 	    tech.selectionInconvenient("SMS a fijo");
@@ -1008,7 +1009,11 @@ public class DiagnosticoInconvenientes extends TestBase {
 	    page.seleccionarPreguntaFinal("S\u00ed");
 	    buscarYClick(driver.findElements(By.id("BalanceValidation_nextBtn")), "equals", "continuar");
 	    tech.categoriaRed("Desregistrar");
-	    Assert.assertTrue(driver.findElement(By.cssSelector(".imgItemContainer.ng-scope")).getText().equalsIgnoreCase("Desregistrar"));
+	    sleep(5000);
+//	    System.out.println();
+//	    System.out.println(driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-radio-control ng-scope ng-valid ng-valid-required ng-dirty ng-valid-parse'] [class='slds-radio ng-scope itemSelected']")).getText());
+//	    System.out.println(driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-radio-control.ng-scope.ng-valid.ng-valid-required.ng-dirty.ng-valid-parse")).findElement(By.cssSelector(".slds-radio.ng-scope.itemSelected")).getText()); ////
+	    Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-radio-control ng-scope ng-valid ng-valid-required ng-dirty ng-valid-parse'] [class='slds-radio ng-scope itemSelected']")).getText().equalsIgnoreCase("Desregistrar"));
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
@@ -1022,11 +1027,12 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(10000);
+		sleep(12000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
-		sleep(5000);
-		cCC.irAProductosyServicios();
+		driver.switchTo().frame(cambioFrame(driver, By.className("card-info")));
+		sleep(15000);
+		cCC.irAMisServicios();
 		tech.verDetalles();
 	    tech.clickDiagnosticarServicio("sms", "SMS Entrante", true);
 	    tech.selectionInconvenient("No recibe de un n\u00famero particular");
@@ -1035,7 +1041,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 	    buscarYClick(driver.findElements(By.id("KnowledgeBaseResults_nextBtn")), "equals", "continuar");
 	    page.seleccionarPreguntaFinal("No");
 	    buscarYClick(driver.findElements(By.id("BalanceValidation_nextBtn")), "equals", "continuar");
-	    Assert.assertTrue(driver.findElement(By.cssSelector(".slds-page-header__title.vlc-slds-page-header__title.slds-truncate.ng-binding")).getText().contains("Saldo Insuficiente"));  
+	    Assert.assertTrue(driver.findElements(By.cssSelector("[class='slds-page-header vlc-slds-page--header']")).get(3).getText().contains("Saldo Insuficiente"));
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
