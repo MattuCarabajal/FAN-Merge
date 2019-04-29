@@ -1835,5 +1835,46 @@ public class CustomerCare extends BasePage {
 		}
 		Assert.assertTrue(enc);
 	}
-	//================================================================================================================================================================================================================================================
+	//===========================================================// DIAGNOSTICO 2019 //========================================================================================================
+	
+	public void verificarStatus(String orden){
+		Boolean ord = false;
+		WebElement status = driver.findElement(By.id("Case_body")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(1);
+    	if(status.getText().toLowerCase().contains("resuelta exitosa")){
+    		ord = true;
+    	}
+    Assert.assertTrue(ord);
+	}
+	
+	public void buscarOrdenDiag (String orden){
+		driver.switchTo().defaultContent();
+			sleep(1000);
+			WebElement Buscador = driver.findElement(By.id("phSearchInput"));
+			Buscador.sendKeys(orden);
+			sleep(2000);
+			try {
+				driver.findElement(By.className("autoCompleteRowLink")).click();
+				sleep(2000);
+				Buscador.clear();
+			} catch (Exception e) {
+				sleep(7000);
+				Buscador.submit();
+				sleep(1000);
+				Buscador.clear();
+				sleep(2000);
+			}
+	}
+	
+	public void cobertura (String antenas){
+		driver.switchTo().defaultContent();
+		List<WebElement> cobertura = driver.findElements(By.cssSelector(".imgItemContainer.ng-scope"));
+			for(WebElement c : cobertura){
+				if(c.getText().toLowerCase().contains(antenas)){
+					c.click();
+					break;
+				}
+			}
+	}
+
+	
 }
