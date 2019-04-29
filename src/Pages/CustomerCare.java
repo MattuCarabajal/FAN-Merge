@@ -406,7 +406,7 @@ public class CustomerCare extends BasePage {
 			if (x.getText().contains("Historiales"))
 				x.click();
 		}
-		sleep(8000);
+		sleep(10000);
 	}
 	
 	
