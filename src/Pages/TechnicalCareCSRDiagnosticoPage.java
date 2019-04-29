@@ -235,6 +235,7 @@ public class TechnicalCareCSRDiagnosticoPage extends BasePage{
 	    sleep(10000);
 	    boolean sEncontrado=true;
 	    Accounts accPage = new Accounts(driver);
+	    sleep(5000);
 	    driver.switchTo().frame(accPage.getFrameForElement(driver, By.cssSelector(".slds-card__body.cards-container")));
 	    List<WebElement> tablas=driver.findElements(By.cssSelector(".slds-card__body.cards-container"));
 	    //Listado de opciones

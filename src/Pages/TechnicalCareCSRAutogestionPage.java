@@ -11,6 +11,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
+import Tests.TestBase;
 import javafx.scene.control.ScrollToEvent;
 
 
@@ -64,7 +65,7 @@ public class TechnicalCareCSRAutogestionPage extends BasePage {
 	@FindBy(xpath="//*[@class='imgItemContainer ng-scope']") 
 	private List<WebElement> listaDeInconvenientes;
 	
-	@FindBy(xpath= "//*[@id=\"topButtonRow\"]/input[5]")
+	@FindBy(xpath= "//*[@id='bottomButtonRow']/input[5]")
 	private WebElement cerrarcaso;
 	
 	@FindBy(id="cas7")
@@ -203,16 +204,15 @@ public class TechnicalCareCSRAutogestionPage extends BasePage {
 		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.cssSelector(".hasMotif.caseTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
 		WebElement cerrarcaso=getCerrarcaso();
 		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+cerrarcaso.getLocation().y+")");
-		 sleep(4000);
-		 cerrarcaso.click();
-		List<WebElement>tabla=driver.findElements(By.className("detailList"));
-		 sleep(4000);
-		 selectByText(getEstado(), data);
-		 selectByText(getMotivo(), motivo);
-		 scrollToElement(guardar);
-		 guardar.click();
-		  return true;
-		}
+		sleep(4000);
+		cerrarcaso.click();
+		sleep(4000);
+		selectByText(getEstado(), data);
+		selectByText(getMotivo(), motivo);
+		scrollToElement(guardar);
+		guardar.click();
+		return driver.findElement(By.id("cas7_ileinner")).getText().equalsIgnoreCase(data);
+	}
 		
 	
 	public void ServiceOwner(){

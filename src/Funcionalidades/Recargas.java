@@ -32,6 +32,8 @@ public class Recargas extends TestBase {
 	private WebDriver driver;
 	private SalesBase sb;
 	private CustomerCare cc;
+	private CBS cbs;
+	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	String detalles;
@@ -43,6 +45,8 @@ public class Recargas extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
 		loginMerge(driver);
 		sleep(22000);
 		try {
@@ -120,50 +124,47 @@ public class Recargas extends TestBase {
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
 	@Test (groups = {"GestionesPerfilOficina", "Recargas","E2E","Ciclo1"}, dataProvider = "RecargaEfectivo")
-	public void TS134318_CRM_Movil_REPRO_Recargas_Presencial_Efectivo_Ofcom(String cDNI, String cMonto, String cLinea) throws AWTException {
+	public void TS134318_CRM_Movil_REPRO_Recargas_Presencial_Efectivo_Ofcom(String sDNI, String sMonto, String sLinea) throws AWTException {
 		sleep(6000);
-		CBS_Mattu invoSer = new CBS_Mattu();
-		imagen = "TS134318"+cDNI;
+		imagen = "TS134318";
 		detalles = null;
-		detalles = imagen+"-Recarga-DNI:"+cDNI;
-		CBS cCBS = new CBS();
-		CBS_Mattu cCBSM = new CBS_Mattu();
-		//String sMainBalance = cCBS.ObtenerValorResponse(cCBSM.Servicio_queryLiteBySubscriber(cLinea), "bcs:MainBalance");
-		//Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
-		if(cMonto.length() >= 4) {
-			cMonto = cMonto.substring(0, cMonto.length()-1);
-		}
+		detalles = imagen + "-Recarga-DNI: " + sDNI;
+		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
+		System.out.println("iMainBalance: " + iMainBalance);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sb.BuscarCuenta("DNI", cDNI); //modificacion de dni 95905123
-		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
-		System.out.println("id "+accid);
+		sb.BuscarCuenta("DNI", sDNI);
+		String accID = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
+		System.out.println("id "+ accID);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(24000);
-		CustomerCare cCC = new CustomerCare(driver);
-		cCC.seleccionarCardPornumeroLinea(cLinea,driver); //modificacion de linea 2932523159
-		sleep(3000);
-		cc.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(18000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("RefillAmount")));
-		driver.findElement(By.id("RefillAmount")).sendKeys(cMonto);
-		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
 		sleep(15000);
-		String sOrden = cc.obtenerOrden3(driver);
+		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		driver.findElement(By.className("card-top")).click();
+		sleep(8000);
+		cc.irAGestionEnCard("Recarga de cr\u00e9dito");
+		sleep(8000);
+		driver.switchTo().frame(cambioFrame(driver, By.id("RefillAmount")));
+		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
+		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
+		sleep(7000);		
+		String nroOrden = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).findElements(By.tagName("p")).get(1).getText();
+		nroOrden = nroOrden.substring(nroOrden.indexOf("0"), nroOrden.length());
+		System.out.println("sOrden: " + nroOrden);
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-		sleep(10000);
+		sleep(7000);
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "efectivo");
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
-		sleep(20000);
-		String msj = driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText(); 
-		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
-		Assert.assertTrue(msj.toLowerCase().contains("se ha enviado correctamente la factura a huawei. dirigirse a caja para realizar el pago de la misma"));
-		Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
+		sleep(7000);
+		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		driver.switchTo().defaultContent();
 		sb.cerrarPestaniaGestion(driver);
-		String orden = cc.obtenerTNyMonto2(driver, sOrden);
-		//String orden = cc.obtenerOrdenMontoyTN(driver, "Recarga");
-		System.out.println("orden = "+orden);
-		sOrders.add("Recargas" + orden + ", cuenta:"+accid+", DNI: " + cDNI +", Monto:"+orden.split("-")[2]);
+		String orden = cc.obtenerTNyMonto2(driver, nroOrden);
+		System.out.println("orden = " + orden);
+		Assert.assertTrue(cbsm.PagoEnCaja("1006", accID, "1001", orden.split("-")[2], orden.split("-")[1],driver));
+		
+		
+		
+		/*sOrders.add("Recargas" + orden + ", cuenta:"+accid+", DNI: " + cDNI +", Monto:"+orden.split("-")[2]);
 		Assert.assertTrue(invoSer.PagoEnCaja("1006", accid, "1001", orden.split("-")[2], orden.split("-")[1],driver));
 		sleep(5000);
 		driver.navigate().refresh();
@@ -184,7 +185,7 @@ public class Recargas extends TestBase {
 		System.out.println("Sumatoria :"+monto);
 		Assert.assertTrue(monto == uiMainBalance);
 		CalculoImpuestos CI = new CalculoImpuestos();
-		System.out.println(CI.determinarCategoriaIVA(driver));
+		System.out.println(CI.determinarCategoriaIVA(driver));*/
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","Recargas","E2E", "Ciclo1"}, dataProvider="RecargaTC")
