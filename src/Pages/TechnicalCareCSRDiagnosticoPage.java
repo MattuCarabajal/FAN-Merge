@@ -232,7 +232,7 @@ public class TechnicalCareCSRDiagnosticoPage extends BasePage{
 ////////////////////////////////////BUSACR SERVICIO CON SUBSERVICIO////////////////////////////////////////////////////
 	
 	public void clickDiagnosticarServicio(String servicio, String subServicio, boolean clickOnSubServicio) {
-	    sleep(5000);
+	    sleep(10000);
 	    boolean sEncontrado=true;
 	    Accounts accPage = new Accounts(driver);
 	    driver.switchTo().frame(accPage.getFrameForElement(driver, By.cssSelector(".slds-card__body.cards-container")));
