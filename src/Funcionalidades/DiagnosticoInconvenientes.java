@@ -127,12 +127,12 @@ public class DiagnosticoInconvenientes extends TestBase {
 	
 	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
 	public void TS119162_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas(String sDNI, String sLinea){
-		boolean caso = false;
 		imagen = "TS119262";
 		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		CustomerCare cCC=new CustomerCare(driver);
 		TechCare_Ola1 page=new TechCare_Ola1(driver);
+		TechnicalCareCSRAutogestionPage tech = new TechnicalCareCSRAutogestionPage(driver);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
@@ -151,21 +151,32 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.id("NetworkCategory_nextBtn")));
 		driver.findElement(By.id("NetworkCategory_nextBtn")).click();
 		sleep(12000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("CoverageResult|0")));
+		cCC.cobertura("no son las antenas");
+		/*driver.switchTo().frame(cambioFrame(driver, By.id("CoverageResult|0")));
 		List<WebElement> cobertura = driver.findElements(By.cssSelector(".imgItemContainer.ng-scope"));
 			for(WebElement c : cobertura){
 				if(c.getText().toLowerCase().contains("no son las antenas")){
 					c.click();
 					break;
 				}
-			}
+			}*/
 		sleep(12000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("CoverageOkNetMessage")));
 		WebElement gesti = driver.findElement(By.id("CoverageOkNetMessage")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElements(By.tagName("p")).get(1).findElement(By.tagName("span")).findElement(By.tagName("strong"));
-		String Ncaso = gesti.getText();
-		System.out.println("El numero de caso es: "+Ncaso);
-		caso = true;
-		assertTrue(caso);
+		String orden = gesti.getText();
+		sleep(5000);
+		System.out.println("El numero de orden es:" + orden);
+		cCC.buscarOrdenDiag(orden+"*");
+		Boolean ord = false;
+		WebElement status = driver.findElement(By.id("Case_body")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(1);
+			if(status.getText().toLowerCase().contains("derivada")){
+    		ord = true;
+			}
+		Assert.assertTrue(ord);	
+		System.out.println("La gestion fue derivada");
+    //La gestion tiene que quedar como derivada, pero se cierra el caso para poder reutilizar la cuenta.
+		tech.cerrarCaso("Resuelta exitosa", "Consulta");
+    
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","Autogestion","E2E", "Ciclo3"},  dataProvider = "Diagnostico")
@@ -197,7 +208,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
 		searchAndClick(driver, "Diagn\u00f3stico de Autogesti\u00f3n");
-		tech.listadoDeSeleccion("USSD", "Otro", "No Interact\u00faa");
+		tech.listadoDeSeleccion("USSD", "*150#", "No Interact\u00faa");
 		sleep(4000);
 		tech.verificarNumDeGestion();
 		Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
@@ -214,10 +225,12 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
 		searchAndClick(driver, "Diagn\u00f3stico de Autogesti\u00f3n");
-		tech.listadoDeSeleccion("WAP", "Otro", "Sitio Ca\u00eddo/ No carga informaci\u00f3n");
+		tech.listadoDeSeleccion("WAP", "email", "informaci\u00f3n incompleta");
 		sleep(4000);
 		tech.verificarNumDeGestion();
 		Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
+		
+		
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
@@ -233,7 +246,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(15000);
 		cc.irAGestion("diagnostico de autogestion");
 		sleep(5000);
-		tech.listadoDeSeleccion("0800", "0800-444-0531 (Tienda Planes)", "Informa Sistema Fuera de Servicio");
+		tech.listadoDeSeleccion("0800", "0800-444-0531", "Informa Sistema Fuera de Servicio");
 		sleep(7000);
 		String caso = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).getText();
 		caso = caso.substring(caso.indexOf("0"), caso.length());
@@ -316,7 +329,6 @@ public class DiagnosticoInconvenientes extends TestBase {
 		imagen = "TS111871";
 		detalles = null;
 		detalles = imagen + " -ServicioTecnico - DNI: "+sDNI+" - Linea: "+sLinea;
-		boolean desregistrar = false;
 		CustomerCare cCC=new CustomerCare(driver);
 		TechCare_Ola1 page=new TechCare_Ola1(driver);
 		TechnicalCareCSRDiagnosticoPage tech = new TechnicalCareCSRDiagnosticoPage(driver);
@@ -324,9 +336,9 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(10000);
-		cc.seleccionarCardPornumeroLinea(sLinea, driver);
+		driver.switchTo().frame(cambioFrame(driver, By.className("card-info")));
 		sleep(5000);
-		cCC.irAProductosyServicios();
+		cCC.irAMisServicios();
 		tech.verDetalles();
 	    tech.clickDiagnosticarServicio("sms", "SMS Saliente", true);
 	    tech.selectionInconvenient("SMS a fijo");
@@ -335,8 +347,31 @@ public class DiagnosticoInconvenientes extends TestBase {
 	    buscarYClick(driver.findElements(By.id("KnowledgeBaseResults_nextBtn")), "equals", "continuar");
 	    page.seleccionarPreguntaFinal("S\u00ed");
 	    buscarYClick(driver.findElements(By.id("BalanceValidation_nextBtn")), "equals", "continuar");
+	    sleep(9000);
 	    tech.categoriaRed("Desregistrar");
-	    Assert.assertTrue(desregistrar);
+	    sleep(8000);
+	    cCC.obligarclick(driver.findElement(By.id("NetworkCategory_nextBtn")));
+	    sleep(8000);
+	    page.seleccionarPreguntaFinal("S\u00ed");
+	    sleep(8000);
+	    driver.findElement(By.id("DeregisterSpeech_nextBtn")).click();
+	    sleep(8000);
+	    page.seleccionarPreguntaFinal("S\u00ed");
+	    driver.findElement(By.id("Deregister_nextBtn")).click();
+	    sleep(5000);
+	    page.seleccionarPreguntaFinal("S\u00ed");
+	    sleep(5000);
+	    String orden = null;
+	    List<WebElement> ord = driver.findElements(By.cssSelector(".slds-form-element__control"));
+	    	for(WebElement o : ord){
+	    		if(o.getText().contains("El n\u00famero de caso es")){
+	    			orden = o.findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
+	    			}
+	    	}
+	    System.out.println("El numero de orden es:" + orden);
+	    cCC.buscarCaso(orden+"*");
+	    cCC.verificarStatus(orden);
+	    
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
@@ -358,7 +393,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cCC.irAGestionEnCard("Diagn\u00f3stico");
 		driver.switchTo().frame(cambioFrame(driver, By.id("Motive")));
 		driver.findElement(By.name("loopname")).click();
-		selectByText(driver.findElement(By.id("Motive")), "No puedo recibir llamadas");
+		selectByText(driver.findElement(By.id("Motive")), "No puedo realizar llamadas");
 		buscarYClick(driver.findElements(By.id("MotiveIncidentSelect_nextBtn")), "equals", "continuar");
 		sleep(3000);
 		page.seleccionarPreguntaFinal("S\u00ed");
