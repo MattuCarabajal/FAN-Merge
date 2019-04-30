@@ -48,7 +48,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
-		super.login(driver);
+		super.loginMerge(driver);
 		sleep(22000);
 		try {
 			cc.cajonDeAplicaciones("Consola FAN");
@@ -1573,7 +1573,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
 		searchAndClick(driver, "Diagn\u00f3stico de Autogesti\u00f3n");
-		tech.listadoDeSeleccion("WAP", "Email", "Informaci\u00f3n Incompleta");
+		tech.listadoDeSeleccion("WEB", "Otro", "Informaci\u00f3n Incompleta");
 		sleep(4000);
 		tech.verificarNumDeGestion();
 		Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
