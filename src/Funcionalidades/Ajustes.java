@@ -59,7 +59,6 @@ public class Ajustes extends TestBase {
 	
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
-		detalles = null;
 		sleep(3000);
 		//goToLeftPanel4(driver, "Inicio");
 		sleep(10000);
@@ -123,6 +122,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes", "E2E", "Ciclo3"}, dataProvider = "CuentaAjustesPRE")
 	public void Gestion_Ajustes_Credito_Pospago(String sDNI, String sLinea) {
 		imagen = "Gestion_Ajustes_Credito_Pospago";
+		detalles = null;
 		boolean gest = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -173,6 +173,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes","E2E","Ciclo3"}, dataProvider = "CuentaAjustesREPRO")
 	public void TS103596_CRM_Movil_REPRO_Ajuste_General_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS103596";
+		detalles = null;
 		String datoViejo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		Integer datosInicial = Integer.parseInt(datoViejo);
 		boolean gest = false;
@@ -229,6 +230,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes","E2E", "Ciclo3"}, dataProvider = "CuentaAjustesREPRO")
 	public void TS103599_CRM_Movil_REPRO_Se_crea_caso_de_ajuste_menor_a_500_pesos_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS103599";
+		detalles = null;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		boolean gest = false;
@@ -285,6 +287,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes","E2E","Ciclo3"}, dataProvider = "CuentaAjustesPRE")
 	public void TS112434_CRM_Movil_PRE_Ajuste_Credito_Minutos_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS112434";
+		detalles = null;
 		String datoViejo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Segundos Libres");
 		Integer datosInicial = Integer.parseInt(datoViejo);
 		boolean gest = false;
@@ -341,6 +344,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes","E2E", "Ciclo3"}, dataProvider = "CuentaAjustesPRE")
 	public void TS112435_CRM_Movil_PRE_Ajuste_Credito_SMS_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS112435";
+		detalles = null;
 		String datoViejo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "SMS Libres");
 		Integer datosInicial = Integer.parseInt(datoViejo);
 		boolean gest = false;
@@ -397,6 +401,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes","E2E", "Ciclo3"}, dataProvider = "CuentaAjustesREPRO")
 	public void TS112437_CRM_Movil_PRE_Ajuste_Credito_MB_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS112437";
+		detalles = null;
 		detalles = imagen + " -Ajustes - DNI: " + sDNI;
 		String datoViejo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		Integer datosInicial = Integer.parseInt(datoViejo);
@@ -443,6 +448,7 @@ public class Ajustes extends TestBase {
 	//@Test (groups = {"GestionesPerfilOficina", "Ajustes", "E2E"}, dataProvider = "CuentaAjustesPRE")  //Diferido
 	public void TS112438_CRM_Movil_PRE_Ajuste_Cargos_aun_no_facturados_FAN_Front_OOCC(String sDNI) {
 		imagen = "TS112438";
+		detalles = null;
 		detalles = imagen + " -Ajustes - DNI: " + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -467,6 +473,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes","E2E", "Ciclo3"}, dataProvider = "CuentaAjustesPRE")
 	public void TS112452_CRM_Movil_PRE_Ajuste_Nota_de_Credito_Derivacion_a_rango_superior_1900_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS112452";
+		detalles = null;
 		boolean gest = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -517,6 +524,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes", "E2E","Ciclo3"}, dataProvider = "CuentaAjustesREPRO")
 	public void TS129317_CRM_Movil_REPRO_Ajuste_RAV_Unidades_Libres_a_Pesos_General_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS129317";
+		detalles = null;
 		WebElement monto = null;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -555,6 +563,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes", "E2E","Ciclo3"},dataProvider = "CuentaAjustesREPRO")
 	public void TS129320_CRM_Movil_REPRO_Escalamiento_segun_RAV_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS129320";
+		detalles = null;
 		boolean gest = false;
 		WebElement monto = null;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
@@ -614,6 +623,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes", "E2E", "Ciclo3"},dataProvider = "CuentaAjustesPRE")
 	public void TS135705_CRM_Movil_PRE_Ajuste_RAV_Unidades_Libres_a_Pesos_General_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS135705";
+		detalles = null;
 		WebElement monto = null;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -653,6 +663,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes","E2E", "Ciclo3"}, dataProvider = "CuentaAjustesPRE")
 	public void TS135706_CRM_Movil_PRE_Ajuste_Nota_de_Credito_FAN_Front_OOCC_Punta_Alta(String sDNI, String sLinea) {
 		imagen = "TS135706";
+		detalles = null;
 		boolean gest = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -702,6 +713,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes","E2E","Ciclo3"}, dataProvider = "CuentaAjustesPRE")
 	public void TS135707_CRM_Movil_PRE_Ajuste_Nota_de_Debito_FAN_Front_OOCC_Bariloche(String sDNI, String sLinea) {
 		imagen = "TS135707";
+		detalles = null;
 		boolean gest = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -754,6 +766,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes", "E2E", "Ciclo3"}, dataProvider = "CuentaAjustesPRE")
 	public void TS135708_CRM_Movil_REPRO_Ajuste_Credito_Minutos_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS135708";
+		detalles = null;
 		String datoViejo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Segundos Libres");
 		Integer datosInicial = Integer.parseInt(datoViejo);
 		boolean gest = false;
@@ -810,6 +823,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes", "E2E", "Ciclo3"}, dataProvider = "CuentaAjustesREPRO")
 	public void TS136535_CRM_Movil_REPRO_Ajuste_General_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS136535";
+		detalles = null;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		boolean gestion = false;
@@ -855,6 +869,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Ajustes", "E2E", "Ciclo3"}, dataProvider = "CuentaAjustesREPRO")
 	public void TS136536_CRM_Movil_REPRO_Escalamiento_segun_RAV_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS136536";
+		detalles = null;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		System.out.println(datosInicial);
@@ -1002,6 +1017,7 @@ public class Ajustes extends TestBase {
 	@Test (groups= {"GestionesPerfilTelefonico", "Ajustes", "E2E"},dataProvider = "CuentaAjustesPRE")  //Rompe porque no sale el mensaje de gestion exitosa, sale el perfil no configurado correctamente
 	public void TS121333_CRM_Movil_PRE_Ajuste_total_de_comprobantes_FAN_Front_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS121333";
+		detalles = null;
 		boolean gest = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -1041,6 +1057,7 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"GestionesPerfilTelefonico", "Ajustes", "E2E", "Ciclo3"}, dataProvider = "CuentaAjustesREPRO")
 	public void TS129321_CRM_Movil_REPRO_Escalamiento_segun_RAV_FAN_Front_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS129321";
+		detalles = null;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		boolean gestion = false;

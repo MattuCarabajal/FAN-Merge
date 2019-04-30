@@ -51,7 +51,6 @@ public class DetalleDeConsumos extends TestBase {
 	
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
-		detalles = null;
 		sleep(3000);
 		goToLeftPanel4(driver, "Inicio");
 		sleep(10000);
@@ -115,6 +114,7 @@ public class DetalleDeConsumos extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "DetalleDeConsumo", "Ciclo2"}, dataProvider = "CuentaTriviasYSuscripciones")
 	public void TS134782_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_SMS_FAN_Front_OOCC_134782(String sDNI, String sLinea) {
 		imagen = "TS134782";
+		detalles = null;
 		detalles = imagen + "- Detalle de Consumos - DNI: "+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -149,6 +149,7 @@ public class DetalleDeConsumos extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "DetalleDeConsumo", "Ciclo2"}, dataProvider = "CuentaProblemaRecarga")
 	public void TS134783_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_Datos_FAN_Front_OOCC_134783(String sDNI, String sLinea) {
 		imagen = "TS134783";
+		detalles = null;
 		detalles = imagen + "- Detalle de Consumo - DNI: "+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -177,6 +178,7 @@ public class DetalleDeConsumos extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "DetalleDeConsumo", "Ciclo2"}, dataProvider = "CuentaProblemaRecarga")
 	public void TS134784_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_Voz_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134784";
+		detalles = null;
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -206,6 +208,7 @@ public class DetalleDeConsumos extends TestBase {
 	@Test(groups = { "GestionesPerfilOficina", "DetalleDeConsumo", "Ciclo2" }, dataProvider = "CuentaProblemaRecarga")
 	public void TS134785_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_Otros_consumos_FAN_Front_OOCC_134785(String sDNI, String sLinea) {
 		imagen = "TS134785";
+		detalles = null;
 		detalles = imagen + "- Detalles de Consumos -DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -232,6 +235,7 @@ public class DetalleDeConsumos extends TestBase {
 	@Test(groups = { "GestionesPerfilOficina", "DetalleDeConsumo", "Ciclo2" }, dataProvider = "CuentaVista360")
 	public void TS134802_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_visualizacion_y_busqueda_de_los_distintos_consumos_realizados_por_el_cliente_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
 		imagen = "TS134802";
+		detalles = null;
 		detalles = imagen + "-Vista 360 - DNI: " + sDNI + " - Nombre: " + sNombre;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -258,6 +262,7 @@ public class DetalleDeConsumos extends TestBase {
 	@Test (groups = {"GestionesPerfilAgente", "DetalleDeConsumo","Ciclo2"}, dataProvider="CuentaProblemaRecarga")
 	public void TS134803_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_SMS_FAN_Front_Telefonico(String cDNI, String cLinea ){
 		imagen = "TS134803";
+		detalles = null;
 		detalles = imagen + " -Detalle de consumos - DNI: " + cDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
@@ -285,6 +290,7 @@ public class DetalleDeConsumos extends TestBase {
 	@Test(groups = { "GestionesPerfilAgente", "DetalleDeConsumo", "Ciclo2" }, dataProvider = "CuentaProblemaRecarga")
 	public void TS134825_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_visualizacion_y_busqueda_de_los_distintos_consumos_realizados_por_el_cliente_FAN_Front_Agentes(String cDNI, String cLinea) {
 		imagen = "TS134825";
+		detalles = null;
 		detalles = imagen + " -DetalleDeConsumos: " + cDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
@@ -311,6 +317,7 @@ public class DetalleDeConsumos extends TestBase {
 	@Test (groups = {"GestionesPerfilAgente", "DetalleDeConsumo","Ciclo2"}, dataProvider="CuentaProblemaRecarga")
 	public void TS134826_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_SMS_FAN_Front_Agentes(String sDNI, String sLinea){
 		imagen = "TS134826";
+		detalles = null;
 		detalles = imagen + "Detalle de consumos -DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -337,6 +344,7 @@ public class DetalleDeConsumos extends TestBase {
 	@Test (groups = {"GestionesPerfilAgente", "DetalleDeConsumo","Ciclo2"}, dataProvider="CuentaProblemaRecarga") 
 	public void TS134827_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_Datos_FAN_Front_Agentes(String cDNI, String cLinea){
 		imagen = "TS134827";
+		detalles = null;
 		detalles = imagen + "Detalle de consumos -DNI:" + cDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
@@ -362,6 +370,7 @@ public class DetalleDeConsumos extends TestBase {
 	@Test (groups = {"GestionesPerfilAgente", "DetalleDeConsumo","Ciclo2"}, dataProvider="CuentaModificacionDeDatos")
 	public void TS134828_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_Voz_FAN_Front_Agentes(String sDNI, String sLinea){
 		imagen = "TS134828";
+		detalles = null;
 		detalles = imagen + "Detalle de Consumos -DNI:" + sDNI+"-Linea: "+sLinea;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -395,6 +404,7 @@ public class DetalleDeConsumos extends TestBase {
 	@Test(groups = { "GestionesPerfilAgente", "DetalleDeConsumo","Ciclo2" }, dataProvider = "CuentaModificacionDeDatos")
 	public void TS134829_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_Otros_consumos_FAN_Front_Agentes(String sDNI, String sLinea) {
 		imagen = "TS134829";
+		detalles = null;
 		detalles = imagen + "Detalle de Consumos -DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
