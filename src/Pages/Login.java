@@ -321,16 +321,20 @@ public class Login extends BasePage {
 	}
 	
 	public void ingresarBackOffice() {
-		logininterno.click();
+		//logininterno.click();
 		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		  
-		  if (TB.urlAmbiente.contains("sit"))
+		  System.out.println("llego otra vez");
+		  usernameMerge.sendKeys("u193882@telecom.com.ar.sit02");
+		  passwordMerge.sendKeys("Atos.002");
+		  loginMerge.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		  /*if (TB.urlAmbiente.contains("sit"))
 				Ecom_User_ID.sendKeys("UAT186579");//SIT
 		  else
 		  		Ecom_User_ID.sendKeys("uat569076");//UAT 
 		  Ecom_Password.sendKeys("Testa10k");
 		  loginButton2.click();
-		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}*/
 	}
 	
 	public void ingresarComunidad() {
