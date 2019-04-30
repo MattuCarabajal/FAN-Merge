@@ -6,6 +6,7 @@ package PagesPOM;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -14,6 +15,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Duration;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,9 +28,20 @@ import Pages.Accounts;
 
 
 public class BasePageFw {
+	final String locatoriframes = "iframe";
+	@FindBy (how = How.TAG_NAME, using = locatoriframes)
+	private List<WebElement> iframes ;
 	
 	protected WebDriver driver;
 	protected FluentWait<WebDriver> fluentWait;
+	public FluentWait<WebDriver> getFluentWait() {
+		return fluentWait;
+	}
+
+	public void setFluentWait(FluentWait<WebDriver> fluentWait) {
+		this.fluentWait = fluentWait;
+	}
+
 	protected Select select;
 	public BasePageFw() {
 
@@ -89,8 +102,104 @@ public class BasePageFw {
 		
 	}
 	
-
+//FUNCIONES SOBRE FRAMES	
+	public List<WebElement> getFrames() {
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.tagName(locatoriframes), 0));
+		System.out.println(iframes.size()+" frames");
+		return iframes;
+	}
 	
+	public WebElement getFrameByLocator(By byLocatorElement) {
+		driver.switchTo().defaultContent();
+		try {return getFrames().get(getIndexFrame(byLocatorElement));
+		}catch(ArrayIndexOutOfBoundsException iobExcept) {System.out.println("Elemento no encontrado en ningun frame.");
+			return null;
+		}
+	
+
+	}
+	
+	public WebElement getFrameForElement(WebElement Element) {
+		driver.switchTo().defaultContent();
+		try {return getFrames().get(getIndexFrame(Element));
+		}catch(ArrayIndexOutOfBoundsException iobExcept) {System.out.println("Elemento no encontrado en ningun frame.");
+			return null;
+		}
+
+	}
+	
+	public WebElement cambioFrame(WebElement Element) {
+		driver.switchTo().defaultContent();
+		try {
+			
+			return getFrames().get(getIndexFrame(Element));
+		
+		}catch(ArrayIndexOutOfBoundsException iobExcept) {System.out.println("Elemento no encontrado en ningun frame.");
+			return null;
+		}
+
+	}
+	
+	public WebElement cambioFrame(By Element) {
+		driver.switchTo().defaultContent();
+		try {
+			
+			return getFrames().get(getIndexFrame(Element));
+		
+		}catch(ArrayIndexOutOfBoundsException iobExcept) {System.out.println("Elemento no encontrado en ningun frame.");
+			return null;
+		}
+
+	}
+	
+	public int getIndexFrame(WebElement webElementToFind) {
+		//TODO: Do the same for a WebElement instead of a By.
+		int index = 0;
+		driver.switchTo().defaultContent();
+		for(WebElement frame : iframes) {
+			try {
+				driver.switchTo().frame(frame);
+				//System.out.println(webElementToFind.getText()+" en el frame= "+index); //prints the used index.
+				System.out.println("frame encontrado :"+webElementToFind.getText());
+				driver.switchTo().defaultContent();
+				return index;
+			}catch(NoSuchElementException noSuchElemExcept) {
+				index++;
+				driver.switchTo().defaultContent();
+
+			}catch(NullPointerException noSuchElemExcept) {
+				index++;
+				driver.switchTo().defaultContent();
+
+			}
+		}
+		return -1;//if this is called, the element wasnt found.
+	}
+	
+	public int getIndexFrame(By byForElement) { //working correctly
+		//TODO: Do the same for a WebElement instead of a By.
+		int index = 0;
+		driver.switchTo().defaultContent();
+		List<WebElement> fra = getFrames();
+		for(WebElement frame : fra) {
+			try {
+				driver.switchTo().frame(frame);
+
+				driver.findElement(byForElement).getText(); //each element is in the same iframe.
+				driver.findElement(byForElement).isDisplayed(); //each element is in the same iframe.
+				System.out.println("frame encontrado :"+byForElement.toString());
+				driver.switchTo().defaultContent();
+				return index;
+			}catch(NoSuchElementException noSuchElemExcept) {
+				index++;
+				System.out.println("frame no encontrado ");
+				driver.switchTo().defaultContent();
+			}
+		}
+		return -1; //if this is called, the element wasnt found.
+	}
+	
+
 //METODOS Select
 	public Select getSelect(WebElement elemento) {
 		//Toma un elementoWeb y lo devuelve como Select en caso de que se pueda
@@ -125,7 +234,8 @@ public class BasePageFw {
 	return acc;
 	
 	}
-	
+
+
 	
 
 

@@ -26,10 +26,15 @@ public class GestionDeClientes_Fw extends BasePageFw {
 
 //ELEMENTOS 
 	
+
 	final String ref_CajonDeAplicaciones= "//span[@id='tsidLabel']"; 
 	@FindBy (xpath = ref_CajonDeAplicaciones)
 	private WebElement cajonDeAplicaciones;
-	
+
+	final String locatorTipoDoc= "SearchClientDocumentType"; 
+	@FindBy (id = locatorTipoDoc)
+	private WebElement tipoDoc;
+
 	final String locatorlistaMenuIzq= "[class='x-menu-list'] li";
 	@FindBy (css = locatorlistaMenuIzq)
 	private List<WebElement> listaMenuIzq;
@@ -42,6 +47,10 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	@FindBy (how = How.CSS, using = locatorMenuDesplegableIzq)
 	private WebElement MenuDesplegableIzq;
 	
+	final String locatorDataImputGestion ="dataInput";
+	@FindBy (how = How.ID, using = locatorDataImputGestion)
+	private WebElement dataImputGestion;
+	
 	final String locatorPestanas ="[class*='x-tab-strip-closable']";
 	@FindBy (how = How.CSS, using = locatorPestanas)
 	private List<WebElement> pestanas;
@@ -49,20 +58,25 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	final String locatorPestaPeque = "[class*='x-tab-strip-closable x-tab-strip-active ']";
 	@FindBy (how = How.CSS, using = locatorPestaPeque)
 	private List<WebElement> pestaPeque;
-	
+
 	final String locatorelementosMenuIzq = "[class='support-servicedesk-navigator'] table";
 	@FindBy (how = How.CSS, using = locatorelementosMenuIzq)
 	private WebElement MenuIzq ;
 	
+	final String locatoriframes = "iframe";
+	@FindBy (how = How.TAG_NAME, using = locatoriframes)
+	private List<WebElement> iframes ;
+	
+	final String locatorTextGestion = "[class='slds-page-header__title vlc-slds-page-header__title slds-truncate ng-binding']";
+	@FindBy (how = How.CSS, using = locatorTextGestion)
+	private WebElement textGestion ;
 
-	final String locatorBodyDos="[class='hasMotif homeTab homepage  ext-webkit ext-chrome sfdcBody brandQuaternaryBgr']";
-	@FindBy (how = How.CSS, using = locatorBodyDos)
-	private List<WebElement> bodyDos;
-	
-	
-	final String locatorIframes="iframe";
-	@FindBy (how = How.TAG_NAME, using = locatorIframes)
-	private List<WebElement> iframes;
+
+
+	final String locatorBodys="[class='hasMotif homeTab homepage  ext-webkit ext-chrome sfdcBody brandQuaternaryBgr']";
+	@FindBy (how = How.CSS, using = locatorBodys)
+	private List<WebElement> bodys;
+
 	
 	
 	final String locatorBotonesInf = "[class='slds-grid slds-m-bottom_small slds-wrap cards-container']";
@@ -73,10 +87,11 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	//CONTRUCTOR
 	public GestionDeClientes_Fw(WebDriver driver) {
 		super(driver);
-
-		PageFactory.initElements(driver, this);
-		super.fluentWait = new FluentWait<WebDriver>(driver);
-		super.fluentWait.withTimeout(30, TimeUnit.SECONDS)
+		super.setDriver(driver);
+		//PageFactory.initElements(driver, this);
+		PageFactory.initElements(getDriver(), this);
+		super.setFluentWait(new FluentWait<WebDriver>(driver));
+		super.getFluentWait().withTimeout(15, TimeUnit.SECONDS)
 		.pollingEvery(5, TimeUnit.SECONDS)
 		.ignoring(NoSuchElementException.class)
 		.ignoring(NullPointerException.class)
@@ -86,7 +101,16 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 //METODOS
-
+	
+	public WebElement getTipoDoc() {
+		driver.switchTo().frame(cambioFrame(By.id(locatorTipoDoc)));
+		fluentWait.until(ExpectedConditions.elementToBeClickable(tipoDoc));
+		
+		return tipoDoc;
+	}	
+	public WebElement getTextGestion() {
+		return textGestion;
+	}
 	public void setMenuIzq(WebElement menuIzq) {
 		MenuIzq = menuIzq;
 	}
@@ -150,45 +174,51 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public void irGestionClientes() {
-		//Accounts accountPage = new Accounts(driver);
-		driver.switchTo().frame(super.getAccounts().getFrameForElement(driver, By.cssSelector(this.locatorBodyDos)));
-	
+		driver.switchTo().frame(cambioFrame(By.cssSelector(locatorBodys)));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(locatorBodys), 0));
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locatorBodys)));//esperar que los elementos sean visibles
 		boolean enc = false;
-		int index = 0;
-		for(WebElement frame : iframes) {
+		int index = 0; 
+		for(WebElement frame : iframes) {//recorre los frames
 			try {
-				System.out.println("aca");
 				driver.switchTo().frame(frame);
-
-				driver.findElement(By.cssSelector(this.locatorBotonesInf)).getText(); //each element is in the same iframe.
-				System.out.println(index); //prints the used index.
-
-				driver.findElement(By.cssSelector(this.locatorBotonesInf)).isDisplayed(); //each element is in the same iframe.
-				System.out.println(index); //prints the used index.
-
-				driver.switchTo().frame(super.getAccounts().getFrameForElement(driver, By.cssSelector(this.locatorBodyDos)));
+				fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locatorBotonesInf)));
+				driver.findElement(By.cssSelector(this.locatorBotonesInf));//each element is in the same iframe.
+				driver.switchTo().frame(super.cambioFrame(By.cssSelector(this.locatorBodys)));
 				enc = true;
 				break;
 			}catch(NoSuchElementException noSuchElemExcept) {
 				index++;
-				driver.switchTo().frame(super.getAccounts().getFrameForElement(driver, By.cssSelector(this.locatorBodyDos)));
+				System.out.println("catch 1");
+				driver.switchTo().frame(super.cambioFrame(By.cssSelector(this.locatorBodys)));
 			}
 		}
-		if(enc == false)
+		if(enc == false) {
 			index = -1;
-		try {
-				driver.switchTo().frame(iframes.get(index));
-		}catch(ArrayIndexOutOfBoundsException iobExcept) {System.out.println("Elemento no encontrado en ningun frame 2.");
-			
 		}
+		try { 
+			driver.switchTo().frame(iframes.get(index));
+		}catch(ArrayIndexOutOfBoundsException iobExcept) {
+			System.out.println("Elemento no encont2");
+			}
 		List<WebElement> botones = driver.findElements(By.tagName("button"));
 		for (WebElement UnB : botones) {
-			System.out.println(UnB.getText());
+			//System.out.println(UnB.getText());
 			if(UnB.getText().equalsIgnoreCase("gesti\u00f3n de clientes")) {
+				fluentWait.until(ExpectedConditions.elementToBeClickable(UnB));
 				UnB.click();
 				break;
 			}
-			
+		driver.switchTo().defaultContent();
+		}
+		try {
+			driver.switchTo().defaultContent();
+			fluentWait.until(ExpectedConditions.presenceOfElementLocated(By.id("SearchClientDocumentType")));
+
+		}catch(Exception e) {
+			driver.switchTo().frame(cambioFrame(By.id("SearchClientDocumentType")));
+			fluentWait.until(ExpectedConditions.presenceOfElementLocated(By.id("SearchClientDocumentType")));
+			System.out.println(pestanas.size()+" pestanas cerrada");			
 		}
 
 	}
