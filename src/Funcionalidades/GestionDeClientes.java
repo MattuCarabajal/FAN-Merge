@@ -56,7 +56,7 @@ public class GestionDeClientes extends TestBase {
 	public void setup() throws Exception {
 
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
-		ges.cajonDeAplicaciones("Consola FAN");//corrobora si esta en la Aplicacion pasada por parametro sí no te manda para ahi- menos a ventas hay que modificar
+		ges.cajonDeAplicaciones("Consola FAN");//corrobora si esta en la Aplicacion pasada por parametro sï¿½ no te manda para ahi- menos a ventas hay que modificar
 		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
 		ges.irGestionClientes();
@@ -86,7 +86,6 @@ public class GestionDeClientes extends TestBase {
 		System.out.println("inicia busco un elemento");
 		driver.switchTo().defaultContent();
 		imagen = "TS135495";
-		detalles = null;
 		detalles = imagen + " - Gestion de clientes";
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		selectByText(driver.findElement(By.id("SearchClientDocumentType")), "DNI");
@@ -101,7 +100,6 @@ public class GestionDeClientes extends TestBase {
 	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
 	public void TS135496_CRM_Movil_REPRO_Busqueda_DNI_Numero_de_Documento(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135496";
-		detalles = null;
 		detalles = imagen + "- Gestion de clientes - DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -113,7 +111,6 @@ public class GestionDeClientes extends TestBase {
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135497_CRM_Movil_REPRO_Busqueda_DNI_Numero_de_Documento_no_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail){
 		imagen = "TS135497";
-		detalles = null;
 		detalles = imagen + "-Gestion de clientes - DNI:  "+ sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -129,7 +126,6 @@ public class GestionDeClientes extends TestBase {
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"})
 	public void TS135498_CRM_Movil_REPRO_Busqueda_Tipo_de_documento_Libreta_de_enrolamiento() {
 		imagen = "TS135498";
-		detalles = null;
 		detalles = imagen + " - Gestion de clientes";
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		selectByText(driver.findElement(By.id("SearchClientDocumentType")), "Libreta de Enrolamiento");
@@ -143,7 +139,6 @@ public class GestionDeClientes extends TestBase {
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "validaDocumentacion") 
 	public void TS135499_CRM_Movil_REPRO_Busqueda_Libreta_de_enrolamiento_Numero_de_Documento(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail){
 		imagen = "TS135499";
-		detalles = null;
 		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
@@ -155,7 +150,6 @@ public class GestionDeClientes extends TestBase {
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135500_CRM_Movil_REPRO_Busqueda_Libreta_dE_enrolamiento_Numero_de_Documento_no_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135500";
-		detalles = null;
 		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
@@ -170,7 +164,6 @@ public class GestionDeClientes extends TestBase {
 	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
 	public void TS135501_CRM_Movil_REPRO_Busqueda_Nombre(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135501";
-		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Nombre: " + sNombre;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada(sNombre, "", "", "", "");
@@ -191,7 +184,6 @@ public class GestionDeClientes extends TestBase {
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135502_CRM_Movil_REPRO_Busqueda_Nombre_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135502";
-		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Nombre: " + sNombre;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada(sNombre,"","","","");
@@ -209,7 +201,6 @@ public class GestionDeClientes extends TestBase {
 	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
 	public void TS135503_CRM_Movil_REPRO_Busqueda_Apellido(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135503";
-		detalles = null;
 		detalles = imagen + "- Gestion de Clientes - DNI: " + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("", sApellido, "", "", "");
@@ -223,7 +214,6 @@ public class GestionDeClientes extends TestBase {
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135504_CRM_Movil_REPRO_Busqueda_Apellido_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135504";
-		detalles = null;
 		detalles = imagen + "- Gestion de clinetes - Apellido: " + sApellido;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("",sApellido,"","","");
@@ -241,7 +231,6 @@ public class GestionDeClientes extends TestBase {
 	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
 	public void TS135505_CRM_Movil_REPRO_Busqueda_Razon_Social(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135505";
-		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Razon social: " + sRazon;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("", "", sRazon, "", "");
@@ -255,7 +244,6 @@ public class GestionDeClientes extends TestBase {
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135506_CRM_Movil_REPRO_Busqueda_Razon_social_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135506";
-		detalles = null;
 		detalles = imagen+" - Gestion de clientes - Razon social: "+sRazon;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("","",sRazon,"","");
@@ -269,7 +257,6 @@ public class GestionDeClientes extends TestBase {
 	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
 	public void TS135507_CRM_Movil_REPRO_Busqueda_Email(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135507";
-		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Email: " + sEmail;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("", "", "", "", sEmail);
@@ -283,7 +270,6 @@ public class GestionDeClientes extends TestBase {
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135508_CRM_Movil_REPRO_Busqueda_Email_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135508";
-		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Email: " + sEmail;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("","","","",sEmail);
@@ -301,7 +287,6 @@ public class GestionDeClientes extends TestBase {
 	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
 	public void TS135509_CRM_Movil_REPRO_Busqueda_Numero_de_Cuenta(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135509";
-		detalles = null;
 		detalles = imagen + "- Gestion de Clientes - DNI: " + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("", "", "", sNumeroDeCuenta, "");
@@ -315,7 +300,6 @@ public class GestionDeClientes extends TestBase {
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135510_CRM_Movil_REPRO_Busqueda_Numero_de_Cuenta_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135510";
-		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Numero de cuenta: " + sNumeroDeCuenta;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("", "", "", sNumeroDeCuenta, "");

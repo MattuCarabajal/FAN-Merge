@@ -12,3 +12,13 @@ TS134789-HistorialDeRecargasTelefonico-DNI:38889296
 TS134792-Historial De Recarga-DNI:38889296
 TS134845-Historial De Recarga-DNI:38889296
 TS134845-Historial De Recarga-DNI:38889296
+Inconvenientes con cargos tasados y facturados, numero de orden: 00009525 de cuenta con DNI: 34372815
+Inconvenientes con cargos tasados y facturados, numero de orden: 00009526 de cuenta con DNI: 34372815
+Inconvenientes con cargos tasados y facturados, numero de orden: 00009528 de cuenta con DNI: 34372815
+Inconvenientes con cargos tasados y facturados, numero de orden: 00009577 de cuenta con DNI: 98876765
+Inconvenientes con cargos tasados y facturados, numero de orden: 00009677 de cuenta con DNI: 98876765
+Inconvenientes con cargos tasados y facturados, numero de orden: 00009806 de cuenta con DNI: 98876765
+Inconvenientes con cargos tasados y facturados, numero de orden: 00010875 de cuenta con DNI: 68547962
+Inconvenientes con cargos tasados y facturados, numero de orden: 00010878 de cuenta con DNI: 68547962
+Recargas, orden numero: Inconvenientes con Recargas con DNI: 35879512
+Recargas, orden numero: Inconvenientes con Recargas con DNI: 35879512

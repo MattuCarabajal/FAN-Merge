@@ -56,6 +56,7 @@ public class Vista360 extends TestBase {
 	
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
+		detalles = null;
 		sleep(3000);
 		goToLeftPanel4(driver, "Inicio");
 		sleep(10000);
@@ -119,7 +120,6 @@ public class Vista360 extends TestBase {
 	@Test (groups= {"GestionPerfilOficina", "Ciclo2", "Vista360"}, dataProvider = "documentacionVista360")
 	public void TS134379_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_OOCC(String sDNI) {
 		imagen = "TS134379";
-		detalles = null;
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -145,7 +145,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360")
 	public void TS134349_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_abiertas_Plazo_vencido_Asistencia_registrada_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134349";
-		detalles = null;
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI+" - Nombre: "+sNombre;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -179,9 +178,7 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360") 
 	public void TS134368_OFCOM_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_visualizacion_y_busqueda_de_los_distintos_consumos_realizados_por_el_cliente_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134368";
-		detalles = null;
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI+ " - Nombre: "+sNombre;
-		detalles = null;
 		detalles = imagen + "- Detalle de Consumo - DNI: "+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -226,7 +223,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Vista360", "E2E","ConsultaPorGestion", "Ciclo2"}, dataProvider = "CuentaModificacionDeDatos")
 	public void TS134370_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_OOCC(String sDNI , String sLinea) {
 		imagen = "TS134370";
-		detalles = null;
 		detalles = imagen+"- Vista 360 - DNI: "+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -287,7 +283,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina","Vista360","E2E", "Ciclo 1"}, dataProvider="CuentaVista360")
 	public void TS134371_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_FAN_Front_OOCC(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134371";
-		detalles = null;
 		detalles = imagen+"- Vista 360 - DNI: "+sDNI;
 		String day = fechaDeHoy();
 		String dia = day.substring(0, 2);
@@ -352,7 +347,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina","Vista360","E2E", "Ciclo1"}, dataProvider="CuentaVista360")
 	public void TS134380_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_FAN_Front_OOCC(String sDNI,String sNombre, String sLinea){
 		imagen = "TS134380";
-		detalles = null;
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sleep(1000);
@@ -372,7 +366,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360Version2")
 	public void TS134495_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre, String sEmail, String sMovil, String sNps, String sTelAlternativo, String sPuntosClub, String sCategoria) {
 		imagen = "TS134495";
-		detalles = null;
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI+ " - Nombre: "+sNombre;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -403,7 +396,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina","Vista360","E2E", "Ciclo2"}, dataProvider = "CuentaVista360")
 	public void TS134496_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Perfil_FAN_Front_OOCC(String sDNI,String sLinea, String sNombre) {
 		imagen = "TS134496";
-		detalles = null;
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI+" - Nombre: "+sNombre;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -417,7 +409,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360")
 	public void TS134745_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134745";
-		detalles = null;
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI+" - Nombre: "+sNombre;
 		boolean creditoRecarga = false, creditoPromocional = false, estado = false, internetDisponible = false;
 		boolean detalles = false, historiales = false, misServicios = false, gestiones = false;
@@ -500,7 +491,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilTelefonico", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
 	public void TS134798_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre){
 		imagen = "TS134798";
-		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		boolean creditoRecarga = false, creditoPromocional = false, estado = false, internetDisponible = false;
 		boolean detalles = false, historiales = false, misServicios = false, gestiones = false;
@@ -540,7 +530,6 @@ public class Vista360 extends TestBase {
 	@Test(groups = { "GestionPerfilTelefonico", "Ciclo2", "Vista360" }, dataProvider = "documentacionVista360")
 	public void TS134800_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_Telefonico(String sDNI) {
 		imagen = "TS134800";
-		detalles = null;
 		detalles = imagen + "-Vista 360-DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -573,7 +562,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilTelefonico", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
 	public void TS134801_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre){
 		imagen = "TS134801";
-		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -597,7 +585,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilTelefonico", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
 	public void TS134809_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre){
 		imagen = "TS134809";
-		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -698,7 +685,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilTelefonico", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360")
 	public void TS134796_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Visualizacion_e_ingreso_a_las_ultimas_gestiones_FAN_Front_Telefonico(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134796";
-		detalles = null;
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -712,7 +698,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilTelefonico", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360")
 	public void TS134797_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Panel_Derecho_Busqueda_de_gestiones_promociones_y_gestiones_abandonadas_FAN_Front_Telefonico(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134797";
-		detalles = null;
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -730,7 +715,6 @@ public class Vista360 extends TestBase {
 	@Test(groups = { "GestionPerfilTelefonico", "Ciclo2", "Vista360" }, dataProvider = "CuentaVista360")
 	public void TS134799_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
 		imagen = "134799";
-		detalles = null;
 		detalles = imagen + "-Vista 360-DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -758,7 +742,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilTelefonico", "Vista360", "E2E","ConsultaPorGestion", "Ciclo2"}, dataProvider = "CuentaVista360")
 	public void TS134808_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_Cerradas_Informacion_brindada_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
 		imagen = "TS134808";
-		detalles = null;
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -802,7 +785,6 @@ public class Vista360 extends TestBase {
 	public void TS135351_CRM_Movil_Prepago_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_CASOS_FAN_Telefonico(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS135351";
 		boolean gestion = false;
-		detalles = null;
 		detalles = imagen +" -Vista 360-DNI: " + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", "64747868");
@@ -837,7 +819,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilTelefonico", "Vista360", "Ciclo2"},  dataProvider = "CuentaVista360")
 	public void TS135356_CRM_Movil_Prepago_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_ORDENES_FAN_Telefonico(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS135356";
-		detalles = null;
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
 		boolean gestion = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
@@ -876,7 +857,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
 	public void TS134823_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
 		imagen = "TS13823";
-		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		boolean creditoRecarga = false, creditoPromocional = false, estado = false, internetDisponible = false;
 		boolean detalles = false, historiales = false, misServicios = false, gestiones = false;
@@ -916,7 +896,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
 	public void TS134824_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
 		imagen = "TS13824";
-		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		boolean historial = false, recarga = false, renovacion = false, servicios = false, suscripciones = false, inconvenientes = false, diagnostico = false, numeros = false, cambioSim = false, cambioPlan = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
@@ -956,7 +935,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
 	public void TS134832_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
 		imagen = "TS13832";
-		detalles = null;
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -1009,7 +987,6 @@ public class Vista360 extends TestBase {
 	@Test (groups= {"GestionesPerfilAgente", "Ciclo2", "Vista360"}, dataProvider = "documentacionVista360")
 	public void TS134817_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_OOCC_Agentes(String sDNI){
 		imagen = "TS134817";
-		detalles = null;
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -1037,7 +1014,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilAgente", "Vista360","Ciclo2"}, dataProvider="CuentaVista360")
 	public void TS134818_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134818";
-		detalles = null;
 		detalles = imagen + "Vista 360-DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sleep(1000);
@@ -1063,7 +1039,6 @@ public class Vista360 extends TestBase {
 	@Test (groups= {"GestionesPerfilAgente", "Ciclo2", "Vista360"}, dataProvider = "CuentaVista360")
 	public void TS134819_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134819";
-		detalles = null;
 		detalles = imagen + "-Vista 360 - DNI: "+ sDNI+ "- Nombre: " + sNombre;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -1089,7 +1064,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
 	public void TS134821_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Visualizacion_e_ingreso_a_las_ultimas_gestiones_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134821";
-		detalles = null;
 		detalles = imagen + "Vista 360 -DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sleep(1000);
@@ -1117,7 +1091,6 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E","ConsultaPorGestion", "Ciclo2"}, dataProvider = "CuentaVista360")
 	public void TS134831_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_Cerrada_Informacion_brindada_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea) {
 		imagen = "TS134831";
-		detalles = null;
 		detalles = imagen+"-Vista 360 -DNI:"+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", "34372815");

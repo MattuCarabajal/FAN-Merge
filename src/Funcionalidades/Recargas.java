@@ -125,7 +125,6 @@ public class Recargas extends TestBase {
 	
 	@Test (groups = {"GestionesPerfilOficina", "Recargas","E2E","Ciclo1"}, dataProvider = "RecargaEfectivo")
 	public void TS134318_CRM_Movil_REPRO_Recargas_Presencial_Efectivo_Ofcom(String sDNI, String sMonto, String sLinea) throws AWTException {
-		sleep(6000);
 		imagen = "TS134318";
 		detalles = null;
 		detalles = imagen + "-Recarga-DNI: " + sDNI;
