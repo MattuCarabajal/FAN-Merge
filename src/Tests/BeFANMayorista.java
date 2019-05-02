@@ -42,6 +42,7 @@ import Pages.ContactSearch;
 import Pages.Marketing;
 import Pages.SCP;
 import Pages.setConexion;
+import PagesPOM.BeFanPom;
 import Pages.DPW;
 
 public class BeFANMayorista extends TestBase {
@@ -605,22 +606,31 @@ public class BeFANMayorista extends TestBase {
 	
 	@Test (groups = "BeFan")
 	public void TS135598_BeFan_Movil_Repro_Preactivacion_Gestion_de_simcards_Busqueda_de_archivos_Ver_detalle_Fecha_de_procesamiento_del_registro() {
-		irA("gestion");
-		selectByText(driver.findElement(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")), "Procesado");
-		selectByText(driver.findElements(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")).get(1), "BAS-VJP-BAHIA BLANCA - VJP Punta Alta");
-		driver.findElement(By.cssSelector(".btn.btn-primary")).click();
-		sleep(5000);
-		try {
-			driver.findElement(By.id("exportarTabla")).findElement(By.tagName("tbody")).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(8).click();
-		} catch(Exception e) {}
-		sleep(3000);
-		boolean procesamiento = false;
-		WebElement columnas = driver.findElement(By.cssSelector(".table.table-top-fixed.table-striped.table-primary")).findElement(By.tagName("tr"));
-		for (WebElement x : columnas.findElements(By.tagName("th"))) {
-			if (x.getText().contains("Procesamiento"))
-				procesamiento = true;
-		}
-		Assert.assertTrue(procesamiento);
+		BeFanPom esperar = new BeFanPom(driver);
+		esperar.selectSims("Gestión").click();//Selecionar entre: Importación o Gestión ()
+		esperar.selectOpcion(esperar.getDesplegableEstado_Gestion(), "Procesado");
+		esperar.selectOpcion(esperar.getDesplegableRegion_Gestion(),"BAS-VJP-BAHIA BLANCA\n" +"              - VJP Punta Alta");
+		esperar.getBotonBuscar_Gestion().click();
+		esperar.getBotonVerDetalle_Gestion().click();
+		Assert.assertTrue(esperar.getMacheaText(esperar.getDetalle_Gestion(), "\\d{2}/\\d{2}/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}"));
+		
+		
+//		irA("gestion");
+//		selectByText(driver.findElement(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")), "Procesado");
+//		selectByText(driver.findElements(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")).get(1), "BAS-VJP-BAHIA BLANCA - VJP Punta Alta");
+//		driver.findElement(By.cssSelector(".btn.btn-primary")).click();
+//		sleep(5000);
+//		try {
+//			driver.findElement(By.id("exportarTabla")).findElement(By.tagName("tbody")).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(8).click();
+//		} catch(Exception e) {}
+//		sleep(3000);
+//		boolean procesamiento = false;
+//		WebElement columnas = driver.findElement(By.cssSelector(".table.table-top-fixed.table-striped.table-primary")).findElement(By.tagName("tr"));
+//		for (WebElement x : columnas.findElements(By.tagName("th"))) {
+//			if (x.getText().contains("Procesamiento"))
+//				procesamiento = true;
+//		}
+//		Assert.assertTrue(procesamiento);
 	}
 	
 	@Test (groups = "BeFan")
