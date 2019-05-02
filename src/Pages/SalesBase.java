@@ -604,15 +604,12 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 
  }
- public void Crear_DomicilioLegal(String provincia, String localidad, 
-		 String calle, String local, String altura, String piso, String dpto,
-		 String CP){
-	 waitForVisibilityOf(driver.findElement(By.id("State")));
+ public void Crear_DomicilioLegal(String provincia, String localidad,String calle, String local, String altura, String piso, String dpto,String CP){
+	 waitForVisibilityOf(driver.findElement(By.id("state-LegalAddress")));
 		//try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		List<WebElement> check = driver.findElements(By.cssSelector(".slds-checkbox--faux"));
-
-	 setSimpleDropdown(driver.findElement(By.id("State")), provincia);
-	 sleep(3000);
+	List<WebElement> check = driver.findElements(By.cssSelector(".slds-checkbox--faux"));
+	setSimpleDropdown(driver.findElement(By.id("state-LegalAddress")), provincia);
+	sleep(3000);
 	driver.findElement(By.id("CityTypeAhead")).sendKeys(localidad);
 	try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();} 
 	driver.findElement(By.id("CityTypeAhead")).sendKeys(Keys.ARROW_DOWN);

@@ -69,6 +69,7 @@ public class setConexion{
 		    ChromeOptions options = new ChromeOptions();
 		    //options.addArguments("user-data-dir=C:\\Users\\Sofia Chardin\\AppData\\Local\\Google\\Chrome\\User Data");
 		    options.addArguments("start-maximized");
+		   // options.addArguments("--headless"); //visual chrome
 		    driver = new ChromeDriver(options);
 		    return driver;
 		}
