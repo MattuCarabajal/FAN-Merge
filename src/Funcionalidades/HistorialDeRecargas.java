@@ -157,7 +157,7 @@ public class HistorialDeRecargas extends TestBase {
 		detalles = null;
 		detalles = imagen + "- Historial de recargas - DNI: "+sDNI;
 		CBS_Mattu cCBSM = new CBS_Mattu();
-		cCBSM.Servicio_Recharge(cLinea,"25000000");
+		cCBSM.Servicio_Recharge(cLinea,"25000000","0");
 		sleep(1000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -804,7 +804,7 @@ public class HistorialDeRecargas extends TestBase {
 		detalles = null;
 		detalles = imagen+"-HistorialDeRecargasTelefonico-DNI:"+sDNI;
 		CBS_Mattu cCBSM = new CBS_Mattu();
-		cCBSM.Servicio_Recharge(cLinea,"25000000");
+		cCBSM.Servicio_Recharge(cLinea,"25000000","0");
 		sleep(1000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
