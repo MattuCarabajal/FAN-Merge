@@ -1837,10 +1837,11 @@ public class CustomerCare extends BasePage {
 	}
 	//===========================================================// DIAGNOSTICO 2019 //========================================================================================================
 	
-	public void verificarStatus(String orden){
+	public void verificarStatus(String orden, String estado){
 		Boolean ord = false;
 		WebElement status = driver.findElement(By.id("Case_body")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(1);
-    	if(status.getText().toLowerCase().contains("resuelta exitosa")){
+		System.out.println("El status visible es: "+status.getText());
+    	if(status.getText().toLowerCase().contains(estado)){
     		ord = true;
     	}
     Assert.assertTrue(ord);
