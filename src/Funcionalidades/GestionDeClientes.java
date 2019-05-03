@@ -44,7 +44,6 @@ public class GestionDeClientes extends TestBase {
 	public void init() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		LoginFw login = new LoginFw(driver);
-		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		login.LoginSit02();//login con espera fluida
