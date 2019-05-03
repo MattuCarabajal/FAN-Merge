@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -201,12 +202,12 @@ public class HistorialDeRecargas extends TestBase {
 		aleatorio.setSeed(System.currentTimeMillis());
 		int intAleatorio = aleatorio.nextInt(899999)+10000000;
 		for(int i=0;i<=2;i++) {
-			cCBSM.Servicio_Recharge(cLinea,"25000000", "0");
+			cCBSM.Servicio_Recharge(sLinea,"25000000", "0");
 			sleep(1000);
 		}
 		cCBSM.Servicio_Loan(sLinea,Integer.toString(intAleatorio));
 		sleep(1000);
-		cCBSM.Servicio_Recharge(cLinea,"25000000", "0");
+		cCBSM.Servicio_Recharge(sLinea,"25000000", "0");
 		sleep(1000);
 		String monto = Integer.toString(intAleatorio);
 		monto = monto.substring(0,4);
