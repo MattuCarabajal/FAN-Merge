@@ -4,10 +4,14 @@ import static org.testng.Assert.assertTrue;
 
 import java.awt.AWTException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -526,17 +530,13 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.via-slds-table-pinned-header")).isDisplayed());
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "HistoriaRecarga")
-	public void TS135468_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_OOCC(String sDNI, String sLinea){
+	@Test (groups = {"GestionesPerfilOficina","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
+	public void TS135468_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_OOCC(String sDNI){
 		imagen = "TS135468";
-		detalles = null;
-		detalles = imagen + " - Historial de packs - DNI: " + sDNI+ " - Linea: "+sLinea;
-		boolean enc = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(20000);
-		CustomerCare cc = new CustomerCare(driver);
+		sleep(15000);
 		cc.irAHistoriales();
 		WebElement historialDeAjustes = null;
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
@@ -546,180 +546,141 @@ public class HistorialDeRecargas extends TestBase {
 		}
 		historialDeAjustes.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
 		sleep(7000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter")));
-		driver.findElement(By.id("text-input-id-1")).click();
-		WebElement table = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
-		sleep(3000);
-		List<WebElement> tableRows = table.findElements(By.xpath("//tr//td"));
-		for (WebElement cell : tableRows) {
-			try {
-				if (cell.getText().equals("14")) {
-					cell.click();
-				}
-			} catch (Exception e) {}
-		}
-		driver.findElement(By.id("text-input-id-2")).click();
-		WebElement table_2 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
-		sleep(3000);
-		List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
-		for (WebElement cell : tableRows_2) {
-			try {
-				if (cell.getText().equals("14")) {
-					cell.click();
-				}
-			} catch (Exception e) {}
-		}	
-		sleep(3000);
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")));
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
 		sleep(3000);
+		((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + driver.findElement(By.cssSelector(".slds-select.ng-pristine.ng-untouched.ng-valid.ng-not-empty")).getLocation().y + ")");
 		driver.findElement(By.id("text-input-03")).click();
-		sleep(2000);
-		List<WebElement> todos = driver.findElement(By.cssSelector(".slds-dropdown__list.slds-dropdown--length-5")).findElements(By.tagName("li"));
-			for(WebElement t : todos){
-				if(t.getText().equals("Todos")){
-					t.click();
-				}	
-			}
-		Assert.assertTrue(enc);
+		sleep(3000);
+		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
+			if (x.getText().toLowerCase().contains("todos"))
+				cc.obligarclick(x);
+		}
+		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElement(By.tagName("td")).getText();
+		Assert.assertTrue(datoTabla.matches("[0-9]{2}[\\/]{1}[0-9]{2}[\\/]{1}[0-9]{4} [0-9]{2}[\\:][0-9]{2}[\\:][0-9]{2}"));
 	}
 	
 	@Test (groups= {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
 	public void TS135472_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internacional_FAN_Front_OOCC(String sDNI){
 		imagen = "TS135472";
-		detalles = imagen+"-Historial De Packs -DNI:"+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		sleep(3000);
-		driver.findElement(By.className("card-top")).click();
-		sleep(3000);
 		cc.irAHistoriales();
-		sleep(3000);
-		cc.seleccionDeHistorial("historial de packs");
-		sleep(5000);
+		WebElement historialDeAjustes = null;
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
+		for (WebElement x : driver.findElements(By.className("slds-card"))) {
+			if (x.getText().toLowerCase().contains("historial de packs"))
+				historialDeAjustes = x;
+		}
+		historialDeAjustes.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		sleep(7000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")));
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		sleep(5000);
+		sleep(3000);
+		((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + driver.findElement(By.cssSelector(".slds-select.ng-pristine.ng-untouched.ng-valid.ng-not-empty")).getLocation().y + ")");
 		driver.findElement(By.id("text-input-03")).click();
-		//Falta la opcion en el Nombre del pack: Plan Internacional --- Se requiere actualizar cuando exista el Pack Internacional
-		List<WebElement> todos = driver.findElement(By.cssSelector(".slds-dropdown__list.slds-dropdown--length-5")).findElements(By.tagName("li"));
-		for(WebElement t : todos){
-			if(t.getText().equals("Reseteo 200 MB por Dia")){
-				t.click();
-			}	
+		sleep(3000);
+		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
+			if (x.getText().toLowerCase().contains("bam pack 10gb x 30 dias"))
+				cc.obligarclick(x);
 		}
+		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
+		Assert.assertTrue(datoTabla.toLowerCase().contains("bam pack 10gb x 30 dias"));
 	}
 	
 	@Test (groups= {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
 	public void TS135474_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Familia_FAN_Front_OOCC(String sDNI){
 		imagen = "TS135474";
-		detalles = imagen+"-Historial De Packs -DNI:"+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		sleep(3000);
-		driver.findElement(By.className("card-top")).click();
-		sleep(3000);
 		cc.irAHistoriales();
-		sleep(3000);
-		cc.seleccionDeHistorial("historial de packs");
-		sleep(5000);
+		WebElement historialDeAjustes = null;
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
+		for (WebElement x : driver.findElements(By.className("slds-card"))) {
+			if (x.getText().toLowerCase().contains("historial de packs"))
+				historialDeAjustes = x;
+		}
+		historialDeAjustes.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		sleep(7000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")));
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		sleep(5000);
+		sleep(3000);
+		((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + driver.findElement(By.cssSelector(".slds-select.ng-pristine.ng-untouched.ng-valid.ng-not-empty")).getLocation().y + ")");
 		driver.findElement(By.id("text-input-03")).click();
-		//Falta la opcion en el Nombre del pack: Plan Familia --- Se requiere actualizar cuando exista el Pack Familia
-		List<WebElement> todos = driver.findElement(By.cssSelector(".slds-dropdown__list.slds-dropdown--length-5")).findElements(By.tagName("li"));
-		for(WebElement t : todos){
-			if(t.getText().equals("Pack 100MB Uruguay")){
-				t.click();
-			}	
-		}		
+		sleep(3000);
+		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
+			if (x.getText().toLowerCase().contains("internet 100 mb dia"))
+				cc.obligarclick(x);
+		}
+		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
+		Assert.assertTrue(datoTabla.toLowerCase().contains("internet 100 mb dia"));
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
 	public void TS135476_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internet_50_Mb_FAN_Front_OOCC(String sDNI){
 		imagen = "TS135476";
-		detalles = null;
-		detalles = imagen+"-HistorialDePacksTelefonico - DNI:"+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(20000);
-		CustomerCare cc = new CustomerCare(driver);
+		sleep(15000);
 		cc.irAHistoriales();
-		sleep(8000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-card.slds-m-around--small.ta-fan-slds")));
-		driver.findElements(By.className("slds-card"));
-		System.out.println(driver.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText());
-		driver.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText().equals("Historial de packs");
-		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
-		sleep(8000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter")));
-		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		sleep(8000);
-		driver.findElement(By.id("text-input-03")).click();
-		List <WebElement>NomPack = driver.findElement(By.cssSelector(".slds-dropdown__list.slds-dropdown--length-5")).findElements(By.tagName("li"));
-		String pack = "Internet 50 MB Dia";
-		for(WebElement Pack : NomPack) {
-			if(Pack.getText().equalsIgnoreCase(pack)) {
-				System.out.println(Pack.getText());
-				Pack.click();
-				break;
-			}
+		WebElement historialDeAjustes = null;
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
+		for (WebElement x : driver.findElements(By.className("slds-card"))) {
+			if (x.getText().toLowerCase().contains("historial de packs"))
+				historialDeAjustes = x;
 		}
-		assertTrue(pack.equals("Internet 50 MB Dia"));
+		historialDeAjustes.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		sleep(7000);
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")));
+		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
+		sleep(3000);
+		((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + driver.findElement(By.cssSelector(".slds-select.ng-pristine.ng-untouched.ng-valid.ng-not-empty")).getLocation().y + ")");
+		driver.findElement(By.id("text-input-03")).click();
+		sleep(3000);
+		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
+			if (x.getText().toLowerCase().contains("internet 50 mb dia nacional"))
+				cc.obligarclick(x);
+		}
+		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
+		Assert.assertTrue(datoTabla.toLowerCase().contains("internet 50 mb dia nacional"));
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
-	public void TS135483_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_OOCC(String sDNI){
+	public void TS135483_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_OOCC(String sDNI) throws ParseException{
 		imagen = "TS135483";
-		detalles = null;
-		detalles = imagen + " - Historial de packs - DNI: " + sDNI;
+		boolean verificarFecha = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(20000);
-		CustomerCare cc = new CustomerCare(driver);
+		sleep(15000);
 		cc.irAHistoriales();
-		sleep(8000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-card.slds-m-around--small.ta-fan-slds")));
-		driver.findElements(By.className("slds-card"));
-		System.out.println(driver.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText());
-		driver.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText().equals("Historial de packs");
-		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
-		sleep(2000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter")));
-		driver.findElement(By.id("text-input-id-1")).click();
-		WebElement table = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
-		sleep(3000);
-		List<WebElement> tableRows = table.findElements(By.xpath("//tr//td"));
-		for (WebElement cell : tableRows) {
-			try {
-				if (cell.getText().equals("09")) {
-					cell.click();
-				}
-			} catch (Exception e) {}
+		WebElement historialDeAjustes = null;
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
+		for (WebElement x : driver.findElements(By.className("slds-card"))) {
+			if (x.getText().toLowerCase().contains("historial de packs"))
+				historialDeAjustes = x;
 		}
-		driver.findElement(By.id("text-input-id-2")).click();
-		WebElement table_2 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
+		historialDeAjustes.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		sleep(7000);
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")));
+		String desde = driver.findElement(By.id("text-input-id-1")).getAttribute("value");
+		String hasta = driver.findElement(By.id("text-input-id-2")).getAttribute("value");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date fechaDesde = sdf.parse(desde);
+		Date fechaHasta = sdf.parse(hasta);
+		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
 		sleep(3000);
-		List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
-		for (WebElement cell : tableRows_2) {
-			try {
-				if (cell.getText().equals("07")) {
-					cell.click();
-				}
-			} catch (Exception e) {}
-		}
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter")));
-		sleep(5000);
-		WebElement visu = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter"));
-		Assert.assertTrue(visu.isDisplayed());
+		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElement(By.tagName("td")).getText();
+		datoTabla = datoTabla.substring(0, datoTabla.indexOf(" "));
+		Date fechaTabla = sdf.parse(datoTabla);
+		if (fechaTabla.compareTo(fechaDesde) >= 0 && fechaTabla.compareTo(fechaHasta) <= 0)
+			verificarFecha = true;
+		Assert.assertTrue(verificarFecha);
 	}
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
@@ -1213,180 +1174,124 @@ public class HistorialDeRecargas extends TestBase {
 	
 	@Test (groups = {"GestionesPerfilTelefonico","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
 	public void TS135469_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_Telefonico(String sDNI){
-		boolean enc = false;
 		imagen = "TS135469";
-		detalles = null;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(20000);
-		CustomerCare cc = new CustomerCare(driver);
+		sleep(15000);
 		cc.irAHistoriales();
-		sleep(8000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-card.slds-m-around--small.ta-fan-slds")));
-		List <WebElement> historiales = driver.findElements(By.className("slds-card"));
-		for (WebElement UnH: historiales) {
-			System.out.println(UnH.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText());
-			if(UnH.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText().equals("Historial de packs")) {
-				enc = true;
-				driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
-				sleep(5000);
-				driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")));
-				driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-				sleep(5000);
-				//Assert.assertTrue(true);
-				break;
-			}
+		WebElement historialDeAjustes = null;
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
+		for (WebElement x : driver.findElements(By.className("slds-card"))) {
+			if (x.getText().toLowerCase().contains("historial de packs"))
+				historialDeAjustes = x;
 		}
-		driver.findElement(By.id("text-input-id-1")).click();
-		WebElement table = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
-		sleep(3000);
-		List<WebElement> tableRows = table.findElements(By.xpath("//tr//td"));
-		for (WebElement cell : tableRows) {
-			try {
-				if (cell.getText().equals("04")) {
-					cell.click();
-				}
-			} catch (Exception e) {}
-		}
-		driver.findElement(By.id("text-input-id-2")).click();
-		WebElement table_2 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
-		sleep(3000);
-		List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
-		for (WebElement cell : tableRows_2) {
-			try {
-				if (cell.getText().equals("01")) {
-					cell.click();
-				}
-			} catch (Exception e) {}
-		}
-		sleep(3000);
+		historialDeAjustes.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		sleep(7000);
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")));
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
 		sleep(3000);
+		((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + driver.findElement(By.cssSelector(".slds-select.ng-pristine.ng-untouched.ng-valid.ng-not-empty")).getLocation().y + ")");
 		driver.findElement(By.id("text-input-03")).click();
-		sleep(2000);
-		List<WebElement> todos = driver.findElement(By.cssSelector(".slds-dropdown__list.slds-dropdown--length-5")).findElements(By.tagName("li"));
-		for(WebElement t : todos){
-			if(t.getText().equals("Todos")){
-				t.click();
-			}	
+		sleep(3000);
+		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
+			if (x.getText().toLowerCase().contains("todos"))
+				cc.obligarclick(x);
 		}
-		Assert.assertTrue(enc);
+		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElement(By.tagName("td")).getText();
+		Assert.assertTrue(datoTabla.matches("[0-9]{2}[\\/]{1}[0-9]{2}[\\/]{1}[0-9]{4} [0-9]{2}[\\:][0-9]{2}[\\:][0-9]{2}"));
 	}
 	
 	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
 	public void TS135475_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Familia_FAN_Front_Telefonico(String sDNI){
 		imagen = "TS135475";
-		detalles = imagen+"-Historial De Packs -DNI:"+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		sleep(3000);
-		driver.findElement(By.className("card-top")).click();
-		sleep(3000);
 		cc.irAHistoriales();
-		sleep(3000);
-		cc.seleccionDeHistorial("historial de packs");
-		sleep(5000);
+		WebElement historialDeAjustes = null;
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
+		for (WebElement x : driver.findElements(By.className("slds-card"))) {
+			if (x.getText().toLowerCase().contains("historial de packs"))
+				historialDeAjustes = x;
+		}
+		historialDeAjustes.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		sleep(7000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")));
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		sleep(5000);
+		sleep(3000);
+		((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + driver.findElement(By.cssSelector(".slds-select.ng-pristine.ng-untouched.ng-valid.ng-not-empty")).getLocation().y + ")");
 		driver.findElement(By.id("text-input-03")).click();
-		//Falta la opcion en el Nombre del pack: Plan Familia --- Se requiere actualizar cuando exista el Pack Familia
-		List<WebElement> todos = driver.findElement(By.cssSelector(".slds-dropdown__list.slds-dropdown--length-5")).findElements(By.tagName("li"));
-		for(WebElement t : todos){
-			if(t.getText().equals("Todos")){
-				t.click();
-			}	
+		sleep(3000);
+		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
+			if (x.getText().toLowerCase().contains("internet 100 mb dia"))
+				cc.obligarclick(x);
 		}
-		Assert.assertTrue(false);
+		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
+		Assert.assertTrue(datoTabla.toLowerCase().contains("internet 100 mb dia"));
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
 	public void TS135477_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internet_40_Mb_FAN_Front_Telefonico(String sDNI){
 		imagen = "TS135477";
-		detalles = null;
-		detalles = imagen+"-HistorialDePacksTelefonico - DNI:"+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(20000);
-		CustomerCare cc = new CustomerCare(driver);
+		sleep(15000);
 		cc.irAHistoriales();
-		sleep(8000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-card.slds-m-around--small.ta-fan-slds")));
-		driver.findElements(By.className("slds-card"));
-		System.out.println(driver.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText());
-		driver.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText().equals("Historial de packs");
-		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
-		sleep(8000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter")));
-		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		sleep(8000);
-		driver.findElement(By.id("text-input-03")).click();
-		List <WebElement>NomPack = driver.findElement(By.cssSelector(".slds-dropdown__list.slds-dropdown--length-5")).findElements(By.tagName("li"));
-		String pack = "Internet 40 Mb";
-		boolean estaPack = false;
-		for(WebElement Pack : NomPack) {
-			if(Pack.getText().equalsIgnoreCase(pack)) {
-				Pack.click();
-				estaPack = true;
-				break;
-			}
+		WebElement historialDeAjustes = null;
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
+		for (WebElement x : driver.findElements(By.className("slds-card"))) {
+			if (x.getText().toLowerCase().contains("historial de packs"))
+				historialDeAjustes = x;
 		}
-		Assert.assertTrue(estaPack, "No esta el pack "+pack+" en el deplegable");
-		TestBase TB = new TestBase();
-		TB.waitFor(driver, By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium"));
-		Assert.assertTrue(driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).isDisplayed());
+		historialDeAjustes.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		sleep(7000);
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")));
+		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
+		sleep(3000);
+		((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + driver.findElement(By.cssSelector(".slds-select.ng-pristine.ng-untouched.ng-valid.ng-not-empty")).getLocation().y + ")");
+		driver.findElement(By.id("text-input-03")).click();
+		sleep(3000);
+		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
+			if (x.getText().toLowerCase().contains("1 gb renovacion cuota de datos"))
+				cc.obligarclick(x);
+		}
+		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
+		Assert.assertTrue(datoTabla.toLowerCase().contains("1 gb renovacion cuota de datos"));
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
-	public void TS135484_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_Telefonico(String sDNI){
-		//boolean enc = false;
+	public void TS135484_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_Telefonico(String sDNI) throws ParseException{
 		imagen = "TS135484";
-		detalles = null;
-		detalles = imagen+"-HistorialDePacksTelefonico - DNI:"+sDNI;
+		boolean verificarFecha = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(20000);
-		CustomerCare cc = new CustomerCare(driver);
+		sleep(15000);
 		cc.irAHistoriales();
-		sleep(8000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-card.slds-m-around--small.ta-fan-slds")));
-		driver.findElements(By.className("slds-card"));
-		System.out.println(driver.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText());
-		driver.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText().equals("Historial de packs");
-		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
-		sleep(2000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter")));
-		driver.findElement(By.id("text-input-id-1")).click();
-		WebElement table = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
-		sleep(3000);
-		List<WebElement> tableRows = table.findElements(By.xpath("//tr//td"));
-		for (WebElement cell : tableRows) {
-			try {
-				if (cell.getText().equals("09")) {
-					cell.click();
-				}
-			}catch(Exception e) {}
+		WebElement historialDeAjustes = null;
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
+		for (WebElement x : driver.findElements(By.className("slds-card"))) {
+			if (x.getText().toLowerCase().contains("historial de packs"))
+				historialDeAjustes = x;
 		}
-		driver.findElement(By.id("text-input-id-2")).click();
-		WebElement table_2 = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
+		historialDeAjustes.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		sleep(7000);
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")));
+		String desde = driver.findElement(By.id("text-input-id-1")).getAttribute("value");
+		String hasta = driver.findElement(By.id("text-input-id-2")).getAttribute("value");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date fechaDesde = sdf.parse(desde);
+		Date fechaHasta = sdf.parse(hasta);
+		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
 		sleep(3000);
-		List<WebElement> tableRows_2 = table_2.findElements(By.xpath("//tr//td"));
-		for (WebElement cell : tableRows_2) {
-			try {
-				if (cell.getText().equals("07")) {
-				cell.click();
-				}
-			}catch(Exception e) {}
-		}
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter")));
-		sleep(5000);
-		WebElement visu =driver.findElement(By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter"));
-		Assert.assertTrue(visu.isDisplayed());
+		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElement(By.tagName("td")).getText();
+		datoTabla = datoTabla.substring(0, datoTabla.indexOf(" "));
+		Date fechaTabla = sdf.parse(datoTabla);
+		if (fechaTabla.compareTo(fechaDesde) >= 0 && fechaTabla.compareTo(fechaHasta) <= 0)
+			verificarFecha = true;
+		Assert.assertTrue(verificarFecha);
 	}
 }
