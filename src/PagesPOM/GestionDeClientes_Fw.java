@@ -25,66 +25,71 @@ import Tests.TestBase;
 public class GestionDeClientes_Fw extends BasePageFw {
 
 //ELEMENTOS 
+	final String locator_BtnBuscar= "SearchClientsDummy";
+	@FindBy (how =How.ID,using= locator_BtnBuscar)
+	private WebElement BtnBuscar;
 	
-
+	final String locator_DNI= "SearchClientDocumentNumber";
+	@FindBy(how=How.ID, using=locator_DNI)
+	private WebElement DNI;
+	
+	final String locator_DNIbuscador= "SearchClientDocumentType";
+	@FindBy(how= How.ID, using =locator_DNIbuscador)
+	private WebElement DNIbuscador;
+	
 	final String ref_CajonDeAplicaciones= "//span[@id='tsidLabel']"; 
 	@FindBy (xpath = ref_CajonDeAplicaciones)
 	private WebElement cajonDeAplicaciones;
 
-	final String locatorTipoDoc= "SearchClientDocumentType"; 
-	@FindBy (id = locatorTipoDoc)
+	final String locator_TipoDoc= "SearchClientDocumentType"; 
+	@FindBy (id = locator_TipoDoc)
 	private WebElement tipoDoc;
 
-	final String locatorlistaMenuIzq= "[class='x-menu-list'] li";
-	@FindBy (css = locatorlistaMenuIzq)
+	final String locator_listaMenuIzq= "[class='x-menu-list'] li";
+	@FindBy (css = locator_listaMenuIzq)
 	private List<WebElement> listaMenuIzq;
 	
 	final String ref_elementosCajon= "[class='menuButtonMenuLink']";
 	@FindBy (how = How.CSS, using = ref_elementosCajon)
 	private List<WebElement>   elementosCajon;
 	
-	final String locatorMenuDesplegableIzq ="[class='navigator-sbmenu']";
-	@FindBy (how = How.CSS, using = locatorMenuDesplegableIzq)
+	final String locator_MenuDesplegableIzq ="[class='navigator-sbmenu']";
+	@FindBy (how = How.CSS, using = locator_MenuDesplegableIzq)
 	private WebElement MenuDesplegableIzq;
 	
-	final String locatorDataImputGestion ="dataInput";
-	@FindBy (how = How.ID, using = locatorDataImputGestion)
+	final String locator_DataImputGestion ="dataInput";
+	@FindBy (how = How.ID, using = locator_DataImputGestion)
 	private WebElement dataImputGestion;
 	
-	final String locatorPestanas ="[class*='x-tab-strip-closable']";
-	@FindBy (how = How.CSS, using = locatorPestanas)
+	final String locator_Pestanas ="[class*='x-tab-strip-closable']";
+	@FindBy (how = How.CSS, using = locator_Pestanas)
 	private List<WebElement> pestanas;
 	
-	final String locatorPestaPeque = "[class*='x-tab-strip-closable x-tab-strip-active ']";
-	@FindBy (how = How.CSS, using = locatorPestaPeque)
+	final String locator_PestaPeque = "[class*='x-tab-strip-closable x-tab-strip-active ']";
+	@FindBy (how = How.CSS, using = locator_PestaPeque)
 	private List<WebElement> pestaPeque;
 
-	final String locatorelementosMenuIzq = "[class='support-servicedesk-navigator'] table";
-	@FindBy (how = How.CSS, using = locatorelementosMenuIzq)
+	final String locator_elementosMenuIzq = "[class='support-servicedesk-navigator'] table";
+	@FindBy (how = How.CSS, using = locator_elementosMenuIzq)
 	private WebElement MenuIzq ;
 	
-	final String locatoriframes = "iframe";
-	@FindBy (how = How.TAG_NAME, using = locatoriframes)
+	final String locator_iframes = "iframe";
+	@FindBy (how = How.TAG_NAME, using = locator_iframes)
 	private List<WebElement> iframes ;
 	
-	final String locatorTextGestion = "[class='slds-page-header__title vlc-slds-page-header__title slds-truncate ng-binding']";
-	@FindBy (how = How.CSS, using = locatorTextGestion)
-	private WebElement textGestion ;
 
-
-
-	final String locatorBodys="[class='hasMotif homeTab homepage  ext-webkit ext-chrome sfdcBody brandQuaternaryBgr']";
-	@FindBy (how = How.CSS, using = locatorBodys)
+	final String locator_Bodys="[class='hasMotif homeTab homepage  ext-webkit ext-chrome sfdcBody brandQuaternaryBgr']";
+	@FindBy (how = How.CSS, using = locator_Bodys)
 	private List<WebElement> bodys;
 
 	
 	
-	final String locatorBotonesInf = "[class='slds-grid slds-m-bottom_small slds-wrap cards-container']";
-	@FindBy (how = How.CSS, using = locatorBotonesInf)
+	final String locator_BotonesInf = "[class='slds-grid slds-m-bottom_small slds-wrap cards-container']";
+	@FindBy (how = How.CSS, using = locator_BotonesInf)
 	private WebElement botonesInf ;
 	
 			
-	//CONTRUCTOR
+//CONTRUCTOR
 	public GestionDeClientes_Fw(WebDriver driver) {
 		super(driver);
 		super.setDriver(driver);
@@ -103,14 +108,13 @@ public class GestionDeClientes_Fw extends BasePageFw {
 //METODOS
 	
 	public WebElement getTipoDoc() {
-		driver.switchTo().frame(cambioFrame(By.id(locatorTipoDoc)));
+		driver.switchTo().frame(cambioFrame(By.id(locator_TipoDoc)));
 		fluentWait.until(ExpectedConditions.elementToBeClickable(tipoDoc));
 		
 		return tipoDoc;
 	}	
-	public WebElement getTextGestion() {
-		return textGestion;
-	}
+
+
 	public void setMenuIzq(WebElement menuIzq) {
 		MenuIzq = menuIzq;
 	}
@@ -139,7 +143,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		
 	public void cerrarPestaniaGestion(WebDriver driver) {//copiado de SalesBase Cierra todas las pestañas de gestion
 		try{
-			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(locatorPestanas), 0));
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(locator_Pestanas), 0));
 			
 			for (WebElement UnB : pestanas) {
 				try {
@@ -165,7 +169,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	
 	public void selectMenuIzq(String opcionVisible) {
 		clickMenuIzq();
-		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(this.locatorlistaMenuIzq), 0));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(this.locator_listaMenuIzq), 0));
 		try{
 			super.getBuscarElementoPorText(listaMenuIzq, opcionVisible).click();
 		}catch(Exception e) {
@@ -174,23 +178,23 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public void irGestionClientes() {
-		driver.switchTo().frame(cambioFrame(By.cssSelector(locatorBodys)));
-		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(locatorBodys), 0));
-		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locatorBodys)));//esperar que los elementos sean visibles
+		driver.switchTo().frame(cambioFrame(By.cssSelector(locator_Bodys)));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(locator_Bodys), 0));
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locator_Bodys)));//esperar que los elementos sean visibles
 		boolean enc = false;
 		int index = 0; 
 		for(WebElement frame : iframes) {//recorre los frames
 			try {
 				driver.switchTo().frame(frame);
-				fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locatorBotonesInf)));
-				driver.findElement(By.cssSelector(this.locatorBotonesInf));//each element is in the same iframe.
-				driver.switchTo().frame(super.cambioFrame(By.cssSelector(this.locatorBodys)));
+				fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locator_BotonesInf)));
+				driver.findElement(By.cssSelector(this.locator_BotonesInf));//each element is in the same iframe.
+				driver.switchTo().frame(super.cambioFrame(By.cssSelector(this.locator_Bodys)));
 				enc = true;
 				break;
 			}catch(NoSuchElementException noSuchElemExcept) {
 				index++;
 				System.out.println("catch 1");
-				driver.switchTo().frame(super.cambioFrame(By.cssSelector(this.locatorBodys)));
+				driver.switchTo().frame(super.cambioFrame(By.cssSelector(this.locator_Bodys)));
 			}
 		}
 		if(enc == false) {
@@ -223,8 +227,14 @@ public class GestionDeClientes_Fw extends BasePageFw {
 
 	}
 	
-	
-	
+	public void BuscarCuenta(String Type, String NDNI){
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
+		getSelect(DNIbuscador).selectByVisibleText("DNI");
+		DNI.sendKeys(NDNI);
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_BtnBuscar)));
+		BtnBuscar.click();
+
+	}
 	
 	
 }

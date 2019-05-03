@@ -675,7 +675,7 @@ public class CBS {
 		return datos;
 	}
 	
-	public String sRequestRecharge(String sLinea, String sMessageSeq, String sMonto) {
+	public String sRequestRecharge(String sLinea, String sMessageSeq, String sMonto , String sCanal) {
 		String sRequest = "";
 		sRequest = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ars=\"http://www.huawei.com/bme/cbsinterface/arservices\" xmlns:cbs=\"http://www.huawei.com/bme/cbsinterface/cbscommon\" xmlns:arc=\"http://cbs.huawei.com/ar/wsservice/arcommon\">\r\n"
 				+ "\r\n   <soapenv:Header/>\r\n"
@@ -715,7 +715,8 @@ public class CBS {
 				//+ "\r\n            	  		<!--Optional:-->\r\n"
 				+ "\r\n            	  		<ars:RechargeType>41</ars:RechargeType>\r\n"
 				//+ "\r\n            	  		<!--Optional:-->\r\n"
-				+ "\r\n            	  		<ars:RechargeChannelID>C</ars:RechargeChannelID>\r\n"
+				+ "\r\n            	  		<ars:RechargeChannelID>"+ sCanal;
+				sRequest+= "</ars:RechargeChannelID>\r\n"
 				+ "\r\n            	  		<ars:RechargeObj>\r\n"
 				+ "\r\n               			<ars:SubAccessCode>\r\n"
 				+ "\r\n                  			<arc:PrimaryIdentity>" + sLinea; 

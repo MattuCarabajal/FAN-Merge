@@ -20,6 +20,8 @@ import Pages.CustomerCare;
 import Pages.PagePerfilTelefonico;
 import Pages.SalesBase;
 import Pages.setConexion;
+import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.TestBase;
 
 public class Vista360 extends TestBase {
@@ -30,73 +32,31 @@ public class Vista360 extends TestBase {
 	private PagePerfilTelefonico ppt;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	GestionDeClientes_Fw ges ;
+	LoginFw log ;
 	String detalles;
 	
 	
 	@BeforeClass (alwaysRun = true)
 	public void init() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		ppt = new PagePerfilTelefonico(driver);
-		loginMerge(driver);
-		sleep(22000);
-		try {
-			cc.cajonDeAplicaciones("Consola FAN");
-		} catch(Exception e) {
-			/*sleep(3000);
-			waitForClickeable(driver,By.id("tabBar"));
-			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
-			sleep(6000);*/
-		}		
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges = new GestionDeClientes_Fw(driver);
+		log = new LoginFw(driver);
+		log.LoginSit02();
 	}
 	
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
-		sleep(3000);
-		goToLeftPanel4(driver, "Inicio");
-		sleep(10000);
-		try {
-			sb.cerrarPestaniaGestion(driver);
-		} catch (Exception ex1) {}
-		Accounts accountPage = new Accounts(driver);
-		driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-		List<WebElement> frames = driver.findElements(By.tagName("iframe"));
-		boolean enc = false;
-		int index = 0;
-		for(WebElement frame : frames) {
-			try {
-				System.out.println("aca");
-				driver.switchTo().frame(frame);
-				driver.findElement(By.cssSelector(".slds-grid.slds-m-bottom_small.slds-wrap.cards-container")).getText();
-				driver.findElement(By.cssSelector(".slds-grid.slds-m-bottom_small.slds-wrap.cards-container")).isDisplayed();
-				driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-				enc = true;
-				break;
-			} catch(NoSuchElementException e) {
-				index++;
-				driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-			}
-		}
-		if(enc == false)
-			index = -1;
-		try {
-			driver.switchTo().frame(frames.get(index));
-		} catch(ArrayIndexOutOfBoundsException e) {
-			System.out.println("Elemento no encontrado en ningun frame 2.");			
-		}
-		List<WebElement> botones = driver.findElements(By.tagName("button"));
-		for (WebElement UnB : botones) {
-			System.out.println(UnB.getText());
-			if (UnB.getText().equalsIgnoreCase("gesti\u00f3n de clientes")) {
-				UnB.click();
-				break;
-			}
-		}		
-		sleep(10000);		
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
+		ges.cajonDeAplicaciones("Consola FAN");//corrobora si esta en la Aplicacion pasada por parametro sí no te manda para ahi- menos a ventas hay que modificar
+		ges.selectMenuIzq("Inicio");
+		ges.cerrarPestaniaGestion(driver);
+		ges.irGestionClientes();
+		System.out.println("finished gato xD");
+	
 	}
 
 	@AfterMethod(alwaysRun=true)
@@ -122,7 +82,8 @@ public class Vista360 extends TestBase {
 		detalles = null;
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sb.BuscarCuenta("DNI", sDNI);
+		ges.BuscarCuenta("DNI", sDNI);
+		//sb.BuscarCuenta("DNI", sDNI);
 		sleep(5000);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(10000);
