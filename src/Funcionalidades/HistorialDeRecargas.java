@@ -147,19 +147,23 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"}, dataProvider = "RecargasHistorias")
-	public void TS134788_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_FAN_Front_OOCC(String sDNI){
+	public void TS134788_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_FAN_Front_OOCC(String sDNI, String cLinea){
 		imagen = "TS134788";
 		detalles = null;
 		detalles = imagen + "- Historial de recargas - DNI: "+sDNI;
+		CBS_Mattu cCBSM = new CBS_Mattu();
+		cCBSM.Servicio_Recharge(cLinea,"25000000");
+		sleep(1000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(10000);
+		sleep(15000);
 		cc.irAHistoriales();
 		WebElement historialDeRecargas = null;
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
 		for (WebElement x : driver.findElements(By.className("slds-card"))) {
-			if (x.getText().toLowerCase().contains("historial de recargas"))
+			String header = x.findElement(By.tagName("header")).getText().toLowerCase();
+			if (header.equalsIgnoreCase("historial de recargas"));
 				historialDeRecargas = x;
 		}
 		historialDeRecargas.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
@@ -169,11 +173,17 @@ public class HistorialDeRecargas extends TestBase {
 		driver.findElement(By.xpath("//*[text() = 'Todos']")).click();
 		driver.findElement(By.id("text-input-04")).click();
 		driver.findElement(By.xpath("//*[text() = 'Sin Beneficios']")).click();
-		if (driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).isDisplayed()) {
-			driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-			Assert.assertTrue(true);
-		} else
-			Assert.assertTrue(false);
+		driver.findElement(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small']")).click();
+		sleep(5000);
+		List<WebElement> detallesUltimaRecarga = driver.findElements(By.cssSelector("[class='slds-p-bottom--small slds-p-left--medium slds-p-right--medium'] tbody tr")).get(0).findElements(By.tagName("td"));
+		String fecha = fechaDeHoy();
+		String fechaDeRecarga = detallesUltimaRecarga.get(0).getText();
+		boolean coincideLaFecha = fechaDeRecarga.contains(fecha);
+		String beneficios = detallesUltimaRecarga.get(3).getText();
+		boolean sinBeneficios = beneficios.equalsIgnoreCase("sin beneficios");
+		String montoDeRecarga = "$25,00";
+		boolean montoCorrecto = montoDeRecarga.equals(detallesUltimaRecarga.get(5).getText());
+		Assert.assertTrue(coincideLaFecha && sinBeneficios && montoCorrecto);
 	}
 	
 	@Test (groups= {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "HistoriaRecarga")
@@ -755,19 +765,23 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"}, dataProvider = "RecargasHistorias")
-	public void TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico(String sDNI) {
+	public void TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico(String sDNI, String cLinea) {
 		imagen = "TS134790";
 		detalles = null;
 		detalles = imagen+"-HistorialDeRecargasTelefonico-DNI:"+sDNI;
+		CBS_Mattu cCBSM = new CBS_Mattu();
+		cCBSM.Servicio_Recharge(cLinea,"25000000");
+		sleep(1000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(10000);
+		sleep(15000);
 		cc.irAHistoriales();
 		WebElement historialDeRecargas = null;
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
 		for (WebElement x : driver.findElements(By.className("slds-card"))) {
-			if (x.getText().toLowerCase().contains("historial de recargas"))
+			String header = x.findElement(By.tagName("header")).getText().toLowerCase();
+			if (header.equalsIgnoreCase("historial de recargas"));
 				historialDeRecargas = x;
 		}
 		historialDeRecargas.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
@@ -777,11 +791,17 @@ public class HistorialDeRecargas extends TestBase {
 		driver.findElement(By.xpath("//*[text() = 'Todos']")).click();
 		driver.findElement(By.id("text-input-04")).click();
 		driver.findElement(By.xpath("//*[text() = 'Sin Beneficios']")).click();
-		if (driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).isDisplayed()) {
-			driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-			Assert.assertTrue(true);
-		} else
-			Assert.assertTrue(false);
+		driver.findElement(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small']")).click();
+		sleep(5000);
+		List<WebElement> detallesUltimaRecarga = driver.findElements(By.cssSelector("[class='slds-p-bottom--small slds-p-left--medium slds-p-right--medium'] tbody tr")).get(0).findElements(By.tagName("td"));
+		String fecha = fechaDeHoy();
+		String fechaDeRecarga = detallesUltimaRecarga.get(0).getText();
+		boolean coincideLaFecha = fechaDeRecarga.contains(fecha);
+		String beneficios = detallesUltimaRecarga.get(3).getText();
+		boolean sinBeneficios = beneficios.equalsIgnoreCase("sin beneficios");
+		String montoDeRecarga = "$25,00";
+		boolean montoCorrecto = montoDeRecarga.equals(detallesUltimaRecarga.get(5).getText());
+		Assert.assertTrue(coincideLaFecha && sinBeneficios && montoCorrecto);
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "HistorialDeRecargas", "E2E", "Ciclo2"}, dataProvider = "RecargasHistorias")
