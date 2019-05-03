@@ -51,25 +51,23 @@ public class LoginFw extends BasePageFw {
 
 	//CONTRUCTOR
 	public LoginFw(WebDriver driver) {
-		super(driver);
-		PageFactory.initElements(driver, this);
-		super.fluentWait = new FluentWait<WebDriver>(driver);
-		
-		super.fluentWait.withTimeout(30, TimeUnit.SECONDS)
+		super.setDriver(driver);
+		PageFactory.initElements(getDriver(), this);
+		super.setFluentWait(new FluentWait<WebDriver>(driver));
+		super.getFluentWait().withTimeout(30, TimeUnit.SECONDS)
 		.pollingEvery(5, TimeUnit.SECONDS)
 		.ignoring(NoSuchElementException.class)
 		.ignoring(NullPointerException.class)
-		.ignoring(TimeoutException.class)
 		.ignoring(ElementNotVisibleException.class);
 	}
 	//METODOS
-	public void ingresarLogin() {
+	public void LoginSit02() {
 		  driver.get(urlMerge);
 		  fluentWait.until(ExpectedConditions.elementToBeClickable(loginMerge));
 		  username.sendKeys("florangel.rojas@xappia.com.fan.sit02");
 		  password.sendKeys("Testa10k");
 		  	
-		  	System.out.println("termino Corecto");	
+		  	System.out.println("Log Si02");	
 		  	fluentWait.until(ExpectedConditions.elementToBeClickable(loginMerge)).click();
 	}
 		 
