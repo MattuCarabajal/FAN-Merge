@@ -140,21 +140,21 @@ public class Recargas extends TestBase {
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
-		sleep(8000);
+		sleep(10000);
 		cc.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(8000);
+		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("RefillAmount")));
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
-		sleep(7000);		
+		sleep(10000);		
 		String nroOrden = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).findElements(By.tagName("p")).get(1).getText();
 		nroOrden = nroOrden.substring(nroOrden.indexOf("0"), nroOrden.length());
 		System.out.println("sOrden: " + nroOrden);
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-		sleep(7000);
+		sleep(10000);
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "efectivo");
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
-		sleep(7000);
+		sleep(10000);
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		driver.switchTo().defaultContent();
 		sb.cerrarPestaniaGestion(driver);
@@ -162,10 +162,8 @@ public class Recargas extends TestBase {
 		System.out.println("orden = " + orden);
 		Assert.assertTrue(cbsm.PagoEnCaja("1006", accID, "1001", orden.split("-")[2], orden.split("-")[1],driver));
 		
-		
-		
-		/*sOrders.add("Recargas" + orden + ", cuenta:"+accid+", DNI: " + cDNI +", Monto:"+orden.split("-")[2]);
-		Assert.assertTrue(invoSer.PagoEnCaja("1006", accid, "1001", orden.split("-")[2], orden.split("-")[1],driver));
+		/*sOrders.add("Recargas" + orden + ", cuenta:"+accID+", DNI: " + sDNI +", Monto:"+orden.split("-")[2]);
+		Assert.assertTrue(cbsm.PagoEnCaja("1006", accID, "1001", orden.split("-")[2], orden.split("-")[1],driver));*/
 		sleep(5000);
 		driver.navigate().refresh();
 		sleep(10000);
@@ -173,18 +171,18 @@ public class Recargas extends TestBase {
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
 		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
-		String uMainBalance = cCBS.ObtenerValorResponse(cCBSM.Servicio_queryLiteBySubscriber(cLinea), "bcs:MainBalance");
+		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		System.out.println("saldo nuevo "+uMainBalance);
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		Integer monto = Integer.parseInt(orden.split("-")[2].replace(".", ""));
 		monto = Integer.parseInt(monto.toString().substring(0, monto.toString().length()-1));
-		//System.out.println("monto inicial "+iMainBalance);
+		System.out.println("monto inicial "+iMainBalance);
 		System.out.println("monto recarga "+monto);
 		System.out.println("monto uifinal "+uiMainBalance);
-		//monto = iMainBalance+monto;
+		monto = iMainBalance+monto;
 		System.out.println("Sumatoria :"+monto);
 		Assert.assertTrue(monto == uiMainBalance);
-		CalculoImpuestos CI = new CalculoImpuestos();
+		/*CalculoImpuestos CI = new CalculoImpuestos();
 		System.out.println(CI.determinarCategoriaIVA(driver));*/
 	}
 	

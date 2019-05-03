@@ -151,15 +151,14 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.id("NetworkCategory_nextBtn")));
 		driver.findElement(By.id("NetworkCategory_nextBtn")).click();
 		sleep(12000);
-		cCC.cobertura("no son las antenas");
-		/*driver.switchTo().frame(cambioFrame(driver, By.id("CoverageResult|0")));
+		driver.switchTo().frame(cambioFrame(driver, By.id("CoverageResult|0")));
 		List<WebElement> cobertura = driver.findElements(By.cssSelector(".imgItemContainer.ng-scope"));
 			for(WebElement c : cobertura){
 				if(c.getText().toLowerCase().contains("no son las antenas")){
 					c.click();
 					break;
 				}
-			}*/
+			}
 		sleep(12000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("CoverageOkNetMessage")));
 		WebElement gesti = driver.findElement(By.id("CoverageOkNetMessage")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElements(By.tagName("p")).get(1).findElement(By.tagName("span")).findElement(By.tagName("strong"));
@@ -168,9 +167,14 @@ public class DiagnosticoInconvenientes extends TestBase {
 		System.out.println("El numero de orden es:" + orden);
 		cCC.buscarOrdenDiag(orden+"*");
 		Boolean ord = false;
-		WebElement status = driver.findElement(By.id("Case_body")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(1);
-			if(status.getText().toLowerCase().contains("derivada")){
-    		ord = true;
+		sleep(5000);
+		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
+		WebElement status = driver.findElement(By.id("Case_body")).findElement(By.tagName("table")).findElements(By.tagName("tr")).get(1);
+		List<WebElement> estado = status.findElements(By.tagName("td"));
+			for(WebElement e : estado){
+				if(e.getText().toLowerCase().contains("derivada")){
+					ord = true;
+				}
 			}
 		Assert.assertTrue(ord);	
 		System.out.println("La gestion fue derivada");
@@ -193,8 +197,14 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(15000);
 		tech.listadoDeSeleccion("0800", "0800-444-0531", "Incov con derivaci\u00f3n a representante");
 		sleep(4000);
-		tech.verificarNumDeGestion();
-		Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
+		WebElement gesti = driver.findElement(By.id("ClosedCaseText")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
+		String orden = gesti.getText();
+		sleep(2000);
+		cc.buscarOrdenDiag(orden+"*");
+		sleep(5000);
+		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
+		cc.verificarStatus(orden, "informada");
+		
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
@@ -210,8 +220,13 @@ public class DiagnosticoInconvenientes extends TestBase {
 		searchAndClick(driver, "Diagn\u00f3stico de Autogesti\u00f3n");
 		tech.listadoDeSeleccion("USSD", "*150#", "No Interact\u00faa");
 		sleep(4000);
-		tech.verificarNumDeGestion();
-		Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
+		WebElement gesti = driver.findElement(By.id("ClosedCaseText")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
+		String orden = gesti.getText();
+		sleep(2000);
+		cc.buscarOrdenDiag(orden+"*");
+		sleep(5000);
+		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
+		cc.verificarStatus(orden, "informada");
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
@@ -227,8 +242,13 @@ public class DiagnosticoInconvenientes extends TestBase {
 		searchAndClick(driver, "Diagn\u00f3stico de Autogesti\u00f3n");
 		tech.listadoDeSeleccion("WAP", "email", "informaci\u00f3n incompleta");
 		sleep(4000);
-		tech.verificarNumDeGestion();
-		Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
+		WebElement gesti = driver.findElement(By.id("ClosedCaseText")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
+		String orden = gesti.getText();
+		sleep(2000);
+		cc.buscarOrdenDiag(orden+"*");
+		sleep(5000);
+		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
+		cc.verificarStatus(orden, "informada");
 		
 		
 	}
@@ -300,11 +320,13 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(15000);
 		tech.listadoDeSeleccion("WEB", "Packs", "Incon.con Compra de packs");
 		sleep(4000);
-		tech.verificarNumDeGestion();
-		driver.switchTo().frame(cambioFrame(driver, By.id("srchErrorDiv_Case")));
-		String estado= driver.findElement(By.xpath("//*[@id='Case_body']/table/tbody/tr[2]/td[3]")).getText();
-		Assert.assertTrue(estado.equalsIgnoreCase("Informada"));
-		//Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
+		WebElement gesti = driver.findElement(By.id("ClosedCaseText")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
+		String orden = gesti.getText();
+		sleep(2000);
+		cc.buscarOrdenDiag(orden+"*");
+		sleep(5000);
+		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
+		cc.verificarStatus(orden, "realizada exitosa");
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
@@ -320,8 +342,13 @@ public class DiagnosticoInconvenientes extends TestBase {
 		searchAndClick(driver, "Diagn\u00f3stico de Autogesti\u00f3n");
 		tech.listadoDeSeleccion("Nros. Emergencia", "Otro", "Informa Sistema Fuera de Servicio");
 		sleep(4000);
-		tech.verificarNumDeGestion();
-		Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
+		WebElement gesti = driver.findElement(By.id("ClosedCaseText")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
+		String orden = gesti.getText();
+		sleep(2000);
+		cc.buscarOrdenDiag(orden+"*");
+		sleep(5000);
+		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
+		cc.verificarStatus(orden, "realizada exitosa");
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
@@ -361,16 +388,13 @@ public class DiagnosticoInconvenientes extends TestBase {
 	    sleep(5000);
 	    page.seleccionarPreguntaFinal("S\u00ed");
 	    sleep(5000);
-	    String orden = null;
-	    List<WebElement> ord = driver.findElements(By.cssSelector(".slds-form-element__control"));
-	    	for(WebElement o : ord){
-	    		if(o.getText().contains("El n\u00famero de caso es")){
-	    			orden = o.findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
-	    			}
-	    	}
-	    System.out.println("El numero de orden es:" + orden);
-	    cCC.buscarCaso(orden+"*");
-	    cCC.verificarStatus(orden);
+	    WebElement gesti = driver.findElement(By.id("ClosedCaseText")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
+		String orden = gesti.getText();
+		sleep(2000);
+		cc.buscarOrdenDiag(orden+"*");
+		sleep(5000);
+		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
+		cc.verificarStatus(orden, "realizada exitosa");
 	    
 	}
 	
@@ -426,8 +450,11 @@ public class DiagnosticoInconvenientes extends TestBase {
 		}
 		System.out.println(caso);
 		driver.switchTo().defaultContent();
-		tech.buscarCaso(caso);
-		Assert.assertTrue(tech.cerrarCaso("Resuelta Masiva", "Consulta"));
+		cc.buscarOrdenDiag(orden+"*");
+		sleep(5000);
+		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
+		cc.verificarStatus(orden, "resuelta masiva");
+		
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
@@ -466,15 +493,15 @@ public class DiagnosticoInconvenientes extends TestBase {
 		page.seleccionarPreguntaFinal("S\u00ed, funciona correctamente");
 		buscarYClick(driver.findElements(By.id("HlrDeregister_nextBtn")), "equals", "continuar");
 		sleep(8000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("borderOverlay")));
-		Tech.categoriaRed("Fuera del Area de Cobertura");
+		buscarYClick(driver.findElements(By.id("HlrDeregister_nextBtn")), "equals", "continuar");
+		WebElement gesti = driver.findElement(By.id("ClosedCaseText")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
+		String orden = gesti.getText();
+		sleep(2000);
+		cc.buscarOrdenDiag(orden+"*");
 		sleep(5000);
-		WebElement caso = driver.findElement(By.xpath("//*[@id=\"MobileConfigSendingMessage\"]/div/p/h1/span/strong"));
-		String Ncaso = caso.getText();
-		System.out.println(Ncaso);
-		driver.switchTo().defaultContent();
-		tech.buscarCaso(Ncaso);
-		Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
+		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
+		cc.verificarStatus(orden, "realizada exitosa");
+		
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
@@ -575,18 +602,13 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(8000);
 		Tech.categoriaRed("Fuera del Area de Cobertura");
 		sleep(8000);
-		buscarYClick(driver.findElements(By.id("AddressSection_nextBtn")), "equals", "continuar");
-		String caso = null;
-		List <WebElement> lista = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
-		for(WebElement x : lista) {
-			if(x.getText().toLowerCase().contains("su gesti\u00f3n")) {
-				caso = x.findElement(By.tagName("div")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
-			}
-		}
-		System.out.println(caso);
-		driver.switchTo().defaultContent();
-		tech.buscarCaso(caso);
-		Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));	
+		WebElement gesti = driver.findElement(By.id("ClosedCaseText")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
+		String orden = gesti.getText();
+		sleep(2000);
+		cc.buscarOrdenDiag(orden+"*");
+		sleep(5000);
+		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
+		cc.verificarStatus(orden, "resuelta exitosa");
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
@@ -624,17 +646,13 @@ public class DiagnosticoInconvenientes extends TestBase {
 		}
 		sleep(8000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("CoverageOkNetMessage")));
-		String caso = null;
-		WebElement gesti = driver.findElement(By.id("CoverageOkNetMessage")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElements(By.tagName("p")).get(1).findElement(By.tagName("span")).findElement(By.tagName("strong"));
-		caso = gesti.getText();
-		System.out.println("El numero de caso es: "+caso);
-		driver.switchTo().defaultContent();
-		Tech.buscarCaso(caso);
+		WebElement gesti = driver.findElement(By.id("ClosedCaseText")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
+		String orden = gesti.getText();
+		sleep(2000);
+		cc.buscarOrdenDiag(orden+"*");
 		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("srchErrorDiv_Case")));
-		String estado= driver.findElement(By.xpath("//*[@id='Case_body']/table/tbody/tr[2]/td[3]")).getText();
-		Assert.assertTrue(estado.equalsIgnoreCase("derivada"));
-		Assert.assertTrue(Tech.cerrarCaso("Resuelta exitosa", "Consulta"));	
+		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
+		cc.verificarStatus(orden, "resuelta exitosa");
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")

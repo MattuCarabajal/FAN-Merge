@@ -261,14 +261,14 @@ public class CBS_Mattu extends TestBase {
 	}
 	
 	@Test
-	public Document Servicio_Recharge(String sLinea, String sMonto) {
+	public Document Servicio_Recharge(String sLinea, String sMonto, String sCanal) {
 		String sEndPoint = "pago en caja";
 		//String sMonto = "35000000";
 		//String sLinea = "5572408875";
 		String sFecha =((new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date())).toString();
 		SOAPClientSAAJ sSCS = new SOAPClientSAAJ();
 		CBS cCBS = new CBS();
-		Document sResponse = sSCS.callSoapWebService(cCBS.sRequestRecharge(sLinea, sFecha, sMonto), sEndPoint);
+		Document sResponse = sSCS.callSoapWebService(cCBS.sRequestRecharge(sLinea, sFecha, sMonto, sCanal), sEndPoint);
 		Assert.assertTrue(cCBS.sValidacion_ResponseRecharge(sResponse));
 		//Assert.assertFalse(sResponse.startsWith("false"));
 		System.out.println(cCBS.ObtenerValorResponse(sResponse, "cbs:ResultDesc"));
