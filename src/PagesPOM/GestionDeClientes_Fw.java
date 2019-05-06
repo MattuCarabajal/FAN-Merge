@@ -105,8 +105,8 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		//PageFactory.initElements(driver, this);
 		PageFactory.initElements(getDriver(), this);
 		super.setFluentWait(new FluentWait<WebDriver>(driver));
-		super.getFluentWait().withTimeout(15, TimeUnit.SECONDS)
-		.pollingEvery(5, TimeUnit.SECONDS)
+		super.getFluentWait().withTimeout(30, TimeUnit.SECONDS)
+		.pollingEvery(500, TimeUnit.MILLISECONDS)
 		.ignoring(NoSuchElementException.class)
 		.ignoring(NullPointerException.class)
 //		.ignoring(TimeoutException.class)
@@ -196,6 +196,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		for(WebElement frame : iframes) {//recorre los frames
 			try {
 				driver.switchTo().frame(frame);
+				((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+ driver.findElement(By.cssSelector(locator_BotonesInf)).getLocation().y+" )"); ///
 				fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locator_BotonesInf)));
 				driver.findElement(By.cssSelector(this.locator_BotonesInf));//each element is in the same iframe.
 				driver.switchTo().frame(super.cambioFrame(By.cssSelector(this.locator_Bodys)));
