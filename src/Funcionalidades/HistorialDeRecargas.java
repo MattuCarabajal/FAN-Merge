@@ -39,22 +39,41 @@ public class HistorialDeRecargas extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
-	public void init() throws IOException, AWTException {
+	//@BeforeClass (alwaysRun = true)
+	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		loginOOCC(driver);
-		sleep(22000);
-		try {
-			cc.cajonDeAplicaciones("Consola FAN");
-		} catch(Exception e) {
-			/*sleep(3000);
-			waitForClickeable(driver,By.id("tabBar"));
-			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
-			sleep(6000);*/
-		}		
+		sleep(15000);
+		cc.irAConsolaFAN();	
+		driver.switchTo().defaultContent();
+		sleep(6000);
+	}
+	
+	//@BeforeClass (alwaysRun = true)
+	public void initTelefonico() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		sleep(5000);
+		sb = new SalesBase(driver);
+		cc = new CustomerCare(driver);
+		loginTelefonico(driver);
+		sleep(15000);
+		cc.irAConsolaFAN();	
+		driver.switchTo().defaultContent();
+		sleep(6000);
+	}
+	
+	@BeforeClass (alwaysRun = true)
+	public void initAgente() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		sleep(5000);
+		sb = new SalesBase(driver);
+		cc = new CustomerCare(driver);
+		loginAgente(driver);
+		sleep(15000);
+		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);
 	}
