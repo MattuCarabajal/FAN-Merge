@@ -25,6 +25,7 @@ import Pages.Accounts;
 import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
+import PagesPOM.GestionDeClientes_Fw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
@@ -80,50 +81,56 @@ public class HistorialDeRecargas extends TestBase {
 	
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
-		sleep(3000);
-		goToLeftPanel4(driver, "Inicio");
-		sleep(10000);
-		try {
-			sb.cerrarPestaniaGestion(driver);
-		} catch (Exception ex1) {}
-		Accounts accountPage = new Accounts(driver);
-		driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-		List<WebElement> frames = driver.findElements(By.tagName("iframe"));
-		boolean enc = false;
-		int index = 0;
-		for(WebElement frame : frames) {
-			try {
-				System.out.println("aca");
-				driver.switchTo().frame(frame);
-				driver.findElement(By.cssSelector(".slds-grid.slds-m-bottom_small.slds-wrap.cards-container")).getText();
-				driver.findElement(By.cssSelector(".slds-grid.slds-m-bottom_small.slds-wrap.cards-container")).isDisplayed();
-				driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-				enc = true;
-				break;
-			} catch(NoSuchElementException e) {
-				index++;
-				driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-			}
-		}
-		if(enc == false)
-			index = -1;
-		try {
-			driver.switchTo().frame(frames.get(index));
-		} catch(ArrayIndexOutOfBoundsException e) {
-			System.out.println("Elemento no encontrado en ningun frame 2.");			
-		}
-		List<WebElement> botones = driver.findElements(By.tagName("button"));
-		for (WebElement UnB : botones) {
-			System.out.println(UnB.getText());
-			if (UnB.getText().equalsIgnoreCase("gesti\u00f3n de clientes")) {
-				UnB.click();
-				break;
-			}
-		}		
-		sleep(10000);		
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
+		ges.selectMenuIzq("Inicio");
+		ges.cerrarPestaniaGestion(driver);
+		ges.irGestionClientes();
+		
+//		sleep(3000);
+//		
+//		goToLeftPanel4(driver, "Inicio");
+//		sleep(10000);
+//		try {
+//			sb.cerrarPestaniaGestion(driver);
+//		} catch (Exception ex1) {}
+//		Accounts accountPage = new Accounts(driver);
+//		driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
+//		List<WebElement> frames = driver.findElements(By.tagName("iframe"));
+//		boolean enc = false;
+//		int index = 0;
+//		for(WebElement frame : frames) {
+//			try {
+//				System.out.println("aca");
+//				driver.switchTo().frame(frame);
+//				driver.findElement(By.cssSelector(".slds-grid.slds-m-bottom_small.slds-wrap.cards-container")).getText();
+//				driver.findElement(By.cssSelector(".slds-grid.slds-m-bottom_small.slds-wrap.cards-container")).isDisplayed();
+//				driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
+//				enc = true;
+//				break;
+//			} catch(NoSuchElementException e) {
+//				index++;
+//				driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
+//			}
+//		}
+//		if(enc == false)
+//			index = -1;
+//		try {
+//			driver.switchTo().frame(frames.get(index));
+//		} catch(ArrayIndexOutOfBoundsException e) {
+//			System.out.println("Elemento no encontrado en ningun frame 2.");			
+//		}
+//		List<WebElement> botones = driver.findElements(By.tagName("button"));
+//		for (WebElement UnB : botones) {
+//			System.out.println(UnB.getText());
+//			if (UnB.getText().equalsIgnoreCase("gesti\u00f3n de clientes")) {
+//				UnB.click();
+//				break;
+//			}
+//		}		
+//		sleep(10000);		
 	}
 
-	@AfterMethod(alwaysRun=true)
+//	@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -141,7 +148,7 @@ public class HistorialDeRecargas extends TestBase {
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
 	@Test (groups = {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"}, dataProvider = "RecargasHistorias")
-	public void TS134787_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_con_Beneficios_FAN_Front_OOCC(String sDNI) {
+	public void TS134787_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_con_Beneficios_FAN_Front_OOCC(String sDNI,String sLinea) {
 		imagen = "TS134787";
 		detalles = imagen + " - Historial de recargas - DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));

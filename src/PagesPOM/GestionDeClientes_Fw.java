@@ -87,7 +87,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	private List<WebElement> iframes ;
 	
 
-	final String locator_Bodys="[class='hasMotif homeTab homepage  ext-webkit ext-chrome sfdcBody brandQuaternaryBgr']";
+	final String locator_Bodys="[class='hasMotif homeTab homepage  ext-webkit ext-chrome net-withGlobalHeader sfdcBody brandQuaternaryBgr']";
 	@FindBy (how = How.CSS, using = locator_Bodys)
 	private List<WebElement> bodys;
 
@@ -187,6 +187,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public void irGestionClientes() {
+		//try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		driver.switchTo().frame(cambioFrame(By.cssSelector(locator_Bodys)));
 		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(locator_Bodys), 0));
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locator_Bodys)));//esperar que los elementos sean visibles
