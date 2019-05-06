@@ -153,7 +153,7 @@ public class HistorialDeRecargas extends TestBase {
 		detalles = null;
 		detalles = imagen + "- Historial de recargas - DNI: "+sDNI;
 		CBS_Mattu cCBSM = new CBS_Mattu();
-		cCBSM.Servicio_Recharge(cLinea,"25000000");
+		cCBSM.Servicio_Recharge(cLinea,"25000000", "0");
 		sleep(1000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -415,7 +415,7 @@ public class HistorialDeRecargas extends TestBase {
 		String dia = fechaDeHoy();
 		String monto = "30000000";
 		CBS_Mattu cCBSM = new CBS_Mattu();
-		cCBSM.Servicio_Recharge(sLinea,monto , "0");
+		cCBSM.Servicio_Recharge(sLinea,monto , "H");
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
@@ -447,6 +447,10 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS134841_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_SMS_Fan_FRONT_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134847";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
+		String dia = fechaDeHoy();
+		String monto = "30000000";
+		CBS_Mattu cCBSM = new CBS_Mattu();
+		cCBSM.Servicio_Recharge(sLinea,monto , "2");
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
@@ -475,11 +479,18 @@ public class HistorialDeRecargas extends TestBase {
 				s.click();
 			}	
 		}
-		if (driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).isDisplayed()) {
-			driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-			Assert.assertTrue(true);
-		} else
-			Assert.assertTrue(false);
+		sleep(3000);
+		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
+		sleep(3000);
+		boolean verif = false;
+		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+ driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).getLocation().y+" )");
+		WebElement verificacion = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody"));
+		for(WebElement x : verificacion.findElements(By.tagName("tr"))) {
+			if(x.findElements(By.tagName("td")).get(0).getText().contains(dia) && x.getText().contains("SMS")) {
+				verif = true;
+			}
+		}
+		Assert.assertTrue(verif);
 	}
 	
 	@Test (groups= {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "HistoriaRecarga")
@@ -809,7 +820,7 @@ public class HistorialDeRecargas extends TestBase {
 		detalles = null;
 		detalles = imagen+"-HistorialDeRecargasTelefonico-DNI:"+sDNI;
 		CBS_Mattu cCBSM = new CBS_Mattu();
-		cCBSM.Servicio_Recharge(cLinea,"25000000");
+		cCBSM.Servicio_Recharge(cLinea,"25000000", "0");
 		sleep(1000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -1093,6 +1104,10 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS134845_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_SMS_Fan_FRONT_Telefonico(String sDNI, String sLinea){
 		imagen = "TS134845";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
+		String dia = fechaDeHoy();
+		String monto = "30000000";
+		CBS_Mattu cCBSM = new CBS_Mattu();
+		cCBSM.Servicio_Recharge(sLinea,monto,"2");
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
@@ -1121,13 +1136,18 @@ public class HistorialDeRecargas extends TestBase {
 				s.click();
 			}	
 		}
-		if (driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).isDisplayed()) {
-			driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-			TestBase TB = new TestBase();
-			TB.waitFor(driver, By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium"));
-			Assert.assertTrue(driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).isDisplayed());
-		} else
-			Assert.assertTrue(false);
+		sleep(3000);
+		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
+		sleep(3000);
+		boolean verif = false;
+		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+ driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).getLocation().y+" )");
+		WebElement verificacion = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody"));
+		for(WebElement x : verificacion.findElements(By.tagName("tr"))) {
+			if(x.findElements(By.tagName("td")).get(0).getText().contains(dia) && x.getText().contains("SMS")) {
+				verif = true;
+			}
+		}
+		Assert.assertTrue(verif);
 	}
 	
 	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "HistoriaRecarga")
@@ -1175,6 +1195,10 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS134847_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_Atencion_al_cliente_Fan_FRONT_Telefonico(String sDNI, String sLinea){
 		imagen = "TS134847";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
+		String dia = fechaDeHoy();
+		String monto = "30000000";
+		CBS_Mattu cCBSM = new CBS_Mattu();
+		cCBSM.Servicio_Recharge(sLinea,monto,"J");
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
@@ -1204,6 +1228,17 @@ public class HistorialDeRecargas extends TestBase {
 		} catch (Exception e) {
 			driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
 		}
+		
+		sleep(3000);
+		boolean verif = false;
+		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+ driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).getLocation().y+" )");
+		WebElement verificacion = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody"));
+		for(WebElement x : verificacion.findElements(By.tagName("tr"))) {
+			if(x.findElements(By.tagName("td")).get(0).getText().contains(dia) && x.getText().contains("Atenci\u00f3n al cliente")) {
+				verif = true;
+			}
+		}
+		Assert.assertTrue(verif);
 		sleep(3000);
 		boolean a = false;
 		List <WebElement> fecha = driver.findElements(By.cssSelector(".slds-truncate.slds-th__action"));		
