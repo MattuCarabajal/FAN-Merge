@@ -411,12 +411,14 @@ public class DiagnosticoInconvenientes extends TestBase {
 		evento.sendKeys("Evento Masivo");
 		buscarYClick(driver.findElements(By.id("AddressSection_nextBtn")), "equals", "continuar");
 		sleep(8000);
-		String caso = null;
+		String orden = null;
 		List <WebElement> lista = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
 		for(WebElement x : lista) {
-			if(x.getText().toLowerCase().contains("su gesti\u00f3n"))
-				caso = x.findElement(By.tagName("div")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
+			if(x.getText().toLowerCase().contains("su gesti\u00f3n")) {
+				orden = x.findElement(By.tagName("div")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
+			}
 		}
+		System.out.println(orden);
 		driver.switchTo().defaultContent();
 		cc.buscarOrdenDiag(orden+"*");
 		sleep(5000);
