@@ -6,18 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import Pages.Accounts;
 import Pages.CBS;
 import Pages.CustomerCare;
 import Pages.Marketing;
 import Pages.SalesBase;
 import Pages.setConexion;
+import PagesPOM.GestionDeClientes_Fw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
@@ -35,24 +33,40 @@ public class ConsultaDeSaldo extends TestBase {
 	
 	
 	@BeforeClass (alwaysRun = true)
-	public void init() throws IOException, AWTException {
+	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		mk = new Marketing(driver);
-		cbs = new CBS();
-		cbsm = new CBS_Mattu();
-		loginMerge(driver);
-		sleep(22000);
-		try {
-			cc.cajonDeAplicaciones("Consola FAN");
-		} catch(Exception e) {
-			/*sleep(3000);
-			waitForClickeable(driver,By.id("tabBar"));
-			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
-			sleep(6000);*/
-		}		
+		loginOOCC(driver);
+		sleep(15000);
+		cc.irAConsolaFAN();	
+		driver.switchTo().defaultContent();
+		sleep(6000);
+	}
+		
+	//@BeforeClass (alwaysRun = true)
+	public void initTelefonico() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		sleep(5000);
+		sb = new SalesBase(driver);
+		cc = new CustomerCare(driver);
+		loginTelefonico(driver);
+		sleep(15000);
+		cc.irAConsolaFAN();	
+		driver.switchTo().defaultContent();
+		sleep(6000);
+	}
+	
+	//@BeforeClass (alwaysRun = true)
+		public void initAgente() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		sleep(5000);
+		sb = new SalesBase(driver);
+		cc = new CustomerCare(driver);
+		loginAgente(driver);
+		sleep(15000);
+		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);
 	}
@@ -60,47 +74,10 @@ public class ConsultaDeSaldo extends TestBase {
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
 		detalles = null;
-		sleep(3000);
-		goToLeftPanel4(driver, "Inicio");
-		sleep(10000);
-		try {
-			sb.cerrarPestaniaGestion(driver);
-		} catch (Exception ex1) {}
-		Accounts accountPage = new Accounts(driver);
-		driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-		List<WebElement> frames = driver.findElements(By.tagName("iframe"));
-		boolean enc = false;
-		int index = 0;
-		for(WebElement frame : frames) {
-			try {
-				System.out.println("aca");
-				driver.switchTo().frame(frame);
-				driver.findElement(By.cssSelector(".slds-grid.slds-m-bottom_small.slds-wrap.cards-container")).getText();
-				driver.findElement(By.cssSelector(".slds-grid.slds-m-bottom_small.slds-wrap.cards-container")).isDisplayed();
-				driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-				enc = true;
-				break;
-			} catch(NoSuchElementException e) {
-				index++;
-				driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-			}
-		}
-		if(enc == false)
-			index = -1;
-		try {
-			driver.switchTo().frame(frames.get(index));
-		} catch(ArrayIndexOutOfBoundsException e) {
-			System.out.println("Elemento no encontrado en ningun frame 2.");			
-		}
-		List<WebElement> botones = driver.findElements(By.tagName("button"));
-		for (WebElement UnB : botones) {
-			System.out.println(UnB.getText());
-			if (UnB.getText().equalsIgnoreCase("gesti\u00f3n de clientes")) {
-				UnB.click();
-				break;
-			}
-		}		
-		sleep(10000);		
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
+		ges.selectMenuIzq("Inicio");
+		ges.cerrarPestaniaGestion(driver);
+		ges.irGestionClientes();
 	}
 
 	@AfterMethod(alwaysRun=true)
