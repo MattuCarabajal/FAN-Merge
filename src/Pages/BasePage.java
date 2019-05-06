@@ -248,24 +248,18 @@ public class BasePage {
 		driver.findElement(By.xpath("//input[@name='Ecom_Password']")).submit();
 	}
 	
-	public void cajonDeAplicaciones(String nombre) {
-		driver.switchTo().defaultContent();
-		sleep(5000);
-		WebElement cajon = driver.findElement(By.xpath("//span[@id='tsidLabel']"));
-		
-		if (!nombre.equalsIgnoreCase("Consola FAN") && cajon.getText().equalsIgnoreCase(nombre))
-			return;
-			
-		cajon.click();
-		driver.findElement(By.xpath("//a[contains(.,'" +  nombre + "')]")).click();
-		
-		if (nombre.equalsIgnoreCase("Consola FAN")) {
-			try {
-				(new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".x-window.x-window-plain.x-window-dlg")));
-				driver.findElement(By.tagName("button")).click();
-				driver.findElement(By.xpath("//span[@id='tsidLabel']")).click();
-				driver.findElement(By.xpath("//a[contains(.,'Consola FAN')]")).click();
-			} catch (TimeoutException e) {}
+	public void irAConsolaFAN() {
+		if (driver.findElement(By.id("tsidLabel")).getText().equalsIgnoreCase("Consola FAN")) {
+			driver.findElement(By.id("BackToServiceDesk_Tab")).click();
+			sleep(10000);
+		} else {
+			driver.findElement(By.cssSelector("menuButton menuButtonRounded appSwitcher")).click();
+			for (WebElement x : driver.findElement(By.cssSelector(".menuButtonMenu.menuWidthExtended")).findElements(By.tagName("a"))) {
+				if (x.getText().equalsIgnoreCase("Consola FAN")) {
+					x.click();
+					sleep(10000);
+				}
+			}
 		}
 	}
 	

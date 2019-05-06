@@ -23,8 +23,8 @@ public class ManejoCaja extends BasePage {
 	private String UrlCaja;
 	private String usuarioUAT = "CBS593572";
 	private String claveUAT = "Testa10k";
-	private String usuarioSIT = "FLORANGEL";
-	private String claveSIT = "Teco2018";
+	private String usuarioSIT = "AGUS";
+	private String claveSIT = "CBs22a!!";
 	
 	@FindBy(id="login")
 	private WebElement pantaLog;
@@ -68,7 +68,7 @@ public class ManejoCaja extends BasePage {
 	}
 	
 	public void ingresarCaja(WebDriver driver) {
-		if (TB.urlAmbiente.contains("sit"))
+		if (TB.urlAmbiente.toLowerCase().contains("sit"))
 			UrlCaja = "https://10.75.197.163:8084/login.action?ssoLogin=true";
 		else
 			UrlCaja = "https://10.75.39.140:8081/main.action?ssLogin=true&BMEWebToken=be935f78-f517-441c-a299-c5a1ba3f1f411b7c8915-7f90-4b1d-bee6-15837afe7b05" ;
@@ -194,23 +194,28 @@ public class ManejoCaja extends BasePage {
 	public void pagarEfectivo(WebDriver driver,String prefactura, String cuenta) {
 		seleccionarOpcionCatalogo(driver, "Cuentas por cobrar");
 		seleccionarOpcionSubMenu(driver, "Pago");
-		sleep(2000);
+		sleep(4000);
 		driver.switchTo().frame(TB.cambioFrame(driver,By.id("queryUserInfoButton")));
 		driver.findElement(By.id("balanceAdjustQueryCondition_content")).findElement(By.id("paymentType_condition_input_1")).click();
-		sleep(2000);
+		sleep(4000);
 		driver.findElement(By.id("balanceAdjustQueryCondition_content")).findElement(By.id("acctCode_condition_input_value")).sendKeys(cuenta);
 		driver.findElement(By.id("balanceAdjustQueryCondition_content")).findElement(By.id("invoiceNo_condition_input_value")).sendKeys(prefactura);
 		driver.findElement(By.id("balanceAdjustQueryCondition_content")).findElement(By.id("queryUserInfoButton")).click();
-		sleep(3000);
+		sleep(5000);
 		driver.findElement(By.id("invoiceInfoPanel_content")).findElement(By.id("selected_0")).click();
-		sleep(2000);
+		sleep(4000);
 		driver.findElement(By.id("salesInvoiceDetailIOList")).findElement(By.id("selectedPayment_0")).click();
-		sleep(2000);
+		sleep(4000);
 		driver.findElement(By.id("submitButton")).click();
-		sleep(3000);
+		sleep(4000);
 		driver.switchTo().frame(TB.cambioFrame(driver, By.cssSelector(".btn_group.btn_group_aligncenter.bc")));
 		driver.findElement(By.cssSelector(".btn_group.btn_group_aligncenter.bc")).findElement(By.tagName("span")).click();
-		sleep(3000);
+		sleep(4000);
+		try {
+			driver.switchTo().defaultContent();
+			driver.findElement(By.className("popwin_middle_center")).findElement(By.cssSelector(".bc_btn.bc_ui_ele")).click();
+			
+		}catch (Exception x) {}
 		//cerrarPestanias(driver);
 	}
 	
