@@ -1803,7 +1803,7 @@ public class CustomerCare extends BasePage {
 		WebElement historialDeRecargas = null;
 		driver.switchTo().frame(TB.cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
 		for (WebElement x : driver.findElements(By.className("slds-card"))) {
-			if (x.getText().toLowerCase().contains(sRecarga)) {
+			if (x.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText().toLowerCase().equalsIgnoreCase(sRecarga)) {
 				historialDeRecargas = x;
 			}
 		}
