@@ -30,27 +30,54 @@ public class Vista360 extends TestBase {
 	private PagePerfilTelefonico ppt;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
-	GestionDeClientes_Fw ges ;
+	GestionDeClientes_Fw ges;
 	LoginFw log ;
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
-	public void init() throws IOException, AWTException {
+	//@BeforeClass (alwaysRun = true)
+	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
+		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		ppt = new PagePerfilTelefonico(driver);
-		ges = new GestionDeClientes_Fw(driver);
-		log = new LoginFw(driver);
-		log.LoginSit02();
+		loginOOCC(driver);
+		sleep(15000);
+		cc.irAConsolaFAN();	
+		driver.switchTo().defaultContent();
+		sleep(6000);
+	}
+		
+	//@BeforeClass (alwaysRun = true)
+	public void initTelefonico() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		sleep(5000);
+		sb = new SalesBase(driver);
+		cc = new CustomerCare(driver);
+		loginTelefonico(driver);
+		sleep(15000);
+		cc.irAConsolaFAN();	
+		driver.switchTo().defaultContent();
+		sleep(6000);
+	}
+	
+	//@BeforeClass (alwaysRun = true)
+		public void initAgente() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		sleep(5000);
+		sb = new SalesBase(driver);
+		cc = new CustomerCare(driver);
+		loginAgente(driver);
+		sleep(15000);
+		cc.irAConsolaFAN();	
+		driver.switchTo().defaultContent();
+		sleep(6000);
 	}
 	
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
 		detalles = null;
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
-		ges.cajonDeAplicaciones("Consola FAN");//corrobora si esta en la Aplicacion pasada por parametro sí no te manda para ahi- menos a ventas hay que modificar
 		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
 		ges.irGestionClientes();

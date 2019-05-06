@@ -6,28 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import Pages.Accounts;
-
 import Pages.CustomerCare;
-import Pages.SalesBase;
-import Pages.setConexion;
-import Pages.CBS;
-import Pages.CalculoImpuestos;
-import Pages.CustomerCare;
-import Pages.Marketing;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
-import PagesPOM.LoginFw;
-import Tests.CBS_Mattu;
-import Tests.GestionFlow;
 import Tests.TestBase;
 
 public class GestionDeClientes extends TestBase {
@@ -41,26 +28,24 @@ public class GestionDeClientes extends TestBase {
 	
 	
 	@BeforeClass (alwaysRun = true)
-	public void init() throws IOException, AWTException {
+	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		LoginFw login = new LoginFw(driver);
+		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		login.LoginSit02();//login con espera fluida
-
-
+		loginOOCC(driver);
+		sleep(15000);
+		cc.irAConsolaFAN();	
+		driver.switchTo().defaultContent();
+		sleep(6000);
 	}
 	
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
-
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
-		ges.cajonDeAplicaciones("Consola FAN");//corrobora si esta en la Aplicacion pasada por parametro sí no te manda para ahi- menos a ventas hay que modificar
 		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
 		ges.irGestionClientes();
-		System.out.println("finished gato  jajaj");
-		
 	}
 
 	@AfterMethod(alwaysRun=true)
