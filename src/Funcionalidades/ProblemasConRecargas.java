@@ -63,6 +63,7 @@ public class ProblemasConRecargas extends TestBase {
 	
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
+		detalles = null;
 		sleep(3000);
 		goToLeftPanel4(driver, "Inicio");
 		sleep(10000);
@@ -126,7 +127,6 @@ public class ProblemasConRecargas extends TestBase {
 	@Test (groups = {"GestionesPerfilOficina", "ProblemasConRecargas","E2E","Ciclo3"}, dataProvider = "ProblemaRecargaPrepaga")
 	public void GestionProblemasConRecargasTarjetaPrepaga(String sDNI, String sLinea, String sBatch, String sPin) {
 		imagen = "GestionProblemasConRecargasTarjetaPrepaga";
-		detalles = null;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		System.out.println(datosInicial);
@@ -168,7 +168,6 @@ public class ProblemasConRecargas extends TestBase {
 	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecarga")
 	public void problemaRecargaCredito(String sDNI, String sLinea) {
 		imagen = "problemaRecargaCredito";
-		detalles = null;
 		String davoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(davoViejo.substring(0, (davoViejo.length()) - 1));
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
@@ -249,7 +248,6 @@ public class ProblemasConRecargas extends TestBase {
 	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilOficina", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecarga") 
 	public void TS104346_CRM_Movil_Repro_Problemas_con_Recarga_Presencial_On_Line_Ofcom(String sDNI, String sLinea) {
 		imagen = "TS104346";
-		detalles = null;
 		detalles = imagen + " -Problemas Con Recargas-DNI: " + sDNI;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
@@ -293,7 +291,6 @@ public class ProblemasConRecargas extends TestBase {
 	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecargaQuemada")
 	public void TS104347_CRM_Movil_REPRO_Problemas_con_Recarga_Presencial_Tarjeta_Scratch_Caso_Nuevo_Quemada(String sDNI, String sLinea, String sTarjeta, String sPIN){
 		imagen = "TS104347";
-		detalles = null;
 		detalles = imagen + " -Problema con recargas - DNI: " + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -360,7 +357,6 @@ public class ProblemasConRecargas extends TestBase {
 	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilOficina", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecargaAYD") 
 	public void TS104353_CRM_Movil_Repro_Problemas_con_Recarga_Presencial_Tarjeta_Scratch_Caso_Nuevo_Tarjeta_Activa_y_Disponible_Ofcom(String sDNI, String sLinea, String sTarjeta, String sPIN) {
 		imagen = "TS104353";
-		detalles = null;
 		detalles = imagen + " -Problemas Con Recargas-DNI: " + sDNI;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
@@ -443,7 +439,6 @@ public class ProblemasConRecargas extends TestBase {
 	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecargaAYD")
 	public void TS135714_CRM_Movil_PRE_Problemas_con_Recarga_Telefonico_Tarjeta_Scratch_Caso_Nuevo_Tarjeta_Activa_y_Disponible(String sDNI, String sLinea, String sTarjeta, String sPIN){
 		imagen = "TS135714";
-		detalles = null;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		System.out.println(datosInicial);
@@ -527,7 +522,6 @@ public class ProblemasConRecargas extends TestBase {
 	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecargaAYD") 
 	public void TS104332_CRM_Movil_Repro_Problemas_con_Recarga_Telefonico_Tarjeta_Scratch_Caso_Nuevo_Tarjeta_Activa_y_Disponible(String sDNI, String sLinea, String sTarjeta, String sPIN) {
 		imagen = "TS104332";
-		detalles = null;
 		detalles = imagen + " -Problemas Con Recargas-DNI: " + sDNI;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
