@@ -53,8 +53,8 @@ import DataProvider.ExcelUtils;
 public class TestBase {
 	protected static WebDriver driver;
 		
-		//public static String urlAmbiente = "https://telecomcrm--uat.cs53.my.salesforce.com";
-		public static String urlAmbiente = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
+		public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
+		//public static String urlAmbiente = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
 		
 		// viejo public String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";
 		public static String urlSCP = "https://telecomcrm--uat.cs53.my.salesforce.com";
@@ -341,14 +341,14 @@ public class TestBase {
 	}
 		/**Ingresa con los datos de la cuenta Andres
 		 * Para el Modulo Sales tiene vinculado el perfil de Agente y Atenci�n a clientes		 */
-		public void loginAgente(WebDriver driver) {
-			driver.get(urlAmbiente);
-			//try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			waitForClickeable(driver, By.id("idp_section_buttons"));
-		    Login page0 = new Login(driver);
-		    page0.ingresarAndres();
-		}
-		
+//		public void loginAgente(WebDriver driver) {
+//			driver.get(urlAmbiente);
+//			//try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+//			waitForClickeable(driver, By.id("idp_section_buttons"));
+//		    Login page0 = new Login(driver);
+//		    page0.ingresarAndres();
+//		}
+//		
 		public void loginGeneral(WebDriver driver) {
 			driver.get(urlAmbiente);
 			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
@@ -357,12 +357,12 @@ public class TestBase {
 		}
 		/**Ingresa con los datos de la cuenta Elena
 		 * Para el Modulo Sales tiene vinculado el perfil de Call center		 */
-		public void loginTelefonico(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarElena();
-		}
+//		public void loginTelefonico(WebDriver driver) {
+//			driver.get(urlAmbiente);
+//			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+//		    Login page0 = new Login(driver);
+//		    page0.ingresarElena();
+//		}
 	
 		public void loginLogistica(WebDriver driver) {
 			driver.get(urlAmbiente);
@@ -474,11 +474,25 @@ public class TestBase {
 		}
 		
 		//Ingreso a Merge
-		public void loginMerge(WebDriver driver) {
+		public void loginOOCC(WebDriver driver) {
 			driver.get(urlAmbiente);
 			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		    Login page0 = new Login(driver);
-		    page0.ingresarMerge();
+		    page0.ingresarOOCC();
+		}
+		
+		public void loginTelefonico(WebDriver driver) {
+			driver.get(urlAmbiente);
+			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		    Login page0 = new Login(driver);
+		    page0.ingresarTelefonico();
+		}
+		
+		public void loginAgente(WebDriver driver) {
+			driver.get(urlAmbiente);
+			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		    Login page0 = new Login(driver);
+		    page0.ingresarAgente();
 		}
 		
 		public void loginFANFront(WebDriver driver) {

@@ -45,7 +45,7 @@ public class HistorialDeRecargas extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginMerge(driver);
+		loginOOCC(driver);
 		sleep(22000);
 		try {
 			cc.cajonDeAplicaciones("Consola FAN");

@@ -443,4 +443,33 @@ public class Login extends BasePage {
 		  loginMerge.click();
 		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
+	
+	public void ingresarOOCC() {
+		 logininterno.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		  Ecom_User_ID.sendKeys("Ua2544674"); //UAT
+		  Ecom_Password.sendKeys("Testa10k");
+		  loginButton2.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	}
+
+	public void ingresarTelefonico() {
+		logininterno.click();
+		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		  Ecom_User_ID.sendKeys("Ua2591324"); //UAT
+		  Ecom_Password.sendKeys("Testa10k");
+		  loginButton2.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		
+	}
+
+	public void ingresarAgente() {
+		logininterno.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		  Ecom_User_ID.sendKeys("Ua2554620"); //UAT
+		  Ecom_Password.sendKeys("Testa10k");
+		  loginButton2.click();
+		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		
+	}
 }
