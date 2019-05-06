@@ -1,7 +1,5 @@
 package Funcionalidades;
 
-import static org.testng.Assert.assertTrue;
-
 import java.awt.AWTException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +18,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import Pages.Accounts;
-import Pages.BasePage;
 import Pages.CustomerCare;
 import Pages.Marketing;
 import Pages.SalesBase;
@@ -418,7 +415,6 @@ public class DiagnosticoInconvenientes extends TestBase {
 				orden = x.findElement(By.tagName("div")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
 			}
 		}
-		System.out.println(orden);
 		driver.switchTo().defaultContent();
 		cc.buscarOrdenDiag(orden+"*");
 		sleep(5000);
