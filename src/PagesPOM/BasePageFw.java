@@ -5,6 +5,9 @@ package PagesPOM;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.awt.AWTException;
+import java.awt.Robot;
+
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
@@ -233,6 +236,17 @@ public class BasePageFw {
 	Accounts acc =new Accounts(driver);
 	return acc;
 	
+	}
+	
+	public Robot getRobot() {
+	Robot acc = null;
+	try {
+		acc = new Robot();
+	} catch (AWTException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return acc;
 	}
 
 

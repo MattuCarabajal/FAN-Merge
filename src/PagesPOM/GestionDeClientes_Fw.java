@@ -1,5 +1,8 @@
 package PagesPOM;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +28,12 @@ import Tests.TestBase;
 public class GestionDeClientes_Fw extends BasePageFw {
 
 //ELEMENTOS 
+	
+	final String locator_cerrarPanelDerecho= "[class='x-layout-split x-layout-split-east x-splitbar-h']";
+	@FindBy (css= locator_cerrarPanelDerecho)
+	private WebElement cerrarPanelDerecho;
+	
+	
 	final String locator_BtnBuscar= "SearchClientsDummy";
 	@FindBy (how =How.ID,using= locator_BtnBuscar)
 	private WebElement BtnBuscar;
@@ -215,26 +224,64 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			}
 		driver.switchTo().defaultContent();
 		}
+		
+
 		try {
 			driver.switchTo().defaultContent();
-			fluentWait.until(ExpectedConditions.presenceOfElementLocated(By.id("SearchClientDocumentType")));
-
+			fluentWait.until(ExpectedConditions.elementToBeClickable(cambioFrame(By.id(locator_DNIbuscador))));
 		}catch(Exception e) {
-			driver.switchTo().frame(cambioFrame(By.id("SearchClientDocumentType")));
-			fluentWait.until(ExpectedConditions.presenceOfElementLocated(By.id("SearchClientDocumentType")));
-			System.out.println(pestanas.size()+" pestanas cerrada");			
+			driver.switchTo().frame(cambioFrame(By.id(this.locator_DNIbuscador)));
+			fluentWait.until(ExpectedConditions.presenceOfElementLocated(By.id(locator_DNIbuscador)));
+			System.out.println(pestanas.size()+" pestanas cerrada");	
 		}
 
 	}
 	
 	public void BuscarCuenta(String Type, String NDNI){
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
-		getSelect(DNIbuscador).selectByVisibleText("DNI");
+		getSelect(DNIbuscador).selectByVisibleText(Type);
 		DNI.sendKeys(NDNI);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_BtnBuscar)));
 		BtnBuscar.click();
 
 	}
+	public void BuscarCuentaConLinea(String Type, String NDNI, String numlinea){//modificar para que funcione
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
+		getSelect(DNIbuscador).selectByVisibleText(Type);
+		DNI.sendKeys(NDNI);
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_BtnBuscar)));
+		BtnBuscar.click();
+
+	}
+	public void cerrarPanelDerecho() throws AWTException {		
+		driver.switchTo().defaultContent();
+		fluentWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(locator_cerrarPanelDerecho)));
+		Robot robot = getRobot();																									
+		WebElement boton  = this.cerrarPanelDerecho;	//SELECCIONA LA BARRA PARA HACERLA VISIBLE
+		robot.mouseMove((int) (boton.getLocation().getX()*1.01),(int) (boton.getLocation().getY()*4));					// SE MUEVE A LA POSICION 
+		if(boton.getAttribute("class").compareTo("x-layout-split x-layout-split-east x-splitbar-h x-layout-split-over")==0) {//VERIFICA QUE ESTE SELECCIONADO Y VISIBLE
+			robot.mousePress(InputEvent.BUTTON1_MASK);
+			robot.mouseRelease(InputEvent.BUTTON1_MASK);																	//HACE CLICK PARA COLAPSAR EL PANEL
+			System.out.println("hace click la concha de tu hermana");
+
+		}
+	}
+	public void cerrarPanelDerecho2() throws AWTException {		
+		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}		
+		driver.switchTo().defaultContent();
+		//fluentWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(locator_cerrarPanelDerecho)));
+		Robot robot = new Robot();																									
+		WebElement boton  = driver.findElement(By.cssSelector(".x-layout-split.x-layout-split-east.x-splitbar-h"));		//SELECCIONA LA BARRA PARA HACERLA VISIBLE
+		robot.mouseMove((int) (boton.getLocation().getX()*1.01),(int) (boton.getLocation().getY()*4));					// SE MUEVE A LA POSICION 
+		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}	
+		if(boton.getAttribute("class").compareTo("x-layout-split x-layout-split-east x-splitbar-h x-layout-split-over")==0) {//VERIFICA QUE ESTE SELECCIONADO Y VISIBLE
+			robot.mousePress(InputEvent.BUTTON1_MASK);
+			robot.mouseRelease(InputEvent.BUTTON1_MASK);																	//HACE CLICK PARA COLAPSAR EL PANEL
+			try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}	
+		}
+	}
+	
+	
 	
 	
 }

@@ -77,14 +77,21 @@ public class Vista360 extends TestBase {
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
 	@Test (groups= {"GestionPerfilOficina", "Ciclo2", "Vista360"}, dataProvider = "documentacionVista360")
-	public void TS134379_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_OOCC(String sDNI) {
+	public void TS134379_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_OOCC(String sDNI) throws AWTException {
 		imagen = "TS134379";
 		detalles = null;
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+		driver.switchTo().frame(ges.cambioFrame(By.id("SearchClientDocumentType")));
 		ges.BuscarCuenta("DNI", sDNI);
-		//sb.BuscarCuenta("DNI", sDNI);
 		sleep(5000);
+		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+
+	
+		ges.cerrarPanelDerecho2();//falta arreglar para que corrra FluentWait
+	
+		//sb.BuscarCuenta("DNI", sDNI);
+		//sleep(5000);
+	
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
