@@ -16,6 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -50,7 +51,7 @@ public class HistorialDeRecargas extends TestBase {
 		sleep(6000);
 	}
 	
-	//@BeforeClass (alwaysRun = true)
+	@BeforeClass (alwaysRun = true)
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
