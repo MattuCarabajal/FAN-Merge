@@ -35,7 +35,7 @@ public class Vista360 extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (alwaysRun = true)
+	@BeforeClass (alwaysRun = true)
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -83,7 +83,7 @@ public class Vista360 extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod(alwaysRun=true)
+	//@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -299,6 +299,7 @@ public class Vista360 extends TestBase {
 		}
 		sleep(3000);
 		driver.switchTo().defaultContent();
+		driver.findElement(By.id("text-input-id-2")).click();
 		WebElement fecha = driver.findElement(By.id("text-input-id-2"));
 		List<WebElement> tableRows2 = fecha.findElements(By.xpath("//tr//td"));
 		for (WebElement x: tableRows2) {
@@ -439,26 +440,29 @@ public class Vista360 extends TestBase {
 		detalles = imagen+" - Vista360 - DNI: "+sDNI+" - Linea: "+sLinea;
 		sleep(30000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sleep(1000);
+		sleep(5000);
 		sb.BuscarCuenta("DNI",sDNI);
 		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
 		detalles +="-Cuenta:"+accid;
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
-		sleep(18000);
+		sleep(30000);
 		cc.seleccionarCardPornumeroLinea(sLinea, driver);
 		sleep(5000);
-		WebElement wFlyoutCard = driver.findElement(By.name("Flyout Grid Actions"));
-		List<WebElement> wWebList = wFlyoutCard.findElements(By.tagName("span"));
+		WebElement wFlyoutCard = driver.findElement(By.cssSelector(".console-flyout.active.flyout")).findElement(By.cssSelector(".slds-grid.community-flyout-content")).findElement(By.className("community-flyout-actions-card")).findElement(By.tagName("ul"));
+		List<WebElement> wWebList = wFlyoutCard.findElements(By.tagName("li"));
+		System.out.println(wWebList);
 		List<String> sTextList = new ArrayList<String>();
+		sTextList.add("Historial de Suspensiones");
 		sTextList.add("Recarga de cr\u00e9dito");
 		sTextList.add("Renovacion de Datos");
 		sTextList.add("Alta/Baja de Servicios");
 		sTextList.add("Suscripciones");
-		sTextList.add("Problemas con Recargas");
-		sTextList.add("Historial de Suspensiones");
+		sTextList.add("Inconvenientes con Recargas");
+		//sTextList.add("Problemas con Recargas");
 		sTextList.add("Diagn\u00f3stico");
-		sTextList.add("N\u00fameros Gratis");
+		//sTextList.add("N\u00fameros Gratis");
 		sTextList.add("Cambio SimCard");
+		sTextList.add("Cambio de Plan");
 		Assert.assertTrue(ppt.forEach(wWebList, sTextList));
 		Assert.assertTrue(!wFlyoutCard.findElement(By.xpath("//div[@class='items-card ng-not-empty ng-valid'] //div[contains(text(),'Mensajes')] /following-sibling::label")).getText().equalsIgnoreCase("Informaci�n no disponible"));
 		Assert.assertTrue(!wFlyoutCard.findElement(By.xpath("//div[@class='items-card ng-not-empty ng-valid'] //div[contains(text(),'MB')] /following-sibling::label")).getText().equalsIgnoreCase("Informaci�n no disponible"));
