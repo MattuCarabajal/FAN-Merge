@@ -35,7 +35,7 @@ public class Vista360 extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
+	//@BeforeClass (alwaysRun = true)
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -61,7 +61,7 @@ public class Vista360 extends TestBase {
 		sleep(6000);
 	}
 	
-	//@BeforeClass (alwaysRun = true)
+	@BeforeClass (alwaysRun = true)
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -137,6 +137,7 @@ public class Vista360 extends TestBase {
 	public void TS134349_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_abiertas_Plazo_vencido_Asistencia_registrada_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134349";
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI+" - Nombre: "+sNombre;
+		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
@@ -847,11 +848,12 @@ public class Vista360 extends TestBase {
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
 	@Test (groups = {"GestionesPerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
-	public void TS134823_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
+	public void TS134823_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea){
 		imagen = "TS13823";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		boolean creditoRecarga = false, creditoPromocional = false, estado = false, internetDisponible = false;
 		boolean detalles = false, historiales = false, misServicios = false, gestiones = false;
+		sleep(3000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
