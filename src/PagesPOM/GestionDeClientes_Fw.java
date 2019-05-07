@@ -187,55 +187,12 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public void irGestionClientes() {
-		//try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		driver.switchTo().frame(cambioFrame(By.cssSelector(locator_Bodys)));
-		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(locator_Bodys), 0));
-		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locator_Bodys)));//esperar que los elementos sean visibles
-		boolean enc = false;
-		int index = 0; 
-		for(WebElement frame : iframes) {//recorre los frames
-			try {
-				driver.switchTo().frame(frame);
-				((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+ driver.findElement(By.cssSelector(locator_BotonesInf)).getLocation().y+" )"); ///
-				fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locator_BotonesInf)));
-				driver.findElement(By.cssSelector(this.locator_BotonesInf));//each element is in the same iframe.
-				driver.switchTo().frame(super.cambioFrame(By.cssSelector(this.locator_Bodys)));
-				enc = true;
-				break;
-			}catch(NoSuchElementException noSuchElemExcept) {
-				index++;
-				System.out.println("catch 1");
-				driver.switchTo().frame(super.cambioFrame(By.cssSelector(this.locator_Bodys)));
-			}
-		}
-		if(enc == false) {
-			index = -1;
-		}
-		try { 
-			driver.switchTo().frame(iframes.get(index));
-		}catch(ArrayIndexOutOfBoundsException iobExcept) {
-			System.out.println("Elemento no encont2");
-			}
-		List<WebElement> botones = driver.findElements(By.tagName("button"));
-		for (WebElement UnB : botones) {
-			//System.out.println(UnB.getText());
-			if(UnB.getText().equalsIgnoreCase("gesti\u00f3n de clientes")) {
-				fluentWait.until(ExpectedConditions.elementToBeClickable(UnB));
-				UnB.click();
-				break;
-			}
 		driver.switchTo().defaultContent();
-		}
-		
+		switchToFrameBySrc("/home/home.jsp?i");
+		switchToFrameBySrc("https://telecomcrm--uat02-");
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]")));
+		driver.findElement(By.xpath("//button[contains(text(),'Gesti')]")).click();
 
-		try {
-			driver.switchTo().defaultContent();
-			fluentWait.until(ExpectedConditions.elementToBeClickable(cambioFrame(By.id(locator_DNIbuscador))));
-		}catch(Exception e) {
-			driver.switchTo().frame(cambioFrame(By.id(this.locator_DNIbuscador)));
-			fluentWait.until(ExpectedConditions.presenceOfElementLocated(By.id(locator_DNIbuscador)));
-			System.out.println(pestanas.size()+" pestanas cerrada");	
-		}
 
 	}
 	
@@ -283,6 +240,13 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		}
 	}
 	
+	public void switchToFrameBySrc(String src) {//el ruben ZAPE!!
+		WebElement frame = fluentWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("iframe[src*='"+src+"']")));
+		//WebElement frame = driver.findElement(By.cssSelector("iframe[src*='"+src+"']"));
+		fluentWait.until(ExpectedConditions.visibilityOf(frame));
+		System.out.println("lo encontro");
+		driver.switchTo().frame(frame);
+	}
 	
 	
 	
