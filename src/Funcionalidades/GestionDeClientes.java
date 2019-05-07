@@ -75,11 +75,7 @@ public class GestionDeClientes extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		selectByText(driver.findElement(By.id("SearchClientDocumentType")), "DNI");
 		sleep(10000);
-		boolean a = false;
-		if(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("dni")) {
-			a = true;
-		}
-		Assert.assertTrue(a);
+		Assert.assertTrue(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("dni"));
 	}
 	
 	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
@@ -89,9 +85,10 @@ public class GestionDeClientes extends TestBase {
 		detalles = imagen + "- Gestion de clientes - DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
-		sleep(10000);
-		List<WebElement> datos = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.cssSelector(".slds-truncate.ng-binding"));
-		Assert.assertTrue(datos.get(3).getText().equals(sDNI));
+		sleep(5000);
+		WebElement cliente = driver.findElement(By.cssSelector("[class='slds-tabs--scoped__content'] table tbody tr"));
+		String dni = cliente.findElements(By.tagName("td")).get(3).getText();
+		Assert.assertTrue(sDNI.equals(dni));
 	}
 	
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
@@ -101,13 +98,10 @@ public class GestionDeClientes extends TestBase {
 		detalles = imagen + "-Gestion de clientes - DNI:  "+ sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
-		sleep(10000);
-		boolean a = false;
-		for(WebElement x : driver.findElements(By.className("slds-form-element__control"))){
-			if(x.getText().toLowerCase().equals("no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente."))
-				a = true;
-		}
-		Assert.assertTrue(a);
+		sleep(5000);
+		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.";
+		String messageFound = driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']")).getText();
+		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
 	}
 	
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"})
@@ -117,11 +111,8 @@ public class GestionDeClientes extends TestBase {
 		detalles = imagen + " - Gestion de clientes";
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		selectByText(driver.findElement(By.id("SearchClientDocumentType")), "Libreta de Enrolamiento");
-		sleep(10000);
-		boolean a = false;
-		if(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("libreta de enrolamiento"))
-			a = true;
-		Assert.assertTrue(a);
+		sleep(5000);
+		Assert.assertTrue(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("libreta de enrolamiento"));
 	}
 	
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "validaDocumentacion") 
@@ -131,7 +122,7 @@ public class GestionDeClientes extends TestBase {
 		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
-		sleep(10000);
+		sleep(5000);
 		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
 		Assert.assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
 	}
@@ -143,12 +134,10 @@ public class GestionDeClientes extends TestBase {
 		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
-		boolean libreta = false;
-		for (WebElement x : driver.findElements(By.className("slds-form-element__control"))){
-			if (x.getText().toLowerCase().contains("no hay ning\u00fan cliente con este tipo y n\u00famero de documento."))
-				libreta = true;
-		}
-		Assert.assertTrue(libreta);
+		sleep(5000);
+		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.";
+		String messageFound = driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']")).getText();
+		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
 	}
 	
 	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
@@ -160,16 +149,13 @@ public class GestionDeClientes extends TestBase {
 		sb.BuscarAvanzada(sNombre, "", "", "", "");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(10000);
-		List<WebElement> filasDeResultados = driver.findElements(By.cssSelector("[class='slds-tabs--scoped ng-scope'] [class='slds-tabs--scoped__content'] div table tbody [class='searchClient-body slds-hint-parent ng-scope']"));
-		boolean assertCondition = true;
+		sleep(5000);
+		List<WebElement> filasDeResultados = driver.findElements(By.cssSelector("[class='slds-tabs--scoped ng-scope'] [class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"));
 		for (WebElement fila : filasDeResultados) {
-			List<WebElement> elements  = fila.findElements(By.cssSelector(".slds-truncate.ng-binding"));
-			if (!elements.get(0).getText().substring(0,4).equals("Juan")) {
-				assertCondition = false;
-			}
+			String nombre  = fila.findElements(By.tagName("td")).get(0).getText().toLowerCase();
+			Assert.assertTrue(nombre.contains(sNombre.toLowerCase()));
 		}
-		Assert.assertTrue(assertCondition);
+		Assert.assertTrue(filasDeResultados.size() > 0);
 	}
 	
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
@@ -181,13 +167,10 @@ public class GestionDeClientes extends TestBase {
 		sb.BuscarAvanzada(sNombre,"","","","");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(10000);
-		boolean a = false;
-		for(WebElement x : driver.findElements(By.className("slds-form-element__control"))){
-			if(x.getText().toLowerCase().equals("no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente."))
-				a = true;
-		}
-		Assert.assertTrue(a);
+		sleep(5000);
+		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.";
+		String messageFound = driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']")).getText();
+		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
 	}
 	
 	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
@@ -218,6 +201,7 @@ public class GestionDeClientes extends TestBase {
 		for(WebElement x : driver.findElements(By.className("slds-form-element__control"))){
 			if(x.getText().toLowerCase().equals("no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente."))
 				a = true;
+				break;
 		}
 		Assert.assertTrue(a);
 	}
