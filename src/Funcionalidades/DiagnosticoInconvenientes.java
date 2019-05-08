@@ -134,7 +134,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.findElement(By.name("loopname")).click();
 		selectByText(driver.findElement(By.id("Motive")), "No puedo realizar llamadas");
 		buscarYClick(driver.findElements(By.id("MotiveIncidentSelect_nextBtn")), "equals", "continuar");
-		tc.seleccionarPreguntaFinal("S\u00ed");
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-radio ng-scope']")), "equals", "s\u00ed");
 		buscarYClick(driver.findElements(By.id("BalanceValidation_nextBtn")), "equals", "continuar");
 		sleep(8000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("NetworkCategory_nextBtn")));
@@ -166,7 +166,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		}
 		Assert.assertTrue(ord);	
 		//La gestion tiene que quedar como derivada, pero se cierra el caso para poder reutilizar la cuenta.
-		tca.cerrarCaso("Resuelta exitosa", "Consulta");    
+		tca.cerrarCaso("Resuelta exitosa", "Consulta");   
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","Autogestion","E2E", "Ciclo3"},  dataProvider = "Diagnostico")
@@ -235,13 +235,19 @@ public class DiagnosticoInconvenientes extends TestBase {
 		imagen = "TS105449";
 		detalles = imagen + "- Autogestion - DNI: " + sDNI;
 		boolean estado = false;
+		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
 		cc.irAGestion("diagnostico de autogestion");
 		sleep(5000);
-		tca.listadoDeSeleccion("0800", "0800-444-0531", "Informa Sistema Fuera de Servicio");
+		driver.switchTo().frame(cambioFrame(driver, By.id("SelfManagementFields")));
+		driver.findElement(By.cssSelector("[id=ChannelSelection]")).click();
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li")), "equals", "800");
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li")), "contains", "0800-444-0531");
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li")), "contains", "informa sistema fuera de servicio");
+		driver.findElement(By.id("SelfManagementStep_nextBtn")).click();
 		sleep(7000);
 		String caso = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).getText();
 		caso = caso.substring(caso.indexOf("0"), caso.length());
@@ -256,8 +262,9 @@ public class DiagnosticoInconvenientes extends TestBase {
 			if (x.getText().contains("Estado"))
 				tabla = x;
 		}
-		if (tabla.findElements(By.tagName("td")).get(3).getText().equalsIgnoreCase("Realizada exitosa"))
+		if (tabla.findElements(By.tagName("td")).get(3).getText().equalsIgnoreCase("Realizada exitosa")) {
 			estado = true;
+		}
 		Assert.assertTrue(estado);
 	}
 	
@@ -269,11 +276,30 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
-		searchAndClick(driver, "Diagn\u00f3stico de Autogesti\u00f3n");
-		tca.listadoDeSeleccion("0800", "0800-444-4100 (Asistencia Tienda Online)", "La l\u00ednea esta muda");
-		sleep(4000);
-		String estado= driver.findElement(By.xpath("//*[@id='Case_body']/table/tbody/tr[2]/td[3]")).getText();
-		Assert.assertTrue(estado.equalsIgnoreCase("Informada"));
+		cc.irAGestion("diagnostico de autogestion");
+		sleep(5000);
+		driver.switchTo().frame(cambioFrame(driver, By.id("SelfManagementFields")));
+		driver.findElement(By.cssSelector("[id=ChannelSelection]")).click();
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li")), "equals", "800");
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li")), "contains", "0800-444-4100");
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li")), "contains", "La l\u00ednea esta muda");
+		driver.findElement(By.id("SelfManagementStep_nextBtn")).click();
+		sleep(7000);
+		String caso = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).getText();
+		caso = caso.substring(caso.indexOf("0"), caso.length());
+		cc.buscarCaso(caso);
+		boolean estadoCorrecto = false;
+		WebElement tabla = driver.findElements(By.cssSelector(".pbSubsection")).get(0);
+		for (WebElement fila : tabla.findElements(By.tagName("tr"))) {
+			System.out.println(fila.getText().toLowerCase());
+			if (fila.getText().toLowerCase().contains("estado")) {
+				if (fila.getText().toLowerCase().contains("informada")) {
+					estadoCorrecto = true;
+					break;
+				}
+			}
+		}
+		Assert.assertTrue(estadoCorrecto);
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","DiagnosticoInconvenientes"},  dataProvider = "Diagnostico")
