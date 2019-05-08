@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 
 import Tests.TestBase;
 import javafx.scene.control.ScrollToEvent;
@@ -196,22 +197,16 @@ public class TechnicalCareCSRAutogestionPage extends BasePage {
 	
 			
 	
-	public boolean cerrarCaso(String data, String motivo) {
-		BasePage cambioFrameByID=new BasePage();
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("srchErrorDiv_Case")));
-		getCaseBody().click();		
+	public boolean cerrarCaso(String estado, String motivo) {
+		TestBase tb = new TestBase();
+		driver.switchTo().frame(tb.cambioFrame(driver, By.xpath("//*[@id=\"ep\"]")));
+		driver.findElement(By.name("close")).click();
 		sleep(5000);
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.cssSelector(".hasMotif.caseTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-		WebElement cerrarcaso=getCerrarcaso();
-		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+cerrarcaso.getLocation().y+")");
-		sleep(4000);
-		cerrarcaso.click();
-		sleep(4000);
-		selectByText(getEstado(), data);
-		selectByText(getMotivo(), motivo);
-		scrollToElement(guardar);
-		guardar.click();
-		return driver.findElement(By.id("cas7_ileinner")).getText().equalsIgnoreCase(data);
+		selectByText(driver.findElement(By.id("cas7")), estado);
+		selectByText(driver.findElement(By.id("cas6")), motivo);
+		driver.findElement(By.name("save")).click();
+		sleep(5000);	
+		return driver.findElement(By.id("cas7_ileinner")).getText().equalsIgnoreCase(estado);
 	}
 		
 	

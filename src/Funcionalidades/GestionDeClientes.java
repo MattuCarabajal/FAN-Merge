@@ -132,12 +132,13 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135500";
 		detalles = null;
 		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
+		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
 		sleep(5000);
-		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.";
+		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento";
 		String messageFound = driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']")).getText();
-		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
+		Assert.assertTrue(message.contains(messageFound));
 	}
 	
 	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
