@@ -368,7 +368,7 @@ public class Login extends BasePage {
 	
 	public void ingresarLautaro() {
 		logininterno.click();
-		username.sendKeys("uat191550");
+		username.sendKeys("Ua2184370");
 		password.sendKeys("Testa10k");
 		login.click();
 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
