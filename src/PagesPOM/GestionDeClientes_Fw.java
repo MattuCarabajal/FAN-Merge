@@ -156,12 +156,12 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			
 			for (WebElement UnB : pestanas) {
 				try {
-					System.out.println(UnB.getText());
+					//System.out.println(UnB.getText());
 					((JavascriptExecutor) driver).executeScript("arguments[0].click();", UnB.findElement(By.className("x-tab-strip-close")));	
 				}catch(Exception ex1) {} 
 			}
 		}catch(Exception e){
-			System.out.println("pestanas cerradas");
+		//	System.out.println("pestanas cerradas");
 		}
 		
 	}
@@ -169,7 +169,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	
 	public void clickMenuIzq() {
 		fluentWait.until(ExpectedConditions.elementToBeClickable(MenuIzq));
-		System.out.println("x= "+MenuIzq.getLocation().getX()+"y= "+MenuIzq.getLocation().getY());
+		//System.out.println("x= "+MenuIzq.getLocation().getX()+"y= "+MenuIzq.getLocation().getY());
 		super.getAction().moveToElement(MenuIzq).moveByOffset(MenuIzq.getLocation().getX()+110, MenuIzq.getLocation().getY()-90).click().build().perform();
 		super.getEjecutorJavaScipt().executeScript("arguments[0].click();", this.MenuIzq);
 		
@@ -192,7 +192,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		switchToFrameBySrc("https://telecomcrm--uat02-");
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]")));
 		driver.findElement(By.xpath("//button[contains(text(),'Gesti')]")).click();
-
+		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 
 	}
 	
@@ -244,7 +244,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		WebElement frame = fluentWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("iframe[src*='"+src+"']")));
 		//WebElement frame = driver.findElement(By.cssSelector("iframe[src*='"+src+"']"));
 		fluentWait.until(ExpectedConditions.visibilityOf(frame));
-		System.out.println("lo encontro");
+		//System.out.println("lo encontro");
 		driver.switchTo().frame(frame);
 	}
 	

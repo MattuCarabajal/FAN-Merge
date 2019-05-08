@@ -20,7 +20,7 @@ public class LoginFw extends BasePageFw {
 	public static String urlMerge = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
 	
 	
-	public static String urlAmbiente = "https://telecomcrm--uat.cs53.my.salesforce.com";
+	public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
 	//public static String urlAmbiente = "https://crm--sit.cs14.my.salesforce.com/";
 	
 	
@@ -43,10 +43,18 @@ public class LoginFw extends BasePageFw {
 	
 	@FindBy (how= How.ID, using = "password")
 	private WebElement password;
-	
+
+	@FindBy (how= How.NAME, using = "Ecom_User_ID")
+	private WebElement Ecom_User_ID;
+	   
+	@FindBy (how= How.NAME, using = "Ecom_Password")
+	private WebElement Ecom_Password;
 	
 	@FindBy (how = How.ID, using = "Login")
 	private WebElement loginMerge;
+	
+	@FindBy (how = How.ID, using = "loginButton2")
+	private WebElement loginButton2;
 
 
 	//CONTRUCTOR
@@ -70,5 +78,40 @@ public class LoginFw extends BasePageFw {
 		  	System.out.println("Log Si02");	
 		  	fluentWait.until(ExpectedConditions.elementToBeClickable(loginMerge)).click();
 	}
+	
+	public void loginOOCC() {
+		driver.get(urlAmbiente);
+		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
+		logininterno.click();
+		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
+		Ecom_User_ID.sendKeys("Ua2544674"); // UAT
+		Ecom_Password.sendKeys("Testa10k");
+		
+		loginButton2.click();
+		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	}
+	
+	public void loginTelefonico() {
+		driver.get(urlAmbiente);
+		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
+		logininterno.click();
+		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
+		Ecom_User_ID.sendKeys("Ua2591324"); // UAT
+		Ecom_Password.sendKeys("Testa10k");
+		loginButton2.click();
+		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	}
+	
+	public void loginAgente() {
+		driver.get(urlAmbiente);
+		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
+		logininterno.click();
+		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
+		Ecom_User_ID.sendKeys("Ua2554620"); // UAT
+		Ecom_Password.sendKeys("Testa10k");
+		loginButton2.click();
+		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	}
+	
 		 
 }

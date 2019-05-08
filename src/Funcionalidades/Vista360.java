@@ -35,7 +35,7 @@ public class Vista360 extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (alwaysRun = true)
+	@BeforeClass (alwaysRun = true)
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -720,9 +720,9 @@ public class Vista360 extends TestBase {
 		WebElement desplegable = driver.findElement(By.cssSelector(".console-flyout.active.flyout"));
 		Assert.assertTrue(desplegable.isDisplayed());
 		ArrayList<String> elementosDesplegableIzquierdoComparar = new ArrayList<String>(Arrays.asList(
-				"Historial de Suspensiones", "Recarga de crédito", "Renovacion de Datos",
-				"Alta/Baja de Servicios", "Suscripciones", "Inconvenientes con Recargas", "Diagnóstico",
-				"Números Gratis", "Cambio SimCard", "Cambio de Plan"));
+				"Historial de Suspensiones", "Recarga de crï¿½dito", "Renovacion de Datos",
+				"Alta/Baja de Servicios", "Suscripciones", "Inconvenientes con Recargas", "Diagnï¿½stico",
+				"Nï¿½meros Gratis", "Cambio SimCard", "Cambio de Plan"));
 		List<WebElement> elementosDesplegableIzquierdo = desplegable.findElements(By.cssSelector("[class='console-flyout active flyout'] [class='community-flyout-actions-card'] ul li"));
 		int i = 0;
 		for (WebElement fila : elementosDesplegableIzquierdo) {
