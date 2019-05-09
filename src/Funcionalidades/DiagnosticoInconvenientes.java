@@ -169,19 +169,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		String orden = gesti.getText();
 		sleep(5000);
 		cc.buscarOrdenDiag(orden+"*");
-		Boolean ord = false;
-		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
-		WebElement status = driver.findElement(By.id("Case_body")).findElement(By.tagName("table")).findElements(By.tagName("tr")).get(1);
-		List<WebElement> estado = status.findElements(By.tagName("td"));
-		for(WebElement e : estado){
-			if(e.getText().toLowerCase().contains("derivada")){
-				ord = true;
-			}
-		}
-		Assert.assertTrue(ord);	
-		//La gestion tiene que quedar como derivada, pero se cierra el caso para poder reutilizar la cuenta.
-		tca.cerrarCaso("Resuelta exitosa", "Consulta");   
+		cc.verificarOrden(orden);
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","Autogestion","E2E", "Ciclo3"},  dataProvider = "Diagnostico")
@@ -228,7 +216,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
 		searchAndClick(driver, "Diagn\u00f3stico de Autogesti\u00f3n");
-		//tca.listadoDeSeleccion("USSD", "*150#", "No Interact\u00faa");	
+		tca.listadoDeSeleccion("USSD", "*150#", "No Interact\u00faa");	
 		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SelfManagementFields")));
 		driver.findElement(By.cssSelector("[id=ChannelSelection]")).click();
