@@ -37,7 +37,7 @@ public class ProblemasConRecargas extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups= "GestionPerfilOficina")
+	@BeforeClass (groups= "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -50,7 +50,7 @@ public class ProblemasConRecargas extends TestBase {
 		sleep(6000);
 	}
 		
-	//@BeforeClass (groups= "GestionPerfilTelefonico")
+	//@BeforeClass (groups= "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -89,7 +89,7 @@ public class ProblemasConRecargas extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"GestionesPerfilOficina", "ProblemasConRecargas","E2E","Ciclo3"}, dataProvider = "ProblemaRecargaPrepaga")
+	@Test (groups = {"PerfilOficina", "ProblemasConRecargas","E2E","Ciclo3"}, dataProvider = "ProblemaRecargaPrepaga")
 	public void GestionProblemasConRecargasTarjetaPrepaga(String sDNI, String sLinea, String sBatch, String sPin) {
 		imagen = "GestionProblemasConRecargasTarjetaPrepaga";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -130,7 +130,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(cc.verificarOrden(orden));
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecarga")
+	@Test (groups = {"ProblemasConRecargas", "PerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecarga")
 	public void problemaRecargaCredito(String sDNI, String sLinea) {
 		imagen = "problemaRecargaCredito";
 		String davoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -168,7 +168,7 @@ public class ProblemasConRecargas extends TestBase {
 		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + " - Orden: " + orden;
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecarga")
+	@Test (groups = {"ProblemasConRecargas", "PerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecarga")
 	public void problemaRecargaOnline(String sDNI, String sLinea) {
 		imagen = "problemaRecargaOnline";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -210,7 +210,7 @@ public class ProblemasConRecargas extends TestBase {
 		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + " - Orden: " + orden;
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilOficina", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecarga") 
+	@Test (groups = {"ProblemasConRecargas", "PerfilOficina", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecarga") 
 	public void TS104346_CRM_Movil_Repro_Problemas_con_Recarga_Presencial_On_Line_Ofcom(String sDNI, String sLinea) {
 		imagen = "TS104346";
 		detalles = imagen + " -Problemas Con Recargas-DNI: " + sDNI;
@@ -253,7 +253,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(datosInicial + 500 == datosFinal);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecargaQuemada")
+	@Test (groups = {"ProblemasConRecargas", "PerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecargaQuemada")
 	public void TS104347_CRM_Movil_REPRO_Problemas_con_Recarga_Presencial_Tarjeta_Scratch_Caso_Nuevo_Quemada(String sDNI, String sLinea, String sTarjeta, String sPIN){
 		imagen = "TS104347";
 		detalles = imagen + " -Problema con recargas - DNI: " + sDNI;
@@ -283,7 +283,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(error);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilOficina", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecarga") 
+	@Test (groups = {"ProblemasConRecargas", "PerfilOficina", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecarga") 
 	public void TS104351_CRM_Movil_Repro_Problemas_con_Recarga_On_line_Sin_comprobante_En_espera_del_cliente_Ofcom(String sDNI, String sLinea) {
 		imagen = "TS104351";
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
@@ -319,7 +319,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(false);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilOficina", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecargaAYD") 
+	@Test (groups = {"ProblemasConRecargas", "PerfilOficina", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecargaAYD") 
 	public void TS104353_CRM_Movil_Repro_Problemas_con_Recarga_Presencial_Tarjeta_Scratch_Caso_Nuevo_Tarjeta_Activa_y_Disponible_Ofcom(String sDNI, String sLinea, String sTarjeta, String sPIN) {
 		imagen = "TS104353";
 		detalles = imagen + " -Problemas Con Recargas-DNI: " + sDNI;
@@ -355,7 +355,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(datosInicial + 5000000 == datosFinal);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecarga")
+	@Test (groups = {"ProblemasConRecargas", "PerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecarga")
 	public void TS125372_CRM_Movil_Repro_Problemas_con_Recarga_Presencial_TC(String sDNI, String sLinea) {
 		imagen = "TS125372";
 		boolean gestion = false;
@@ -401,7 +401,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(datosInicial + 500 == datosFinal);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecargaAYD")
+	@Test (groups = {"ProblemasConRecargas", "PerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecargaAYD")
 	public void TS135714_CRM_Movil_PRE_Problemas_con_Recarga_Telefonico_Tarjeta_Scratch_Caso_Nuevo_Tarjeta_Activa_y_Disponible(String sDNI, String sLinea, String sTarjeta, String sPIN){
 		imagen = "TS135714";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -442,7 +442,7 @@ public class ProblemasConRecargas extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
-	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "ProblemaRecargaPrepaga")
+	@Test (groups = {"ProblemasConRecargas", "PerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "ProblemaRecargaPrepaga")
 	public void TS104330_CRM_Movil_REPRO_Problemas_con_Recarga_Telefonico_Tarjeta_Scratch_Caso_Existente(String sDNI, String sLinea, String sTarjeta, String sPin) {
 		imagen = "TS104330";
 		boolean gestion = false;
@@ -484,7 +484,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(datosInicial + 500 == datosFinal);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecargaAYD") 
+	@Test (groups = {"ProblemasConRecargas", "PerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecargaAYD") 
 	public void TS104332_CRM_Movil_Repro_Problemas_con_Recarga_Telefonico_Tarjeta_Scratch_Caso_Nuevo_Tarjeta_Activa_y_Disponible(String sDNI, String sLinea, String sTarjeta, String sPIN) {
 		imagen = "TS104332";
 		detalles = imagen + " -Problemas Con Recargas-DNI: " + sDNI;
@@ -520,7 +520,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(datosInicial + 5000000 == datosFinal);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "ProblemaRecargaPrepaga")
+	@Test (groups = {"ProblemasConRecargas", "PerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "ProblemaRecargaPrepaga")
 	public void TS104338_CRM_Movil_REPRO_Problemas_con_Recarga_Telefonico_Tarjeta_Scratch_Caso_Nuevo_Quemada(String sDNI, String sLinea, String sTarjeta, String sPIN) {
 		imagen = "TS104338";
 		boolean gestion = false, error = false;
@@ -578,7 +578,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(error);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "GestionesPerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecarga")
+	@Test (groups = {"ProblemasConRecargas", "PerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecarga")
 	public void TS104344_CRM_Movil_Repro_Problemas_con_Recarga_Telefonico_On_Line(String sDNI, String sLinea) {
 		imagen = "TS104344";
 		boolean gestion = false;
