@@ -81,6 +81,7 @@ public class Vista360 extends TestBase {
 		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
 		ges.irGestionClientes();
+		sleep(5000);
 	}
 
 	//@AfterMethod(alwaysRun=true)
@@ -459,9 +460,9 @@ public class Vista360 extends TestBase {
 		sTextList.add("Alta/Baja de Servicios");
 		sTextList.add("Suscripciones");
 		sTextList.add("Inconvenientes con Recargas");
-		//sTextList.add("Problemas con Recargas");
+		sTextList.add("Problemas con Recargas");
 		sTextList.add("Diagn\u00f3stico");
-		//sTextList.add("N\u00fameros Gratis");
+		sTextList.add("N\u00fameros Gratis");
 		sTextList.add("Cambio SimCard");
 		sTextList.add("Cambio de Plan");
 		Assert.assertTrue(ppt.forEach(wWebList, sTextList));
@@ -933,7 +934,7 @@ public class Vista360 extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
+		sleep(25000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
 		sleep(5000);
