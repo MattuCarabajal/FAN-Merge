@@ -151,6 +151,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 		
 	public void cerrarPestaniaGestion(WebDriver driver) {//copiado de SalesBase Cierra todas las pestañas de gestion
+		driver.switchTo().defaultContent();
 		try{
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(locator_Pestanas), 0));
 			
@@ -168,6 +169,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	
 	
 	public void clickMenuIzq() {
+		driver.switchTo().defaultContent();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(MenuIzq));
 		//System.out.println("x= "+MenuIzq.getLocation().getX()+"y= "+MenuIzq.getLocation().getY());
 		super.getAction().moveToElement(MenuIzq).moveByOffset(MenuIzq.getLocation().getX()+110, MenuIzq.getLocation().getY()-90).click().build().perform();

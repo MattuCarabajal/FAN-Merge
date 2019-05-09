@@ -21,12 +21,14 @@ import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
 public class Ajustes extends TestBase {
 
 	private WebDriver driver;
+	private LoginFw log;
 	private SalesBase sb;
 	private CustomerCare cc;
 	private CBS cbs;
@@ -42,8 +44,10 @@ public class Ajustes extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
-		sleep(15000);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		log.loginOOCC();
 		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);
@@ -55,8 +59,10 @@ public class Ajustes extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginTelefonico(driver);
-		sleep(15000);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		log.loginTelefonico();
 		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);
@@ -68,8 +74,10 @@ public class Ajustes extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginAgente(driver);
-		sleep(15000);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		log.loginAgente();
 		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);
@@ -79,8 +87,8 @@ public class Ajustes extends TestBase {
 	public void setup() throws Exception {
 		detalles = null;
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
-		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
+		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 	}
 

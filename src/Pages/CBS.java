@@ -369,7 +369,7 @@ public class CBS {
 	public Document sValidacion_ResponseQueryLiteBySubscriber(Document sResponse) {
 		
 		if (sResponse.getElementsByTagName("cbs:ResultDesc").item(0).getTextContent().contains("Operation successfully")) {
-			System.out.println("Correcto");
+			//System.out.println("Correcto");
 		}
 		else {
 			System.out.println(sResponse.getElementsByTagName("cbs:ResultDesc").item(0).getTextContent());
