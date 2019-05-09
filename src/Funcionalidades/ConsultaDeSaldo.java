@@ -33,7 +33,7 @@ public class ConsultaDeSaldo extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups = "GestionesPerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -46,7 +46,7 @@ public class ConsultaDeSaldo extends TestBase {
 		sleep(6000);
 	}
 		
-	//@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups = "GestionesPerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -59,7 +59,7 @@ public class ConsultaDeSaldo extends TestBase {
 		sleep(6000);
 	}
 	
-	//@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups = "GestionesPerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -90,7 +90,7 @@ public class ConsultaDeSaldo extends TestBase {
 		sleep(2000);
 	}
 
-	//@AfterClass(alwaysRun=true)
+	@AfterClass(alwaysRun=true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
