@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -43,8 +44,8 @@ public class GestionDeClientes extends TestBase {
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
-		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
+		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 	}
 
@@ -61,18 +62,14 @@ public class GestionDeClientes extends TestBase {
 		driver.quit();
 		sleep(5000);
 	}
-	
-	
+
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
 	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"})
 	public void TS135495_CRM_Movil_REPRO_Busqueda_Tipo_de_documento_DNI() {
-		driver.switchTo().defaultContent();
 		imagen = "TS135495";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes";
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		selectByText(driver.findElement(By.id("SearchClientDocumentType")), "DNI");
 		sleep(10000);
 		Assert.assertTrue(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("dni"));
@@ -83,8 +80,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135496";
 		detalles = null;
 		detalles = imagen + "- Gestion de clientes - DNI:" + sDNI;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		sleep(6000);
 		WebElement cliente = driver.findElement(By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"));
@@ -97,8 +92,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135497";
 		detalles = null;
 		detalles = imagen + "-Gestion de clientes - DNI:  "+ sDNI;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		sleep(5000);
 		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.";
@@ -111,8 +104,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135498";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes";
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		selectByText(driver.findElement(By.id("SearchClientDocumentType")), "Libreta de Enrolamiento");
 		sleep(5000);
 		Assert.assertTrue(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("libreta de enrolamiento"));
@@ -123,8 +114,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135499";
 		detalles = null;
 		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
 		sleep(5000);
 		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
@@ -136,8 +125,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135500";
 		detalles = null;
 		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
 		sleep(5000);
 		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento";
@@ -150,8 +137,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135501";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Nombre: " + sNombre;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada(sNombre, "", "", "", "");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
@@ -173,8 +158,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135502";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Nombre: " + sNombre;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada(sNombre,"","","","");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
@@ -189,8 +172,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135503";
 		detalles = null;
 		detalles = imagen + "- Gestion de Clientes - DNI: " + sDNI;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("", sApellido, "", "", "");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
@@ -212,8 +193,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135504";
 		detalles = null;
 		detalles = imagen + "- Gestion de clinetes - Apellido: " + sApellido;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("",sApellido,"","","");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
@@ -228,8 +207,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135505";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Razon social: " + sRazon;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("", "", sRazon, "", "");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
@@ -251,8 +228,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135506";
 		detalles = null;
 		detalles = imagen+" - Gestion de clientes - Razon social: "+sRazon;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("","",sRazon,"","");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
@@ -267,8 +242,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135507";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Email: " + sEmail;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("", "", "", "", sEmail);
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
@@ -283,8 +256,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135508";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Email: " + sEmail;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("","","","",sEmail);
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
@@ -299,8 +270,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135509";
 		detalles = null;
 		detalles = imagen + "- Gestion de Clientes - DNI: " + sDNI;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("", "", "", sNumeroDeCuenta, "");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
@@ -315,8 +284,6 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135510";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Numero de cuenta: " + sNumeroDeCuenta;
-		sleep(6000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarAvanzada("", "", "", sNumeroDeCuenta, "");
 		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();

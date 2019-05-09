@@ -2103,4 +2103,17 @@ public class TestBase {
 	    Login page0 = new Login(driver);
 	    page0.ingresarLogisticaYEntrega();
 	}
+	
+	public boolean sleepCambioDeFrame (WebDriver driver, String elementSelector, double timeMax, double timeAcumulated) {
+		if (timeMax < timeAcumulated) {
+			return true;
+		}
+		try {
+			driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+			return true;
+		} catch (Exception e) {
+			try {Thread.sleep(200);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+			return sleepCambioDeFrame(driver, elementSelector, timeMax, timeAcumulated + 0.200);
+		}
+	}
 }

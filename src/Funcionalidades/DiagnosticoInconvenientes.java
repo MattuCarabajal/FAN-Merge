@@ -36,7 +36,8 @@ public class DiagnosticoInconvenientes extends TestBase {
 	private TechCare_Ola1 tc;
 	private TechnicalCareCSRAutogestionPage tca;
 	private TechnicalCareCSRDiagnosticoPage tcd;
-	private LoginFw log; 
+	private LoginFw log;
+	private GestionDeClientes_Fw ges;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	String detalles;
@@ -50,12 +51,14 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc = new CustomerCare(driver);
 		tca =  new TechnicalCareCSRAutogestionPage(driver);
 		tcd = new TechnicalCareCSRDiagnosticoPage(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		tc = new TechCare_Ola1(driver);
 		log = new LoginFw(driver);
 		log.loginOOCC();
-		cc.irAConsolaFAN();	
+		ges.irAConsolaFAN();
+		//cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
-		sleep(6000);
+		//sleep(6000);
 	}
 		
 	//@BeforeClass (groups= "GestionPerfilTelefonico")
@@ -109,11 +112,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
 		detalles = null;
-		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
-		ges.selectMenuIzq("Inicio");
+		ges = new GestionDeClientes_Fw(driver);
 		ges.cerrarPestaniaGestion(driver);
-		ges.irGestionClientes();
-		sleep(5000);
+		ges.selectMenuIzq("Inicio");
+		ges.irGestionClientes();	
 	}
 
 	@AfterMethod(alwaysRun=true)
@@ -169,19 +171,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		String orden = gesti.getText();
 		sleep(5000);
 		cc.buscarOrdenDiag(orden+"*");
-		Boolean ord = false;
-		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
-		WebElement status = driver.findElement(By.id("Case_body")).findElement(By.tagName("table")).findElements(By.tagName("tr")).get(1);
-		List<WebElement> estado = status.findElements(By.tagName("td"));
-		for(WebElement e : estado){
-			if(e.getText().toLowerCase().contains("derivada")){
-				ord = true;
-			}
-		}
-		Assert.assertTrue(ord);	
-		//La gestion tiene que quedar como derivada, pero se cierra el caso para poder reutilizar la cuenta.
-		tca.cerrarCaso("Resuelta exitosa", "Consulta");   
+		cc.verificarOrden(orden);
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","Autogestion","E2E", "Ciclo3"},  dataProvider = "Diagnostico")
@@ -228,7 +218,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
 		searchAndClick(driver, "Diagn\u00f3stico de Autogesti\u00f3n");
-		//tca.listadoDeSeleccion("USSD", "*150#", "No Interact\u00faa");	
+		tca.listadoDeSeleccion("USSD", "*150#", "No Interact\u00faa");	
 		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("SelfManagementFields")));
 		driver.findElement(By.cssSelector("[id=ChannelSelection]")).click();
@@ -532,7 +522,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(20000);
+		sleep(30000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
 		sleep(8000);
@@ -541,20 +531,24 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.findElement(By.name("loopname")).click();
 		selectByText(driver.findElement(By.id("Motive")), "No puedo realizar llamadas");
 		buscarYClick(driver.findElements(By.id("MotiveIncidentSelect_nextBtn")), "equals", "continuar");
-		sleep(3000);
-		tc.seleccionarPreguntaFinal("S\u00ed");
-		driver.findElement(By.id("BalanceValidation_nextBtn")).click();
+		sleep(5000);
+		//tc.seleccionarPreguntaFinal("S\u00ed");
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-form-element__label ng-binding ng-scope']")), "contains", "s\u00ed");
+		driver.findElement(By.id("BalanceValidation_nextBtn")).click(); 
 		sleep(8000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("borderOverlay")));
 		tcd.categoriaRed("Desregistrar");
 		driver.findElement(By.id("NetworkCategory_nextBtn")).click();
 		sleep(15000);
-		tc.seleccionarPreguntaFinal("No");
+		//tc.seleccionarPreguntaFinal("No");
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-form-element__label ng-binding ng-scope']")), "contains", "no");
+		driver.findElement(By.id("DeregisterSpeech_nextBtn")).click();
+		sleep(8000);
 		buscarYClick(driver.findElements(By.id("DeregisterSpeech_nextBtn")), "equals", "continuar");
 		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+driver.findElement(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")).getLocation().y+" )");
-		tc.seleccionarPreguntaFinal("S\u00ed, funciona correctamente");
-		sleep(8000);
-		buscarYClick(driver.findElements(By.id("HlrDeregister_nextBtn")), "equals", "continuar");
+		//tc.seleccionarPreguntaFinal("S\u00ed, funciona correctamente");	
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-form-element__label ng-binding ng-scope']")), "contains", "no");
+		driver.findElement(By.id("HlrDeregister_nextBtn")).click();
 		sleep(8000);
 		tcd.categoriaRed("Encontr\u00e9 un problema (Rojo)");
 		sleep(8000);
@@ -563,13 +557,18 @@ public class DiagnosticoInconvenientes extends TestBase {
 		evento.sendKeys("Evento Masivo");
 		sleep(8000);
 		String caso = null;
+		sleep(8000);
 		buscarYClick(driver.findElements(By.id("AddressSection_nextBtn")), "equals", "continuar");
-		List <WebElement> lista = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
+		List <WebElement> lista = driver.findElements(By.cssSelector("[class= 'slds-form-element__control'] p p span"));
 		for(WebElement x : lista) {
-			if(x.getText().toLowerCase().contains("su gesti\u00f3n"))
+			System.out.println(x.getText());
+			if(x.getText().toLowerCase().contains("el n")) {
 				caso = x.findElement(By.tagName("div")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
+			}
 		}
 		//String caso = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).getText();
+		System.out.println(caso);
+		sleep(8000);
 		driver.switchTo().defaultContent();
 		tca.buscarCaso(caso);
 		driver.switchTo().frame(cambioFrame(driver, By.id("srchErrorDiv_Case")));
