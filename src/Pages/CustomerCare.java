@@ -1534,7 +1534,6 @@ public class CustomerCare extends BasePage {
 		List<WebElement> wGestiones = wFlyOutActionCard.findElements(By.tagName("li"));
 		for (WebElement wAux : wGestiones) {
 			if (wAux.getText().contains(sGestion)) {
-				System.out.println("Encontre la gestion");
 				wAux.findElement(By.tagName("a")).click();
 				break;
 			}
@@ -1840,7 +1839,6 @@ public class CustomerCare extends BasePage {
 	public void verificarStatus(String orden, String estado){
 		Boolean ord = false;
 		WebElement status = driver.findElement(By.id("Case_body")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(1);
-		System.out.println("El status visible es: "+status.getText());
     	if(status.getText().toLowerCase().contains(estado)){
     		ord = true;
     	}
