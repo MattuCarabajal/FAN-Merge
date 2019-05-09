@@ -43,7 +43,6 @@ public class Vista360 extends TestBase {
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		log.loginOOCC();
-		sleep(15000);
 		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);
@@ -57,7 +56,6 @@ public class Vista360 extends TestBase {
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		log.loginTelefonico();
-		sleep(15000);
 		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);
@@ -71,7 +69,6 @@ public class Vista360 extends TestBase {
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		log.loginAgente();
-		sleep(15000);
 		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);

@@ -24,6 +24,7 @@ import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
@@ -35,6 +36,7 @@ public class HistorialDeRecargas extends TestBase {
 	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	LoginFw log;
 	String detalles;
 	
 	
@@ -44,8 +46,8 @@ public class HistorialDeRecargas extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
-		sleep(15000);
+		log = new LoginFw(driver);
+		log.loginOOCC();
 		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);
@@ -57,8 +59,8 @@ public class HistorialDeRecargas extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginTelefonico(driver);
-		sleep(15000);
+		log = new LoginFw(driver);
+		log.loginTelefonico();
 		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);
@@ -69,7 +71,8 @@ public class HistorialDeRecargas extends TestBase {
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
-		ges.irGestionClientes();	
+		ges.irGestionClientes();
+		sleep(5000);
 	}
 
 	@AfterMethod(alwaysRun=true)
