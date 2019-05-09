@@ -189,13 +189,13 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public void irGestionClientes() {
+		TestBase tb = new TestBase();
 		driver.switchTo().defaultContent();
 		switchToFrameBySrc("/home/home.jsp?i");
 		switchToFrameBySrc("https://telecomcrm--uat02-");
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]")));
 		driver.findElement(By.xpath("//button[contains(text(),'Gesti')]")).click();
-//		try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-
+		tb.sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
 	}
 	
 	public void BuscarCuenta(String Type, String NDNI){
@@ -249,7 +249,6 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		//System.out.println("lo encontro");
 		driver.switchTo().frame(frame);
 	}
-	
 	
 	
 	

@@ -47,7 +47,6 @@ public class GestionDeClientes extends TestBase {
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
-		sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
 	}
 
 	@AfterMethod(alwaysRun=true)
