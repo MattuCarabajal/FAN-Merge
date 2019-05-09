@@ -112,7 +112,8 @@ public class DiagnosticoInconvenientes extends TestBase {
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
-		ges.irGestionClientes();	
+		ges.irGestionClientes();
+		sleep(5000);
 	}
 
 	@AfterMethod(alwaysRun=true)
@@ -234,15 +235,15 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(4000);
 		List<WebElement> opcionesCanal = driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li"));
 		sleep(4000);
-		buscarYClick(opcionesCanal, "contains", "800");
+		buscarYClick(opcionesCanal, "contains", "USSD");
 		//driver.findElement(By.id("ServiceSelection")).click();
 		List<WebElement> opcionesServicios = driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li"));
 		sleep(4000);
-		buscarYClick(opcionesServicios, "contains", "0800-444-0531");
+		buscarYClick(opcionesServicios, "contains", "*150#");
 		//driver.findElement(By.id("MotiveSelection")).click();
 		List<WebElement> opcionesInconvenientes = driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li"));
 		sleep(4000);
-		buscarYClick(opcionesInconvenientes, "contains", "informa sistema fuera de servicio");
+		buscarYClick(opcionesInconvenientes, "contains", "No Interact\u00faa");
 		driver.findElement(By.id("SelfManagementStep_nextBtn")).click();
 		sleep(4000);
 		WebElement gesti = driver.findElement(By.id("ClosedCaseText")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
@@ -263,7 +264,8 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
 		searchAndClick(driver, "Diagn\u00f3stico de Autogesti\u00f3n");
-		tca.listadoDeSeleccion("WAP", "email", "informaci\u00f3n incompleta");
+		sleep(5000);
+		tca.listadoDeSeleccion("WAP", "email", "sitio ca\u00eddo/ No carga informaci\u00f3n");
 		sleep(4000);
 		WebElement gesti = driver.findElement(By.id("ClosedCaseText")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
 		String orden = gesti.getText();
