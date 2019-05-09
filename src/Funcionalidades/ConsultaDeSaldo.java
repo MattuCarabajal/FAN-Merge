@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -53,7 +54,7 @@ public class ConsultaDeSaldo extends TestBase {
 		cc = new CustomerCare(driver);
 		loginTelefonico(driver);
 		sleep(15000);
-		cc.irAConsolaFAN();	
+		cc.irAConsolaFAN();
 		driver.switchTo().defaultContent();
 		sleep(6000);
 	}
@@ -66,7 +67,7 @@ public class ConsultaDeSaldo extends TestBase {
 		cc = new CustomerCare(driver);
 		loginAgente(driver);
 		sleep(15000);
-		cc.irAConsolaFAN();	
+		cc.irAConsolaFAN();
 		driver.switchTo().defaultContent();
 		sleep(6000);
 	}
@@ -78,6 +79,7 @@ public class ConsultaDeSaldo extends TestBase {
 		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
 		ges.irGestionClientes();
+		sleep(6000);
 	}
 
 	@AfterMethod(alwaysRun=true)
@@ -93,7 +95,6 @@ public class ConsultaDeSaldo extends TestBase {
 		driver.quit();
 		sleep(5000);
 	}
-	
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	

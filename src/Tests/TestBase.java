@@ -776,11 +776,11 @@ public class TestBase {
 	public WebElement cambioFrame(WebDriver driver, By byForElement) {
 		driver.switchTo().defaultContent();
 		List<WebElement> frames = driver.findElements(By.tagName("iframe"));
-		try {return frames.get(getIndexFrame(driver, byForElement));
-		}catch(ArrayIndexOutOfBoundsException iobExcept) {System.out.println("Elemento no encontrado en ningun frame.");
+		try {
+			return frames.get(getIndexFrame(driver, byForElement));
+		} catch (ArrayIndexOutOfBoundsException iobExcept) {
 			return null;
 		}
-
 	}
 	
 	//Metodo para obtener el dato deseado del excel indicando la hoja o pesta;a donde se encuentra (se agrupa por modulo)
@@ -2108,5 +2108,18 @@ public class TestBase {
 		try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	    Login page0 = new Login(driver);
 	    page0.ingresarLogisticaYEntrega();
+	}
+	
+	public boolean sleepCambioDeFrame (WebDriver driver, String elementSelector, double timeMax, double timeAcumulated) {
+		if (timeMax < timeAcumulated) {
+			return true;
+		}
+		try {
+			driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+			return true;
+		} catch (Exception e) {
+			try {Thread.sleep(200);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+			return sleepCambioDeFrame(driver, elementSelector, timeMax, timeAcumulated + 0.200);
+		}
 	}
 }
