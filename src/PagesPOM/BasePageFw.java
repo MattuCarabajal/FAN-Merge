@@ -65,11 +65,11 @@ public class BasePageFw {
 //METODOS QUE TRABAJAN SOBRE LISTAS
 	public WebElement getBuscarElementoPorText(List<WebElement> listado, String parametroBusqueda){
 		//filtra por texto y retorna un elemento web 
-		System.out.println(listado.size());
+		//System.out.println(listado.size());
 		WebElement aux = null;
 		for (WebElement x : listado) {
 			
-			System.out.println(x.getText()+"<--------------->"+parametroBusqueda);
+			//System.out.println(x.getText()+"<--------------->"+parametroBusqueda);
 			if(x.getText().contains(parametroBusqueda)) {
 				aux=x;
 			}
