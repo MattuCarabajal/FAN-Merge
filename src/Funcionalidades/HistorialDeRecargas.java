@@ -40,12 +40,13 @@ public class HistorialDeRecargas extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups= "GestionPerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
+		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
 		log.loginOOCC();
 		cc.irAConsolaFAN();	
@@ -53,7 +54,7 @@ public class HistorialDeRecargas extends TestBase {
 		sleep(6000);
 	}
 	
-	@BeforeClass (alwaysRun = true)
+	//@BeforeClass (groups= "GestionPerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -158,7 +159,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(coincideLaFecha && sinBeneficios && montoCorrecto);
 	}
 	
-	@Test (groups= {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "HistoriaRecarga")
+	@Test (groups= {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargaHistoria")
 	public void TS134470_CRM_Movil_Prepago_Historial_De_Recargas_SOS_S440_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134470";
 		detalles = imagen + "-Historial de recargas - DNI: " + sDNI;
@@ -210,7 +211,7 @@ public class HistorialDeRecargas extends TestBase {
 
 	
 	@Test (groups= {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
-	public void TS134473_CRM_Movil_Prepago_Historial_De_Packs_Fan_Front_OOCC(String sDNI) {
+	public void TS134473_CRM_Movil_Prepago_Historial_De_Packs_Fan_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134473";
 		detalles = imagen + "- Historial de packs - DNI: " + sDNI;
 		boolean enc = false;
@@ -248,7 +249,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(enc);
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "HistorialDeRecargas", "E2E", "Ciclo2"}, dataProvider = "HistoriaRecarga")
+	@Test (groups = {"GestionesPerfilOficina", "HistorialDeRecargas", "E2E", "Ciclo2"}, dataProvider = "RecargaHistoria")
 	public void TS134747_CRM_Movil_Prepago_Historial_de_Recargas_S141_FAN_Front_OOCC(String sDNI, String sLinea){
 		imagen = "TS134747";
 		detalles = imagen + "-Historial De Recarga-DNI: " + sDNI;
@@ -307,7 +308,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(recarga.equals(sMontoV2));
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "HistorialDeRecargas", "E2E", "Ciclo2"}, dataProvider = "HistoriaRecarga")
+	@Test (groups = {"GestionesPerfilOficina", "HistorialDeRecargas", "E2E", "Ciclo2"}, dataProvider = "RecargaHistoria")
 	public void TS134786_CRM_Movil_Prepago_Historial_de_Recargas_Monto_total_FAN_Front_OOCC(String sDNI, String sLinea) { 
 		imagen = "TS134786";
 		detalles = imagen + "-Historial De Recarga-DNI :" + sDNI;
@@ -346,7 +347,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"}, dataProvider = "RecargasHistorias")
-	public void TS134838_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_IVR_Fan_FRONT_OOCC(String sDNI) {
+	public void TS134838_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_IVR_Fan_FRONT_OOCC(String sDNI , String sLinea) {
 		imagen = "TS134838";
 		boolean histDeRecargas = false, histDePacks = false, histDeRecargasSOS = false, histDeAjustes = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
@@ -384,7 +385,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(tabla.isDisplayed());
 	}
 	
-	@Test (groups = {"GestionesPerfilTelefonico", "HistorialDeRecargas", "E2E", "Ciclo2"}, dataProvider = "HistoriaRecarga")
+	@Test (groups = {"GestionesPerfilTelefonico", "HistorialDeRecargas", "E2E", "Ciclo2"}, dataProvider = "RecargaHistoria")
 	public void TS134840_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Fecha_Fan_FRONT_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134840";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
@@ -416,7 +417,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(verif);		
 	}
 	
-	@Test (groups= {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "HistoriaRecarga")
+	@Test (groups= {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargaHistoria")
 	public void TS134841_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_SMS_Fan_FRONT_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134847";
 		detalles = imagen + "-Historial De Recarga-DNI: " + sDNI;
@@ -461,7 +462,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(verif);
 	}
 	
-	@Test (groups= {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "HistoriaRecarga")
+	@Test (groups= {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargaHistoria")
 	public void TS134842_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_ROL_Fan_FRONT_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134842";
 		detalles = imagen + "-Historial De Recarga-DNI :" + sDNI;
@@ -507,7 +508,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"}, dataProvider = "RecargasHistorias")
-	public void TS135346_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_TODOS_Fan_FRONT_OOCC(String sDNI) {
+	public void TS135346_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_TODOS_Fan_FRONT_OOCC(String sDNI , String sLinea) {
 		imagen = "TS135346";
 		detalles = imagen + " - Historial de recargas - DNI:" + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
@@ -531,7 +532,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
-	public void TS135361_CRM_Movil_Prepago_Otros_Historiales_Historial_de_ajustes_FAN_Front_OOCC_S138(String sDNI){
+	public void TS135361_CRM_Movil_Prepago_Otros_Historiales_Historial_de_ajustes_FAN_Front_OOCC_S138(String sDNI , String sLinea){
 		imagen = "TS135361";
 		detalles = imagen + "- Historial de packs - DNI: " + sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
@@ -566,7 +567,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
-	public void TS135468_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_OOCC(String sDNI){
+	public void TS135468_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_OOCC(String sDNI , String sLinea){
 		imagen = "TS135468";
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -596,7 +597,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups= {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
-	public void TS135472_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internacional_FAN_Front_OOCC(String sDNI){
+	public void TS135472_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internacional_FAN_Front_OOCC(String sDNI , String sLinea){
 		imagen = "TS135472";
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -626,7 +627,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups= {"GestionesPerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
-	public void TS135474_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Familia_FAN_Front_OOCC(String sDNI){
+	public void TS135474_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Familia_FAN_Front_OOCC(String sDNI , String sLinea){
 		imagen = "TS135474";
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -656,7 +657,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
-	public void TS135476_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internet_50_Mb_FAN_Front_OOCC(String sDNI){
+	public void TS135476_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internet_50_Mb_FAN_Front_OOCC(String sDNI , String sLinea){
 		imagen = "TS135476";
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -686,7 +687,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
-	public void TS135483_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_OOCC(String sDNI) throws ParseException{
+	public void TS135483_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_OOCC(String sDNI , String sLinea) throws ParseException{
 		imagen = "TS135483";
 		boolean verificarFecha = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
@@ -721,7 +722,7 @@ public class HistorialDeRecargas extends TestBase {
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"}, dataProvider = "RecargasHistorias")
-	public void TS134789_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_con_Beneficios_Fan_FRONT_Telefonico(String sDNI) {
+	public void TS134789_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_con_Beneficios_Fan_FRONT_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS134789";
 		detalles = imagen+"-HistorialDeRecargasTelefonico-DNI:"+sDNI;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
@@ -884,7 +885,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(recarga.equals(sMontoV2));
 	}
 	
-	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "HistoriaRecarga")
+	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargaHistoria")
 	public void TS134793_CRM_Movil_Prepago_Historial_De_Recargas_SOS_S440_FAN_Front_Telefonico(String cDNI,String sLinea) {
 		imagen = "TS134793";
 		detalles = imagen + " -Historial de recargas - DNI: " + cDNI;
@@ -933,7 +934,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(enc);
 	}
 		
-	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "HistoriaRecarga")
+	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargaHistoria")
 	public void TS134839_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Fecha_Fan_FRONT_Telefonico(String sDNI, String sLinea){
 		imagen = "TS134839";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
@@ -986,7 +987,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"}, dataProvider = "RecargasHistorias")
-	public void TS134844_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_IVR_Fan_FRONT_Telefonico(String sDNI) {
+	public void TS134844_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_IVR_Fan_FRONT_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS134844";
 		boolean histDeRecargas = false, histDePacks = false, histDeRecargasSOS = false, histDeAjustes = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
@@ -1024,7 +1025,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(tabla.isDisplayed());
 	}
 	
-	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "HistoriaRecarga")
+	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargaHistoria")
 	public void TS134845_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_SMS_Fan_FRONT_Telefonico(String sDNI, String sLinea){
 		imagen = "TS134845";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
@@ -1069,7 +1070,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(verif);
 	}
 	
-	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "HistoriaRecarga")
+	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargaHistoria")
 	public void TS134846_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_ROL_Fan_FRONT_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS134846";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
@@ -1114,7 +1115,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(coincideLaFecha && rol && montoCorrecto);
 	}
 	
-	@Test (groups = {"GestionesPerfilTelefonico", "HistorialDeRecargas", "E2E", "Ciclo2"}, dataProvider = "HistoriaRecarga")
+	@Test (groups = {"GestionesPerfilTelefonico", "HistorialDeRecargas", "E2E", "Ciclo2"}, dataProvider = "RecargaHistoria")
 	public void TS134847_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_Atencion_al_cliente_Fan_FRONT_Telefonico(String sDNI, String sLinea){
 		imagen = "TS134847";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
@@ -1197,7 +1198,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
-	public void TS135437_CRM_Movil_Prepago_Historial_De_Packs_Fan_Front_Telefonico(String cDNI) {
+	public void TS135437_CRM_Movil_Prepago_Historial_De_Packs_Fan_Front_Telefonico(String cDNI , String sLinea) {
 		boolean enc = false;
 		imagen = "TS135437";
 		detalles = imagen+"-HistorialDePacksTelefonico - DNI: "+cDNI;
@@ -1235,7 +1236,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
-	public void TS135467_CRM_Movil_Prepago_Historial_de_Packs_Fan_Front_Telefonico(String cDNI) {
+	public void TS135467_CRM_Movil_Prepago_Historial_de_Packs_Fan_Front_Telefonico(String cDNI , String sLinea) {
 		boolean enc = false;
 		imagen = "TS135467";
 		detalles = imagen+"-HistorialDePacksTelefonico - DNI:"+cDNI;
@@ -1272,7 +1273,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
-	public void TS135469_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_Telefonico(String sDNI){
+	public void TS135469_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_Telefonico(String sDNI , String sLinea){
 		imagen = "TS135469";
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -1302,7 +1303,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups= {"GestionesPerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
-	public void TS135475_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Familia_FAN_Front_Telefonico(String sDNI){
+	public void TS135475_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Familia_FAN_Front_Telefonico(String sDNI , String sLinea){
 		imagen = "TS135475";
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -1332,7 +1333,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
-	public void TS135477_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internet_40_Mb_FAN_Front_Telefonico(String sDNI){
+	public void TS135477_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internet_40_Mb_FAN_Front_Telefonico(String sDNI , String sLinea){
 		imagen = "TS135477";
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
@@ -1362,7 +1363,7 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
-	public void TS135484_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_Telefonico(String sDNI) throws ParseException{
+	public void TS135484_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_Telefonico(String sDNI , String sLinea) throws ParseException{
 		imagen = "TS135484";
 		boolean verificarFecha = false;
 		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));

@@ -1996,12 +1996,6 @@ public class TestBase {
 		 return (testObjArray);
 	}
 	
-	@DataProvider
-	public Object[][] HistoriaRecarga() throws Exception {
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,2,"HistorialRecargaSOS");
-
-		 return (testObjArray);
-	}
 	
 	public void guardarLineasNominadas(String data) throws IOException {
 		File archivo=new File("DatosNominacion.txt");

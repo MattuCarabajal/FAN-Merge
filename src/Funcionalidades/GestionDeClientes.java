@@ -28,7 +28,7 @@ public class GestionDeClientes extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups= "GestionPerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);

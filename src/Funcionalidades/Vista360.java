@@ -35,7 +35,7 @@ public class Vista360 extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups= "GestionPerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -48,7 +48,7 @@ public class Vista360 extends TestBase {
 		sleep(6000);
 	}
 		
-	//@BeforeClass (alwaysRun = true)
+	//@BeforeClass (groups= "GestionPerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -61,7 +61,7 @@ public class Vista360 extends TestBase {
 		sleep(6000);
 	}
 	
-	@BeforeClass (alwaysRun = true)
+	//@BeforeClass (groups= "GestionPerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -84,7 +84,7 @@ public class Vista360 extends TestBase {
 		sleep(5000);
 	}
 
-	//@AfterMethod(alwaysRun=true)
+	@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -92,7 +92,7 @@ public class Vista360 extends TestBase {
 		sleep(2000);
 	}
 
-	//@AfterClass(alwaysRun=true)
+	@AfterClass(alwaysRun=true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);

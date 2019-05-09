@@ -38,7 +38,7 @@ public class Ajustes extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups= "GestionPerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -53,7 +53,7 @@ public class Ajustes extends TestBase {
 		sleep(6000);
 	}
 		
-	//@BeforeClass (alwaysRun = true)
+	//@BeforeClass (groups= "GestionPerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -68,7 +68,7 @@ public class Ajustes extends TestBase {
 		sleep(6000);
 	}
 	
-	//@BeforeClass (alwaysRun = true)
+	//@BeforeClass (groups= "GestionPerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
