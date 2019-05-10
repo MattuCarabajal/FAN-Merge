@@ -39,6 +39,9 @@ public class ConsultaDeSaldo extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
+		mk = new Marketing(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
 		loginOOCC(driver);
 		sleep(15000);
 		cc.irAConsolaFAN();	
@@ -76,8 +79,8 @@ public class ConsultaDeSaldo extends TestBase {
 	public void setup() throws Exception {
 		detalles = null;
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
-		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
+		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 	}
 
@@ -95,17 +98,45 @@ public class ConsultaDeSaldo extends TestBase {
 		sleep(5000);
 	}
 	
+	//------------------------------------------------------------------------------
+	public boolean sleepCambioDeFrame (WebDriver driver, String typeOfBy, String elementSelector, double timeMax, double timeAcumulated) {
+		if (timeMax < timeAcumulated) {
+			return true;
+		}
+		try {
+			switch(typeOfBy) {
+				case "id":
+					driver.switchTo().frame(cambioFrame(driver, By.id(elementSelector)));
+					break;
+				case "cssSelector":
+					driver.switchTo().frame(cambioFrame(driver, By.cssSelector(elementSelector)));
+					break;
+				case "tagName":
+					driver.switchTo().frame(cambioFrame(driver, By.tagName(elementSelector)));
+					break;
+				case "className":
+					driver.switchTo().frame(cambioFrame(driver, By.className(elementSelector)));
+					break;
+				default:
+					System.out.println("Error seleccionando el tipo de By.");
+					break;
+			}
+			return true;
+		} catch (Exception e) {
+			try {Thread.sleep(200);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+			return sleepCambioDeFrame(driver, typeOfBy, elementSelector, timeMax, timeAcumulated + 0.200);
+		}
+	}
+	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
 	@Test (groups = {"PerfilOficina", "ConsultaDeSaldo", "Ciclo1"}, dataProvider = "ConsultaSaldo")
 	public void TS134373_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_OOCC(String sDNI, String sLinea, String sAccountKey) {
-		imagen ="TS134373";		
+		imagen ="TS134373";
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		sleepCambioDeFrame(driver, "className", "card-top", 10, 0);
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer credito = Integer.parseInt(sMainBalance.substring(0, 6));
 		String card = driver.findElement(By.className("card-info")).findElement(By.className("uLdetails")).findElement(By.tagName("li")).findElements(By.tagName("span")).get(2).getText();
@@ -118,16 +149,15 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134376_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_OOCC(String sDNI, String sLinea, String sAccountKey) {
 		imagen ="TS134376";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
+		sleep(10000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		sleepCambioDeFrame(driver, "className", "card-top", 10, 0);
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
-		Integer saldoEnCard = Integer.parseInt(saldo);	
+		Integer saldoEnCard = Integer.parseInt(saldo);
 		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalOutStandAmt");
 		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
@@ -139,11 +169,12 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134811_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134811";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+//		sleep(15000);
+//		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		sleepCambioDeFrame(driver, "className", "card-top", 10, 0); //////
+		sleep(5000);
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer credito = Integer.parseInt(sMainBalance.substring(0, 6));
 		String card = driver.findElement(By.className("card-info")).findElement(By.className("uLdetails")).findElement(By.tagName("li")).findElements(By.tagName("span")).get(2).getText();
@@ -156,7 +187,6 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134813_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134813";		
 		detalles = imagen + " -Consulta de saldo - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -177,11 +207,9 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134814_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_Agentes(String sDNI, String sLinea, String sAccountKey){
 		imagen = "TS134814";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		sleepCambioDeFrame(driver, "className", "card-top", 10, 0);
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer credito = Integer.parseInt(sMainBalance.substring(0, 6));
 		String card = driver.findElement(By.className("card-info")).findElement(By.className("uLdetails")).findElement(By.tagName("li")).findElements(By.tagName("span")).get(2).getText();
@@ -194,7 +222,6 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134815_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_Agentes(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134815";		
 		detalles = imagen + "Consulta de saldo -DNI:" + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -208,4 +235,5 @@ public class ConsultaDeSaldo extends TestBase {
 		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
+	
 }
