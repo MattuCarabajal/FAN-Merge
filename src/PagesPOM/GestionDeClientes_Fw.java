@@ -108,6 +108,10 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	@FindBy (how = How.CSS, using = locator_BotonesInf)
 	private WebElement botonesInf ;
 	
+	final String locator_razonSocial = "[class='slds-tree__item ng-scope']";
+	@FindBy (how = How.CSS, using = locator_razonSocial)
+	private WebElement razonSocial ;
+	
 			
 //CONTRUCTOR
 	public GestionDeClientes_Fw(WebDriver driver) {
@@ -182,7 +186,6 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	public void clickMenuIzq() {
 		driver.switchTo().defaultContent();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(MenuIzq));
-		//System.out.println("x= "+MenuIzq.getLocation().getX()+"y= "+MenuIzq.getLocation().getY());
 		super.getAction().moveToElement(MenuIzq).moveByOffset(MenuIzq.getLocation().getX()+110, MenuIzq.getLocation().getY()-90).click().build().perform();
 		super.getEjecutorJavaScipt().executeScript("arguments[0].click();", this.MenuIzq);
 		
@@ -193,6 +196,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		clickMenuIzq();
 		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(this.locator_listaMenuIzq), 0));
 		try{
+			fluentWait.until(ExpectedConditions.elementToBeClickable(listaMenuIzq.get(0)));
 			super.getBuscarElementoPorText(listaMenuIzq, opcionVisible).click();
 		}catch(Exception e) {
 			System.out.println("no se encuentra elemento verificar que coincida con el texto visible");
@@ -210,12 +214,17 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public void BuscarCuenta(String Type, String NDNI){
+		driver.switchTo().defaultContent();
+		TestBase tb = new TestBase();
+		tb.sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
 		getSelect(DNIbuscador).selectByVisibleText(Type);
 		DNI.sendKeys(NDNI);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_BtnBuscar)));
 		BtnBuscar.click();
-
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locator_razonSocial)));
+		razonSocial.click();
+		driver.switchTo().defaultContent();
 	}
 	public void BuscarCuentaConLinea(String Type, String NDNI, String numlinea){//modificar para que funcione
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
@@ -277,6 +286,20 @@ public class GestionDeClientes_Fw extends BasePageFw {
 				}
 			}
 		}
+	}
+	
+	public void irAGestionEnCard(String sGestion) {
+		driver.switchTo().defaultContent();
+		switchToFrameBySrc("/apex/vlocity_cmt__ConsoleCards?Id=0010r000008A9jg&layout=ta-console-services&");
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='card-top']")));
+		WebElement card = driver.findElement(By.cssSelector("[class='card-top']"));//(By.className("community-flyout-actions-card"));
+		card.click();
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='community-flyout-actions-card'] ul li"), 0));
+		List<WebElement> cardInterno = driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li"));
+		WebElement gestion = getBuscarElementoPorText(cardInterno, sGestion);
+		fluentWait.until(ExpectedConditions.elementToBeClickable(gestion));
+		gestion.click();
+		driver.switchTo().defaultContent();
 	}
 	
 	

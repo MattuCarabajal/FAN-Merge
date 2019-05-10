@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -519,19 +520,23 @@ public class DiagnosticoInconvenientes extends TestBase {
 	public void TS119186_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas_Sin_Locacion_NO_recupera_locacion_Geo_rojo(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119186";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(30000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(8000);
-		cc.irAGestionEnCard("Diagn\u00f3stico");
+		//driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+		ges.BuscarCuenta("DNI", sDNI);
+		//driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+//		sleep(30000);
+//		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+//		driver.findElement(By.className("card-top")).click();
+//		sleep(8000);
+		//ges.irAGestionEnCard("Diagn\u00f3stico");
+		ges.irAGestionEnCard("Diagn\u00f3stico");
+
+		
+		sleep(7000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("Motive")));
 		driver.findElement(By.name("loopname")).click();
-		selectByText(driver.findElement(By.id("Motive")), "No puedo realizar llamadas");
+		selectByText(driver.findElement(By.id("Motive")), "No puedo recibir llamadas");
 		buscarYClick(driver.findElements(By.id("MotiveIncidentSelect_nextBtn")), "equals", "continuar");
-		sleep(5000);
+		sleep(3000);
 		//tc.seleccionarPreguntaFinal("S\u00ed");
 		buscarYClick(driver.findElements(By.cssSelector("[class='slds-form-element__label ng-binding ng-scope']")), "contains", "s\u00ed");
 		driver.findElement(By.id("BalanceValidation_nextBtn")).click(); 
@@ -561,8 +566,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		buscarYClick(driver.findElements(By.id("AddressSection_nextBtn")), "equals", "continuar");
 		List <WebElement> lista = driver.findElements(By.cssSelector("[class= 'slds-form-element__control'] p p span"));
 		for(WebElement x : lista) {
-			System.out.println(x.getText());
-			if(x.getText().toLowerCase().contains("el n")) {
+			if(x.getText().toLowerCase().contains("su gesti\u00f3n")) {
 				caso = x.findElement(By.tagName("div")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
 			}
 		}
