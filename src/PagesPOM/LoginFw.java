@@ -123,5 +123,14 @@ public class LoginFw extends BasePageFw {
 		loginButton2.click();
 	}
 	
-		 
+	public void loginBackOffice() {
+		driver.get(urlAmbiente);
+		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
+		logininterno.click();
+		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
+		Ecom_User_ID.sendKeys("Ua2569324"); // UAT
+		Ecom_Password.sendKeys("Testa10k");
+		loginButton2.click();
+		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	}		 
 }
