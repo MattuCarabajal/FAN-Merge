@@ -100,7 +100,6 @@ public class DetalleDeConsumos extends TestBase {
 		imagen = "TS134782";
 		detalles = imagen + "- Detalle de Consumos - DNI: "+sDNI;
 		boolean sms = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -125,7 +124,6 @@ public class DetalleDeConsumos extends TestBase {
 		imagen = "TS134783";
 		detalles = imagen + "- Detalle de Consumo - DNI: "+sDNI;
 		boolean recarga = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -150,7 +148,6 @@ public class DetalleDeConsumos extends TestBase {
 		imagen = "TS134784";
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
 		boolean llamadaDeVoz = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -174,7 +171,6 @@ public class DetalleDeConsumos extends TestBase {
 	public void TS134785_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_Otros_consumos_FAN_Front_OOCC_134785(String sDNI, String sLinea) {
 		imagen = "TS134785";
 		detalles = imagen + "- Detalles de Consumos -DNI:" + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(25000);
@@ -200,7 +196,6 @@ public class DetalleDeConsumos extends TestBase {
 	public void TS134802_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_visualizacion_y_busqueda_de_los_distintos_consumos_realizados_por_el_cliente_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
 		imagen = "TS134802";
 		detalles = imagen + "-Vista 360 - DNI: " + sDNI + " - Nombre: " + sNombre;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(10000);
@@ -227,7 +222,6 @@ public class DetalleDeConsumos extends TestBase {
 		imagen = "TS134803";
 		detalles = imagen + " -Detalle de consumos - DNI: " + sDNI;
 		boolean sms = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -253,7 +247,6 @@ public class DetalleDeConsumos extends TestBase {
 	public void TS134825_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_visualizacion_y_busqueda_de_los_distintos_consumos_realizados_por_el_cliente_FAN_Front_Agentes(String cDNI, String cLinea) {
 		imagen = "TS134825";
 		detalles = imagen + " -DetalleDeConsumos: " + cDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(10000);
@@ -280,7 +273,6 @@ public class DetalleDeConsumos extends TestBase {
 		imagen = "TS134826";
 		detalles = imagen + "Detalle de consumos -DNI:" + sDNI;
 		boolean sms = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -305,7 +297,6 @@ public class DetalleDeConsumos extends TestBase {
 		imagen = "TS134827";
 		detalles = imagen + "Detalle de consumos -DNI:" + sDNI;
 		boolean recarga = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -330,7 +321,6 @@ public class DetalleDeConsumos extends TestBase {
 		imagen = "TS134828";
 		detalles = imagen + "Detalle de Consumos -DNI:" + sDNI+"-Linea: "+sLinea;
 		boolean llamadaDeVoz = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -354,7 +344,6 @@ public class DetalleDeConsumos extends TestBase {
 	public void TS134829_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_Otros_consumos_FAN_Front_Agentes(String sDNI, String sLinea) {
 		imagen = "TS134829";
 		detalles = imagen + "Detalle de Consumos -DNI:" + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(8000);

@@ -97,7 +97,6 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS134787_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_con_Beneficios_FAN_Front_OOCC(String sDNI,String sLinea) {
 		imagen = "TS134787";
 		detalles = imagen + " - Historial de recargas - DNI:" + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(12000);
@@ -127,7 +126,6 @@ public class HistorialDeRecargas extends TestBase {
 		imagen = "TS134788";
 		detalles = imagen + "- Historial de recargas - DNI: " + sDNI;
 		cbsm.Servicio_Recharge(sLinea,"25000000","0");
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -177,7 +175,6 @@ public class HistorialDeRecargas extends TestBase {
 		sleep(1000);
 		String monto = Integer.toString(intAleatorio);
 		monto = monto.substring(0,4);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -216,7 +213,6 @@ public class HistorialDeRecargas extends TestBase {
 		detalles = imagen + "- Historial de packs - DNI: " + sDNI;
 		boolean enc = false;
 		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -256,7 +252,6 @@ public class HistorialDeRecargas extends TestBase {
 		String dia = fechaDeHoy();
 		String monto = "30000000";
 		cbsm.Servicio_Recharge(sLinea,monto , "0");
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -312,7 +307,6 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS134786_CRM_Movil_Prepago_Historial_de_Recargas_Monto_total_FAN_Front_OOCC(String sDNI, String sLinea) { 
 		imagen = "TS134786";
 		detalles = imagen + "-Historial De Recarga-DNI :" + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -350,7 +344,6 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS134838_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_IVR_Fan_FRONT_OOCC(String sDNI , String sLinea) {
 		imagen = "TS134838";
 		boolean histDeRecargas = false, histDePacks = false, histDeRecargasSOS = false, histDeAjustes = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -392,7 +385,6 @@ public class HistorialDeRecargas extends TestBase {
 		String dia = fechaDeHoy();
 		String monto = "30000000";
 		cbsm.Servicio_Recharge(sLinea,monto , "H");
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -424,7 +416,6 @@ public class HistorialDeRecargas extends TestBase {
 		String dia = fechaDeHoy();
 		String monto = "30000000";
 		cbsm.Servicio_Recharge(sLinea,monto , "2");
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -468,7 +459,6 @@ public class HistorialDeRecargas extends TestBase {
 		detalles = imagen + "-Historial De Recarga-DNI :" + sDNI;
 		cbsm.Servicio_Recharge(sLinea,"25000000", "E");
 		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -511,7 +501,6 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS135346_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_TODOS_Fan_FRONT_OOCC(String sDNI , String sLinea) {
 		imagen = "TS135346";
 		detalles = imagen + " - Historial de recargas - DNI:" + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(10000);
@@ -535,7 +524,6 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS135361_CRM_Movil_Prepago_Otros_Historiales_Historial_de_ajustes_FAN_Front_OOCC_S138(String sDNI , String sLinea){
 		imagen = "TS135361";
 		detalles = imagen + "- Historial de packs - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -569,7 +557,6 @@ public class HistorialDeRecargas extends TestBase {
 	@Test (groups = {"PerfilOficina","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
 	public void TS135468_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_OOCC(String sDNI , String sLinea){
 		imagen = "TS135468";
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -599,7 +586,6 @@ public class HistorialDeRecargas extends TestBase {
 	@Test (groups= {"PerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
 	public void TS135472_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internacional_FAN_Front_OOCC(String sDNI , String sLinea){
 		imagen = "TS135472";
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -629,7 +615,6 @@ public class HistorialDeRecargas extends TestBase {
 	@Test (groups= {"PerfilOficina", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
 	public void TS135474_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Familia_FAN_Front_OOCC(String sDNI , String sLinea){
 		imagen = "TS135474";
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -659,7 +644,6 @@ public class HistorialDeRecargas extends TestBase {
 	@Test (groups = {"PerfilOficina","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
 	public void TS135476_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internet_50_Mb_FAN_Front_OOCC(String sDNI , String sLinea){
 		imagen = "TS135476";
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -690,7 +674,6 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS135483_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_OOCC(String sDNI , String sLinea) throws ParseException{
 		imagen = "TS135483";
 		boolean verificarFecha = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -725,7 +708,6 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS134789_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_con_Beneficios_Fan_FRONT_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS134789";
 		detalles = imagen+"-HistorialDeRecargasTelefonico-DNI:"+sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(18000);
@@ -757,7 +739,6 @@ public class HistorialDeRecargas extends TestBase {
 		detalles = imagen+"-HistorialDeRecargasTelefonico-DNI:"+sDNI;
 		cbsm.Servicio_Recharge(cLinea,"25000000","0");
 		sleep(1000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -793,7 +774,6 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS134791_CRM_Movil_Prepago_Historial_de_Recargas_Monto_total_FAN_Front_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS134791";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -832,7 +812,6 @@ public class HistorialDeRecargas extends TestBase {
 		String monto = "30000000";
 		String dia = fechaDeHoy();
 		cbsm.Servicio_Recharge(sLinea,monto , "0");
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -903,7 +882,6 @@ public class HistorialDeRecargas extends TestBase {
 		sleep(1000);
 		String monto = Integer.toString(intAleatorio);
 		monto = monto.substring(0,4);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -941,7 +919,6 @@ public class HistorialDeRecargas extends TestBase {
 		String dia = fechaDeHoy();
 		String monto = "30000000";
 		cbsm.Servicio_Recharge(sLinea,monto,"0");
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -990,7 +967,6 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS134844_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_IVR_Fan_FRONT_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS134844";
 		boolean histDeRecargas = false, histDePacks = false, histDeRecargasSOS = false, histDeAjustes = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1032,7 +1008,6 @@ public class HistorialDeRecargas extends TestBase {
 		String dia = fechaDeHoy();
 		String monto = "30000000";
 		cbsm.Servicio_Recharge(sLinea,monto,"2");
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -1076,7 +1051,6 @@ public class HistorialDeRecargas extends TestBase {
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
 		cbsm.Servicio_Recharge(sLinea,"25000000", "E");
 		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -1122,7 +1096,6 @@ public class HistorialDeRecargas extends TestBase {
 		String dia = fechaDeHoy();
 		String monto = "30000000";
 		cbsm.Servicio_Recharge(sLinea,monto,"J");
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -1177,7 +1150,6 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS135347_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_TODOS_Fan_FRONT_Telefonico(String sDNI, String cLinea) {
 		imagen = "TS135347";
 		detalles = imagen + " -Historial de recargas - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1202,7 +1174,6 @@ public class HistorialDeRecargas extends TestBase {
 		boolean enc = false;
 		imagen = "TS135437";
 		detalles = imagen+"-HistorialDePacksTelefonico - DNI: "+cDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1240,7 +1211,6 @@ public class HistorialDeRecargas extends TestBase {
 		boolean enc = false;
 		imagen = "TS135467";
 		detalles = imagen+"-HistorialDePacksTelefonico - DNI:"+cDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(25000);
@@ -1275,7 +1245,6 @@ public class HistorialDeRecargas extends TestBase {
 	@Test (groups = {"PerfilTelefonico","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
 	public void TS135469_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_Telefonico(String sDNI , String sLinea){
 		imagen = "TS135469";
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1305,7 +1274,6 @@ public class HistorialDeRecargas extends TestBase {
 	@Test (groups= {"PerfilTelefonico", "HistorialDeRecargas", "Ciclo2"},  dataProvider = "RecargasHistorias")
 	public void TS135475_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Familia_FAN_Front_Telefonico(String sDNI , String sLinea){
 		imagen = "TS135475";
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1335,7 +1303,6 @@ public class HistorialDeRecargas extends TestBase {
 	@Test (groups = {"PerfilTelefonico","HistorialDeRecargas","E2E", "Ciclo1"},  dataProvider = "RecargasHistorias")
 	public void TS135477_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internet_40_Mb_FAN_Front_Telefonico(String sDNI , String sLinea){
 		imagen = "TS135477";
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1366,7 +1333,6 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS135484_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_Telefonico(String sDNI , String sLinea) throws ParseException{
 		imagen = "TS135484";
 		boolean verificarFecha = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
