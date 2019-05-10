@@ -251,13 +251,13 @@ public class BasePage {
 	public void irAConsolaFAN() {
 		if (driver.findElement(By.id("tsidLabel")).getText().equalsIgnoreCase("Consola FAN")) {
 			driver.findElement(By.id("BackToServiceDesk_Tab")).click();
-			sleep(10000);
+//			sleep(10000);
 		} else {
 			driver.findElement(By.cssSelector("menuButton menuButtonRounded appSwitcher")).click();
 			for (WebElement x : driver.findElement(By.cssSelector(".menuButtonMenu.menuWidthExtended")).findElements(By.tagName("a"))) {
 				if (x.getText().equalsIgnoreCase("Consola FAN")) {
 					x.click();
-					sleep(10000);
+//					sleep(10000);
 				}
 			}
 		}
