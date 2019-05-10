@@ -1359,7 +1359,6 @@ public class CustomerCare extends BasePage {
 		//List <WebElement> fact = driver.findElements(By.cssSelector(".slds-grid.slds-p-around--small.slds-wrap.via-slds-story-cards--header.slds-theme--shade.profile-tags-header"));
 		//fact.get(0).click();
 		driver.findElement(By.xpath("//span[text()='Facturaci\u00f3n']")).click();
-		sleep(6000);
 		//cambiarAFrameActivo();
 	}
 	

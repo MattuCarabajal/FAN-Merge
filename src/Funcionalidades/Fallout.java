@@ -14,11 +14,13 @@ import org.testng.annotations.Test;
 import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
+import PagesPOM.LoginFw;
 import Tests.TestBase;
 
 public class Fallout extends TestBase {
 
 	private WebDriver driver;
+	private LoginFw log;
 	private CustomerCare cc;
 	private SalesBase sb;
 	String imagen;
@@ -28,20 +30,17 @@ public class Fallout extends TestBase {
 	public void init() {
 		driver = setConexion.setupEze();
 		sleep(5000);
-		loginOperativo(driver);
-		sleep(7000);
 		cc = new CustomerCare(driver);
 		sb = new SalesBase(driver);
-		cc.cajonDeAplicaciones("Ventas");
-		sleep(5000);
-		driver.findElement(By.className("wt-ManualQueue")).click();
-		sb.irAInboxTecnico();
-		sleep(25000);
+		log = new LoginFw(driver);
+		log.loginOperativo();
+		driver.get("https://telecomcrm--uat02.cs45.my.salesforce.com/a33/o");
+		sleep(3000);
+		sb.irAInboxTecnico();		
 		ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
 	    driver.switchTo().window(tabs.get(1));
-	    driver.findElement(By.cssSelector(".scrollable.mt8")).click();
-	    sleep(3000);
-	    driver.switchTo().window(tabs.get(0));
+	    driver.findElement(By.cssSelector(".scrollable.mt8")).click();	    
+	    
 	}
 	
 	@BeforeMethod (alwaysRun = true)
@@ -61,7 +60,7 @@ public class Fallout extends TestBase {
 	
 	//----------------------------------------------- OPERATIVO -------------------------------------------------------\\
 	
-	@Test (groups = {"Fallout", "GestionesPerfilOperativo", "Ciclo3"})
+	@Test (groups = "PerfilOperativo")
 	public void TS134430_CRM_OM_Ordenes_Inbox_tecnico_Busqueda_de_ordenes_con_error() {
 		imagen = "TS134430";
 		driver.findElement(By.className("wt-ManualQueue")).click();
@@ -75,7 +74,7 @@ public class Fallout extends TestBase {
 		Assert.assertTrue(fila.findElements(By.tagName("td")).get(2).getText().equalsIgnoreCase("Fatally Failed"));
 	}
 	
-	@Test (groups = {"Fallout", "GestionesPerfilOperativo", "Ciclo3"})
+	@Test (groups = "PerfilOperativo")
 	public void TS134445_CRM_OM_Ola_1_Inbox_Tecnico_Action_Pick_Up() {
 		imagen = "TS134445";
 		driver.findElement(By.className("wt-ManualQueue")).click();
@@ -93,7 +92,7 @@ public class Fallout extends TestBase {
 		Assert.assertTrue(assingToMe);
 	}
 	
-	@Test (groups = {"Fallout", "GestionesPerfilOperativo", "Ciclo3"})
+	@Test (groups = "PerfilOperativo")
 	public void TS134446_CRM_OM_Ola_1_Inbox_Tecnico_Action_Complete() {
 		imagen = "TS134446";
 		driver.findElement(By.className("wt-ManualQueue")).click();
@@ -111,7 +110,7 @@ public class Fallout extends TestBase {
 		Assert.assertTrue(complete);
 	}
 	
-	@Test (groups = {"Fallout", "GestionesPerfilOperativo", "Ciclo3"})
+	@Test (groups = "PerfilOperativo")
 	public void TS134447_CRM_OM_Ola_1_Inbox_Tecnico_Action_Retry() {
 		imagen = "TS134447";
 		driver.findElement(By.className("wt-ManualQueue")).click();
@@ -129,19 +128,19 @@ public class Fallout extends TestBase {
 		Assert.assertTrue(retry);
 	}
 	
-	@Test (groups = {"Fallout", "GestionesPerfilOperativo", "Ciclo3"}, dependsOnMethods = "TS134430_CRM_OM_Ordenes_Inbox_tecnico_Busqueda_de_ordenes_con_error")
+	@Test (groups = "PerfilOperativo", dependsOnMethods = "TS134430_CRM_OM_Ordenes_Inbox_tecnico_Busqueda_de_ordenes_con_error")
 	public void TS134431_CRM_OM_Ordenes_Inbox_tecnico_Verificacion_del_total_de_ordenes_de_la_busqueda() {
 		imagen = "TS134431";
 		Assert.assertTrue(true);
 	}
 	
-	@Test (groups = {"Fallout", "GestionesPerfilOperativo", "Ciclo3"}, dependsOnMethods = "TS134430_CRM_OM_Ordenes_Inbox_tecnico_Busqueda_de_ordenes_con_error")
+	@Test (groups = "PerfilOperativo", dependsOnMethods = "TS134430_CRM_OM_Ordenes_Inbox_tecnico_Busqueda_de_ordenes_con_error")
 	public void TS134432_CRM_OM_Ordenes_Inbox_tecnico_Verificacion_de_nuevos_casos_con_el_mismo_error() {
 		imagen = "TS134432";
 		Assert.assertTrue(true);
 	}
 	
-	@Test (groups = {"Fallout", "GestionesPerfilOperativo", "Ciclo3"})
+	@Test (groups = "PerfilOperativo")
 	public void TS134433_CRM_OM_Ordenes_Inbox_tecnico_Ver_el_detalle_de_las_ordenes() {
 		imagen = "TS134433";
 		driver.findElement(By.className("wt-ManualQueue")).click();
@@ -171,7 +170,7 @@ public class Fallout extends TestBase {
 		Assert.assertTrue(columnas.equals(datos));
 	}
 	
-	@Test (groups = {"Fallout", "GestionesPerfilOperativo", "Ciclo3"})
+	@Test (groups = "PerfilOperativo")
 	public void TS134435_CRM_OM_Ordenes_Inbox_tecnico_Cancelacion_de_la_orden() {
 		imagen = "TS134435";
 		boolean status = false;
@@ -195,13 +194,13 @@ public class Fallout extends TestBase {
 		Assert.assertTrue(status);
 	}
 	
-	@Test (groups = {"Fallout", "GestionesPerfilOperativo", "Ciclo3"}, dependsOnMethods = "TS134430_CRM_OM_Ordenes_Inbox_tecnico_Busqueda_de_ordenes_con_error")
+	@Test (groups = "PerfilOperativo", dependsOnMethods = "TS134430_CRM_OM_Ordenes_Inbox_tecnico_Busqueda_de_ordenes_con_error")
 	public void TS134439_CRM_OM_Ordenes_Inbox_tecnico_Verificacion_de_numero_total_de_ordenes_por_error() {
 		imagen = "TS134439";
 		Assert.assertTrue(true);
 	}
 	
-	@Test (groups = {"Fallout", "GestionesPerfilOperativo", "Ciclo3"})
+	@Test (groups = "PerfilOperativo")
 	public void TS134440_CRM_OM_Ordenes_Inbox_tecnico_Seleccionar_todas_las_ordenes_para_realizar_acciones_multiples() {
 		imagen = "TS134440";
 		boolean assingToMe = false;

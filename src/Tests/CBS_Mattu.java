@@ -7,8 +7,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -16,10 +14,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 
-import Pages.BasePage;
 import Pages.CBS;
 import Pages.ManejoCaja;
-import Pages.SSLUtil;
 import Pages.setConexion;
 
 public class CBS_Mattu extends TestBase {
@@ -70,11 +66,11 @@ public class CBS_Mattu extends TestBase {
 			driver.switchTo().window(tabs2.get(1));
 			mn.ingresarCaja(driver);
 			exito = true;
-		}catch(Exception ex1) {
+		} catch(Exception ex1) {
 			driver.close();
 		    driver.switchTo().window(tabs2.get(0));
 		}
-		if(exito == true) {
+		if (exito == true) {
 			mn.configuracionesIniciales(driver);
 			mn.seleccionarOpcionCatalogo(driver, "Cuentas por cobrar");
 			mn.abrirCajaRegistradora(driver);
@@ -97,8 +93,7 @@ public class CBS_Mattu extends TestBase {
 		String sPaymentMethod = "2001";
 		String sAmount = "123005600";
 		String sInvoiceno = "20180827000000056800";
-		String sPaymentSerialNo = ((new java.text.SimpleDateFormat("yyyyMMddHHmmss")).format(new Date())).toString()+Integer.toString((int)(Math.random()*1000));
-		
+		String sPaymentSerialNo = ((new java.text.SimpleDateFormat("yyyyMMddHHmmss")).format(new Date())).toString()+Integer.toString((int)(Math.random()*1000));		
 		SOAPClientSAAJ sSCS = new SOAPClientSAAJ();
 		CBS cCBS = new CBS();
 		boolean sResponse = cCBS.sCBS_Request_ServicioWeb_Validador(sSCS.callSoapWebService(cCBS.sRequest(sPaymentSerialNo, sPaymentChannelID, sAccountKey, sPaymentMethod, sAmount, sInvoiceno), sEndPoint));
@@ -106,7 +101,7 @@ public class CBS_Mattu extends TestBase {
 	}
 	
 	public boolean PagoEnCaja(String sPaymentChannelID, String sAccountKey, String sPaymentMethod, String sAmount, String sInvoiceno, WebDriver driver) throws AWTException {
-		if(cajeta(driver,sInvoiceno, sAccountKey)==false) {
+		if (cajeta(driver,sInvoiceno, sAccountKey)==false) {
 			String sEndPoint = "Pago en Caja";
 			String sPaymentSerialNo = ((new java.text.SimpleDateFormat("yyyyMMddHHmmss")).format(new Date())).toString()+Integer.toString((int)(Math.random()*1000));
 			SOAPClientSAAJ sSCS = new SOAPClientSAAJ();
@@ -115,14 +110,13 @@ public class CBS_Mattu extends TestBase {
 			System.out.println("sResponse: " + sResponse);
 			return(sResponse);
 		}
-		return(true);
+		return (true);
 	}
 	
 	@Test
 	public void openPage2(String sOrder) {
 		String sEndPoint = "Pago Simulado";
-		//String sOrder = "00080253";
-		
+		//String sOrder = "00080253";		
 		SOAPClientSAAJ sSCS = new SOAPClientSAAJ();
 		CBS cCBS = new CBS();
 		Document sResponse = sSCS.callSoapWebService(cCBS.sRequestByOrder(sOrder), sEndPoint);
@@ -174,8 +168,6 @@ public class CBS_Mattu extends TestBase {
 		String sEndPoint = "Datos Usuario";
 		//String sLinea = "";
 		String sMessageSeq = "QCI"+ ((new java.text.SimpleDateFormat("yyyyMMddHHmmss")).format(new Date())).toString()+Integer.toString((int)(Math.random()*1000));
-		String sImsi = "";
-		String sICCD = "";
 		SOAPClientSAAJ sSCS = new SOAPClientSAAJ();
 		CBS cCBS = new CBS();
 		Document Response = cCBS.sValidacion_ResponseQueryLiteBySubscriber(sSCS.callSoapWebService(cCBS.sRequestByLinea(sLinea, sMessageSeq), sEndPoint));
@@ -187,8 +179,6 @@ public class CBS_Mattu extends TestBase {
 		String sEndPoint = "unidades libres";
 		//String sLinea = "";
 		String sMessageSeq = "QCI"+ ((new java.text.SimpleDateFormat("yyyyMMddHHmmss")).format(new Date())).toString()+Integer.toString((int)(Math.random()*1000));
-		String sImsi = "";
-		String sICCD = "";
 		SOAPClientSAAJ sSCS = new SOAPClientSAAJ();
 		CBS cCBS = new CBS();
 		Document Response = cCBS.sValidacion_ResponseQueryLiteBySubscriber(sSCS.callSoapWebService(cCBS.sRequestQueryFreeUnit(sLinea, sMessageSeq), sEndPoint));
@@ -225,8 +215,7 @@ public class CBS_Mattu extends TestBase {
 	@Test
 	public void PagarTCPorServicio(String sOrden) throws KeyManagementException, NoSuchAlgorithmException {
 		//String sOrden = "00009148";
-		SOAPClientSAAJ sSCS = new SOAPClientSAAJ();
-		sSCS.turnOffSslChecking();
+		SOAPClientSAAJ.turnOffSslChecking();
 		Document doc = Servicio_obtenerInformacionOrden(sOrden);
 		CBS cCBS = new CBS();
 		String CodPag = cCBS.obtenerValorCodPago(doc);
@@ -289,6 +278,7 @@ public class CBS_Mattu extends TestBase {
 		System.out.println(cCBS.ObtenerValorResponse(sResponse, "cbs:ResultDesc"));
 		return sResponse;
 	}
+	
 	@Test
 	public Document Servicio_RealizarAltaSuscripcion(String sLinea, String sCodigo) {
 		String sEndPoint = "alta suscripcion";
@@ -316,11 +306,11 @@ public class CBS_Mattu extends TestBase {
 			driver.switchTo().window(tabs2.get(1));
 			mn.ingresarCaja(driver);
 			exito = true;
-		}catch(Exception ex1) {
+		} catch(Exception ex1) {
 			driver.close();
 		    driver.switchTo().window(tabs2.get(0));
 		}
-		if(exito == true) {
+		if (exito == true) {
 			mn.configuracionesIniciales(driver);
 			mn.imprimirFactura(driver,prefactura,cuenta);
 			//llamar al cerrarcaja registradora
@@ -329,7 +319,7 @@ public class CBS_Mattu extends TestBase {
 			driver.close();
 		    driver.switchTo().window(tabs2.get(0));
 		}
-		return(exito);
+		return (exito);
 	}
 	
 	public void probarCaja(WebDriver driver) throws AWTException {
@@ -342,11 +332,11 @@ public class CBS_Mattu extends TestBase {
 			driver.switchTo().window(tabs2.get(1));
 			mn.ingresarCaja(driver);
 			exito = true;
-		}catch(Exception ex1) {
+		} catch(Exception ex1) {
 			driver.close();
 		    driver.switchTo().window(tabs2.get(0));
 		}
-		if(exito == true) {
+		if (exito == true) {
 			mn.configuracionesIniciales(driver);
 			mn.seleccionarOpcionCatalogo(driver, "Cuentas por cobrar");
 			mn.abrirCajaRegistradora(driver);
@@ -360,8 +350,7 @@ public class CBS_Mattu extends TestBase {
 	@Test
 	public void Servicio_NotificarPago(String sOrder) {
 		String sEndPoint = "Notificar Pago";
-		//String sOrder = "00014864";
-		
+		//String sOrder = "00014864";		
 		SOAPClientSAAJ sSCS = new SOAPClientSAAJ();
 		CBS cCBS = new CBS();
 		Document sResponse = sSCS.callSoapWebService(cCBS.sNotificarPago(sOrder), sEndPoint);
@@ -372,8 +361,7 @@ public class CBS_Mattu extends TestBase {
 	@Test
 	public void Servicio_NotificarEmisionFactura(String sOrder) {
 		String sEndPoint = "Notificar Pago";
-		//String sOrder = "00014866";
-		
+		//String sOrder = "00014866";		
 		SOAPClientSAAJ sSCS = new SOAPClientSAAJ();
 		CBS cCBS = new CBS();
 		Document sResponse = sSCS.callSoapWebService(cCBS.sNotificarEmisionFactura(sOrder), sEndPoint);
