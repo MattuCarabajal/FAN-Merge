@@ -3,11 +3,10 @@ package Pages;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import javax.xml.soap.Node;
-
 import org.testng.Assert;
 
 public class CBS {
+	
 	public String sRequestByOrder(String sOrder) {
 		sOrder = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:v1=\"http://www.personal.com.ar/Common/RequestMessageHeader/v1.0\" xmlns:v11=\"http://www.personal.com.ar/ESB/NotificarPago/v1.0\">\r\n"
 				+ "\r\n   <soapenv:Header>\r\n"
@@ -44,8 +43,7 @@ public class CBS {
 		if (sResponse.getElementsByTagName("cbs:ResultDesc").item(0).getTextContent().equalsIgnoreCase("0OK")||sResponse.getElementsByTagName("cbs:ResultDesc").item(0).getTextContent().equalsIgnoreCase("Operation successfully."))   {
 			System.out.println("Correcto");
 			sAssert = true;
-		}
-		else {
+		} else {
 			System.out.println(sResponse.getElementsByTagName("cbs:ResultDesc").item(0).getTextContent());
 			Assert.assertTrue(false);
 		}
@@ -61,8 +59,7 @@ public class CBS {
 				+ "\r\n            <RequestHeader>\r\n"
 				+ "      	       		<cbs:Version>5.5</cbs:Version>\r\n"
 				+ "      	       		<cbs:BusinessCode>Charge2AR</cbs:BusinessCode>\r\n"
-				+ "       	       		<cbs:MessageSeq>"+sPaymentSerialNo;
-		
+				+ "       	       		<cbs:MessageSeq>"+sPaymentSerialNo;		
 		sRequest+="</cbs:MessageSeq>\r\n"
 				+ "       	       		<cbs:OwnershipInfo>\r\n"
 				+ "       	         		<cbs:BEID>10101</cbs:BEID>\r\n"
@@ -89,31 +86,25 @@ public class CBS {
 				+ "        	        	</cbs:AdditionalProperty>\r\n"
 				+ "     	      </RequestHeader>\r\n"
 				+ "            <PaymentRequest>\r\n"
-				+ "                <ars:PaymentSerialNo>" + sPaymentSerialNo;
-		
+				+ "                <ars:PaymentSerialNo>" + sPaymentSerialNo;		
 		sRequest+= "</ars:PaymentSerialNo>\r\n"
-				+ "                <ars:PaymentChannelID>" + sPaymentChannelID;
-		
+				+ "                <ars:PaymentChannelID>" + sPaymentChannelID;		
 		sRequest+= "</ars:PaymentChannelID>\r\n"
 				+ "                <ars:OpType>1</ars:OpType>\r\n"
 				+ "                <ars:PaymentObj>\r\n"
 				+ "                    <ars:AcctAccessCode>\r\n"
-				+ "                        <arc:AccountKey>" + sAccountKey;
-		
+				+ "                        <arc:AccountKey>" + sAccountKey;		
 		sRequest+= "</arc:AccountKey>\r\n"
 				+ "                    </ars:AcctAccessCode>\r\n"
 				+ "                </ars:PaymentObj>\r\n"
 				+ "                <ars:PaymentInfo>\r\n"
 				+ "                    <ars:CashPayment>\r\n"
-				+ "                        <ars:PaymentMethod>" + sPaymentMethod;
-		
+				+ "                        <ars:PaymentMethod>" + sPaymentMethod;		
 		sRequest+= "</ars:PaymentMethod>\r\n"
-				+ "                        <ars:Amount>" + sAmount;
-		
+				+ "                        <ars:Amount>" + sAmount;		
 		sRequest+= "</ars:Amount>\r\n"
 				+ "                        <ars:ApplyList>\r\n"
-				+ "                            <ars:Invoiceno>" + sInvoiceno;
-		
+				+ "                            <ars:Invoiceno>" + sInvoiceno;		
 		sRequest+= "</ars:Invoiceno>                    \r\n"
 				+ "                        </ars:ApplyList>\r\n"
 				+ "                    </ars:CashPayment>\r\n"
@@ -121,18 +112,14 @@ public class CBS {
 				+ "            </PaymentRequest>\r\n"
 				+ "        </ars:PaymentRequestMsg>\r\n"
 				+ "    </soapenv:Body>\r\n"
-				+ "</soapenv:Envelope>";
-		
+				+ "</soapenv:Envelope>";		
 		return sRequest;
 	}
 	
 	public boolean sCBS_Request_Validador(String sResponse) {
-		boolean sAssert = false;
-		
-		if (sResponse.contains("Operation successfully")) {
-			sAssert = true;
-		}
-		
+		boolean sAssert = false;		
+		if (sResponse.contains("Operation successfully"))
+			sAssert = true;	
 		return sAssert;
 	}
 	
@@ -145,8 +132,7 @@ public class CBS {
 				+ "\r\n                    <RequestHeader>\r\n"
 				+ "\r\n                                               <cbs:Version>5.5</cbs:Version>\r\n"
 				+ "\r\n                                               <cbs:BusinessCode>QueryCustomerInfo</cbs:BusinessCode>\r\n"
-				+ "\r\n                                               <cbs:MessageSeq>" + sMessageSeq;
-		
+				+ "\r\n                                               <cbs:MessageSeq>" + sMessageSeq;		
 		sRequest += "</cbs:MessageSeq>\r\n"
 				+ "\r\n                                               <cbs:OwnershipInfo>\r\n"
 				+ "\r\n                                                               <cbs:BEID>10101</cbs:BEID>\r\n"
@@ -173,8 +159,7 @@ public class CBS {
 				+ "\r\n      		<QueryCustomerInfoRequest>\r\n"
 				+ "\r\n            	  		<bcs:QueryObj>\r\n"
 				+ "\r\n               			<bcs:SubAccessCode>\r\n"
-				+ "\r\n                  			<bcc:PrimaryIdentity>" + sLinea;
-		
+				+ "\r\n                  			<bcc:PrimaryIdentity>" + sLinea;		
 		sRequest+= "</bcc:PrimaryIdentity>\r\n"
 				+ "\r\n               			</bcs:SubAccessCode>\r\n"
 				+ "\r\n            			</bcs:QueryObj>\r\n"
@@ -192,8 +177,7 @@ public class CBS {
 			if(sResponse.getElementsByTagName("bcc:OfferingName").item(0).getTextContent().contains(sPlan)) {
 				System.out.println("Correcto");
 				resultado = true;
-			}
-			else {
+			} else {
 				System.out.println(sResponse.getElementsByTagName("bcc:FirstName").item(0).getTextContent());
 				Assert.assertTrue(false);
 			}
@@ -210,8 +194,7 @@ public class CBS {
 				+ "<RequestHeader>\r\n"
 				+ "<cbs:Version>5.5</cbs:Version>\r\n"
 				+ "<cbs:BusinessCode>Charge2AR</cbs:BusinessCode>\r\n"
-				+ "<cbs:MessageSeq>" + sMessageSeq;
-		
+				+ "<cbs:MessageSeq>" + sMessageSeq;		
 		sRequest+= "</cbs:MessageSeq>\r\n"
 				+ "<cbs:OwnershipInfo>\r\n"
 				+ "<cbs:BEID>10101</cbs:BEID>\r\n"
@@ -239,47 +222,38 @@ public class CBS {
 				+ "</RequestHeader>\r\n"
 				+ "<PaymentRequest>\r\n"
 				+ "<ars:PaymentSerialNo>${=(new java.text.SimpleDateFormat(\"yyyyMMddHHmmss\")).format(new Date())}${=(int)(Math.random()*1000)}</ars:PaymentSerialNo>\r\n"
-				+ "<ars:PaymentChannelID>" + sPaymentChannelID;
-		
+				+ "<ars:PaymentChannelID>" + sPaymentChannelID;		
 		sRequest+= "</ars:PaymentChannelID>\r\n"
 				+ "<ars:OpType>1</ars:OpType>\r\n"
 				+ "<ars:PaymentObj>\r\n"
 				+ "<ars:AcctAccessCode>\r\n"
-				+ "<arc:AccountKey>" + sAccountKey;
-		
+				+ "<arc:AccountKey>" + sAccountKey;		
 		sRequest+= "</arc:AccountKey>\r\n"
 				+ "</ars:AcctAccessCode>\r\n"
 				+ "</ars:PaymentObj>\r\n"
 				+ "<ars:PaymentInfo>\r\n"
 				+ "<ars:CashPayment>\r\n"
-				+ "<ars:PaymentMethod>" + sPaymentMethod;
-		
+				+ "<ars:PaymentMethod>" + sPaymentMethod;		
 		sRequest+= "</ars:PaymentMethod>\r\n"
-				+ "<ars:Amount>" + sAmount;
-		
+				+ "<ars:Amount>" + sAmount;		
 		sRequest+= "</ars:Amount>\r\n"
 				+ "<ars:BankInfo>\r\n"
 				+ "<arc:BankCode>11</arc:BankCode>\r\n"
 				+ "<arc:AcctType>C</arc:AcctType>\r\n"
-				+ "<arc:AcctNo>" + sAccountNumber;
-		
+				+ "<arc:AcctNo>" + sAccountNumber;		
 		sRequest+= "</arc:AcctNo>\r\n"
 				+ "<arc:CreditCardType>403</arc:CreditCardType>\r\n"
-				+ "<arc:AcctName>" + sAccountName;
-		
+				+ "<arc:AcctName>" + sAccountName;		
 		sRequest+= "</arc:AcctName>\r\n"
-				+ "<arc:ExpDate>" + sExpirationDate;
-		
+				+ "<arc:ExpDate>" + sExpirationDate;		
 		sRequest+= "</arc:ExpDate>\r\n"
-				+ "<arc:CVVNumber>" + sCVV;
-		
+				+ "<arc:CVVNumber>" + sCVV;		
 		sRequest+= "</arc:CVVNumber>\r\n"
 				+ "<arc:NumberOfInstallment>1</arc:NumberOfInstallment>\r\n"
 				+ "</ars:BankInfo>\r\n"
 				+ "<!--Zero or more repetitions:-->\r\n"
 				+ "<ars:ApplyList>\r\n"
-				+ "<ars:Invoiceno>" + sInvoiceno;
-				
+				+ "<ars:Invoiceno>" + sInvoiceno;				
 		sRequest+= "</ars:Invoiceno>\r\n"
 				+ "</ars:ApplyList>\r\n"
 				+ "<ars:PaymentPlan>0</ars:PaymentPlan>\r\n"
@@ -290,29 +264,24 @@ public class CBS {
 				+ "<ars:CurrencyID>1006</ars:CurrencyID>\r\n"
 				+ "<ars:WondersoftInfo>\r\n"
 				+ "<ars:OriginIP>10.70.26.101</ars:OriginIP>\r\n"
-				+ "<ars:CardHolderName>" + sCardHolderName;
-		
+				+ "<ars:CardHolderName>" + sCardHolderName;		
 		sRequest+= "</ars:CardHolderName>\r\n"
 				+ "<ars:CardHolderDocumentType>96</ars:CardHolderDocumentType>\r\n"
-				+ "<ars:CardHolderDocumentNumber>" + sCardHolderNumber;
-		
+				+ "<ars:CardHolderDocumentNumber>" + sCardHolderNumber;		
 		sRequest+= "</ars:CardHolderDocumentNumber>\r\n"
 				+ "<ars:BankPromotionCode>0</ars:BankPromotionCode>\r\n"
 				+ "</ars:WondersoftInfo>\r\n"
 				+ "</PaymentRequest>\r\n"
 				+ "</ars:PaymentRequestMsg>\r\n"
 				+ "</soapenv:Body>\r\n"
-				+ "</soapenv:Envelope>";
-		
+				+ "</soapenv:Envelope>";		
 		return sRequest;
 	}
 	
-	public Document sCBS_TC_Request_Validador(Document sResponse) {
-		
+	public Document sCBS_TC_Request_Validador(Document sResponse) {		
 		if (sResponse.getElementsByTagName("cbs:ResultDesc").item(0).getTextContent().contains("Operation successfully")) {
 			System.out.println("Correcto");
-		}
-		else {
+		} else {
 			System.out.println(sResponse.getElementsByTagName("cbs:ResultDesc").item(0).getTextContent());
 			Assert.assertTrue(false);
 		}
@@ -328,8 +297,7 @@ public class CBS {
 				+ "\r\n                    <RequestHeader>\r\n"
 				+ "\r\n                                               <cbs:Version>5.5</cbs:Version>\r\n"
 				+ "\r\n                                               <cbs:BusinessCode>QueryLiteBy</cbs:BusinessCode>\r\n"
-				+ "\r\n                                               <cbs:MessageSeq>" + sMessageSeq;
-		
+				+ "\r\n                                               <cbs:MessageSeq>" + sMessageSeq;		
 		sRequest += "</cbs:MessageSeq>\r\n"
 				+ "\r\n                                               <cbs:OwnershipInfo>\r\n"
 				+ "\r\n                                                               <cbs:BEID>10101</cbs:BEID>\r\n"
@@ -355,8 +323,7 @@ public class CBS {
 				+ "\r\n                             </RequestHeader> \r\n"
 				+ "\r\n      		<QueryLiteBySubscriberRequest>\r\n"
 				+ "\r\n               			<bcs:SubAccessCode>\r\n"
-				+ "\r\n                  			<bcc:PrimaryIdentity>" + sLinea;
-		
+				+ "\r\n                  			<bcc:PrimaryIdentity>" + sLinea;		
 		sRequest+= "</bcc:PrimaryIdentity>\r\n"
 				+ "\r\n               			</bcs:SubAccessCode>\r\n"
 				+ "\r\n         	</QueryLiteBySubscriberRequest>      \r\n"
@@ -370,8 +337,7 @@ public class CBS {
 		
 		if (sResponse.getElementsByTagName("cbs:ResultDesc").item(0).getTextContent().contains("Operation successfully")) {
 			//System.out.println("Correcto");
-		}
-		else {
+		} else {
 			System.out.println(sResponse.getElementsByTagName("cbs:ResultDesc").item(0).getTextContent());
 			//Assert.assertTrue(false);
 		}
@@ -381,25 +347,21 @@ public class CBS {
 	public Document sValidacion_ResponseObtenerInformacionOrden(Document sResponse) {
 		if (sResponse.getElementsByTagName("ns2:idCliente1").getLength()>0) {
 			System.out.println("Correcto");
-		}
-		else {
+		} else {
 			Assert.assertTrue(false);
 		}
 		return sResponse;
 	}
-	public Document sValidacion_ResponseNotificarResultadoOrden(Document sResponse) {
-		
+	public Document sValidacion_ResponseNotificarResultadoOrden(Document sResponse) {		
 		if (sResponse.getElementsByTagName("ns2:NotificarResultadoOrdenResponse").getLength()>0) {
 			System.out.println("Correcto");
-		}
-		else {
+		} else {
 			Assert.assertTrue(false);
 		}
 		return sResponse;
 	}
 	
-	public String ObtenerValorResponse(Document Response, String Campo) {
-		
+	public String ObtenerValorResponse(Document Response, String Campo) {		
 		return Response.getElementsByTagName(Campo).item(0).getTextContent();
 	}
 	
@@ -407,26 +369,24 @@ public class CBS {
 		boolean esta = false;
 		NodeList ofertas = (NodeList) Response.getElementsByTagName("bcc:OfferingCode");
 		if (tipo.equalsIgnoreCase("voz")) {
-			for (int i=0; i<ofertas.getLength();i++) {
-				if(ofertas.item(i).getTextContent().equals("SO_FYF029")) {
+			for (int i=0; i<ofertas.getLength(); i++) {
+				if (ofertas.item(i).getTextContent().equals("SO_FYF029")) {
 					ofertas = (NodeList) Response.getElementsByTagName("bcc:Value");
-					for (int j=0; j<ofertas.getLength();j++) {
-						if(ofertas.item(i).getTextContent().equals("54"+numero)) {
+					for (int j=0; j<ofertas.getLength(); j++) {
+						if (ofertas.item(i).getTextContent().equals("54"+numero)) {
 							esta = true;
 							break;
 						}
 					}
-					break;
-						
-				}
-					
+					break;						
+				}					
 			}
-		}else {
-			for (int i=0; i<ofertas.getLength();i++) {
-				if(ofertas.item(i).getTextContent().equals("SO_FYF032")) {
+		} else {
+			for (int i=0; i<ofertas.getLength(); i++) {
+				if (ofertas.item(i).getTextContent().equals("SO_FYF032")) {
 					ofertas = (NodeList) Response.getElementsByTagName("bcc:Value");
-					for (int j=0; j<ofertas.getLength();j++) {
-						if(ofertas.item(i).getTextContent().equals("54"+numero)) {
+					for (int j=0; j<ofertas.getLength(); j++) {
+						if (ofertas.item(i).getTextContent().equals("54"+numero)) {
 							esta = true;
 							break;
 						}
@@ -443,19 +403,19 @@ public class CBS {
 		NodeList ofertas = (NodeList) Response.getElementsByTagName("bcc:OfferingCode");
 		if (tipo.equalsIgnoreCase("internet 50 mb dia")) {
 			for (int i=0; i<ofertas.getLength();i++) {
-				if(ofertas.item(i).getTextContent().equals("SO_DATA_50MBXDIA"))
+				if (ofertas.item(i).getTextContent().equals("SO_DATA_50MBXDIA"))
 					esta = true;
 			}
-		}else {
+		} else {
 			if (tipo.equalsIgnoreCase("reseteo 200 mb por dia")) {
-				for (int i=0; i<ofertas.getLength();i++) {
+				for (int i=0; i<ofertas.getLength(); i++) {
 					if(ofertas.item(i).getTextContent().equals("SO_DATA_200MB_Diario"))
 						esta = true;
 				}
-			}else {
+			} else {
 				if (tipo.toLowerCase().contains("reseteo internet por dia")) {
 					for (int i=0; i<ofertas.getLength();i++) {
-						if(ofertas.item(i).getTextContent().equals("SO_ROI_P_PYBOL_R"))
+						if (ofertas.item(i).getTextContent().equals("SO_ROI_P_PYBOL_R"))
 							esta = true;
 					}
 				}
@@ -473,8 +433,7 @@ public class CBS {
 				+ "\r\n                    <RequestHeader>\r\n"
 				+ "\r\n                                               <cbs:Version>5.5</cbs:Version>\r\n"
 				+ "\r\n                                               <cbs:BusinessCode>QueryFreeUnit</cbs:BusinessCode>\r\n"
-				+ "\r\n                                               <cbs:MessageSeq>" + sMessageSeq;
-		
+				+ "\r\n                                               <cbs:MessageSeq>" + sMessageSeq;		
 		sRequest += "</cbs:MessageSeq>\r\n"
 				+ "\r\n                                               <cbs:OwnershipInfo>\r\n"
 				+ "\r\n                                                               <cbs:BEID>10101</cbs:BEID>\r\n"
@@ -501,8 +460,7 @@ public class CBS {
 				+ "\r\n      		<QueryFreeUnitRequest>\r\n"
 				+ "\r\n      			<bbs:QueryObj>\r\n"
 				+ "\r\n               			<bbs:SubAccessCode>\r\n"
-				+ "\r\n                  			<bbc:PrimaryIdentity>" + sLinea;
-		
+				+ "\r\n                  			<bbc:PrimaryIdentity>" + sLinea;		
 		sRequest+= "</bbc:PrimaryIdentity>\r\n"
 				+ "\r\n               			</bbs:SubAccessCode>\r\n"
 				+ "\r\n         		</bbs:QueryObj>\r\n"
@@ -549,8 +507,7 @@ public class CBS {
 						esta = true;
 				}
 			break;
-		}
-		
+		}		
 		return esta;
 	}
 	
@@ -684,8 +641,7 @@ public class CBS {
 				+ "\r\n                    <RequestHeader>\r\n"
 				+ "\r\n                                               <cbs:Version>5.5</cbs:Version>\r\n"
 				//+ "\r\n                                               <cbs:BusinessCode></cbs:BusinessCode>\r\n"
-				+ "\r\n                                               <cbs:MessageSeq>" + sMessageSeq;
-		
+				+ "\r\n                                               <cbs:MessageSeq>" + sMessageSeq;		
 		sRequest += "</cbs:MessageSeq>\r\n"
 				+ "\r\n                                               <cbs:OwnershipInfo>\r\n"
 				+ "\r\n                                                               <cbs:BEID>10101</cbs:BEID>\r\n"
@@ -719,8 +675,7 @@ public class CBS {
 				sRequest+= "</ars:RechargeChannelID>\r\n"
 				+ "\r\n            	  		<ars:RechargeObj>\r\n"
 				+ "\r\n               			<ars:SubAccessCode>\r\n"
-				+ "\r\n                  			<arc:PrimaryIdentity>" + sLinea; 
-		
+				+ "\r\n                  			<arc:PrimaryIdentity>" + sLinea; 		
 		sRequest+= "</arc:PrimaryIdentity>\r\n"
 				+ "\r\n               			</ars:SubAccessCode>\r\n"
 				+ "\r\n            			</ars:RechargeObj>\r\n"
@@ -728,8 +683,7 @@ public class CBS {
 				+ "\r\n               			<ars:CashPayment>\r\n"
 				//+ "\r\n            	  		<!--Optional:-->\r\n"
 				+ "\r\n               			<ars:PaymentMethod>1001</ars:PaymentMethod>\r\n"
-				+ "\r\n                  			<ars:Amount>" + sMonto; 
-				
+				+ "\r\n                  			<ars:Amount>" + sMonto; 				
 				sRequest+= "</ars:Amount>\r\n"
 				+ "\r\n               			</ars:CashPayment>\r\n"
 				+ "\r\n            			</ars:RechargeInfo>\r\n"
@@ -745,10 +699,10 @@ public class CBS {
 				+ "\r\n</soapenv:Envelope>";
 		return sRequest;
 	}
+	
 	public boolean sValidacion_ResponseRecharge(Document sResponse) {
-		if (ObtenerValorResponse(sResponse,"cbs:ResultDesc").equalsIgnoreCase("operaci\u00f3n exitosa") ) {
+		if (ObtenerValorResponse(sResponse,"cbs:ResultDesc").equalsIgnoreCase("operaci\u00f3n exitosa") )
 			return true;
-		}
 		else {
 			return false;
 		}
@@ -763,8 +717,7 @@ public class CBS {
 				+ "\r\n                    <RequestHeader>\r\n"
 				+ "\r\n                                               <cbs:Version>5.5</cbs:Version>\r\n"
 				+ "\r\n                                               <cbs:BusinessCode/>\r\n"
-				+ "\r\n                                               <cbs:MessageSeq>" + sMessageSeq;
-		
+				+ "\r\n                                               <cbs:MessageSeq>" + sMessageSeq;		
 		sRequest += "</cbs:MessageSeq>\r\n"
 				+ "\r\n                                               <cbs:OwnershipInfo>\r\n"
 				+ "\r\n                                                               <cbs:BEID>10101</cbs:BEID>\r\n"
@@ -790,16 +743,14 @@ public class CBS {
 				+ "\r\n                             </RequestHeader> \r\n"
 				+ "\r\n      		<LoanRequest>\r\n"           	  		
 				+ "\r\n               			<ars:SubAccessCode>\r\n"
-				+ "\r\n                  			<arc:PrimaryIdentity>" + sLinea; 
-		
+				+ "\r\n                  			<arc:PrimaryIdentity>" + sLinea; 		
 		sRequest+= "</arc:PrimaryIdentity>\r\n"
 				//+ "\r\n            	  		<!--arc:SubscriberKey></arc:SubscriberKey-->\r\n"
 				+ "\r\n               			</ars:SubAccessCode>\r\n"
 				//+ "\r\n            			<!--You have a CHOICE of the next 2 items at this level-->\r\n"
 				//+ "\r\n            	  		<!--ars:LoanGrade></ars:LoanGrade-->\r\n"
-				+ "\r\n                  		<ars:LoanAmount>" + sMonto; 
-				
-				sRequest+= "</ars:LoanAmount>\r\n"
+				+ "\r\n                  		<ars:LoanAmount>" + sMonto; 				
+		sRequest+= "</ars:LoanAmount>\r\n"
 //				+ "\r\n               		<!--ars:Remark></ars:Remark>\r\n"
 //				+ "\r\n            			<ars:AdditionalProperty>\r\n"
 //				+ "\r\n            			<arc:Code></arc:Code>\r\n"
@@ -853,12 +804,10 @@ public class CBS {
 	}
 	
 	public boolean sValidacion_RealizarAltaSuscripcion(Document sResponse) {
-		if (ObtenerValorResponse(sResponse,"v2.:codInteraccionNegocio").matches("\\w[0-9]+") ) {
+		if (ObtenerValorResponse(sResponse,"v2.:codInteraccionNegocio").matches("\\w[0-9]+") )
 			return true;
-		}
-		else {
+		else
 			return false;
-		}
 	}
 	
 	public String sNotificarPago(String sOrder) {
@@ -879,8 +828,7 @@ public class CBS {
 				+ "\r\n   </soapenv:Header>\r\n"
 				+ "\r\n   <soapenv:Body>\r\n"
 				+ "\r\n      <v11:NotificarPagoRequest>\r\n"
-				+ "\r\n         <v11:salesOrderId>" + sOrder;
-		
+				+ "\r\n         <v11:salesOrderId>" + sOrder;		
 		sOrder+= "</v11:salesOrderId>\r\n"
 				+ "\r\n         <v11:status>Payment succeed</v11:status>\r\n"
 				+ "\r\n      </v11:NotificarPagoRequest>\r\n"
@@ -907,8 +855,7 @@ public class CBS {
 				+ "\r\n   </soapenv:Header>\r\n"
 				+ "\r\n   <soapenv:Body>\r\n"
 				+ "\r\n      <v11:NotificarPagoRequest>\r\n"
-				+ "\r\n         <v11:salesOrderId>" + sOrder;
-		
+				+ "\r\n         <v11:salesOrderId>" + sOrder;		
 		sOrder+= "</v11:salesOrderId>\r\n"
 				+ "\r\n         <v11:status>Payment succeed</v11:status>\r\n"
 				//+ "\r\n         <!--Optional:-->"
