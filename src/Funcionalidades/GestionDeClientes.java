@@ -28,7 +28,7 @@ public class GestionDeClientes extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups= "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -65,7 +65,7 @@ public class GestionDeClientes extends TestBase {
 
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"})
+	@Test (groups={"PerfilOficina","GestionDeClientes", "Ciclo1"})
 	public void TS135495_CRM_Movil_REPRO_Busqueda_Tipo_de_documento_DNI() {
 		imagen = "TS135495";
 		detalles = null;
@@ -75,7 +75,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("dni"));
 	}
 	
-	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
+	@Test(groups = { "PerfilOficina", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
 	public void TS135496_CRM_Movil_REPRO_Busqueda_DNI_Numero_de_Documento(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135496";
 		detalles = null;
@@ -87,7 +87,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(sDNI.equals(dni));
 	}
 	
-	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
+	@Test (groups={"PerfilOficina","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135497_CRM_Movil_REPRO_Busqueda_DNI_Numero_de_Documento_no_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail){
 		imagen = "TS135497";
 		detalles = null;
@@ -99,7 +99,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
 	}
 	
-	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"})
+	@Test (groups={"PerfilOficina","GestionDeClientes", "Ciclo1"})
 	public void TS135498_CRM_Movil_REPRO_Busqueda_Tipo_de_documento_Libreta_de_enrolamiento() {
 		imagen = "TS135498";
 		detalles = null;
@@ -109,7 +109,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("libreta de enrolamiento"));
 	}
 	
-	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "validaDocumentacion") 
+	@Test (groups={"PerfilOficina","GestionDeClientes", "Ciclo1"},dataProvider = "validaDocumentacion") 
 	public void TS135499_CRM_Movil_REPRO_Busqueda_Libreta_de_enrolamiento_Numero_de_Documento(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail){
 		imagen = "TS135499";
 		detalles = null;
@@ -120,7 +120,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
 	}
 	
-	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
+	@Test (groups={"PerfilOficina","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135500_CRM_Movil_REPRO_Busqueda_Libreta_dE_enrolamiento_Numero_de_Documento_no_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135500";
 		detalles = null;
@@ -132,7 +132,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(messageFound.contains(message));
 	}
 	
-	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
+	@Test(groups = { "PerfilOficina", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
 	public void TS135501_CRM_Movil_REPRO_Busqueda_Nombre(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135501";
 		detalles = null;
@@ -153,7 +153,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(encontrado);
 	}
 	
-	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
+	@Test (groups={"PerfilOficina","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135502_CRM_Movil_REPRO_Busqueda_Nombre_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135502";
 		detalles = null;
@@ -167,7 +167,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
 	}
 	
-	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
+	@Test(groups = { "PerfilOficina", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
 	public void TS135503_CRM_Movil_REPRO_Busqueda_Apellido(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135503";
 		detalles = null;
@@ -188,7 +188,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(encontrado);
 	}
 	
-	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
+	@Test (groups={"PerfilOficina","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135504_CRM_Movil_REPRO_Busqueda_Apellido_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135504";
 		detalles = null;
@@ -202,7 +202,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
 	}
 	
-	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
+	@Test(groups = { "PerfilOficina", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
 	public void TS135505_CRM_Movil_REPRO_Busqueda_Razon_Social(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135505";
 		detalles = null;
@@ -223,7 +223,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(encontrado);
 	}
 	
-	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
+	@Test (groups={"PerfilOficina","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135506_CRM_Movil_REPRO_Busqueda_Razon_social_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135506";
 		detalles = null;
@@ -237,7 +237,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
 	}
 	
-	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
+	@Test(groups = { "PerfilOficina", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
 	public void TS135507_CRM_Movil_REPRO_Busqueda_Email(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135507";
 		detalles = null;
@@ -251,7 +251,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(sDNI.equals(dni));
 	}
 	
-	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
+	@Test (groups={"PerfilOficina","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135508_CRM_Movil_REPRO_Busqueda_Email_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135508";
 		detalles = null;
@@ -265,7 +265,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
 	}
 	
-	@Test(groups = { "Sales", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
+	@Test(groups = { "PerfilOficina", "GestionDeClientes", "Ciclo1" }, dataProvider = "validaDocumentacion")
 	public void TS135509_CRM_Movil_REPRO_Busqueda_Numero_de_Cuenta(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135509";
 		detalles = null;
@@ -279,7 +279,7 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(sDNI.equals(dni));
 	}
 	
-	@Test (groups={"Sales","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
+	@Test (groups={"PerfilOficina","GestionDeClientes", "Ciclo1"},dataProvider = "invalidaDocumentacion")
 	public void TS135510_CRM_Movil_REPRO_Busqueda_Numero_de_Cuenta_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
 		imagen = "TS135510";
 		detalles = null;

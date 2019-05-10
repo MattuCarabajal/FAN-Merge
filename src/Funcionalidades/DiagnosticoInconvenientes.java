@@ -36,13 +36,14 @@ public class DiagnosticoInconvenientes extends TestBase {
 	private TechCare_Ola1 tc;
 	private TechnicalCareCSRAutogestionPage tca;
 	private TechnicalCareCSRDiagnosticoPage tcd;
-	private LoginFw log; 
+	private LoginFw log;
+	private GestionDeClientes_Fw ges;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups= "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -50,15 +51,17 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc = new CustomerCare(driver);
 		tca =  new TechnicalCareCSRAutogestionPage(driver);
 		tcd = new TechnicalCareCSRDiagnosticoPage(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		tc = new TechCare_Ola1(driver);
 		log = new LoginFw(driver);
 		log.loginOOCC();
-		cc.irAConsolaFAN();	
+		ges.irAConsolaFAN();
+		//cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
-		sleep(6000);
+		//sleep(6000);
 	}
 		
-	//@BeforeClass (alwaysRun = true)
+	//@BeforeClass (groups= "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -74,7 +77,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(6000);
 	}
 	
-	//@BeforeClass (alwaysRun = true)
+	//@BeforeClass (groups= "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -90,7 +93,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(6000);
 	}
 		
-	//@BeforeClass (alwaysRun = true)
+	//@BeforeClass (groups= "PerfilAdminFuncional")
 		public void initAdminFuncional() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -109,11 +112,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
 		detalles = null;
-		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
-		ges.selectMenuIzq("Inicio");
+		ges = new GestionDeClientes_Fw(driver);
 		ges.cerrarPestaniaGestion(driver);
-		ges.irGestionClientes();
-		sleep(5000);
+		ges.selectMenuIzq("Inicio");
+		ges.irGestionClientes();	
 	}
 
 	@AfterMethod(alwaysRun=true)
@@ -133,11 +135,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
 	public void TS119162_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas(String sDNI, String sLinea){
 		imagen = "TS119262";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(12000);
@@ -172,11 +173,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarOrden(orden);
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","Autogestion","E2E", "Ciclo3"},  dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina","Autogestion","E2E", "Ciclo3"},  dataProvider = "Diagnostico")
 	public void TS105418_CRM_Movil_Repro_Autogestion_0800_Inconv_con_derivacion_a_representante_Resuelto(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS105418";
 		detalles = imagen + "- Autogestion - DNI: "+sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(10000);
@@ -207,11 +207,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "informada");
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
 	public void TS105428_CRM_Movil_Repro_Autogestion_USSD_No_Interactua_Resuelto(String cDNI, String cLinea) throws InterruptedException {
 		imagen = "TS105428";
 		detalles = imagen + "- Autogestion - DNI: "+cDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -243,11 +242,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "informada");
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
 	public void TS105431_CRM_Movil_Repro_Autogestion_WAP_Sitio_Caido_No_carga_informacion_Resuelto(String cDNI, String cLinea) throws InterruptedException {
 		imagen = "TS105431";
 		detalles = imagen + "- Autogestion - DNI: "+cDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -264,13 +262,12 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "informada");		
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
 	public void TS105449_CRM_Movil_Repro_Autogestion_0800_Informa_Sistema_Fuera_de_Servicio_No_Resuelto(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS105449";
 		detalles = imagen + "- Autogestion - DNI: " + sDNI;
 		boolean estado = false;
 		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -302,11 +299,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(estado);
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
 	public void TS105453_CRM_Movil_Repro_Autogestion_0800_La_Linea_esta_muda_No_Resuelto(String cDNI, String cLinea) throws InterruptedException {
 		imagen = "TS105453";
 		detalles = imagen + "- Autogestion - DNI: "+cDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -336,11 +332,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(estadoCorrecto);
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","DiagnosticoInconvenientes"},  dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina","DiagnosticoInconvenientes"},  dataProvider = "Diagnostico")
 	public void TS105466_CRM_CRM_Movil_Repro_Autogestion_WEB_Incon_con_Compra_de_packs_No_Resuelto(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS105466";
 		detalles = imagen + "- Autogestion - DNI: "+sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(10000);
@@ -357,11 +352,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "realizada exitosa");
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
 	public void TS105831_Nros_Emergencia_Informa_Sistema_Fuera_de_Servicio_Resuelto(String cDNI, String cLinea) throws InterruptedException {
 		imagen = "TS105831";
 		detalles = imagen + "- Autogestion - DNI: "+cDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -377,11 +371,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "realizada exitosa");
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
 	public void TS111871_CRM_Movil_REPRO_Diagnostico_SVA_Configuracion_Disponible_Presencial_SMS_Saliente_SMS_a_fijo_Geo_No_Ok_Desregistrar_OfCom(String sDNI, String sLinea) throws Exception  {//falta terminar gabi
 		imagen = "TS111871";
 		detalles = imagen + " -ServicioTecnico - DNI: "+sDNI+" - Linea: "+sLinea;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(10000);
@@ -420,11 +413,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "realizada exitosa");	    
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119178_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas_Sin_Locacion_Evento_Masivo(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119178";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -472,11 +464,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "resuelta masiva");	
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119183_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas_Sin_Locacion_Servicio_con_suspencion(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119183";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -513,14 +504,13 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "realizada exitosa");		
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119186_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas_Sin_Locacion_NO_recupera_locacion_Geo_rojo(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119186";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(20000);
+		sleep(30000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
 		sleep(8000);
@@ -529,20 +519,24 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.findElement(By.name("loopname")).click();
 		selectByText(driver.findElement(By.id("Motive")), "No puedo realizar llamadas");
 		buscarYClick(driver.findElements(By.id("MotiveIncidentSelect_nextBtn")), "equals", "continuar");
-		sleep(3000);
-		tc.seleccionarPreguntaFinal("S\u00ed");
-		driver.findElement(By.id("BalanceValidation_nextBtn")).click();
+		sleep(5000);
+		//tc.seleccionarPreguntaFinal("S\u00ed");
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-form-element__label ng-binding ng-scope']")), "contains", "s\u00ed");
+		driver.findElement(By.id("BalanceValidation_nextBtn")).click(); 
 		sleep(8000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("borderOverlay")));
 		tcd.categoriaRed("Desregistrar");
 		driver.findElement(By.id("NetworkCategory_nextBtn")).click();
 		sleep(15000);
-		tc.seleccionarPreguntaFinal("No");
+		//tc.seleccionarPreguntaFinal("No");
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-form-element__label ng-binding ng-scope']")), "contains", "no");
+		driver.findElement(By.id("DeregisterSpeech_nextBtn")).click();
+		sleep(8000);
 		buscarYClick(driver.findElements(By.id("DeregisterSpeech_nextBtn")), "equals", "continuar");
 		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+driver.findElement(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")).getLocation().y+" )");
-		tc.seleccionarPreguntaFinal("S\u00ed, funciona correctamente");
-		sleep(8000);
-		buscarYClick(driver.findElements(By.id("HlrDeregister_nextBtn")), "equals", "continuar");
+		//tc.seleccionarPreguntaFinal("S\u00ed, funciona correctamente");	
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-form-element__label ng-binding ng-scope']")), "contains", "no");
+		driver.findElement(By.id("HlrDeregister_nextBtn")).click();
 		sleep(8000);
 		tcd.categoriaRed("Encontr\u00e9 un problema (Rojo)");
 		sleep(8000);
@@ -551,13 +545,18 @@ public class DiagnosticoInconvenientes extends TestBase {
 		evento.sendKeys("Evento Masivo");
 		sleep(8000);
 		String caso = null;
+		sleep(8000);
 		buscarYClick(driver.findElements(By.id("AddressSection_nextBtn")), "equals", "continuar");
-		List <WebElement> lista = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
+		List <WebElement> lista = driver.findElements(By.cssSelector("[class= 'slds-form-element__control'] p p span"));
 		for(WebElement x : lista) {
-			if(x.getText().toLowerCase().contains("su gesti\u00f3n"))
+			System.out.println(x.getText());
+			if(x.getText().toLowerCase().contains("el n")) {
 				caso = x.findElement(By.tagName("div")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
+			}
 		}
 		//String caso = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).getText();
+		System.out.println(caso);
+		sleep(8000);
 		driver.switchTo().defaultContent();
 		tca.buscarCaso(caso);
 		driver.switchTo().frame(cambioFrame(driver, By.id("srchErrorDiv_Case")));
@@ -566,11 +565,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119201_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_recibir_llamadas_Sin_Locacion_Envia_configuraciones(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119201";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -606,11 +604,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "resuelta exitosa");
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119210_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_ni_recibir_llamadas(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119210";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -643,11 +640,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "resuelta exitosa");
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119221_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_ni_recibir_llamadas_Sin_Locacion_Evento_Masivo(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119221";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(25000);
@@ -681,11 +677,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
 	public void TS119262_CRM_Movil_REPRO_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Llamar_desde_otro_pais_Sin_Locacion_NO_recupera_locacion_Geo_Fuera_de_area_de_cobertura_OfCom(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119262";
 		detalles = imagen + " -Diagnostico: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(25000);
@@ -715,11 +710,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119266_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_sin_rellamado_NO_BAM(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119266";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(25000);
@@ -765,11 +759,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119267_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_Sin_conciliar_ni_desregistrar_Envio_de_configuracion(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119267";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -813,11 +806,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(estado.equalsIgnoreCase("resuelta exitosa"));
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119275_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_ANTENA_ROJO_Evento_Masivo_NO_BAM(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119275";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -857,11 +849,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119279_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_CONCILIAR_NO_BAM(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119279";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -903,11 +894,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 //		Assert.assertTrue(a);
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119286_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_Navega_con_lentitud_Fuera_del_area_de_cobertura_NO_BAM(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119286";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -939,11 +929,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
-	@Test (groups = {"GestionesPerfilTelefonico","Diagnostico/Inconvenientes"},  dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilTelefonico","Diagnostico/Inconvenientes"},  dataProvider = "Diagnostico")
 	public void TS105845_CRM_Movil_REPRO_Autogestion_APP_Abre_aplicacion_y_cierra_automaticamente_No_Resuelto(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS105845";
 		detalles = imagen + "- Autogestion - DNI: "+sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(10000);
@@ -960,11 +949,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		//Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"GestionesPerfilTelefonico", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilTelefonico", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
 	public void TS111300_CRM_Movil_REPRO_Diagnostico_SVA_Telefonico_SMS_Saliente_SMS_a_fijo_Geo_No_Ok_Desregistrar(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS111300";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -986,12 +974,11 @@ public class DiagnosticoInconvenientes extends TestBase {
 	    Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-radio-control ng-scope ng-valid ng-valid-required ng-dirty ng-valid-parse'] [class='slds-radio ng-scope itemSelected']")).getText().equalsIgnoreCase("Desregistrar"));
 	}
 	
-	@Test (groups = {"GestionesPerfilTelefonico", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilTelefonico", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
 	public void TS112441_CRM_Movil_REPRO_Diagnostico_SVA_Telefonico_SMS_Entrante_No_Recibe_De_Un_Numero_En_Particular_Geo_Ok_Rojo(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS112441";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
 		boolean saldoInsuficiente = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(12000);
@@ -1016,11 +1003,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 	    Assert.assertTrue(saldoInsuficiente);
 	}
 	
-	@Test (groups = {"GestionesPerfilTelefonico","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilTelefonico","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119171_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas_Conciliacion_Exitosa(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119171";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1048,12 +1034,11 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test(groups = { "GestionesPerfilTelefonico","DiagnosticoInconvenientes","Ciclo 3", "E2E" }, priority = 1, dataProvider = "Diagnostico") 
+	@Test(groups = { "PerfilTelefonico","DiagnosticoInconvenientes","Ciclo 3", "E2E" }, priority = 1, dataProvider = "Diagnostico") 
 	public void TS119198_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_recibir_llamadas_Conciliacion_Exitosa(String sDNI, String sLinea){
 		imagen = "TS119198";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
 		boolean estado = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1101,11 +1086,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(estado);
 	}
 	
-	@Test(groups = { "GestionesPerfilTelefonico","DiagnosticoInconvenientes","Ciclo 3", "E2E" }, priority = 1, dataProvider = "Diagnostico") 
+	@Test(groups = { "PerfilTelefonico","DiagnosticoInconvenientes","Ciclo 3", "E2E" }, priority = 1, dataProvider = "Diagnostico") 
 	public void TS119231_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_ni_recibir_llamadas_Sin_Locacion_Equipo_sin_senal(String sDNI, String sLinea) throws InterruptedException{
 		imagen = "TS119231";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1134,11 +1118,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Realizada exitosa", "Consulta"));
 	}
 	
-	@Test(groups = { "GestionesPerfilTelefonico","Ciclo 3", "E2E","DiagnosticoInconveniente" }, priority = 1, dataProvider = "Diagnostico") 
+	@Test(groups = { "PerfilTelefonico","Ciclo 3", "E2E","DiagnosticoInconveniente" }, priority = 1, dataProvider = "Diagnostico") 
 	public void TS119245_CRM_Movil_REPRO_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Llamar_desde_otro_pais_Conciliacion_Exitosa_Telefonico(String sDNI, String sLinea){
 		imagen = "TS119245";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(25000);
@@ -1176,12 +1159,11 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(gest.getText().equals("Realizada exitosa"));
 	}
 	
-	@Test (groups = {"GestionesPerfilTelefonico","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilTelefonico","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119269_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_con_rellamado_NO_BAM(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119269";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
 		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -1222,11 +1204,11 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"GestionesPerfilTelefonico","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilTelefonico","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119271_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_SIN_SEnAL_NO_BAM(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119271";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+		
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1262,11 +1244,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"GestionesPerfilTelefonico","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilTelefonico","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
 	public void TS119272_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_SIN_CUOTA_NO_BAM(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119272";
 		detalles = imagen + " -ServicioTecnico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1289,11 +1270,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Informada", "Consulta"));
 	}
 	
-	@Test(groups = { "GestionesPerfilTelefonico","DiagnosticoInconvenientes","Ciclo 3", "E2E" }, priority = 1, dataProvider = "Diagnostico") 
+	@Test(groups = { "PerfilTelefonico","DiagnosticoInconvenientes","Ciclo 3", "E2E" }, priority = 1, dataProvider = "Diagnostico") 
 	public void TS119281_CRM_Movil_REPRO_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_CONCILIACION_EXITOSA_NO_BAM_Telefonico(String sDNI, String sLinea){
 		imagen = "TS119281";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1329,11 +1309,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
-	@Test (groups = {"GestionesPerfilAgente", "DiagnosticoIncoveniente","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilAgente", "DiagnosticoIncoveniente","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
 	public void TS119283_CRM_Movil_REPRO_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_navegar_Antena_rojo_NO_BAM_Agente(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119283";
 		detalles = imagen + " -ServicioTecnico - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(10000);
@@ -1350,11 +1329,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 	
 	//----------------------------------------------- ADMIN FUNCIONAL -------------------------------------------------------\\
 	
-	@Test (groups = {"GestionesPerfilAdminFuncional", "Diagnostico/Inconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilAdminFuncional", "Diagnostico/Inconvenientes", }, dataProvider = "Diagnostico")
 	public void TS105437_CRM_Movil_Repro_Autogestion_WEB_Inconveniente_con_Informe_de_pago_Resuelto(String cDNI, String cLinea) throws InterruptedException {
 		imagen = "TS105437";
 		detalles = imagen + "- Autogestion - DNI: "+cDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1365,11 +1343,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"GestionesPerfilAdminFuncional", "Diagnostico/Inconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilAdminFuncional", "Diagnostico/Inconvenientes", }, dataProvider = "Diagnostico")
 	public void TS105441_CRM_Movil_Repro_Autogestion_WEB_Informacion_Incompleta_Resuelto(String cDNI, String cLinea) throws InterruptedException {
 		imagen = "TS105441";
 		detalles = imagen + "- Autogestion - DNI: "+cDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", cDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -1380,11 +1357,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"GestionesPerfilAdminFuncional", "Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilAdminFuncional", "Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
 	public void TS111042_CRM_Movil_REPRO_Diagnostico_SVA_Telefonico_SMS_Saliente_SMS_a_fijo_Geo_No_Ok_Conciliacion_No_habia_nada_que_conciliar(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS111042";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -1405,11 +1381,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 	    //pendiente por terminar// error "createFDOAutoReqDate"// preguntar cual es el final del flujo
 	}
 	
-	@Test (groups = {"GestionesPerfilAdminFuncional", "Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilAdminFuncional", "Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
 	public void TS111043_CRM_Movil_REPRO_Diagnostico_SVA_Telefonico_SMS_Saliente_SMS_Emision_a_algun_destino_en_particular_Geo_No_Ok_Conciliacion_No_habia_nada_que_conciliar(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS111043";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(20000);
@@ -1431,12 +1406,11 @@ public class DiagnosticoInconvenientes extends TestBase {
 	    //pendiente por terminar// error "createFDOAutoReqDate"// preguntar cual es el final del flujo
 	}
 	
-	@Test (groups = {"GestionesPerfilAdminFuncional", "DiagnosticoInconveniente","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = {"PerfilAdminFuncional", "DiagnosticoInconveniente","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
 	public void TS111487_CRM_Movil_REPRO_Diagnostico_SVA_Con_Modificacion_en_el_Equipo_Telefonico_SMS_Entrante_No_Recibe_De_Un_Numero_En_Particular_Geo_No_Ok_Desregistrar(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS111487";
 		detalles = imagen + " -ServicioTecnico - DNI: "+sDNI+" - Linea: "+sLinea;
 		boolean desregistrar = false;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);

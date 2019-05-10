@@ -33,6 +33,13 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	@FindBy (css= locator_cerrarPanelDerecho)
 	private WebElement cerrarPanelDerecho;
 	
+	final String locator_menuAplicaciones= "tsidLabel";
+	@FindBy (id= locator_menuAplicaciones)
+	private WebElement menuAplicaciones;
+	
+	final String locator_volverFan= "BackToServiceDesk_Tab";
+	@FindBy (id= locator_volverFan)
+	private WebElement volverFan;
 	
 	final String locator_BtnBuscar= "SearchClientsDummy";
 	@FindBy (how =How.ID,using= locator_BtnBuscar)
@@ -46,10 +53,14 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	@FindBy(how= How.ID, using =locator_DNIbuscador)
 	private WebElement DNIbuscador;
 	
-	final String ref_CajonDeAplicaciones= "//span[@id='tsidLabel']"; 
+	final String ref_CajonDeAplicaciones= "menuButton menuButtonRounded appSwitcher"; 
 	@FindBy (xpath = ref_CajonDeAplicaciones)
 	private WebElement cajonDeAplicaciones;
 
+	final String ref_aplicaciones= "menuButtonMenu menuWidthExtended"; 
+	@FindBy (xpath = ref_aplicaciones)
+	private List<WebElement> aplicaciones;
+	
 	final String locator_TipoDoc= "SearchClientDocumentType"; 
 	@FindBy (id = locator_TipoDoc)
 	private WebElement tipoDoc;
@@ -150,7 +161,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		};
 	}
 		
-	public void cerrarPestaniaGestion(WebDriver driver) {//copiado de SalesBase Cierra todas las pestañas de gestion
+	public void cerrarPestaniaGestion(WebDriver driver) {//copiado de SalesBase Cierra todas las pestaï¿½as de gestion
 		driver.switchTo().defaultContent();
 		try{
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(locator_Pestanas), 0));
@@ -242,7 +253,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		}
 	}
 	
-	public void switchToFrameBySrc(String src) {//el ruben ZAPE!!
+	public void switchToFrameBySrc(String src) {//el Ruben ZAPE!!
 		WebElement frame = fluentWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("iframe[src*='"+src+"']")));
 		//WebElement frame = driver.findElement(By.cssSelector("iframe[src*='"+src+"']"));
 		fluentWait.until(ExpectedConditions.visibilityOf(frame));
@@ -250,6 +261,23 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		driver.switchTo().frame(frame);
 	}
 	
+	public void irAConsolaFAN() {//el Nico Manda!!
+		driver.switchTo().defaultContent();
+		fluentWait.until(ExpectedConditions.elementToBeClickable(menuAplicaciones));
+		if (driver.findElement(By.id("tsidLabel")).getText().equalsIgnoreCase("Consola FAN")) {
+			fluentWait.until(ExpectedConditions.elementToBeClickable(volverFan));
+			driver.findElement(By.id("BackToServiceDesk_Tab")).click();
+		} else {
+			fluentWait.until(ExpectedConditions.elementToBeClickable(cajonDeAplicaciones));
+			driver.findElement(By.cssSelector(ref_CajonDeAplicaciones)).click();
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(ref_aplicaciones), 0));
+			for (WebElement x : driver.findElement(By.cssSelector(ref_aplicaciones)).findElements(By.tagName("a"))) {
+				if (x.getText().equalsIgnoreCase("Consola FAN")) {
+					x.click();
+				}
+			}
+		}
+	}
 	
 	
 }
