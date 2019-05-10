@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -37,7 +38,7 @@ public class ProblemasConRecargas extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups= "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -50,7 +51,7 @@ public class ProblemasConRecargas extends TestBase {
 		sleep(6000);
 	}
 		
-	//@BeforeClass (groups= "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -63,7 +64,7 @@ public class ProblemasConRecargas extends TestBase {
 		sleep(6000);
 	}
 	
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		detalles = null;
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
@@ -72,7 +73,7 @@ public class ProblemasConRecargas extends TestBase {
 		ges.irGestionClientes();	
 	}
 
-	@AfterMethod(alwaysRun=true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -80,7 +81,7 @@ public class ProblemasConRecargas extends TestBase {
 		sleep(2000);
 	}
 
-	//@AfterClass(alwaysRun=true)
+	@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -89,7 +90,7 @@ public class ProblemasConRecargas extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilOficina", "ProblemasConRecargas","E2E","Ciclo3"}, dataProvider = "ProblemaRecargaPrepaga")
+	@Test (groups = "PerfilOficina", dataProvider = "ProblemaRecargaPrepaga")
 	public void GestionProblemasConRecargasTarjetaPrepaga(String sDNI, String sLinea, String sBatch, String sPin) {
 		imagen = "GestionProblemasConRecargasTarjetaPrepaga";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -129,7 +130,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(cc.verificarOrden(orden));
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "PerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecarga")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga")
 	public void problemaRecargaCredito(String sDNI, String sLinea) {
 		imagen = "problemaRecargaCredito";
 		String davoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -166,7 +167,7 @@ public class ProblemasConRecargas extends TestBase {
 		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + " - Orden: " + orden;
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "PerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecarga")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga")
 	public void problemaRecargaOnline(String sDNI, String sLinea) {
 		imagen = "problemaRecargaOnline";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -207,7 +208,7 @@ public class ProblemasConRecargas extends TestBase {
 		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + " - Orden: " + orden;
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "PerfilOficina", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecarga") 
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga") 
 	public void TS104346_CRM_Movil_Repro_Problemas_con_Recarga_Presencial_On_Line_Ofcom(String sDNI, String sLinea) {
 		imagen = "TS104346";
 		detalles = imagen + " -Problemas Con Recargas-DNI: " + sDNI;
@@ -249,7 +250,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(datosInicial + 500 == datosFinal);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "PerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecargaQuemada")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecargaQuemada")
 	public void TS104347_CRM_Movil_REPRO_Problemas_con_Recarga_Presencial_Tarjeta_Scratch_Caso_Nuevo_Quemada(String sDNI, String sLinea, String sTarjeta, String sPIN){
 		imagen = "TS104347";
 		detalles = imagen + " -Problema con recargas - DNI: " + sDNI;
@@ -278,7 +279,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(error);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "PerfilOficina", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecarga") 
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga") 
 	public void TS104351_CRM_Movil_Repro_Problemas_con_Recarga_On_line_Sin_comprobante_En_espera_del_cliente_Ofcom(String sDNI, String sLinea) {
 		imagen = "TS104351";
 		sb.BuscarCuenta("DNI", sDNI);
@@ -313,7 +314,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(false);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "PerfilOficina", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecargaAYD") 
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecargaAYD") 
 	public void TS104353_CRM_Movil_Repro_Problemas_con_Recarga_Presencial_Tarjeta_Scratch_Caso_Nuevo_Tarjeta_Activa_y_Disponible_Ofcom(String sDNI, String sLinea, String sTarjeta, String sPIN) {
 		imagen = "TS104353";
 		detalles = imagen + " -Problemas Con Recargas-DNI: " + sDNI;
@@ -348,7 +349,47 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(datosInicial + 5000000 == datosFinal);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "PerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecarga")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecargaAYD")
+	public void TS135714_CRM_Movil_PRE_Problemas_con_Recarga_Telefonico_Tarjeta_Scratch_Caso_Nuevo_Tarjeta_Activa_y_Disponible(String sDNI, String sLinea, String sTarjeta, String sPIN){
+		imagen = "TS135714";
+		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
+		System.out.println(datosInicial);
+		detalles = imagen + " -Problema con recargas - DNI: " + sDNI;
+		sb.BuscarCuenta("DNI", sDNI);
+		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		sleep(15000);
+		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		driver.findElement(By.className("card-top")).click();
+		sleep(8000);
+		cc.irAGestionEnCard("Inconvenientes con Recargas");
+		sleep(8000);
+		driver.switchTo().frame(cambioFrame(driver, By.id("RefillMethods_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".imgItemContainer.ng-scope")), "contains", "tarjeta prepaga");
+		driver.findElement(By.id("RefillMethods_nextBtn")).click();
+		sleep(8000);
+		driver.findElement(By.id("BatchNumber")).sendKeys(sTarjeta);
+		driver.findElement(By.id("PIN")).sendKeys(sPIN);
+		driver.findElement(By.id("PrepaidCardData_nextBtn")).click();
+		sleep(15000);
+		driver.findElement(By.id("Summary_nextBtn")).click();
+		sleep(10000);
+		boolean gest = false;
+		List <WebElement> prob = driver.findElements(By.cssSelector(".slds-box.ng-scope"));
+		for (WebElement x : prob) {
+			if (x.getText().toLowerCase().contains("recarga realizada con \u00e9xito"))
+				gest = true;
+		}
+		Assert.assertTrue(gest);
+		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 5));
+		System.out.println(datosFinal);
+		Assert.assertTrue(datosInicial + 500 == datosFinal);
+	}
+	
+	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
+	
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaProblemaRecarga")
 	public void TS125372_CRM_Movil_Repro_Problemas_con_Recarga_Presencial_TC(String sDNI, String sLinea) {
 		imagen = "TS125372";
 		boolean gestion = false;
@@ -393,47 +434,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(datosInicial + 500 == datosFinal);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "PerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaProblemaRecargaAYD")
-	public void TS135714_CRM_Movil_PRE_Problemas_con_Recarga_Telefonico_Tarjeta_Scratch_Caso_Nuevo_Tarjeta_Activa_y_Disponible(String sDNI, String sLinea, String sTarjeta, String sPIN){
-		imagen = "TS135714";
-		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
-		System.out.println(datosInicial);
-		detalles = imagen + " -Problema con recargas - DNI: " + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(8000);
-		cc.irAGestionEnCard("Inconvenientes con Recargas");
-		sleep(8000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("RefillMethods_nextBtn")));
-		buscarYClick(driver.findElements(By.cssSelector(".imgItemContainer.ng-scope")), "contains", "tarjeta prepaga");
-		driver.findElement(By.id("RefillMethods_nextBtn")).click();
-		sleep(8000);
-		driver.findElement(By.id("BatchNumber")).sendKeys(sTarjeta);
-		driver.findElement(By.id("PIN")).sendKeys(sPIN);
-		driver.findElement(By.id("PrepaidCardData_nextBtn")).click();
-		sleep(15000);
-		driver.findElement(By.id("Summary_nextBtn")).click();
-		sleep(10000);
-		boolean gest = false;
-		List <WebElement> prob = driver.findElements(By.cssSelector(".slds-box.ng-scope"));
-		for (WebElement x : prob) {
-			if (x.getText().toLowerCase().contains("recarga realizada con \u00e9xito"))
-				gest = true;
-		}
-		Assert.assertTrue(gest);
-		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 5));
-		System.out.println(datosFinal);
-		Assert.assertTrue(datosInicial + 500 == datosFinal);
-	}
-	
-	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
-	
-	@Test (groups = {"ProblemasConRecargas", "PerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "ProblemaRecargaPrepaga")
+	@Test (groups = "PerfilTelefonico", dataProvider = "ProblemaRecargaPrepaga")
 	public void TS104330_CRM_Movil_REPRO_Problemas_con_Recarga_Telefonico_Tarjeta_Scratch_Caso_Existente(String sDNI, String sLinea, String sTarjeta, String sPin) {
 		imagen = "TS104330";
 		boolean gestion = false;
@@ -474,7 +475,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(datosInicial + 500 == datosFinal);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "PerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecargaAYD") 
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaProblemaRecargaAYD") 
 	public void TS104332_CRM_Movil_Repro_Problemas_con_Recarga_Telefonico_Tarjeta_Scratch_Caso_Nuevo_Tarjeta_Activa_y_Disponible(String sDNI, String sLinea, String sTarjeta, String sPIN) {
 		imagen = "TS104332";
 		detalles = imagen + " -Problemas Con Recargas-DNI: " + sDNI;
@@ -509,7 +510,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(datosInicial + 5000000 == datosFinal);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "PerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "ProblemaRecargaPrepaga")
+	@Test (groups = "PerfilTelefonico", dataProvider = "ProblemaRecargaPrepaga")
 	public void TS104338_CRM_Movil_REPRO_Problemas_con_Recarga_Telefonico_Tarjeta_Scratch_Caso_Nuevo_Quemada(String sDNI, String sLinea, String sTarjeta, String sPIN) {
 		imagen = "TS104338";
 		boolean gestion = false, error = false;
@@ -566,7 +567,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(error);
 	}
 	
-	@Test (groups = {"ProblemasConRecargas", "PerfilTelefonico", "E2E", "Ciclo3"}, dataProvider = "CuentaProblemaRecarga")
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaProblemaRecarga")
 	public void TS104344_CRM_Movil_Repro_Problemas_con_Recarga_Telefonico_On_Line(String sDNI, String sLinea) {
 		imagen = "TS104344";
 		boolean gestion = false;
