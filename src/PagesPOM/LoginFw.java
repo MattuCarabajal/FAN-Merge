@@ -113,5 +113,15 @@ public class LoginFw extends BasePageFw {
 		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	
+	public void loginOperativo() {
+		driver.get(urlAmbiente);
+		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
+		logininterno.click();
+		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
+		Ecom_User_ID.sendKeys("Ua2552929"); // UAT
+		Ecom_Password.sendKeys("Testa10k");
+		loginButton2.click();
+	}
+	
 		 
 }

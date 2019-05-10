@@ -1387,14 +1387,17 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 	}
 	
 	public void irAInboxTecnico() {
+		TestBase tb = new TestBase();
+		tb.selectByText(driver.findElement(By.id("fcf")), "All");
+		driver.findElement(By.name("go")).click();
 		sleep(3000);
 		WebElement inboxTecnico = null;
-		for (WebElement x : driver.findElement(By.cssSelector(".bPageBlock.brandSecondaryBrd.secondaryPalette")).findElement(By.className("pbBody")).findElements(By.tagName("th"))) {
-			if (x.getText().toLowerCase().contains("inbox tecnico"))
+		for (WebElement x : driver.findElements(By.cssSelector(".x-grid3-cell-inner.x-grid3-col-Name"))) {
+			if (x.getText().toLowerCase().equals("inbox tecnico"))
 				inboxTecnico = x;
 		}
 		inboxTecnico.findElement(By.tagName("a")).click();
-		sleep(10000);
+		sleep(15000);
 	}
 	
 }
