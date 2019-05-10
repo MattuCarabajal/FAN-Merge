@@ -79,7 +79,6 @@ public class ConsultaDeSaldo extends TestBase {
 		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
 		ges.irGestionClientes();
-		sleep(6000);
 	}
 
 	//@AfterMethod(alwaysRun=true)
