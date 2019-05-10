@@ -35,7 +35,7 @@ public class Vista360 extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups= "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -48,7 +48,7 @@ public class Vista360 extends TestBase {
 		sleep(6000);
 	}
 		
-	//@BeforeClass (groups= "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -61,7 +61,7 @@ public class Vista360 extends TestBase {
 		sleep(6000);
 	}
 	
-	//@BeforeClass (groups= "PerfilAgente")
+	@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -74,7 +74,7 @@ public class Vista360 extends TestBase {
 		sleep(6000);
 	}
 	
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		detalles = null;
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
@@ -83,7 +83,7 @@ public class Vista360 extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod(alwaysRun=true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -91,7 +91,7 @@ public class Vista360 extends TestBase {
 		sleep(2000);
 	}
 
-	//@AfterClass(alwaysRun=true)
+	@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -100,7 +100,7 @@ public class Vista360 extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups= {"PerfilOficina", "Ciclo2", "Vista360"}, dataProvider = "documentacionVista360")
+	@Test (groups = "PerfilOficina", dataProvider = "documentacionVista360")
 	public void TS134379_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_OOCC(String sDNI) throws AWTException {
 		imagen = "TS134379";
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
@@ -133,7 +133,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(a);
 	}
 	
-	@Test (groups = {"PerfilOficina", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360")
 	public void TS134349_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_abiertas_Plazo_vencido_Asistencia_registrada_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134349";
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI+" - Nombre: "+sNombre;
@@ -166,7 +166,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(fechaYHora.findElements(By.tagName("td")).get(3).getText().matches("^\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}$"));
 	}
 	
-	@Test (groups = {"PerfilOficina", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360") 
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360") 
 	public void TS134368_OFCOM_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_visualizacion_y_busqueda_de_los_distintos_consumos_realizados_por_el_cliente_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134368";
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI+ " - Nombre: "+sNombre;
@@ -208,7 +208,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(b);
 	}
 	
-	@Test (groups = {"PerfilOficina", "Vista360", "E2E","ConsultaPorGestion", "Ciclo2"}, dataProvider = "CuentaModificacionDeDatos")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaModificacionDeDatos")
 	public void TS134370_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_OOCC(String sDNI , String sLinea) {
 		imagen = "TS134370";
 		detalles = imagen+"- Vista 360 - DNI: "+sDNI;
@@ -266,7 +266,7 @@ public class Vista360 extends TestBase {
 		Assert.assertFalse(a);
 	}
 	
-	@Test (groups = {"PerfilOficina","Vista360","E2E", "Ciclo 1"}, dataProvider="CuentaVista360")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360")
 	public void TS134371_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_FAN_Front_OOCC(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134371";
 		detalles = imagen+"- Vista 360 - DNI: "+sDNI;
@@ -330,7 +330,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(gestion);
 	}
 	
-	@Test (groups = {"PerfilOficina","Vista360","E2E", "Ciclo1"}, dataProvider="CuentaVista360")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360")
 	public void TS134380_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_FAN_Front_OOCC(String sDNI,String sNombre, String sLinea){
 		imagen = "TS134380";
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI;
@@ -348,7 +348,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(wTabla.isDisplayed());
 	}
 	
-	@Test (groups = {"PerfilOficina", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360Version2")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360Version2")
 	public void TS134495_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre, String sEmail, String sMovil, String sNps, String sTelAlternativo, String sPuntosClub, String sCategoria) {
 		imagen = "TS134495";
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI+ " - Nombre: "+sNombre;
@@ -377,7 +377,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(segmentoYAtriburo.getText().contains("Alta reciente - Masivo"));	
 	}
 	
-	@Test (groups = {"PerfilOficina","Vista360","E2E", "Ciclo2"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360")
 	public void TS134496_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Perfil_FAN_Front_OOCC(String sDNI,String sLinea, String sNombre) {
 		imagen = "TS134496";
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI+" - Nombre: "+sNombre;
@@ -389,7 +389,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(linea.getText().contains(sLinea));		
 	}
 	
-	@Test (groups = {"PerfilOficina", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360")
 	public void TS134745_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134745";
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI+" - Nombre: "+sNombre;
@@ -427,7 +427,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(detalles && historiales && misServicios && gestiones);
 	}
 	
-	@Test (groups = {"PerfilOficina","Vista360","E2E", ""}, dataProvider="CuentaVista360")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360")
 	public void TS134746_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_OOCC(String sDNI,String sNombre, String sLinea) {
 		imagen = "TS134746";
 		detalles = imagen+" - Vista360 - DNI: "+sDNI+" - Linea: "+sLinea;
@@ -470,7 +470,7 @@ public class Vista360 extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilTelefonico", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
 	public void TS134798_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Telefonico(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134798";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
@@ -508,7 +508,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(detalles && historiales && misServicios && gestiones);
 	}
 	
-	@Test(groups = { "PerfilTelefonico", "Ciclo2", "Vista360" }, dataProvider = "documentacionVista360")
+	@Test (groups = "PerfilTelefonico", dataProvider = "documentacionVista360")
 	public void TS134800_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_Telefonico(String sDNI) {
 		imagen = "TS134800";
 		detalles = imagen + "-Vista 360-DNI:" + sDNI;
@@ -539,7 +539,7 @@ public class Vista360 extends TestBase {
 		}
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
 	public void TS134801_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre){
 		imagen = "TS134801";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
@@ -561,7 +561,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(a);
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
 	public void TS134809_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre){
 		imagen = "TS134809";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
@@ -610,7 +610,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(asd);	
 	}
 	
-	@Test(groups = { "PerfilTelefonico", "Vista360", "E2E", "" }, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
 	public void TS134794_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_Telefonico(String sDNI, String sNombre, String sLinea) {
 		imagen = "TS134794";
 		detalles = imagen + " - Vista360 - DNI: " + sDNI;
@@ -657,7 +657,7 @@ public class Vista360 extends TestBase {
 		}
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
 	public void TS134796_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Visualizacion_e_ingreso_a_las_ultimas_gestiones_FAN_Front_Telefonico(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134796";
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
@@ -669,7 +669,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(gestiones.getText().toLowerCase().contains("t\u00edtulo") && gestiones.getText().contains("Fecha de creacion") && gestiones.getText().toLowerCase().contains("estado") && gestiones.getText().toLowerCase().contains("numero de orden"));
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "Vista360", "Ciclo2"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
 	public void TS134797_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Panel_Derecho_Busqueda_de_gestiones_promociones_y_gestiones_abandonadas_FAN_Front_Telefonico(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134797";
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
@@ -685,7 +685,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(busquedgestion.getText().contains("Iniciar Gestiones") && driver.findElement(By.className("sidebar-actions")).isDisplayed());
 	}
 	
-	@Test(groups = { "PerfilTelefonico", "Ciclo2", "Vista360" }, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
 	public void TS134799_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
 		imagen = "134799";
 		detalles = imagen + "-Vista 360-DNI:" + sDNI;
@@ -711,7 +711,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(true);
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "Vista360", "E2E","ConsultaPorGestion", "Ciclo2"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
 	public void TS134808_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_Cerradas_Informacion_brindada_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
 		imagen = "TS134808";
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
@@ -752,7 +752,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(tabla.isDisplayed());
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "Vista360", "Ciclo2"},  dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilTelefonico",  dataProvider = "CuentaVista360")
 	public void TS135351_CRM_Movil_Prepago_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_CASOS_FAN_Telefonico(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS135351";
 		boolean gestion = false;
@@ -786,7 +786,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(gestion);
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "Vista360", "Ciclo2"},  dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilTelefonico",  dataProvider = "CuentaVista360")
 	public void TS135356_CRM_Movil_Prepago_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_ORDENES_FAN_Telefonico(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS135356";
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
@@ -823,7 +823,7 @@ public class Vista360 extends TestBase {
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilAgente", dataProvider = "CuentaVista360")
 	public void TS134823_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea){
 		imagen = "TS13823";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
@@ -861,7 +861,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(detalles && historiales && misServicios && gestiones);
 	}
 	
-	@Test (groups = {"PerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilAgente", dataProvider = "CuentaVista360")
 	public void TS134824_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
 		imagen = "TS13824";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
@@ -899,7 +899,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(historial && recarga && renovacion && servicios && suscripciones && inconvenientes && diagnostico && numeros && cambioSim && cambioPlan);
 	}
 	
-	@Test (groups = {"PerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilAgente", dataProvider = "CuentaVista360")
 	public void TS134832_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
 		imagen = "TS13832";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
@@ -950,7 +950,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(asd);
 	}
 	
-	@Test (groups= {"PerfilAgente", "Ciclo2", "Vista360"}, dataProvider = "documentacionVista360")
+	@Test (groups = "PerfilAgente", dataProvider = "documentacionVista360")
 	public void TS134817_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_OOCC_Agentes(String sDNI){
 		imagen = "TS134817";
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
@@ -976,7 +976,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(b);
 	}
 	
-	@Test (groups = {"PerfilAgente", "Vista360","Ciclo2"}, dataProvider="CuentaVista360")
+	@Test (groups = "PerfilAgente", dataProvider = "CuentaVista360")
 	public void TS134818_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134818";
 		detalles = imagen + "Vista 360-DNI:" + sDNI;
@@ -999,7 +999,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(a);
 	}
 	
-	@Test (groups= {"PerfilAgente", "Ciclo2", "Vista360"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilAgente", dataProvider = "CuentaVista360")
 	public void TS134819_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134819";
 		detalles = imagen + "-Vista 360 - DNI: "+ sDNI+ "- Nombre: " + sNombre;
@@ -1023,7 +1023,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(tabla3.getText().toLowerCase().contains("tel\u00e9fono alternativo") && tabla3.getText().toLowerCase().contains("club personal") && tabla3.getText().toLowerCase().contains("categor\u00eda"));
 	}
 	
-	@Test (groups = {"PerfilAgente", "Vista360", "E2E", "Ciclo1"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilAgente", dataProvider = "CuentaVista360")
 	public void TS134821_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Visualizacion_e_ingreso_a_las_ultimas_gestiones_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134821";
 		detalles = imagen + "Vista 360 -DNI:" + sDNI;
@@ -1049,7 +1049,7 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(ingresar);
 	}
 	
-	@Test (groups = {"PerfilAgente", "Vista360", "E2E","ConsultaPorGestion", "Ciclo2"}, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilAgente", dataProvider = "CuentaVista360")
 	public void TS134831_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_Cerrada_Informacion_brindada_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea) {
 		imagen = "TS134831";
 		detalles = imagen+"-Vista 360 -DNI:"+sDNI;

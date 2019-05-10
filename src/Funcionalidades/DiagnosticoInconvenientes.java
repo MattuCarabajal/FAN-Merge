@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -43,7 +44,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups= "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -61,7 +62,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		//sleep(6000);
 	}
 		
-	//@BeforeClass (groups= "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -77,7 +78,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(6000);
 	}
 	
-	//@BeforeClass (groups= "PerfilAgente")
+	@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -93,7 +94,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(6000);
 	}
 		
-	//@BeforeClass (groups= "PerfilAdminFuncional")
+	@BeforeClass (groups = "PerfilAdminFuncional")
 		public void initAdminFuncional() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -109,7 +110,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(6000);
 	}
 	
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		detalles = null;
 		ges = new GestionDeClientes_Fw(driver);
@@ -118,7 +119,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		ges.irGestionClientes();	
 	}
 
-	@AfterMethod(alwaysRun=true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -126,7 +127,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(2000);
 	}
 
-	//@AfterClass(alwaysRun=true)
+	@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -135,7 +136,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119162_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas(String sDNI, String sLinea){
 		imagen = "TS119262";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
@@ -173,7 +174,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarOrden(orden);
 	}
 	
-	@Test (groups = {"PerfilOficina","Autogestion","E2E", "Ciclo3"},  dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS105418_CRM_Movil_Repro_Autogestion_0800_Inconv_con_derivacion_a_representante_Resuelto(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS105418";
 		detalles = imagen + "- Autogestion - DNI: "+sDNI;
@@ -207,7 +208,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "informada");
 	}
 	
-	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS105428_CRM_Movil_Repro_Autogestion_USSD_No_Interactua_Resuelto(String cDNI, String cLinea) throws InterruptedException {
 		imagen = "TS105428";
 		detalles = imagen + "- Autogestion - DNI: "+cDNI;
@@ -242,7 +243,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "informada");
 	}
 	
-	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS105431_CRM_Movil_Repro_Autogestion_WAP_Sitio_Caido_No_carga_informacion_Resuelto(String cDNI, String cLinea) throws InterruptedException {
 		imagen = "TS105431";
 		detalles = imagen + "- Autogestion - DNI: "+cDNI;
@@ -262,7 +263,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "informada");		
 	}
 	
-	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS105449_CRM_Movil_Repro_Autogestion_0800_Informa_Sistema_Fuera_de_Servicio_No_Resuelto(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS105449";
 		detalles = imagen + "- Autogestion - DNI: " + sDNI;
@@ -299,7 +300,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(estado);
 	}
 	
-	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS105453_CRM_Movil_Repro_Autogestion_0800_La_Linea_esta_muda_No_Resuelto(String cDNI, String cLinea) throws InterruptedException {
 		imagen = "TS105453";
 		detalles = imagen + "- Autogestion - DNI: "+cDNI;
@@ -332,7 +333,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(estadoCorrecto);
 	}
 	
-	@Test (groups = {"PerfilOficina","DiagnosticoInconvenientes"},  dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS105466_CRM_CRM_Movil_Repro_Autogestion_WEB_Incon_con_Compra_de_packs_No_Resuelto(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS105466";
 		detalles = imagen + "- Autogestion - DNI: "+sDNI;
@@ -352,7 +353,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "realizada exitosa");
 	}
 	
-	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS105831_Nros_Emergencia_Informa_Sistema_Fuera_de_Servicio_Resuelto(String cDNI, String cLinea) throws InterruptedException {
 		imagen = "TS105831";
 		detalles = imagen + "- Autogestion - DNI: "+cDNI;
@@ -371,7 +372,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "realizada exitosa");
 	}
 	
-	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS111871_CRM_Movil_REPRO_Diagnostico_SVA_Configuracion_Disponible_Presencial_SMS_Saliente_SMS_a_fijo_Geo_No_Ok_Desregistrar_OfCom(String sDNI, String sLinea) throws Exception  {//falta terminar gabi
 		imagen = "TS111871";
 		detalles = imagen + " -ServicioTecnico - DNI: "+sDNI+" - Linea: "+sLinea;
@@ -413,7 +414,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "realizada exitosa");	    
 	}
 	
-	@Test (groups = {"PerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119178_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas_Sin_Locacion_Evento_Masivo(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119178";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -464,7 +465,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "resuelta masiva");	
 	}
 	
-	@Test (groups = {"PerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119183_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas_Sin_Locacion_Servicio_con_suspencion(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119183";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -504,7 +505,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "realizada exitosa");		
 	}
 	
-	@Test (groups = {"PerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119186_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas_Sin_Locacion_NO_recupera_locacion_Geo_rojo(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119186";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -565,7 +566,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"PerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119201_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_recibir_llamadas_Sin_Locacion_Envia_configuraciones(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119201";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -604,7 +605,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "resuelta exitosa");
 	}
 	
-	@Test (groups = {"PerfilOficina","DiagnosticoInconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119210_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_ni_recibir_llamadas(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119210";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -640,7 +641,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		cc.verificarStatus(orden, "resuelta exitosa");
 	}
 	
-	@Test (groups = {"PerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119221_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_ni_recibir_llamadas_Sin_Locacion_Evento_Masivo(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119221";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -677,7 +678,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"PerfilOficina", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119262_CRM_Movil_REPRO_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Llamar_desde_otro_pais_Sin_Locacion_NO_recupera_locacion_Geo_Fuera_de_area_de_cobertura_OfCom(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119262";
 		detalles = imagen + " -Diagnostico: " + sDNI;
@@ -710,7 +711,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"PerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119266_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_sin_rellamado_NO_BAM(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119266";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -759,7 +760,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"PerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119267_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_Sin_conciliar_ni_desregistrar_Envio_de_configuracion(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119267";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -806,7 +807,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(estado.equalsIgnoreCase("resuelta exitosa"));
 	}
 	
-	@Test (groups = {"PerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119275_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_ANTENA_ROJO_Evento_Masivo_NO_BAM(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119275";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -849,7 +850,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"PerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119279_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_CONCILIAR_NO_BAM(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119279";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -894,7 +895,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 //		Assert.assertTrue(a);
 	}
 	
-	@Test (groups = {"PerfilOficina","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119286_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_Navega_con_lentitud_Fuera_del_area_de_cobertura_NO_BAM(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119286";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -929,7 +930,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilTelefonico","Diagnostico/Inconvenientes"},  dataProvider = "Diagnostico")
+	@Test (groups = "PerfilTelefonico", dataProvider = "Diagnostico")
 	public void TS105845_CRM_Movil_REPRO_Autogestion_APP_Abre_aplicacion_y_cierra_automaticamente_No_Resuelto(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS105845";
 		detalles = imagen + "- Autogestion - DNI: "+sDNI;
@@ -949,7 +950,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		//Assert.assertTrue(tech.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilTelefonico", dataProvider = "Diagnostico")
 	public void TS111300_CRM_Movil_REPRO_Diagnostico_SVA_Telefonico_SMS_Saliente_SMS_a_fijo_Geo_No_Ok_Desregistrar(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS111300";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
@@ -974,7 +975,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 	    Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-radio-control ng-scope ng-valid ng-valid-required ng-dirty ng-valid-parse'] [class='slds-radio ng-scope itemSelected']")).getText().equalsIgnoreCase("Desregistrar"));
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "DiagnosticoInconvenientes","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilTelefonico", dataProvider = "Diagnostico")
 	public void TS112441_CRM_Movil_REPRO_Diagnostico_SVA_Telefonico_SMS_Entrante_No_Recibe_De_Un_Numero_En_Particular_Geo_Ok_Rojo(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS112441";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
@@ -1003,7 +1004,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 	    Assert.assertTrue(saldoInsuficiente);
 	}
 	
-	@Test (groups = {"PerfilTelefonico","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilTelefonico", dataProvider = "Diagnostico")
 	public void TS119171_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas_Conciliacion_Exitosa(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119171";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -1034,7 +1035,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test(groups = { "PerfilTelefonico","DiagnosticoInconvenientes","Ciclo 3", "E2E" }, priority = 1, dataProvider = "Diagnostico") 
+	@Test (groups = "PerfilTelefonico", dataProvider = "Diagnostico") 
 	public void TS119198_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_recibir_llamadas_Conciliacion_Exitosa(String sDNI, String sLinea){
 		imagen = "TS119198";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
@@ -1086,7 +1087,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(estado);
 	}
 	
-	@Test(groups = { "PerfilTelefonico","DiagnosticoInconvenientes","Ciclo 3", "E2E" }, priority = 1, dataProvider = "Diagnostico") 
+	@Test (groups = "PerfilTelefonico", dataProvider = "Diagnostico") 
 	public void TS119231_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_ni_recibir_llamadas_Sin_Locacion_Equipo_sin_senal(String sDNI, String sLinea) throws InterruptedException{
 		imagen = "TS119231";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
@@ -1118,7 +1119,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Realizada exitosa", "Consulta"));
 	}
 	
-	@Test(groups = { "PerfilTelefonico","Ciclo 3", "E2E","DiagnosticoInconveniente" }, priority = 1, dataProvider = "Diagnostico") 
+	@Test (groups = "PerfilTelefonico", dataProvider = "Diagnostico") 
 	public void TS119245_CRM_Movil_REPRO_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Llamar_desde_otro_pais_Conciliacion_Exitosa_Telefonico(String sDNI, String sLinea){
 		imagen = "TS119245";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
@@ -1159,7 +1160,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(gest.getText().equals("Realizada exitosa"));
 	}
 	
-	@Test (groups = {"PerfilTelefonico","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilTelefonico", dataProvider = "Diagnostico")
 	public void TS119269_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_con_rellamado_NO_BAM(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119269";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -1204,7 +1205,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"PerfilTelefonico","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilTelefonico", dataProvider = "Diagnostico")
 	public void TS119271_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_SIN_SEnAL_NO_BAM(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119271";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
@@ -1244,7 +1245,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"PerfilTelefonico","Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilTelefonico", dataProvider = "Diagnostico")
 	public void TS119272_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_SIN_CUOTA_NO_BAM(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119272";
 		detalles = imagen + " -ServicioTecnico - DNI: " + sDNI;
@@ -1270,7 +1271,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Informada", "Consulta"));
 	}
 	
-	@Test(groups = { "PerfilTelefonico","DiagnosticoInconvenientes","Ciclo 3", "E2E" }, priority = 1, dataProvider = "Diagnostico") 
+	@Test (groups = "PerfilTelefonico", dataProvider = "Diagnostico") 
 	public void TS119281_CRM_Movil_REPRO_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_CONCILIACION_EXITOSA_NO_BAM_Telefonico(String sDNI, String sLinea){
 		imagen = "TS119281";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
@@ -1309,7 +1310,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilAgente", "DiagnosticoIncoveniente","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilAgente", dataProvider = "Diagnostico")
 	public void TS119283_CRM_Movil_REPRO_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_navegar_Antena_rojo_NO_BAM_Agente(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119283";
 		detalles = imagen + " -ServicioTecnico - DNI: " + sDNI;
@@ -1329,7 +1330,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 	
 	//----------------------------------------------- ADMIN FUNCIONAL -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilAdminFuncional", "Diagnostico/Inconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilAdminFuncional", dataProvider = "Diagnostico")
 	public void TS105437_CRM_Movil_Repro_Autogestion_WEB_Inconveniente_con_Informe_de_pago_Resuelto(String cDNI, String cLinea) throws InterruptedException {
 		imagen = "TS105437";
 		detalles = imagen + "- Autogestion - DNI: "+cDNI;
@@ -1343,7 +1344,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"PerfilAdminFuncional", "Diagnostico/Inconvenientes", }, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilAdminFuncional", dataProvider = "Diagnostico")
 	public void TS105441_CRM_Movil_Repro_Autogestion_WEB_Informacion_Incompleta_Resuelto(String cDNI, String cLinea) throws InterruptedException {
 		imagen = "TS105441";
 		detalles = imagen + "- Autogestion - DNI: "+cDNI;
@@ -1357,7 +1358,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
 	}
 	
-	@Test (groups = {"PerfilAdminFuncional", "Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilAdminFuncional", dataProvider = "Diagnostico")
 	public void TS111042_CRM_Movil_REPRO_Diagnostico_SVA_Telefonico_SMS_Saliente_SMS_a_fijo_Geo_No_Ok_Conciliacion_No_habia_nada_que_conciliar(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS111042";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
@@ -1381,7 +1382,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 	    //pendiente por terminar// error "createFDOAutoReqDate"// preguntar cual es el final del flujo
 	}
 	
-	@Test (groups = {"PerfilAdminFuncional", "Diagnostico/Inconvenientes"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilAdminFuncional", dataProvider = "Diagnostico")
 	public void TS111043_CRM_Movil_REPRO_Diagnostico_SVA_Telefonico_SMS_Saliente_SMS_Emision_a_algun_destino_en_particular_Geo_No_Ok_Conciliacion_No_habia_nada_que_conciliar(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS111043";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
@@ -1406,7 +1407,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 	    //pendiente por terminar// error "createFDOAutoReqDate"// preguntar cual es el final del flujo
 	}
 	
-	@Test (groups = {"PerfilAdminFuncional", "DiagnosticoInconveniente","E2E", "Ciclo3"}, dataProvider = "Diagnostico")
+	@Test (groups = "PerfilAdminFuncional", dataProvider = "Diagnostico")
 	public void TS111487_CRM_Movil_REPRO_Diagnostico_SVA_Con_Modificacion_en_el_Equipo_Telefonico_SMS_Entrante_No_Recibe_De_Un_Numero_En_Particular_Geo_No_Ok_Desregistrar(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS111487";
 		detalles = imagen + " -ServicioTecnico - DNI: "+sDNI+" - Linea: "+sLinea;

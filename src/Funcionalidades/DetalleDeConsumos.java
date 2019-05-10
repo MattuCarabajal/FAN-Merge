@@ -30,7 +30,7 @@ public class DetalleDeConsumos extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups= "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -43,7 +43,7 @@ public class DetalleDeConsumos extends TestBase {
 		sleep(6000);
 	}
 		
-	//@BeforeClass (groups= "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -56,7 +56,7 @@ public class DetalleDeConsumos extends TestBase {
 		sleep(6000);
 	}
 	
-	//@BeforeClass (groups= "PerfilAgente")
+	@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -69,7 +69,7 @@ public class DetalleDeConsumos extends TestBase {
 		sleep(6000);
 	}
 	
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		detalles = null;
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
@@ -78,7 +78,7 @@ public class DetalleDeConsumos extends TestBase {
 		ges.irGestionClientes();	
 	}
 
-	@AfterMethod(alwaysRun=true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -86,7 +86,7 @@ public class DetalleDeConsumos extends TestBase {
 		sleep(2000);
 	}
 
-	//@AfterClass(alwaysRun=true)
+	@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -95,7 +95,7 @@ public class DetalleDeConsumos extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilOficina", "DetalleDeConsumo", "Ciclo2"}, dataProvider = "CuentaProblemaRecarga")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga")
 	public void TS134782_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_SMS_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134782";
 		detalles = imagen + "- Detalle de Consumos - DNI: "+sDNI;
@@ -119,7 +119,7 @@ public class DetalleDeConsumos extends TestBase {
 		Assert.assertTrue(sms);
 	}
 	
-	@Test (groups = {"PerfilOficina", "DetalleDeConsumo", "Ciclo2"}, dataProvider = "CuentaProblemaRecarga")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga")
 	public void TS134783_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_Datos_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134783";
 		detalles = imagen + "- Detalle de Consumo - DNI: "+sDNI;
@@ -143,7 +143,7 @@ public class DetalleDeConsumos extends TestBase {
 		Assert.assertTrue(recarga);
 	}
 	
-	@Test (groups = {"PerfilOficina", "DetalleDeConsumo", "Ciclo2"}, dataProvider = "CuentaProblemaRecarga")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga")
 	public void TS134784_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_Voz_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134784";
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
@@ -167,7 +167,7 @@ public class DetalleDeConsumos extends TestBase {
 		Assert.assertTrue(llamadaDeVoz);
 	}
 	
-	@Test(groups = { "PerfilOficina", "DetalleDeConsumo", "Ciclo2" }, dataProvider = "CuentaProblemaRecarga")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga")
 	public void TS134785_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_Otros_consumos_FAN_Front_OOCC_134785(String sDNI, String sLinea) {
 		imagen = "TS134785";
 		detalles = imagen + "- Detalles de Consumos -DNI:" + sDNI;
@@ -192,7 +192,7 @@ public class DetalleDeConsumos extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO --------------------------------------------------------\\
 	
-	@Test(groups = { "PerfilOficina", "DetalleDeConsumo", "Ciclo2" }, dataProvider = "CuentaVista360")
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
 	public void TS134802_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_visualizacion_y_busqueda_de_los_distintos_consumos_realizados_por_el_cliente_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
 		imagen = "TS134802";
 		detalles = imagen + "-Vista 360 - DNI: " + sDNI + " - Nombre: " + sNombre;
@@ -217,7 +217,7 @@ public class DetalleDeConsumos extends TestBase {
 		}
 	}
 	
-	@Test (groups = {"PerfilAgente", "DetalleDeConsumo","Ciclo2"}, dataProvider="CuentaProblemaRecarga")
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaProblemaRecarga")
 	public void TS134803_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_SMS_FAN_Front_Telefonico(String sDNI, String sLinea ){
 		imagen = "TS134803";
 		detalles = imagen + " -Detalle de consumos - DNI: " + sDNI;
@@ -243,7 +243,7 @@ public class DetalleDeConsumos extends TestBase {
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
-	@Test(groups = { "PerfilAgente", "DetalleDeConsumo", "Ciclo2" }, dataProvider = "CuentaProblemaRecarga")
+	@Test (groups = "PerfilAgente", dataProvider = "CuentaProblemaRecarga")
 	public void TS134825_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_visualizacion_y_busqueda_de_los_distintos_consumos_realizados_por_el_cliente_FAN_Front_Agentes(String cDNI, String cLinea) {
 		imagen = "TS134825";
 		detalles = imagen + " -DetalleDeConsumos: " + cDNI;
@@ -268,7 +268,7 @@ public class DetalleDeConsumos extends TestBase {
 		}
 	}
 	
-	@Test (groups = {"PerfilAgente", "DetalleDeConsumo","Ciclo2"}, dataProvider="CuentaProblemaRecarga")
+	@Test (groups = "PerfilAgente", dataProvider = "CuentaProblemaRecarga")
 	public void TS134826_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_SMS_FAN_Front_Agentes(String sDNI, String sLinea){
 		imagen = "TS134826";
 		detalles = imagen + "Detalle de consumos -DNI:" + sDNI;
@@ -292,7 +292,7 @@ public class DetalleDeConsumos extends TestBase {
 		Assert.assertTrue(sms);
 	}
 	
-	@Test (groups = {"PerfilAgente", "DetalleDeConsumo","Ciclo2"}, dataProvider="CuentaProblemaRecarga") 
+	@Test (groups = "PerfilAgente", dataProvider = "CuentaProblemaRecarga") 
 	public void TS134827_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_Datos_FAN_Front_Agentes(String sDNI, String sLinea){
 		imagen = "TS134827";
 		detalles = imagen + "Detalle de consumos -DNI:" + sDNI;
@@ -316,7 +316,7 @@ public class DetalleDeConsumos extends TestBase {
 		Assert.assertTrue(recarga);
 	}
 	
-	@Test (groups = {"PerfilAgente", "DetalleDeConsumo","Ciclo2"}, dataProvider="CuentaProblemaRecarga")
+	@Test (groups = "PerfilAgente", dataProvider = "CuentaProblemaRecarga")
 	public void TS134828_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_Voz_FAN_Front_Agentes(String sDNI, String sLinea){
 		imagen = "TS134828";
 		detalles = imagen + "Detalle de Consumos -DNI:" + sDNI+"-Linea: "+sLinea;
@@ -340,7 +340,7 @@ public class DetalleDeConsumos extends TestBase {
 		Assert.assertTrue(llamadaDeVoz);
 	}
 	
-	@Test(groups = { "PerfilAgente", "DetalleDeConsumo","Ciclo2" }, dataProvider = "CuentaProblemaRecarga")
+	@Test (groups = "PerfilAgente", dataProvider = "CuentaProblemaRecarga")
 	public void TS134829_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_Otros_consumos_FAN_Front_Agentes(String sDNI, String sLinea) {
 		imagen = "TS134829";
 		detalles = imagen + "Detalle de Consumos -DNI:" + sDNI;
