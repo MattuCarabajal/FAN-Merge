@@ -22,6 +22,7 @@ import Pages.Marketing;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
@@ -35,6 +36,7 @@ public class ProblemasConRecargas extends TestBase {
 	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	LoginFw log;
 	String detalles;
 	
 	
@@ -44,7 +46,8 @@ public class ProblemasConRecargas extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
+		log = new LoginFw(driver);
+		log.loginOOCC();
 		sleep(15000);
 		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
@@ -57,9 +60,10 @@ public class ProblemasConRecargas extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginTelefonico(driver);
+		log = new LoginFw(driver);
+		log.loginTelefonico();
 		sleep(15000);
-		cc.irAConsolaFAN();	
+		cc.irAConsolaFAN();
 		driver.switchTo().defaultContent();
 		sleep(6000);
 	}

@@ -61,6 +61,7 @@ public class HistorialDeRecargas extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
+		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
 		log.loginTelefonico();
 		cc.irAConsolaFAN();	
@@ -158,7 +159,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(coincideLaFecha && sinBeneficios && montoCorrecto);
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "RecargaHistoria")
+	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
 	public void TS134470_CRM_Movil_Prepago_Historial_De_Recargas_SOS_S440_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134470";
 		detalles = imagen + "-Historial de recargas - DNI: " + sDNI;
@@ -246,7 +247,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(enc);
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "RecargaHistoria")
+	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
 	public void TS134747_CRM_Movil_Prepago_Historial_de_Recargas_S141_FAN_Front_OOCC(String sDNI, String sLinea){
 		imagen = "TS134747";
 		detalles = imagen + "-Historial De Recarga-DNI: " + sDNI;
@@ -304,7 +305,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(recarga.equals(sMontoV2));
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "RecargaHistoria")
+	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
 	public void TS134786_CRM_Movil_Prepago_Historial_de_Recargas_Monto_total_FAN_Front_OOCC(String sDNI, String sLinea) { 
 		imagen = "TS134786";
 		detalles = imagen + "-Historial De Recarga-DNI :" + sDNI;
@@ -379,7 +380,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(tabla.isDisplayed());
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "RecargaHistoria")
+	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
 	public void TS134840_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Fecha_Fan_FRONT_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134840";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
@@ -410,7 +411,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(verif);		
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "RecargaHistoria")
+	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
 	public void TS134841_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_SMS_Fan_FRONT_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134847";
 		detalles = imagen + "-Historial De Recarga-DNI: " + sDNI;
@@ -454,7 +455,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(verif);
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "RecargaHistoria")
+	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
 	public void TS134842_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_ROL_Fan_FRONT_OOCC(String sDNI, String sLinea) {
 		imagen = "TS134842";
 		detalles = imagen + "-Historial De Recarga-DNI :" + sDNI;
@@ -865,7 +866,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(recarga.equals(sMontoV2));
 	}
 	
-	@Test (groups = "PerfilTelefonico", dataProvider = "RecargaHistoria")
+	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
 	public void TS134793_CRM_Movil_Prepago_Historial_De_Recargas_SOS_S440_FAN_Front_Telefonico(String cDNI,String sLinea) {
 		imagen = "TS134793";
 		detalles = imagen + " -Historial de recargas - DNI: " + cDNI;
@@ -913,7 +914,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(enc);
 	}
 		
-	@Test (groups = "PerfilTelefonico", dataProvider = "RecargaHistoria")
+	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
 	public void TS134839_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Fecha_Fan_FRONT_Telefonico(String sDNI, String sLinea){
 		imagen = "TS134839";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
@@ -1002,7 +1003,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(tabla.isDisplayed());
 	}
 	
-	@Test (groups = "PerfilTelefonico", dataProvider = "RecargaHistoria")
+	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
 	public void TS134845_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_SMS_Fan_FRONT_Telefonico(String sDNI, String sLinea){
 		imagen = "TS134845";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
@@ -1046,7 +1047,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(verif);
 	}
 	
-	@Test (groups = "PerfilTelefonico", dataProvider = "RecargaHistoria")
+	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
 	public void TS134846_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_ROL_Fan_FRONT_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS134846";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
@@ -1090,7 +1091,7 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(coincideLaFecha && rol && montoCorrecto);
 	}
 	
-	@Test (groups = "PerfilTelefonico", dataProvider = "RecargaHistoria")
+	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
 	public void TS134847_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_Atencion_al_cliente_Fan_FRONT_Telefonico(String sDNI, String sLinea){
 		imagen = "TS134847";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
