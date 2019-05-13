@@ -83,6 +83,21 @@ public class Ajustes extends TestBase {
 		sleep(6000);
 	}
 	
+	@BeforeClass (groups = "PerfilBackOffice")
+		public void initBackOffice() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		sleep(5000);
+		sb = new SalesBase(driver);
+		cc = new CustomerCare(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		log.loginBackOffice();
+		cc.irAConsolaFAN();	
+		driver.switchTo().defaultContent();
+		sleep(6000);
+	}
+	
 	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		detalles = null;
@@ -1162,7 +1177,7 @@ public class Ajustes extends TestBase {
 	
 	//----------------------------------------------- BACKOFFICE -------------------------------------------------------\\
 	
-	@Test (groups = "PerfilOficina",  dataProvider = "CuentaAjustesPRE")
+	@Test (groups = "PerfilBackOffice", dataProvider = "CuentaAjustesPRE")
 	public void TS121329_CRM_Movil_PRE_Ajuste_Backoffice_modifica_cantidades(String sDNI, String sLinea) {
 		imagen = "TS121329";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -1203,7 +1218,7 @@ public class Ajustes extends TestBase {
 		driver.get("https://telecomcrm--sit02.cs91.my.salesforce.com/home/home.jsp?sdtd=1");
 		driver.findElement(By.cssSelector(".menuButton.menuButtonRounded")).click();
 		driver.findElement(By.id("userNav-menuItems")).findElements(By.tagName("a")).get(2).click();
-		loginMerge(driver);
+		
 		cc.cerrarTodasLasPestanas();
 		cc.buscarCaso(nroCaso);
 		driver.switchTo().frame(cambioFrame(driver, By.name("edit")));

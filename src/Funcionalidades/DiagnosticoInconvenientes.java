@@ -79,7 +79,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 //		sleep(6000);
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -130,7 +130,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass (alwaysRun = true)
+	//@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -141,11 +141,11 @@ public class DiagnosticoInconvenientes extends TestBase {
 	
 	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
 	public void TS119162_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas(String sDNI, String sLinea){
-		imagen = "TS119262";
+		imagen = "TS119162";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(12000);
+		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
 		sleep(5000);
@@ -688,11 +688,11 @@ public class DiagnosticoInconvenientes extends TestBase {
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "s\u00ed");
 		buscarYClick(driver.findElements(By.id("DeregisterSpeech_nextBtn")), "equals", "continuar");
 		sleep(10000);
-		String caso = null;
-		for (WebElement x : driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"))) {
-			if (x.getText().toLowerCase().contains("su gesti\u00f3n"))
-				caso = x.findElement(By.tagName("div")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
-		}
+		String caso = driver.findElement(By.xpath("//*[@id=\"CallingFromLineWithProblemMessage\"]/div/p/p[2]/span/strong")).getText();
+//		for (WebElement x : driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"))) {
+//			if (x.getText().toLowerCase().contains("su gesti\u00f3n"))
+//				caso = x.findElement(By.id("CallingFromLineWithProblemMessage")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
+//		}
 		driver.switchTo().defaultContent();
 		cc.buscarCaso(caso);
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));

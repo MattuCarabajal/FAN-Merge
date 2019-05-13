@@ -17,6 +17,7 @@ import Pages.Marketing;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
@@ -30,6 +31,7 @@ public class ConsultaDeSaldo extends TestBase {
 	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	LoginFw log;
 	String detalles;
 	
 	
@@ -42,9 +44,10 @@ public class ConsultaDeSaldo extends TestBase {
 		mk = new Marketing(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
-		loginOOCC(driver);
-		sleep(10000);
-		cc.irAConsolaFAN();
+		log.loginOOCC();
+		log = new LoginFw(driver);
+		sleep(15000);
+		cc.irAConsolaFAN();	
 	}
 		
 	//@BeforeClass (groups = "PerfilTelefonico")
@@ -56,8 +59,9 @@ public class ConsultaDeSaldo extends TestBase {
 		mk = new Marketing(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
-		loginTelefonico(driver);
-		sleep(10000);
+		log = new LoginFw(driver);
+		log.loginTelefonico();
+		sleep(15000);
 		cc.irAConsolaFAN();
 	}
 	
@@ -70,8 +74,9 @@ public class ConsultaDeSaldo extends TestBase {
 		mk = new Marketing(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
-		loginAgente(driver);
-		sleep(10000);
+		log = new LoginFw(driver);
+		log.loginAgente();
+		sleep(15000);
 		cc.irAConsolaFAN();
 	}
 	
