@@ -57,12 +57,12 @@ public class DiagnosticoInconvenientes extends TestBase {
 		log = new LoginFw(driver);
 		log.loginOOCC();
 		ges.irAConsolaFAN();
-		//cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		//sleep(6000);
+//		cc.irAConsolaFAN();	
+//		driver.switchTo().defaultContent();
+//		sleep(6000);
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+//	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -73,9 +73,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		tc = new TechCare_Ola1(driver);
 		log = new LoginFw(driver);
 		log.loginTelefonico();
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges.irAConsolaFAN();
+//		cc.irAConsolaFAN();	
+//		driver.switchTo().defaultContent();
+//		sleep(6000);
 	}
 	
 	@BeforeClass (groups = "PerfilAgente")
@@ -89,12 +90,13 @@ public class DiagnosticoInconvenientes extends TestBase {
 		tc = new TechCare_Ola1(driver);
 		log = new LoginFw(driver);
 		log.loginAgente();
+//		ges.irAConsolaFAN();
 		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
-		sleep(6000);
+//		sleep(6000);
 	}
 		
-	@BeforeClass (groups = "PerfilAdminFuncional")
+	//@BeforeClass (groups = "PerfilAdminFuncional")
 		public void initAdminFuncional() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -105,9 +107,10 @@ public class DiagnosticoInconvenientes extends TestBase {
 		tc = new TechCare_Ola1(driver);
 		loginAdminFuncional(driver);
 		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges.irAConsolaFAN();
+//		cc.irAConsolaFAN();	
+//		driver.switchTo().defaultContent();
+//		sleep(6000);
 	}
 	
 	@BeforeMethod (alwaysRun = true)
@@ -217,22 +220,6 @@ public class DiagnosticoInconvenientes extends TestBase {
 		sleep(15000);
 		searchAndClick(driver, "Diagn\u00f3stico de Autogesti\u00f3n");
 		tca.listadoDeSeleccion("USSD", "*150#", "No Interact\u00faa");	
-		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SelfManagementFields")));
-		driver.findElement(By.cssSelector("[id=ChannelSelection]")).click();
-		sleep(4000);
-		List<WebElement> opcionesCanal = driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li"));
-		sleep(4000);
-		buscarYClick(opcionesCanal, "contains", "USSD");
-		//driver.findElement(By.id("ServiceSelection")).click();
-		List<WebElement> opcionesServicios = driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li"));
-		sleep(4000);
-		buscarYClick(opcionesServicios, "contains", "*150#");
-		//driver.findElement(By.id("MotiveSelection")).click();
-		List<WebElement> opcionesInconvenientes = driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li"));
-		sleep(4000);
-		buscarYClick(opcionesInconvenientes, "contains", "No Interact\u00faa");
-		driver.findElement(By.id("SelfManagementStep_nextBtn")).click();
 		sleep(4000);
 		WebElement gesti = driver.findElement(By.id("ClosedCaseText")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
 		String orden = gesti.getText();
@@ -313,7 +300,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.findElement(By.cssSelector("[id=ChannelSelection]")).click();
 		buscarYClick(driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li")), "equals", "800");
 		buscarYClick(driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li")), "contains", "0800-444-4100");
-		buscarYClick(driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li")), "contains", "La l\u00ednea esta muda");
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-list--vertical vlc-slds-list--vertical'] li")), "contains", "la l\u00ednea esta muda");
 		driver.findElement(By.id("SelfManagementStep_nextBtn")).click();
 		sleep(7000);
 		String caso = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).getText();
@@ -751,10 +738,11 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.findElement(By.id("SignalValidation_nextBtn")).click();
 		sleep(10000);
 		String caso = null;
-		for (WebElement x : driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"))) {
-			if (x.getText().toLowerCase().contains("su gesti\u00f3n"))
-				caso = x.findElement(By.tagName("div")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
-		}
+//		for (WebElement x : driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"))) {
+//			if (x.getText().toLowerCase().contains("su gesti\u00f3n"))
+//				caso = x.findElement(By.tagName("div")).findElement(By.tagName("span")).findElement(By.tagName("strong")).getText();
+//		}
+		caso = driver.findElement(By.cssSelector("[class='slds-grid slds-wrap ng-pristine ng-valid'] [class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope'] strong")).getText();
 		driver.switchTo().defaultContent();
 		cc.buscarCaso(caso);
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
@@ -922,7 +910,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.className("borderOverlay")));
 		tcd.categoriaRed("Fuera del Area de Cobertura");
 		sleep(8000);
-		String caso = driver.findElement(By.xpath("//*[@id=\"MobileConfigSendingMessage\"]/div/p/h1/span/strong")).getText();
+		String caso = driver.findElement(By.cssSelector("[id='CoverageOkNetMessage'] strong")).getText();
 		driver.switchTo().defaultContent();
 		cc.buscarCaso(caso);
 		Assert.assertTrue(tca.cerrarCaso("Realizada exitosa", "Consulta"));
