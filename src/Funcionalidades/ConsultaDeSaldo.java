@@ -44,6 +44,7 @@ public class ConsultaDeSaldo extends TestBase {
 		mk = new Marketing(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
 		log.loginOOCC();
 		log = new LoginFw(driver);
 		sleep(15000);
