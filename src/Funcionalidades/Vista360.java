@@ -823,7 +823,7 @@ public class Vista360 extends TestBase {
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
 	@Test (groups = "PerfilAgente", dataProvider = "CuentaVista360")
-	public void TS134823_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Agentes(String sDNI, String sNombre, String sLinea){
+	public void TS134823_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
 		imagen = "TS13823";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		boolean creditoRecarga = false, creditoPromocional = false, estado = false, internetDisponible = false;
@@ -1006,13 +1006,16 @@ public class Vista360 extends TestBase {
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("profile-box")));
-		WebElement nombre = driver.findElement(By.cssSelector(".slds-text-heading_large.title-card"));
-		WebElement dni = null;
-		for (WebElement x : driver.findElements(By.cssSelector(".slds-text-body_regular.account-detail-content"))) {
-			if (x.getText().toLowerCase().contains(sDNI))
-				dni = x;
+		String nombre = driver.findElement(By.cssSelector("[class='slds-text-heading_large title-card']")).getText();
+		boolean dni = false;
+		for (WebElement x : driver.findElements(By.cssSelector("[class='detail-card'] tbody tr"))) {
+			String texto = x.getText();
+			if (texto.contains(sDNI) && texto.contains("DNI")) {
+				dni = true;
+				break;
+			}
 		}
-		Assert.assertTrue(nombre.getText().contains(sNombre) && dni.getText().contains(sDNI));
+		Assert.assertTrue(nombre.equalsIgnoreCase(sNombre) && dni);
 		WebElement tabla = driver.findElement(By.className("detail-card"));
 		Assert.assertTrue(tabla.getText().toLowerCase().contains("atributo") && tabla.getText().toLowerCase().contains("nps"));
 		WebElement tabla2 = driver.findElement(By.className("profile-box"));
