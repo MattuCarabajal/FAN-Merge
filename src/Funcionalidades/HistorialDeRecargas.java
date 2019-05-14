@@ -735,12 +735,12 @@ public class HistorialDeRecargas extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
-	public void TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico(String sDNI, String cLinea) {
+	public void TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS134790";
 		detalles = null;
 		detalles = imagen+"-HistorialDeRecargasTelefonico-DNI:"+sDNI;
-		cbsm.Servicio_Recharge(cLinea,"25000000","0");
-		sleep(1000);
+		cbsm.Servicio_Recharge(sLinea,"25000000","0");
+		sleep(3000);
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);

@@ -388,8 +388,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		tcd.continuar();
 		tcd.seleccionarRespuesta("no");
 	    buscarYClick(driver.findElements(By.id("KnowledgeBaseResults_nextBtn")), "equals", "continuar");
-	    //tc.seleccionarPreguntaFinal("S\u00ed");
-	    
+	    tc.seleccionarPreguntaFinal("S\u00ed");
 	    buscarYClick(driver.findElements(By.id("BalanceValidation_nextBtn")), "equals", "continuar");
 	    sleep(9000);
 	    tcd.categoriaRed("Desregistrar");
@@ -404,14 +403,14 @@ public class DiagnosticoInconvenientes extends TestBase {
 	    driver.findElement(By.id("Deregister_nextBtn")).click();
 	    sleep(5000);
 	    tc.seleccionarPreguntaFinal("S\u00ed");
-	    sleep(5000);
-	    WebElement gesti = driver.findElement(By.id("ClosedCaseText")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
+	    sleep(8000);
+	    WebElement gesti = driver.findElement(By.id("OperationalServiceMessage")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElement(By.tagName("p")).findElement(By.tagName("strong"));
 		String orden = gesti.getText();
 		sleep(2000);
 		cc.buscarOrdenDiag(orden+"*");
 		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver,By.id("Case_body")));
-		cc.verificarStatus(orden, "realizada exitosa");	    
+		cc.verificarStatus(orden, "resuelta exitosa");	    
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "Diagnostico")
@@ -922,7 +921,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.className("borderOverlay")));
 		tcd.categoriaRed("Fuera del Area de Cobertura");
 		sleep(8000);
-		String caso = driver.findElement(By.xpath("//*[@id=\"MobileConfigSendingMessage\"]/div/p/h1/span/strong")).getText();
+		String caso = driver.findElements(By.cssSelector("[id='OutOfCoverageMessage'] div p p span strong")).get(1).getText();
 		driver.switchTo().defaultContent();
 		cc.buscarCaso(caso);
 		Assert.assertTrue(tca.cerrarCaso("Realizada exitosa", "Consulta"));
@@ -1199,7 +1198,8 @@ public class DiagnosticoInconvenientes extends TestBase {
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "s\u00ed");
 		driver.findElement(By.id("SignalValidation_nextBtn")).click();
 		sleep(8000);
-		String caso = driver.findElement(By.xpath("//*[@id=\"MobileConfigSendingMessage\"]/div/p/h1/span/strong")).getText();
+		WebElement gesti = driver.findElement(By.id("CoverageOkNetMessage")).findElement(By.tagName("div")).findElement(By.tagName("p")).findElements(By.tagName("p")).get(1).findElement(By.tagName("span")).findElement(By.tagName("strong"));
+		String caso = gesti.getText();
 		driver.switchTo().defaultContent();
 		cc.buscarCaso(caso);
 		Assert.assertTrue(tca.cerrarCaso("Resuelta exitosa", "Consulta"));
