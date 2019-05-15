@@ -21,6 +21,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import Pages.CBS;
 import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
@@ -37,6 +38,7 @@ public class HistorialDeRecargas extends TestBase {
 	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	private CBS cbs;
 	LoginFw log;
 	String detalles;
 	
@@ -48,6 +50,7 @@ public class HistorialDeRecargas extends TestBase {
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		cbsm = new CBS_Mattu();
+		cbs = new CBS();
 		log = new LoginFw(driver);
 		log.loginOOCC();
 		cc.irAConsolaFAN();	
