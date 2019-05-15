@@ -30,8 +30,8 @@ public class Vista360 extends TestBase {
 	private PagePerfilTelefonico ppt;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
-	GestionDeClientes_Fw ges;
-	LoginFw log ;
+	private GestionDeClientes_Fw ges;
+	private LoginFw log ;
 	String detalles;
 	
 	
@@ -53,10 +53,9 @@ public class Vista360 extends TestBase {
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginTelefonico();
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges.irAConsolaFAN();	
 	}
 	
 	@BeforeClass (groups = "PerfilAgente")
