@@ -69,10 +69,10 @@ public class Vista360 extends TestBase {
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginAgente();
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges.irAConsolaFAN();	
+	
 	}
 	
 	@BeforeMethod (alwaysRun = true)
