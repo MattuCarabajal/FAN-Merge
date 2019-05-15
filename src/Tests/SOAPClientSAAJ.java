@@ -29,7 +29,7 @@ public class SOAPClientSAAJ {
 	static String sRealizarAltaSuscripUAT = "http://mdwtpbusu2.telecom.com.ar:8701/realizarAltaSuscripInfotaiment?WSDL";
 	static String sRealizarAltaSuscripSIT = "http://mdwtpbust2.telecom.com.ar:8701/realizarAltaSuscripInfotaiment?WSDL";
 	static String sVerificarSaldoEnFacturacionSIT = "http://10.75.197.163:8080/services/ArServices";
-	static String sVerificarSaldoEnFacturacionUAT = "http://10.75.39.146:8080/services/BcServices";
+	static String sVerificarSaldoEnFacturacionUAT = "http://10.75.39.146:8080/services/ArServices";
 	
 	public Document callSoapWebService(String soapMessageString, String sEndPoint) {
 		Document doc = null;
