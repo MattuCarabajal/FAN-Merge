@@ -35,6 +35,7 @@ public class Ajustes extends TestBase {
 	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	private GestionDeClientes_Fw ges;
 	String detalles;
 	
 	
@@ -47,10 +48,9 @@ public class Ajustes extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
-		log.loginOOCC();
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges = new GestionDeClientes_Fw(driver);
+		log.loginAgente();
+		ges.irAConsolaFAN();
 	}
 		
 	@BeforeClass (groups = "PerfilTelefonico")
@@ -62,13 +62,13 @@ public class Ajustes extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
-		log.loginTelefonico();
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges = new GestionDeClientes_Fw(driver);
+		log.loginAgente();
+		ges.irAConsolaFAN();
+		
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -77,13 +77,12 @@ public class Ajustes extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginAgente();
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups = "PerfilBackOffice")
+	//@BeforeClass (groups = "PerfilBackOffice")
 		public void initBackOffice() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -935,7 +934,7 @@ public class Ajustes extends TestBase {
 	public void TS121138_CRM_Movil_REPRO_Ajuste_Credito_FAN_Front_Telefonico_BO(String sDNI, String sLinea) {
 		imagen = "TS121138";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosInicial = Integer.parseInt(datoViejo);
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		boolean gest = false;
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
@@ -1068,6 +1067,7 @@ public class Ajustes extends TestBase {
 		Assert.assertTrue(gestion);
 		String caso = nroCaso.findElement(By.cssSelector(".vlc-slds-inline-control__label.ng-binding")).getText();
 		caso = caso.substring(caso.indexOf("0"), caso.length());
+		sleep(5000);
 		CambiarPerfil("backoffice", driver);
 		driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
 		sleep(15000);
@@ -1111,10 +1111,12 @@ public class Ajustes extends TestBase {
 	public void TS135376_CRM_Movil_Prepago_Otros_Historiales_Historial_de_ajustes_Seleccion_de_Fechas_Ajuste_positivo_FAN_Front_Telefonico(String sDNI, String sLinea) throws ParseException {
 		imagen = "TS135376";
 		boolean verificarFecha = false;
-		sb.BuscarCuenta("DNI", sDNI);
+		ges.BuscarCuenta("DNI", sDNI);
+		sleep(5000);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(10000);
+		sleep(20000);
 		cc.irAHistoriales();
+		sleep(5000);
 		WebElement historialDeAjustes = null;
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
 		for (WebElement x : driver.findElements(By.className("slds-card"))) {

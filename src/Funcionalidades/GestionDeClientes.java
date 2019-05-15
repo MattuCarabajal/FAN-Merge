@@ -25,9 +25,23 @@ public class GestionDeClientes extends TestBase {
 	private CustomerCare cc;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
-	LoginFw log;
+	private LoginFw log;
+	private GestionDeClientes_Fw ges;
+
 	String detalles;
 	
+	//@BeforeClass (groups= "PerfilOficina")
+	public void Sit02() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		sleep(5000);
+
+		sb = new SalesBase(driver);
+		cc = new CustomerCare(driver);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.LoginSit02();
+		ges.irAConsolaFAN();
+	}
 	
 	@BeforeClass (groups= "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
@@ -36,11 +50,10 @@ public class GestionDeClientes extends TestBase {
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginOOCC();
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges.irAConsolaFAN();	
+
 	}
 	
 	@BeforeMethod (alwaysRun = true)
@@ -72,8 +85,8 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135495";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes";
+		super.sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
 		selectByText(driver.findElement(By.id("SearchClientDocumentType")), "DNI");
-		sleep(10000);
 		Assert.assertTrue(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("dni"));
 	}
 	

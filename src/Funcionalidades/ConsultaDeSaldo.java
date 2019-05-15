@@ -135,6 +135,8 @@ public class ConsultaDeSaldo extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
 		Integer saldoEnCard = Integer.parseInt(saldo);
 		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalOutStandAmt");
 		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
@@ -200,6 +202,8 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134815_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_Agentes(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134815";
 		detalles = imagen + "Consulta de saldo -DNI:" + sDNI;
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);

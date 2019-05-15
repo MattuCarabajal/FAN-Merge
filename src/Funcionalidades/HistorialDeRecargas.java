@@ -21,6 +21,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import Pages.CBS;
 import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
@@ -37,6 +38,7 @@ public class HistorialDeRecargas extends TestBase {
 	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	private CBS cbs;
 	LoginFw log;
 	String detalles;
 	
@@ -48,6 +50,7 @@ public class HistorialDeRecargas extends TestBase {
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		cbsm = new CBS_Mattu();
+		cbs = new CBS();
 		log = new LoginFw(driver);
 		log.loginOOCC();
 		cc.irAConsolaFAN();	
@@ -177,6 +180,7 @@ public class HistorialDeRecargas extends TestBase {
 		sleep(1000);
 		String monto = Integer.toString(intAleatorio);
 		monto = monto.substring(0,4);
+		System.out.println(monto);
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);

@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -104,7 +105,6 @@ public class DiagnosticoInconvenientes extends TestBase {
 	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		detalles = null;
-		ges = new GestionDeClientes_Fw(driver);
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();	
@@ -487,16 +487,21 @@ public class DiagnosticoInconvenientes extends TestBase {
 	public void TS119186_CRM_Movil_PRE_Diagnostico_de_Voz_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_realizar_llamadas_Sin_Locacion_NO_recupera_locacion_Geo_rojo(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119186";
 		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(30000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(8000);
-		cc.irAGestionEnCard("Diagn\u00f3stico");
+		//driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+		ges.BuscarCuenta("DNI", sDNI);
+		//driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+//		sleep(30000);
+//		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+//		driver.findElement(By.className("card-top")).click();
+//		sleep(8000);
+		//ges.irAGestionEnCard("Diagn\u00f3stico");
+		ges.irAGestionEnCard("Diagn\u00f3stico");
+
+		
+		sleep(7000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("Motive")));
 		driver.findElement(By.name("loopname")).click();
-		selectByText(driver.findElement(By.id("Motive")), "No puedo realizar llamadas");
+		selectByText(driver.findElement(By.id("Motive")), "No puedo recibir llamadas");
 		buscarYClick(driver.findElements(By.id("MotiveIncidentSelect_nextBtn")), "equals", "continuar");
 		sleep(5000);
 		buscarYClick(driver.findElements(By.cssSelector("[class='slds-form-element__label ng-binding ng-scope']")), "contains", "s\u00ed");
@@ -1217,15 +1222,15 @@ public class DiagnosticoInconvenientes extends TestBase {
 	@Test (groups = "PerfilTelefonico", dataProvider = "Diagnostico")
 	public void TS119271_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_SIN_SEnAL_NO_BAM(String sDNI, String sLinea) throws InterruptedException {
 		imagen = "TS119271";
-		detalles = imagen + " -Diagnostico - DNI: " + sDNI;		
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		detalles = imagen + " -Diagnostico - DNI: " + sDNI;
+		
+		ges.BuscarCuenta("DNI", sDNI);
+//		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+//		sleep(15000);
+//		driver.findElement(By.className("card-top")).click();
+//		sleep(6000);
+		ges.irAGestionEnCard("Diagn\u00f3stico");
 		sleep(8000);
-		driver.findElement(By.className("card-top")).click();
-		sleep(5000);
-		cc.irAGestionEnCard("Diagn\u00f3stico");
 		driver.switchTo().frame(cambioFrame(driver, By.id("Motive")));
 		driver.findElement(By.name("loopname")).click();
 		selectByText(driver.findElement(By.id("Motive")), "No puedo navegar");
@@ -1264,13 +1269,13 @@ public class DiagnosticoInconvenientes extends TestBase {
 	public void TS119272_CRM_Movil_PRE_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_SIN_CUOTA_NO_BAM(String sDNI, String sLinea) throws Exception  {
 		imagen = "TS119272";
 		detalles = imagen + " -ServicioTecnico - DNI: " + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(6000);
-		cc.irAGestionEnCard("Diagn\u00f3stico");
+		ges.BuscarCuenta("DNI", sDNI);
+//		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+//		sleep(15000);
+//		driver.findElement(By.className("card-top")).click();
+//		sleep(6000);
+		ges.irAGestionEnCard("Diagn\u00f3stico");
+		sleep(7000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("Motive")));
 		driver.findElement(By.name("loopname")).click();
 		selectByText(driver.findElement(By.id("Motive")), "No puedo navegar");
@@ -1278,7 +1283,7 @@ public class DiagnosticoInconvenientes extends TestBase {
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "contains", "no");
 		buscarYClick(driver.findElements(By.id("DataQuotaQuery_nextBtn")), "equals", "continuar");
 		driver.switchTo().frame(cambioFrame(driver, By.id("UnavailableQuotaMessage")));
-		WebElement MediosDispon = driver.findElement(By.className("ng-binding")).findElement(By.xpath("//*[@id='UnavailableQuotaMessage']/div/p/p[1]/span"));
+		WebElement MediosDispon = driver.findElement(By.cssSelector("[class='slds-form-element__control'] p p span "));
 		Assert.assertTrue(MediosDispon.getText().equalsIgnoreCase("Prob\u00e1 realizar una recarga o comprar un pack de datos"));
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")));
 		String caso = "";
@@ -1297,13 +1302,9 @@ public class DiagnosticoInconvenientes extends TestBase {
 	public void TS119281_CRM_Movil_REPRO_Diagnostico_de_Datos_Valida_Red_y_Navegacion_Motivo_de_contacto_No_puedo_Navegar_CONCILIACION_EXITOSA_NO_BAM_Telefonico(String sDNI, String sLinea){
 		imagen = "TS119281";
 		detalles = imagen + " -Diagnostico Inconveniente - DNI: " + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
-		cc.seleccionarCardPornumeroLinea(sLinea, driver);
-		sleep(5000);
-		cc.irAGestionEnCard("Diagn\u00f3stico");
-		sleep(8000);
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Diagn\u00f3stico");
+		sleep(7000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("Motive")));
 		Select motiv = new Select (driver.findElement(By.id("Motive")));
 		motiv.selectByVisibleText("No puedo navegar");

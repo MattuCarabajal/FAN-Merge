@@ -27,6 +27,7 @@ public class DetalleDeConsumos extends TestBase {
 	private CustomerCare cc;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	private  GestionDeClientes_Fw ges;
 	String detalles;
 	
 	
@@ -37,13 +38,14 @@ public class DetalleDeConsumos extends TestBase {
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginOOCC();
-		cc.irAConsolaFAN();	
+		ges.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -222,9 +224,10 @@ public class DetalleDeConsumos extends TestBase {
 		imagen = "TS134803";
 		detalles = imagen + " -Detalle de consumos - DNI: " + sDNI;
 		boolean sms = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
+		ges.BuscarCuenta("DNI", sDNI);
+//		sb.BuscarCuenta("DNI", sDNI);
+//		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		sleep(25000);
 		cc.irADetalleDeConsumos();
 		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand")));
