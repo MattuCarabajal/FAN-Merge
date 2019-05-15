@@ -306,11 +306,11 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		switch (this.getIndexAmbienteForList()) {
 		case 0:
 			irConsolaFanSit02();
-			System.out.println("consola Sit02");
+			//System.out.println("consola Sit02");
 			break;
 		case 1:
 			irConsolaFanUat02();
-			System.out.println("consola Uat");
+			//System.out.println("consola Uat");
 			break;
 
 		}		
@@ -323,11 +323,14 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		WebElement card = driver.findElement(By.cssSelector("[class='card-top']"));
 		card.click();
 		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='community-flyout-actions-card'] ul li"), 0));
-		List<WebElement> cardInterno = driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li"));
-		WebElement gestion = getBuscarElementoPorText(cardInterno, sGestion);
-		fluentWait.until(ExpectedConditions.elementToBeClickable(gestion));
-		gestion.click();
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='card-info'] [class='actions'] li"), 0));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class*='slds-grid slds-grid--vertical slds-align-middle'] [class='items-card ng-not-empty ng-valid'] [class='slds-col'] button"), 0));
+		List<WebElement> elementos = driver.findElements(By.cssSelector("[class='card-info'] [class='actions'] li"));
+		elementos.addAll(driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li")));
+		elementos.addAll(driver.findElements(By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class*='slds-grid slds-grid--vertical slds-align-middle'] [class='items-card ng-not-empty ng-valid'] [class='slds-col'] button")));
+		System.out.println(clickElementoPorText(elementos, sGestion));
 		driver.switchTo().defaultContent();
+
 	}
 	
 	
