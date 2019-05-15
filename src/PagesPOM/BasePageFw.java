@@ -79,7 +79,7 @@ public class BasePageFw {
 		
 	}
 	
-	public boolean getMacheaText(List<WebElement> listaElementos, String textoaComparar){
+	public boolean macheaText(List<WebElement> listaElementos, String textoaComparar){
 		//de una lista de ElemetosWeb toma el texto y compara con un texto que puede estar formado por mas de una condicion(ver metodo Matches)
 		boolean temp=false;
 		for (WebElement x : listaElementos) {	

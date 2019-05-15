@@ -1679,7 +1679,7 @@ public class CustomerCare extends BasePage {
 	public String obtenerOrden(WebDriver driver, String gestion) {
 		driver.navigate().refresh();
 		sleep(18000);
-		panelIzquierdo();
+		//panelIzquierdo();
 		List<WebElement> wStoryContainer = driver.findElements(By.className("story-container"));
 		for (WebElement wAux : wStoryContainer) {
 			if (wAux.findElement(By.cssSelector(".slds-text-body_regular.story-title")).getText().equalsIgnoreCase(gestion)) {
