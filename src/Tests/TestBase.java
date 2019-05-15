@@ -1477,7 +1477,7 @@ public class TestBase {
 		driver.findElement(By.id("app_logout")).click();
 		sleep(5000);*/
 //		driver.findElement(By.cssSelector(".menuButton.menuButtonRounded")).click();
-//		driver.findElement(By.xpath("//*[text() = 'Finalizar sesión']")).click();
+//		driver.findElement(By.xpath("//*[text() = 'Finalizar sesiï¿½n']")).click();
 //		sleep(5000);
 		driver.get(urlAmbiente);
 		driver.findElement(By.id("userNav")).click();
@@ -2086,7 +2086,7 @@ public class TestBase {
 			return true;
 		}
 		try {
-			driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+			driver.switchTo().frame(cambioFrame(driver, By.id(elementSelector)));
 			return true;
 		} catch (Exception e) {
 			try {Thread.sleep(200);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}

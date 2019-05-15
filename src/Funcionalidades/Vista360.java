@@ -558,7 +558,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
-	public void TS134801_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre){
+	public void TS134801_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_FAN_Front_Telefonico(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134801";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -580,7 +580,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
-	public void TS134809_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre){
+	public void TS134809_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Telefonico(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134809";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -676,7 +676,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
-	public void TS134796_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Visualizacion_e_ingreso_a_las_ultimas_gestiones_FAN_Front_Telefonico(String sDNI, String sLinea,String sNombre) {
+	public void TS134796_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Visualizacion_e_ingreso_a_las_ultimas_gestiones_FAN_Front_Telefonico(String sDNI, String sNombre,String sLinea) {
 		imagen = "TS134796";
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -688,7 +688,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
-	public void TS134797_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Panel_Derecho_Busqueda_de_gestiones_promociones_y_gestiones_abandonadas_FAN_Front_Telefonico(String sDNI, String sLinea,String sNombre) {
+	public void TS134797_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Panel_Derecho_Busqueda_de_gestiones_promociones_y_gestiones_abandonadas_FAN_Front_Telefonico(String sDNI, String sNombre,String sLinea) {
 		imagen = "TS134797";
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -704,7 +704,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
-	public void TS134799_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
+	public void TS134799_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Telefonico(String sDNI, String sNombre, String sLinea) {
 		imagen = "134799";
 		detalles = imagen + "-Vista 360-DNI:" + sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -730,7 +730,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
-	public void TS134808_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_Cerradas_Informacion_brindada_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
+	public void TS134808_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_Cerradas_Informacion_brindada_FAN_Front_Telefonico(String sDNI, String sNombre, String sLinea) {
 		imagen = "TS134808";
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -771,7 +771,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico",  dataProvider = "CuentaVista360")
-	public void TS135351_CRM_Movil_Prepago_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_CASOS_FAN_Telefonico(String sDNI, String sLinea,String sNombre) {
+	public void TS135351_CRM_Movil_Prepago_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_CASOS_FAN_Telefonico(String sDNI, String sNombre,String sLinea) {
 		imagen = "TS135351";
 		boolean gestion = false;
 		detalles = imagen +" -Vista 360-DNI: " + sDNI;
@@ -805,7 +805,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico",  dataProvider = "CuentaVista360")
-	public void TS135356_CRM_Movil_Prepago_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_ORDENES_FAN_Telefonico(String sDNI, String sLinea,String sNombre) {
+	public void TS135356_CRM_Movil_Prepago_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_ORDENES_FAN_Telefonico(String sDNI, String sNombre,String sLinea) {
 		imagen = "TS135356";
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
 		boolean gestion = false;

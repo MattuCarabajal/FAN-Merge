@@ -615,6 +615,6 @@ public class ProblemasConRecargas extends TestBase {
 				gestion = true;
 		}
 		Assert.assertTrue(gestion);
-		Assert.assertTrue(false);
+		//Assert.assertTrue(false);
 	}
 }
