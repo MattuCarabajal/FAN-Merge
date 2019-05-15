@@ -42,13 +42,14 @@ public class Vista360 extends TestBase {
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginOOCC();
 		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	/*@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -347,37 +348,55 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(wTabla.isDisplayed());
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360Version2")
-	public void TS134495_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre, String sEmail, String sMovil, String sNps, String sTelAlternativo, String sPuntosClub, String sCategoria) {
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360")
+	public void TS134495_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_FAN_Front_OOCC(String sDNI, String sNombre,String sLinea) {
 		imagen = "TS134495";
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI+ " - Nombre: "+sNombre;
 		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("profile-box")));
-		WebElement nombre = driver.findElement(By.cssSelector(".slds-text-heading_large.title-card"));
-		WebElement nps = driver.findElement(By.className("detail-card")).findElement(By.tagName("table")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(2);
-		WebElement acceso = driver.findElement(By.className("profile-links-wrapper"));
-		WebElement dni = null;
-		for (WebElement x : driver.findElements(By.cssSelector(".slds-text-body_regular.account-detail-content"))) {
-			if (x.getText().toLowerCase().contains(sDNI))
-				dni = x;
+		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
+		detalles += "-Cuenta:" + accid;
+		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
+		sleep(18000);
+		try {
+			cc.openleftpanel();
+		} catch (Exception eE) {}
+		WebElement wProfileBoxDetails = driver.findElement(By.className("profile-box-details"));
+		Assert.assertTrue(wProfileBoxDetails.findElement(By.tagName("h1")).getText().toLowerCase().contains(sNombre.toLowerCase()));
+		String sWebDNI = wProfileBoxDetails.findElement(By.className("detail-card")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(1).findElements(By.tagName("td")).get(1).getText();
+		Assert.assertTrue(sWebDNI.equals(sDNI));
+		Assert.assertTrue(sWebDNI.matches("[0-9]+"));
+		String npsText = wProfileBoxDetails.findElement(By.className("detail-card")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(2).findElements(By.tagName("td")).get(0).getText();
+		Assert.assertTrue(npsText.equals("NPS:"));
+		List<WebElement> wWebList = wProfileBoxDetails.findElements(By.className("profile-edit"));
+		Assert.assertTrue(wWebList.get(0).getText().toLowerCase().equals("actualizar datos"));
+		Assert.assertTrue(wWebList.get(1).getText().toLowerCase().equals("reseteo clave"));
+		driver.findElement(By.xpath("//div[@class='left-sidebar-section-header'] //span[contains(text(),'Datos Personales')] /.. /.. /.. /.. /..")).click();
+		String headerDatosPersonales = driver.findElement(By.xpath("//div[@class='left-sidebar-section-header'] //span[contains(text(),'Datos Personales')]")).getText();
+		Assert.assertTrue(headerDatosPersonales.equals("Datos Personales"));
+		driver.findElement(By.xpath("//div[@class='left-sidebar-section-header'] //span[contains(text(),'Segmentaci')] /.. /.. /.. /.. /..")).click();
+		String headerSegmentacion = driver.findElement(By.xpath("//div[@class='left-sidebar-section-header'] //span[contains(text(),'Segmentaci')]")).getText();
+		Assert.assertTrue(headerSegmentacion.equalsIgnoreCase("Segmentaci\u00f3n"));
+		List<WebElement> panelesIzquierdos = driver.findElements(By.cssSelector(".left-sidebar-section-container"));
+		List<WebElement> datosPersonales = panelesIzquierdos.get(0).findElements(By.cssSelector(".client-data-label"));
+		List<WebElement> segmentacion = panelesIzquierdos.get(1).findElements(By.cssSelector(".client-data-label"));
+		ArrayList<String> datosPersonalesComparar = new ArrayList<String>(Arrays.asList("Correo Electr\u00f3nico:","M\u00f3vil:", "Tel\u00e9fono alternativo:", "Club Personal:", "Categor\u00eda:"));
+		ArrayList<String> segmentacionComparar = new ArrayList<String>(Arrays.asList("Segmento:", "Atributos:"));
+		for (int i = 0; i < datosPersonales.size(); i++) {
+			Assert.assertTrue(datosPersonales.get(i).getText().equals(datosPersonalesComparar.get(i)));
 		}
-		Assert.assertTrue(nombre.getText().contains(sNombre) && dni.getText().contains(sDNI) && acceso.isDisplayed() && (nps.getText().contains(sNps) || nps.isDisplayed()));
-		WebElement mail = driver.findElements(By.className("left-sidebar-section-container")).get(0).findElement(By.tagName("table")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(0);
-		WebElement movil = driver.findElements(By.className("left-sidebar-section-container")).get(0).findElement(By.tagName("table")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(1);
-		WebElement telefonoAlternativo = driver.findElements(By.className("left-sidebar-section-container")).get(0).findElement(By.tagName("table")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(2);
-		WebElement puntosClubPersonal = driver.findElements(By.className("left-sidebar-section-container")).get(0).findElement(By.tagName("table")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(3);
-		WebElement categoria = driver.findElements(By.className("left-sidebar-section-container")).get(0).findElement(By.tagName("table")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(4);
-		Assert.assertTrue(mail.getText().contains(sEmail) && (movil.getText().contains(sMovil) || movil.isDisplayed()) && (telefonoAlternativo.getText().contains(sTelAlternativo) || telefonoAlternativo.isDisplayed()));
-		Assert.assertTrue(puntosClubPersonal.getText().contains(sPuntosClub) || puntosClubPersonal.isDisplayed());
-		Assert.assertTrue(categoria.getText().contains(sCategoria) || categoria.isDisplayed());
-		WebElement segmentoYAtriburo = driver.findElements(By.className("left-sidebar-section-container")).get(1).findElement(By.tagName("table")).findElement(By.tagName("tbody")).findElement(By.tagName("tr")).findElement(By.tagName("td"));
-		Assert.assertTrue(segmentoYAtriburo.getText().contains("Alta reciente - Masivo"));	
+		for (int i = 0; i < segmentacion.size(); i++) {
+			WebElement campo = segmentacion.get(i);
+			String textoDelCampo = campo.getText();
+			Assert.assertTrue(textoDelCampo.equals(segmentacionComparar.get(i)));
+			if (textoDelCampo.equals("Segmento:")) {
+				String valorDelCampo = driver.findElement(By.xpath("/html/body/div/div[1]/ng-include/div[4]/ng-include/div/div[2]/table[1]/tbody/tr/td/div[2]")).getText();
+				Assert.assertTrue(valorDelCampo.equals("Alta reciente - Masivo"));
+			}
+		}
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360")
-	public void TS134496_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Perfil_FAN_Front_OOCC(String sDNI,String sLinea, String sNombre) {
+	public void TS134496_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Perfil_FAN_Front_OOCC(String sDNI, String sNombre,String sLinea) {
 		imagen = "TS134496";
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI+" - Nombre: "+sNombre;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -539,7 +558,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
-	public void TS134801_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre){
+	public void TS134801_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_FAN_Front_Telefonico(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134801";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -561,7 +580,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
-	public void TS134809_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre){
+	public void TS134809_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_Telefonico(String sDNI, String sNombre, String sLinea){
 		imagen = "TS134809";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -657,7 +676,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
-	public void TS134796_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Visualizacion_e_ingreso_a_las_ultimas_gestiones_FAN_Front_Telefonico(String sDNI, String sLinea,String sNombre) {
+	public void TS134796_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Visualizacion_e_ingreso_a_las_ultimas_gestiones_FAN_Front_Telefonico(String sDNI, String sNombre,String sLinea) {
 		imagen = "TS134796";
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -669,7 +688,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
-	public void TS134797_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Panel_Derecho_Busqueda_de_gestiones_promociones_y_gestiones_abandonadas_FAN_Front_Telefonico(String sDNI, String sLinea,String sNombre) {
+	public void TS134797_CRM_Movil_Prepago_Vista_360_Distribucion_de_paneles_Panel_Derecho_Busqueda_de_gestiones_promociones_y_gestiones_abandonadas_FAN_Front_Telefonico(String sDNI, String sNombre,String sLinea) {
 		imagen = "TS134797";
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -685,7 +704,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
-	public void TS134799_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
+	public void TS134799_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Telefonico(String sDNI, String sNombre, String sLinea) {
 		imagen = "134799";
 		detalles = imagen + "-Vista 360-DNI:" + sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -711,7 +730,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
-	public void TS134808_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_Cerradas_Informacion_brindada_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
+	public void TS134808_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_Cerradas_Informacion_brindada_FAN_Front_Telefonico(String sDNI, String sNombre, String sLinea) {
 		imagen = "TS134808";
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -752,7 +771,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico",  dataProvider = "CuentaVista360")
-	public void TS135351_CRM_Movil_Prepago_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_CASOS_FAN_Telefonico(String sDNI, String sLinea,String sNombre) {
+	public void TS135351_CRM_Movil_Prepago_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_CASOS_FAN_Telefonico(String sDNI, String sNombre,String sLinea) {
 		imagen = "TS135351";
 		boolean gestion = false;
 		detalles = imagen +" -Vista 360-DNI: " + sDNI;
@@ -786,7 +805,7 @@ public class Vista360 extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico",  dataProvider = "CuentaVista360")
-	public void TS135356_CRM_Movil_Prepago_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_ORDENES_FAN_Telefonico(String sDNI, String sLinea,String sNombre) {
+	public void TS135356_CRM_Movil_Prepago_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_Plazo_No_vencido_Consulta_registrada_ORDENES_FAN_Telefonico(String sDNI, String sNombre,String sLinea) {
 		imagen = "TS135356";
 		detalles = imagen+"-Vista 360 - DNI:"+sDNI;
 		boolean gestion = false;

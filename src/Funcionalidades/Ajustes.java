@@ -935,7 +935,7 @@ public class Ajustes extends TestBase {
 	public void TS121138_CRM_Movil_REPRO_Ajuste_Credito_FAN_Front_Telefonico_BO(String sDNI, String sLinea) {
 		imagen = "TS121138";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosInicial = Integer.parseInt(datoViejo);
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		boolean gest = false;
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
@@ -1068,6 +1068,7 @@ public class Ajustes extends TestBase {
 		Assert.assertTrue(gestion);
 		String caso = nroCaso.findElement(By.cssSelector(".vlc-slds-inline-control__label.ng-binding")).getText();
 		caso = caso.substring(caso.indexOf("0"), caso.length());
+		sleep(5000);
 		CambiarPerfil("backoffice", driver);
 		driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
 		sleep(15000);
@@ -1113,7 +1114,7 @@ public class Ajustes extends TestBase {
 		boolean verificarFecha = false;
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(10000);
+		sleep(30000);
 		cc.irAHistoriales();
 		WebElement historialDeAjustes = null;
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
