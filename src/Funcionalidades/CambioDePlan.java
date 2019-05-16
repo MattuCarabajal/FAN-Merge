@@ -15,6 +15,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -24,6 +25,7 @@ import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
@@ -35,48 +37,58 @@ public class CambioDePlan extends TestBase {
 	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	LoginFw log;
 	String detalles;
 	
-	@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
-		sleep(15000);
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		log.loginOOCC();
 		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);
 	}
 	
-	@BeforeClass (alwaysRun = true)
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginTelefonico(driver);
-		sleep(15000);
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		log.loginTelefonico();
 		cc.irAConsolaFAN();	
 		driver.switchTo().defaultContent();
 		sleep(6000);
 	}
 	
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
-		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
-		ges.irGestionClientes();	
+		ges.selectMenuIzq("Inicio");
+		ges.irGestionClientes();
+		sleep(5000);
 	}
 
-	@AfterMethod(alwaysRun=true)
+	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
 		tomarCaptura(driver,imagen);
 		sleep(2000);
+	}
+
+	//@AfterClass(alwaysRun = true)
+	public void quit() throws IOException {
+		driver.quit();
+		sleep(5000);
 	}
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\

@@ -29,10 +29,10 @@ public class ConsultaDeSaldo extends TestBase {
 	private Marketing mk;
 	private CBS cbs;
 	private CBS_Mattu cbsm;
+	private GestionDeClientes_Fw ges;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	private LoginFw log;
-	private GestionDeClientes_Fw ges;
 	String detalles;
 	
 	
@@ -40,6 +40,7 @@ public class ConsultaDeSaldo extends TestBase {
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
+		ges = new GestionDeClientes_Fw(driver);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
@@ -48,13 +49,16 @@ public class ConsultaDeSaldo extends TestBase {
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		log.loginOOCC();
-		ges.irAConsolaFAN();	
+		sleep(15000);
+		cc.irAConsolaFAN();	
+		
 	}
 		
 	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
+		ges = new GestionDeClientes_Fw(driver);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
@@ -70,6 +74,7 @@ public class ConsultaDeSaldo extends TestBase {
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
+		ges = new GestionDeClientes_Fw(driver);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
@@ -126,7 +131,7 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen ="TS134376";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(10000);
+		sleep(8000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
 		sleep(15000);
@@ -136,8 +141,8 @@ public class ConsultaDeSaldo extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		Integer saldoEnCard = Integer.parseInt(saldo);
-		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalOutStandAmt");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "arc:TotalAmount");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 4));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
 	
@@ -163,16 +168,18 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen = "TS134813";		
 		detalles = imagen + " -Consulta de saldo - DNI: " + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
+		sleep(8000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
-		Integer saldoEnCard = Integer.parseInt(saldo);	
-		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalOutStandAmt");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		Integer saldoEnCard = Integer.parseInt(saldo);
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "arc:TotalAmount");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 4));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
 	
@@ -198,16 +205,18 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen = "TS134815";
 		detalles = imagen + "Consulta de saldo -DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
+		sleep(8000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
-		Integer saldoEnCard = Integer.parseInt(saldo);	
-		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalOutStandAmt");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		Integer saldoEnCard = Integer.parseInt(saldo);
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "arc:TotalAmount");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 4));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
 

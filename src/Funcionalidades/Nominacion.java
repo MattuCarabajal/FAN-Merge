@@ -24,6 +24,7 @@ import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
@@ -32,6 +33,8 @@ public class Nominacion extends TestBase {
 	private WebDriver driver;
 	private SalesBase sb;
 	private CustomerCare cc;
+	private LoginFw log;
+	private GestionDeClientes_Fw ges;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	String detalles;
@@ -43,11 +46,15 @@ public class Nominacion extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.LoginSit02();
+		ges.irAConsolaFAN();
+//		loginOOCC(driver);
+//		sleep(15000);
+//		cc.irAConsolaFAN();	
+//		driver.switchTo().defaultContent();
+//		sleep(6000);
 	}
 		
 	//@BeforeClass (alwaysRun = true)
@@ -85,7 +92,7 @@ public class Nominacion extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod(alwaysRun=true)
+	//@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -102,7 +109,7 @@ public class Nominacion extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test(groups = {"Sales", "Nominacion","E2E","Ciclo1"}, dataProvider="DatosSalesNominacionNuevoOfCom") 
+	//@Test(groups = {"PerfilOficina", "Nominacion","E2E","Ciclo1"}, dataProvider="DatosSalesNominacion	NuevoOfCom") 
 	public void TS85094_CRM_Movil_REPRO_Nominatividad_Cliente_Nuevo_Presencial_DOC_OfCom(String sLinea, String sDni, String sNombre, String sApellido, String sSexo, String sFnac, String sEmail, String sProvincia, String sLocalidad, String sCalle, String sNumCa, String sCP) { 
 		imagen = "85094-Nominacion"+sDni;
 		detalles = null;
@@ -791,4 +798,35 @@ public class Nominacion extends TestBase {
 		}
 		Assert.assertTrue(error);
 	}
+	
+	@Test (groups = {"PerfilOficina", "ConsultaDeSaldo", "Ciclo1"}, dataProvider = "DatosSalesNominacionNuevoOfCom")
+	public void NominacionSIT02(String sLinea, String sDni, String sNombre, String sApellido, String sSexo, String sFnac, String sEmail, String sProvincia, String sLocalidad, String sCalle, String sNumCa, String sCP) {
+		imagen ="TS134373";
+		detalles = imagen + "- Consulta de Saldo - DNI:" + sDni;
+		sleep(10000);
+		driver.switchTo().frame(cambioFrame(driver, By.id("PhoneNumber")));
+		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
+		sleep(1500);
+		driver.findElement(By.id("SearchClientsDummy")).click();
+		sleep(10000);
+		WebElement cli = driver.findElement(By.id("tab-scoped-2")); 	
+		cli.findElement(By.tagName("tbody")).findElement(By.tagName("tr")).click();
+		sleep(3000);
+		List<WebElement> Lineas = driver.findElement(By.id("tab-scoped-2")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+		for(WebElement UnaL: Lineas) {
+			if(UnaL.getText().toLowerCase().contains("plan con tarjeta repro")) {
+				UnaL.findElements(By.tagName("td")).get(6).findElement(By.tagName("svg")).click();
+				System.out.println("Linea Encontrada");
+				break;
+			}
+		}
+		sleep(10000);
+		ContactSearch contact = new ContactSearch(driver);
+		contact.searchContact2("DNI", sDni, sSexo);
+		contact.Llenar_Contacto(sNombre, sApellido, sFnac);
+		try {contact.ingresarMail(sEmail, "si");}catch (org.openqa.selenium.ElementNotVisibleException ex1) {}
+		
+		
+	}
+	
 }
