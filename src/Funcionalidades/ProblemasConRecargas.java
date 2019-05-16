@@ -36,7 +36,8 @@ public class ProblemasConRecargas extends TestBase {
 	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
-	LoginFw log;
+	private GestionDeClientes_Fw ges;
+	private LoginFw log;
 	String detalles;
 	
 	
@@ -47,11 +48,9 @@ public class ProblemasConRecargas extends TestBase {
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginOOCC();
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges.irAConsolaFAN();	
 	}
 		
 	@BeforeClass (groups = "PerfilTelefonico")
@@ -61,11 +60,10 @@ public class ProblemasConRecargas extends TestBase {
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginTelefonico();
-		sleep(15000);
-		cc.irAConsolaFAN();
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges.irAConsolaFAN();
+		
 	}
 	
 	@BeforeMethod (alwaysRun = true)
@@ -101,8 +99,7 @@ public class ProblemasConRecargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		System.out.println(datosInicial);
 		boolean gest = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
@@ -141,8 +138,7 @@ public class ProblemasConRecargas extends TestBase {
 		CBS_Mattu cbsm = new CBS_Mattu();
 		String davoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(davoViejo.substring(0, (davoViejo.length()) - 1));
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
@@ -180,8 +176,7 @@ public class ProblemasConRecargas extends TestBase {
 		CBS_Mattu cbsm = new CBS_Mattu();
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 1));
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
@@ -224,8 +219,7 @@ public class ProblemasConRecargas extends TestBase {
 		CBS_Mattu cbsm = new CBS_Mattu();
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
@@ -265,8 +259,7 @@ public class ProblemasConRecargas extends TestBase {
 	public void TS104347_CRM_Movil_REPRO_Problemas_con_Recarga_Presencial_Tarjeta_Scratch_Caso_Nuevo_Quemada(String sDNI, String sLinea, String sTarjeta, String sPIN){
 		imagen = "TS104347";
 		detalles = imagen + " -Problema con recargas - DNI: " + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
@@ -293,8 +286,7 @@ public class ProblemasConRecargas extends TestBase {
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga") 
 	public void TS104351_CRM_Movil_Repro_Problemas_con_Recarga_On_line_Sin_comprobante_En_espera_del_cliente_Ofcom(String sDNI, String sLinea) {
 		imagen = "TS104351";
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
@@ -332,8 +324,7 @@ public class ProblemasConRecargas extends TestBase {
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		System.out.println(datosInicial);
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
@@ -367,8 +358,7 @@ public class ProblemasConRecargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		System.out.println(datosInicial);
 		detalles = imagen + " -Problema con recargas - DNI: " + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
@@ -406,8 +396,7 @@ public class ProblemasConRecargas extends TestBase {
 		boolean gestion = false;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
@@ -452,8 +441,7 @@ public class ProblemasConRecargas extends TestBase {
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		System.out.println(datosInicial);
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
@@ -493,8 +481,7 @@ public class ProblemasConRecargas extends TestBase {
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		System.out.println(datosInicial);
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(25000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
@@ -527,8 +514,7 @@ public class ProblemasConRecargas extends TestBase {
 		boolean gestion = false, error = false;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();
@@ -582,8 +568,7 @@ public class ProblemasConRecargas extends TestBase {
 	public void TS104344_CRM_Movil_Repro_Problemas_con_Recarga_Telefonico_On_Line(String sDNI, String sLinea) {
 		imagen = "TS104344";
 		boolean gestion = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		driver.findElement(By.className("card-top")).click();

@@ -79,6 +79,25 @@ public class BasePageFw {
 		
 	}
 	
+	public boolean clickElementoPorText(List<WebElement> listado, String parametroBusqueda){
+		//filtra por texto y retorna un elemento web 
+		//System.out.println(listado.size());
+		boolean aux = false;
+		for (WebElement x : listado) {
+			
+			//System.out.println(x.getText()+"<--------------->"+parametroBusqueda);
+			if(x.getText().contains(parametroBusqueda)) {
+				aux=true;
+				getFluentWait().until(ExpectedConditions.elementToBeClickable(x));
+				x.click();
+				break;
+			}
+		}
+		return aux;
+		 
+		
+	}
+	
 	public boolean macheaText(List<WebElement> listaElementos, String textoaComparar){
 		//de una lista de ElemetosWeb toma el texto y compara con un texto que puede estar formado por mas de una condicion(ver metodo Matches)
 		boolean temp=false;

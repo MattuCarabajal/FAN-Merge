@@ -30,36 +30,32 @@ public class Vista360 extends TestBase {
 	private PagePerfilTelefonico ppt;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
-	GestionDeClientes_Fw ges;
-	LoginFw log ;
+	private GestionDeClientes_Fw ges;
+	private LoginFw log ;
 	String detalles;
 	
 	
 	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		log.loginOOCC();
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges.irAConsolaFAN();	
 	}
 		
-	/*@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginTelefonico();
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges.irAConsolaFAN();	
 	}
 	
 	@BeforeClass (groups = "PerfilAgente")
@@ -111,7 +107,7 @@ public class Vista360 extends TestBase {
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 
 	
-		ges.cerrarPanelDerecho2();//falta arreglar para que corrra FluentWait
+		ges.cerrarPanelDerecho();//falta arreglar para que corrra FluentWait
 	
 		//sb.BuscarCuenta("DNI", sDNI);
 		//sleep(5000);
@@ -138,11 +134,14 @@ public class Vista360 extends TestBase {
 	public void TS134349_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_abiertas_Plazo_vencido_Asistencia_registrada_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134349";
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI+" - Nombre: "+sNombre;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(25000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		cc.irAGestiones();
+//		sb.BuscarCuenta("DNI", sDNI);
+//		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+//		sleep(25000);
+//		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+//		cc.irAGestiones();
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Gestiones");
+		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")));
 		driver.findElement(By.id("text-input-03")).click();
 		driver.findElement(By.xpath("//*[text() = 'Casos']")).click();

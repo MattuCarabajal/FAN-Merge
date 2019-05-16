@@ -32,7 +32,8 @@ public class ConsultaDeSaldo extends TestBase {
 	private GestionDeClientes_Fw ges;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
-	LoginFw log;
+	private LoginFw log;
+	private GestionDeClientes_Fw ges;
 	String detalles;
 	
 	
@@ -47,6 +48,7 @@ public class ConsultaDeSaldo extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginOOCC();
 		sleep(15000);
 		cc.irAConsolaFAN();	
@@ -64,9 +66,9 @@ public class ConsultaDeSaldo extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginTelefonico();
-		sleep(15000);
-		cc.irAConsolaFAN();
+		ges.irAConsolaFAN();
 	}
 	
 	//@BeforeClass (groups = "PerfilAgente")
@@ -80,9 +82,9 @@ public class ConsultaDeSaldo extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginAgente();
-		sleep(15000);
-		cc.irAConsolaFAN();
+		ges.irAConsolaFAN();
 	}
 	
 	@BeforeMethod(alwaysRun=true)
@@ -114,8 +116,7 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134373_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_OOCC(String sDNI, String sLinea, String sAccountKey) {
 		imagen ="TS134373";
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -152,8 +153,7 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134811_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134811";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -190,8 +190,7 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134814_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_Agentes(String sDNI, String sLinea, String sAccountKey){
 		imagen = "TS134814";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
