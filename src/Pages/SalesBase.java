@@ -194,7 +194,9 @@ public void BusquedaAvanzada(){
 }
 
 public void BuscarAvanzada(String nombre, String apellido, String razon, String cuenta, String email){
+	TestBase TB = new TestBase();
 	try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	TB.sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
 	BusquedaAvanzada();
 	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	firstname.sendKeys(nombre);
@@ -229,15 +231,11 @@ public void validarcamposbusqueda(){
 public void BuscarCuenta(String Type, String NDNI){
 	try {Thread.sleep(4000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	TestBase TB = new TestBase();
-	//TB.waitFor(driver, By.id("SearchClientDocumentType"));
+	TB.sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
 	setSimpleDropdown(DNIbuscador, Type);
 	DNI.sendKeys(NDNI);
-	//sleep(2000);
 	TB.waitForClickeable(driver, By.id("SearchClientsDummy"));
 	btnbuscar.click();
-	//TB.waitFor(driver, By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope"));
-	/*TB.waitFor(driver, (By.cssSelector(".slds-tree__item.ng-scope")));
-	clickearCuenta.click();*/
 	try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 }
 
