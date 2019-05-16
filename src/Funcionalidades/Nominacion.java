@@ -24,6 +24,7 @@ import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
@@ -32,6 +33,8 @@ public class Nominacion extends TestBase {
 	private WebDriver driver;
 	private SalesBase sb;
 	private CustomerCare cc;
+	private LoginFw log;
+	private GestionDeClientes_Fw ges;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	String detalles;
@@ -43,11 +46,15 @@ public class Nominacion extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.LoginSit02();
+		ges.irAConsolaFAN();
+//		loginOOCC(driver);
+//		sleep(15000);
+//		cc.irAConsolaFAN();	
+//		driver.switchTo().defaultContent();
+//		sleep(6000);
 	}
 		
 	//@BeforeClass (alwaysRun = true)
@@ -85,7 +92,7 @@ public class Nominacion extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod(alwaysRun=true)
+	//@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -104,7 +111,7 @@ public class Nominacion extends TestBase {
 	
 	@Test(groups = {"Sales", "Nominacion","E2E","Ciclo1"}, dataProvider="DatosSalesNominacionNuevoOfCom") 
 	public void TS85094_CRM_Movil_REPRO_Nominatividad_Cliente_Nuevo_Presencial_DOC_OfCom(String sLinea, String sDni, String sNombre, String sApellido, String sSexo, String sFnac, String sEmail, String sProvincia, String sLocalidad, String sCalle, String sNumCa, String sCP) { 
-		imagen = "85094-Nominacion"+sDni;
+		/*imagen = "85094-Nominacion"+sDni;
 		detalles = null;
 		detalles = imagen +"-Linea: "+sLinea;
 		sleep(1000);
@@ -152,7 +159,7 @@ public class Nominacion extends TestBase {
 		Assert.assertTrue(a);
 		driver.findElement(By.id("FinishProcess_nextBtn")).click();
 		sleep(3000);
-		invoSer.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
+		invoSer.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");*/
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "Nominacion", "Ciclo1"},dataProvider = "DatosSalesNominacionNuevoPasaporteOfCom")

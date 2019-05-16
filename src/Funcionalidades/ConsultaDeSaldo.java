@@ -29,9 +29,10 @@ public class ConsultaDeSaldo extends TestBase {
 	private Marketing mk;
 	private CBS cbs;
 	private CBS_Mattu cbsm;
+	private GestionDeClientes_Fw ges;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
-	LoginFw log;
+	private LoginFw log;
 	String detalles;
 	
 	
@@ -39,45 +40,50 @@ public class ConsultaDeSaldo extends TestBase {
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
+		ges = new GestionDeClientes_Fw(driver);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
-		log.loginOOCC();
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.loginOOCC();
 		sleep(15000);
 		cc.irAConsolaFAN();	
+		
 	}
 		
 	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
+		ges = new GestionDeClientes_Fw(driver);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginTelefonico();
-		sleep(15000);
-		cc.irAConsolaFAN();
+		ges.irAConsolaFAN();
 	}
 	
 	//@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
+		ges = new GestionDeClientes_Fw(driver);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginAgente();
-		sleep(15000);
-		cc.irAConsolaFAN();
+		ges.irAConsolaFAN();
 	}
 	
 	@BeforeMethod(alwaysRun=true)
@@ -109,8 +115,7 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134373_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_OOCC(String sDNI, String sLinea, String sAccountKey) {
 		imagen ="TS134373";
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -125,18 +130,19 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134376_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_OOCC(String sDNI, String sLinea, String sAccountKey) {
 		imagen ="TS134376";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(10000);
+		ges.BuscarCuenta("DNI", sDNI);
+		sleep(8000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
 		Integer saldoEnCard = Integer.parseInt(saldo);
-		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalOutStandAmt");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "arc:TotalAmount");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 4));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
 	
@@ -146,8 +152,7 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134811_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134811";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -162,18 +167,19 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134813_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134813";		
 		detalles = imagen + " -Consulta de saldo - DNI: " + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
+		ges.BuscarCuenta("DNI", sDNI);
+		sleep(8000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
-		Integer saldoEnCard = Integer.parseInt(saldo);	
-		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalOutStandAmt");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		Integer saldoEnCard = Integer.parseInt(saldo);
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "arc:TotalAmount");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 4));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
 	
@@ -183,8 +189,7 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134814_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_FAN_Front_Agentes(String sDNI, String sLinea, String sAccountKey){
 		imagen = "TS134814";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -199,18 +204,19 @@ public class ConsultaDeSaldo extends TestBase {
 	public void TS134815_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_Agentes(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134815";
 		detalles = imagen + "Consulta de saldo -DNI:" + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
+		ges.BuscarCuenta("DNI", sDNI);
+		sleep(8000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
-		Integer saldoEnCard = Integer.parseInt(saldo);	
-		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalOutStandAmt");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		Integer saldoEnCard = Integer.parseInt(saldo);
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "arc:TotalAmount");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 4));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
 

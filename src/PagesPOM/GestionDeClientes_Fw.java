@@ -27,11 +27,17 @@ import Tests.TestBase;
 
 public class GestionDeClientes_Fw extends BasePageFw {
 
-//ELEMENTOS 
+//------------------------------------------------------------Listado Ambientes---------------------------------------------------------------------------
+	
+	String[] listaAmbientes = {"sit02","uat02"};
+	
+//------------------------------------------------------------ELEMENTOS---------------------------------------------
 	
 	final String locator_cerrarPanelDerecho= "[class='x-layout-split x-layout-split-east x-splitbar-h']";
 	@FindBy (css= locator_cerrarPanelDerecho)
 	private WebElement cerrarPanelDerecho;
+
+	
 	
 	final String locator_menuAplicaciones= "tsidLabel";
 	@FindBy (id= locator_menuAplicaciones)
@@ -53,8 +59,8 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	@FindBy(how= How.ID, using =locator_DNIbuscador)
 	private WebElement DNIbuscador;
 	
-	final String ref_CajonDeAplicaciones= "menuButton menuButtonRounded appSwitcher"; 
-	@FindBy (xpath = ref_CajonDeAplicaciones)
+	final String ref_CajonDeAplicaciones= "[class='menuButton menuButtonRounded appSwitcher']"; 
+	@FindBy (css = ref_CajonDeAplicaciones)
 	private WebElement cajonDeAplicaciones;
 
 	final String ref_aplicaciones= "menuButtonMenu menuWidthExtended"; 
@@ -108,8 +114,12 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	@FindBy (how = How.CSS, using = locator_BotonesInf)
 	private WebElement botonesInf ;
 	
+	final String locator_razonSocial = "[class='slds-tree__item ng-scope']";
+	@FindBy (how = How.CSS, using = locator_razonSocial)
+	private WebElement razonSocial ;
+	
 			
-//CONTRUCTOR
+//-------------------------------------------------------------------CONTRUCTOR
 	public GestionDeClientes_Fw(WebDriver driver) {
 		super(driver);
 		super.setDriver(driver);
@@ -125,7 +135,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 
 	}
 	
-//METODOS
+//--------------------------------------------------------------------METODOS
 	
 	public WebElement getTipoDoc() {
 		driver.switchTo().frame(cambioFrame(By.id(locator_TipoDoc)));
@@ -133,7 +143,6 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		
 		return tipoDoc;
 	}	
-
 
 	public void setMenuIzq(WebElement menuIzq) {
 		MenuIzq = menuIzq;
@@ -150,17 +159,34 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		return elementosCajon;
 	}
 	
-	public void cajonDeAplicaciones(String nombreVisible) {
+	public void irConsolaFanSit02() {
 		driver.switchTo().defaultContent();
 		 getCajon().click();
-		if(!super.containText(this.getElementosCajon(), nombreVisible )) {
-			 getCajon().click();
+		if(!super.macheaText(this.getElementosCajon(), "Consola FAN" )) {
 			System.out.println("no hace  falta  cambiar");
 		}else{
-			super.getBuscarElementoPorText(this.getElementosCajon(), nombreVisible).click();
+			super.getBuscarElementoPorText(this.getElementosCajon(), "Consola FAN").click();
 		};
 	}
-		
+	
+	public void irConsolaFanUat02(){
+		 fluentWait.until(ExpectedConditions.elementToBeClickable(menuAplicaciones));
+			if (driver.findElement(By.id("tsidLabel")).getText().equalsIgnoreCase("Consola FAN")) {
+				fluentWait.until(ExpectedConditions.elementToBeClickable(volverFan));
+				driver.findElement(By.id("BackToServiceDesk_Tab")).click();
+			} else {
+				fluentWait.until(ExpectedConditions.elementToBeClickable(cajonDeAplicaciones));
+				driver.findElement(By.cssSelector(ref_CajonDeAplicaciones)).click();
+				fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(ref_aplicaciones), 0));
+				for (WebElement x : driver.findElement(By.cssSelector(ref_aplicaciones))
+						.findElements(By.tagName("a"))) {
+					if (x.getText().equalsIgnoreCase("Consola FAN")) {
+						x.click();
+					}
+				}
+			}
+	 }
+	
 	public void cerrarPestaniaGestion(WebDriver driver) {//copiado de SalesBase Cierra todas las pesta�as de gestion
 		driver.switchTo().defaultContent();
 		try{
@@ -178,21 +204,19 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		
 	}
 	
-	
 	public void clickMenuIzq() {
 		driver.switchTo().defaultContent();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(MenuIzq));
-		//System.out.println("x= "+MenuIzq.getLocation().getX()+"y= "+MenuIzq.getLocation().getY());
 		super.getAction().moveToElement(MenuIzq).moveByOffset(MenuIzq.getLocation().getX()+110, MenuIzq.getLocation().getY()-90).click().build().perform();
 		super.getEjecutorJavaScipt().executeScript("arguments[0].click();", this.MenuIzq);
 		
 	}
 	
-	
 	public void selectMenuIzq(String opcionVisible) {
 		clickMenuIzq();
 		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(this.locator_listaMenuIzq), 0));
 		try{
+			fluentWait.until(ExpectedConditions.elementToBeClickable(listaMenuIzq.get(0)));
 			super.getBuscarElementoPorText(listaMenuIzq, opcionVisible).click();
 		}catch(Exception e) {
 			System.out.println("no se encuentra elemento verificar que coincida con el texto visible");
@@ -200,23 +224,38 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public void irGestionClientes() {
-		TestBase tb = new TestBase();
+
 		driver.switchTo().defaultContent();
 		switchToFrameBySrc("/home/home.jsp?i");
-		switchToFrameBySrc("https://telecomcrm--uat02-");
+		switch (this.getIndexAmbienteForList()) {
+		case 0:
+			switchToFrameBySrc("https://telecomcrm--sit02--c.cs91.visual.force.com/a");
+			System.out.println("Gestion Clinete Sit02");
+			break;
+		case 1:
+			switchToFrameBySrc("https://telecomcrm--uat02-");
+			System.out.println("Gestion cliente Uat");
+			break;
+
+		}
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]")));
 		driver.findElement(By.xpath("//button[contains(text(),'Gesti')]")).click();
-		tb.sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
 	}
 	
 	public void BuscarCuenta(String Type, String NDNI){
+		driver.switchTo().defaultContent();
+		TestBase tb = new TestBase();
+		tb.sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
 		getSelect(DNIbuscador).selectByVisibleText(Type);
 		DNI.sendKeys(NDNI);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_BtnBuscar)));
 		BtnBuscar.click();
-
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locator_razonSocial)));
+		razonSocial.click();
+		driver.switchTo().defaultContent();
 	}
+
 	public void BuscarCuentaConLinea(String Type, String NDNI, String numlinea){//modificar para que funcione
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
 		getSelect(DNIbuscador).selectByVisibleText(Type);
@@ -225,6 +264,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		BtnBuscar.click();
 
 	}
+
 	public void cerrarPanelDerecho() throws AWTException {		
 		driver.switchTo().defaultContent();
 		fluentWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(locator_cerrarPanelDerecho)));
@@ -238,20 +278,6 @@ public class GestionDeClientes_Fw extends BasePageFw {
 
 		}
 	}
-	public void cerrarPanelDerecho2() throws AWTException {		
-		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}		
-		driver.switchTo().defaultContent();
-		//fluentWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(locator_cerrarPanelDerecho)));
-		Robot robot = new Robot();																									
-		WebElement boton  = driver.findElement(By.cssSelector(".x-layout-split.x-layout-split-east.x-splitbar-h"));		//SELECCIONA LA BARRA PARA HACERLA VISIBLE
-		robot.mouseMove((int) (boton.getLocation().getX()*1.01),(int) (boton.getLocation().getY()*4));					// SE MUEVE A LA POSICION 
-		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}	
-		if(boton.getAttribute("class").compareTo("x-layout-split x-layout-split-east x-splitbar-h x-layout-split-over")==0) {//VERIFICA QUE ESTE SELECCIONADO Y VISIBLE
-			robot.mousePress(InputEvent.BUTTON1_MASK);
-			robot.mouseRelease(InputEvent.BUTTON1_MASK);																	//HACE CLICK PARA COLAPSAR EL PANEL
-			try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}	
-		}
-	}
 	
 	public void switchToFrameBySrc(String src) {//el Ruben ZAPE!!
 		WebElement frame = fluentWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("iframe[src*='"+src+"']")));
@@ -261,22 +287,50 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		driver.switchTo().frame(frame);
 	}
 	
-	public void irAConsolaFAN() {//el Nico Manda!!
-		driver.switchTo().defaultContent();
-		fluentWait.until(ExpectedConditions.elementToBeClickable(menuAplicaciones));
-		if (driver.findElement(By.id("tsidLabel")).getText().equalsIgnoreCase("Consola FAN")) {
-			fluentWait.until(ExpectedConditions.elementToBeClickable(volverFan));
-			driver.findElement(By.id("BackToServiceDesk_Tab")).click();
-		} else {
-			fluentWait.until(ExpectedConditions.elementToBeClickable(cajonDeAplicaciones));
-			driver.findElement(By.cssSelector(ref_CajonDeAplicaciones)).click();
-			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(ref_aplicaciones), 0));
-			for (WebElement x : driver.findElement(By.cssSelector(ref_aplicaciones)).findElements(By.tagName("a"))) {
-				if (x.getText().equalsIgnoreCase("Consola FAN")) {
-					x.click();
-				}
+	private int getIndexAmbienteForList() {
+		//compara la url con el listado de ambientes retorna el numero de Ambiente(ese listado esta al comienzo de la clase y funciona de acuerdao al orden de insercion)
+		String url =driver.getCurrentUrl().toLowerCase();
+		int index =0;
+		int resp =0;
+		for(String ambiente : listaAmbientes ) {
+			if(url.contains(ambiente)) {
+				resp= index;
+			}else {
+				index ++;
 			}
 		}
+		return resp;
+	}
+	
+	public void irAConsolaFAN() {//el Nico Manda!!
+		switch (this.getIndexAmbienteForList()) {
+		case 0:
+			irConsolaFanSit02();
+			//System.out.println("consola Sit02");
+			break;
+		case 1:
+			irConsolaFanUat02();
+			//System.out.println("consola Uat");
+			break;
+
+		}		
+	}
+	
+	public void irAGestionEnCard(String sGestion) {
+		driver.switchTo().defaultContent();
+		switchToFrameBySrc("/apex/vlocity_cmt__ConsoleCards?Id=0010r000008A9jg&layout=ta-console-services&");
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='card-top']")));
+		WebElement card = driver.findElement(By.cssSelector("[class='card-top']"));
+		card.click();
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='community-flyout-actions-card'] ul li"), 0));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='card-info'] [class='actions'] li"), 0));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class*='slds-grid slds-grid--vertical slds-align-middle'] [class='items-card ng-not-empty ng-valid'] [class='slds-col'] button"), 0));
+		List<WebElement> elementos = driver.findElements(By.cssSelector("[class='card-info'] [class='actions'] li"));
+		elementos.addAll(driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li")));
+		elementos.addAll(driver.findElements(By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class*='slds-grid slds-grid--vertical slds-align-middle'] [class='items-card ng-not-empty ng-valid'] [class='slds-col'] button")));
+		System.out.println(clickElementoPorText(elementos, sGestion));
+		driver.switchTo().defaultContent();
+
 	}
 	
 	

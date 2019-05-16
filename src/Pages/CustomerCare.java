@@ -1679,7 +1679,7 @@ public class CustomerCare extends BasePage {
 	public String obtenerOrden(WebDriver driver, String gestion) {
 		driver.navigate().refresh();
 		sleep(18000);
-		panelIzquierdo();
+		//panelIzquierdo();
 		List<WebElement> wStoryContainer = driver.findElements(By.className("story-container"));
 		for (WebElement wAux : wStoryContainer) {
 			if (wAux.findElement(By.cssSelector(".slds-text-body_regular.story-title")).getText().equalsIgnoreCase(gestion)) {
@@ -1798,14 +1798,16 @@ public class CustomerCare extends BasePage {
 	//================================================================================Metodos=====Angel=============================================================================
 	public void seleccionDeHistorial(String sRecarga) {
 		TestBase TB = new TestBase();
-		WebElement historialDeRecargas = null;
+		WebElement historial = null;
 		driver.switchTo().frame(TB.cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
 		for (WebElement x : driver.findElements(By.className("slds-card"))) {
-			if (x.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText().toLowerCase().equalsIgnoreCase(sRecarga)) {
-				historialDeRecargas = x;
+			String titulo = x.findElement(By.tagName("header")).findElement(By.tagName("h2")).getText().toLowerCase();
+			if (titulo.equalsIgnoreCase(sRecarga)) {
+				historial = x;
+				((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+ x.getLocation().y+" )");
 			}
 		}
-		historialDeRecargas.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		historial.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
 		sleep(8000);
 	}
 	

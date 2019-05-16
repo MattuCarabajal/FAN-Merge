@@ -413,7 +413,7 @@ public class TechnicalCareCSRDiagnosticoPage extends BasePage{
 	      		for (WebElement opt : getPreguntas()) {
 	      			if (opt.getText().equalsIgnoreCase(categoria)) {
 	      				scrollToElement(opt);
-	      				sleep(3000);
+	      				//sleep(3000);
 	      				opt.click();
 	      						break;
 	      						

@@ -35,6 +35,7 @@ public class Ajustes extends TestBase {
 	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	private GestionDeClientes_Fw ges;
 	String detalles;
 	
 	
@@ -47,10 +48,9 @@ public class Ajustes extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
-		log.loginOOCC();
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges = new GestionDeClientes_Fw(driver);
+		log.loginAgente();
+		ges.irAConsolaFAN();
 	}
 		
 	@BeforeClass (groups = "PerfilTelefonico")
@@ -62,13 +62,13 @@ public class Ajustes extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
-		log.loginTelefonico();
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges = new GestionDeClientes_Fw(driver);
+		log.loginAgente();
+		ges.irAConsolaFAN();
+		
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -77,13 +77,12 @@ public class Ajustes extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginAgente();
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups = "PerfilBackOffice")
+	//@BeforeClass (groups = "PerfilBackOffice")
 		public void initBackOffice() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -92,10 +91,9 @@ public class Ajustes extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		log.loginBackOffice();
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges.irAConsolaFAN();	
 	}
 	
 	@BeforeMethod (alwaysRun = true)
@@ -128,8 +126,7 @@ public class Ajustes extends TestBase {
 	public void Gestion_Ajustes_Credito_Pospago(String sDNI, String sLinea) {
 		imagen = "Gestion_Ajustes_Credito_Pospago";
 		boolean gest = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -179,8 +176,7 @@ public class Ajustes extends TestBase {
 		String datoViejo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		Integer datosInicial = Integer.parseInt(datoViejo);
 		boolean gest = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos");
 		sleep(10000);
@@ -234,8 +230,7 @@ public class Ajustes extends TestBase {
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		boolean gest = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(20000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -289,8 +284,7 @@ public class Ajustes extends TestBase {
 		String datoViejo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Segundos Libres");
 		Integer datosInicial = Integer.parseInt(datoViejo);
 		boolean gest = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -344,8 +338,7 @@ public class Ajustes extends TestBase {
 		String datoViejo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "SMS Libres");
 		Integer datosInicial = Integer.parseInt(datoViejo);
 		boolean gest = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -400,8 +393,7 @@ public class Ajustes extends TestBase {
 		String datoViejo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		Integer datosInicial = Integer.parseInt(datoViejo);
 		boolean gest = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -442,8 +434,7 @@ public class Ajustes extends TestBase {
 	public void TS112438_CRM_Movil_PRE_Ajuste_Cargos_aun_no_facturados_FAN_Front_OOCC(String sDNI) {
 		imagen = "TS112438";
 		detalles = imagen + " -Ajustes - DNI: " + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -465,8 +456,7 @@ public class Ajustes extends TestBase {
 	public void TS112452_CRM_Movil_PRE_Ajuste_Nota_de_Credito_Derivacion_a_rango_superior_1900_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS112452";
 		boolean gest = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -514,8 +504,7 @@ public class Ajustes extends TestBase {
 	public void TS129317_CRM_Movil_REPRO_Ajuste_RAV_Unidades_Libres_a_Pesos_General_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS129317";
 		WebElement monto = null;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -552,8 +541,7 @@ public class Ajustes extends TestBase {
 		imagen = "TS129320";
 		boolean gest = false;
 		WebElement monto = null;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -609,8 +597,7 @@ public class Ajustes extends TestBase {
 	public void TS135705_CRM_Movil_PRE_Ajuste_RAV_Unidades_Libres_a_Pesos_General_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS135705";
 		WebElement monto = null;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -647,8 +634,7 @@ public class Ajustes extends TestBase {
 	public void TS135706_CRM_Movil_PRE_Ajuste_Nota_de_Credito_FAN_Front_OOCC_Punta_Alta(String sDNI, String sLinea) {
 		imagen = "TS135706";
 		boolean gest = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -695,8 +681,7 @@ public class Ajustes extends TestBase {
 	public void TS135707_CRM_Movil_PRE_Ajuste_Nota_de_Debito_FAN_Front_OOCC_Bariloche(String sDNI, String sLinea) {
 		imagen = "TS135707";
 		boolean gest = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -748,8 +733,7 @@ public class Ajustes extends TestBase {
 		String datoViejo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Segundos Libres");
 		Integer datosInicial = Integer.parseInt(datoViejo);
 		boolean gest = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -803,8 +787,7 @@ public class Ajustes extends TestBase {
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		boolean gestion = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -848,8 +831,7 @@ public class Ajustes extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		System.out.println(datosInicial);
 		boolean gestion = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -935,10 +917,9 @@ public class Ajustes extends TestBase {
 	public void TS121138_CRM_Movil_REPRO_Ajuste_Credito_FAN_Front_Telefonico_BO(String sDNI, String sLinea) {
 		imagen = "TS121138";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosInicial = Integer.parseInt(datoViejo);
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		boolean gest = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(20000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -990,8 +971,7 @@ public class Ajustes extends TestBase {
 	public void TS121333_CRM_Movil_PRE_Ajuste_total_de_comprobantes_FAN_Front_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS121333";
 		boolean gest = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -1030,8 +1010,7 @@ public class Ajustes extends TestBase {
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		boolean gestion = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
@@ -1068,6 +1047,7 @@ public class Ajustes extends TestBase {
 		Assert.assertTrue(gestion);
 		String caso = nroCaso.findElement(By.cssSelector(".vlc-slds-inline-control__label.ng-binding")).getText();
 		caso = caso.substring(caso.indexOf("0"), caso.length());
+		sleep(5000);
 		CambiarPerfil("backoffice", driver);
 		driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
 		sleep(15000);
@@ -1111,10 +1091,10 @@ public class Ajustes extends TestBase {
 	public void TS135376_CRM_Movil_Prepago_Otros_Historiales_Historial_de_ajustes_Seleccion_de_Fechas_Ajuste_positivo_FAN_Front_Telefonico(String sDNI, String sLinea) throws ParseException {
 		imagen = "TS135376";
 		boolean verificarFecha = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(10000);
+		ges.BuscarCuenta("DNI", sDNI);
+		sleep(20000);
 		cc.irAHistoriales();
+		sleep(5000);
 		WebElement historialDeAjustes = null;
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
 		for (WebElement x : driver.findElements(By.className("slds-card"))) {
@@ -1142,13 +1122,12 @@ public class Ajustes extends TestBase {
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
-	@Test (groups = "PerfilAgente", dataProvider = "CuentaAjustesPRE")
+	@Test (groups = "PerfilAgente", dataProvider = "RecargasHistorias")
 	public void TS135380_CRM_Movil_Prepago_Otros_Historiales_Historial_de_ajustes_Ordenamiento_por_Motivo_de_ajuste_FAN_Front_Agente(String sDNI, String sLinea) throws ParseException {
 		imagen = "TS135380";
 		boolean verificarFecha = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(10000);
+		ges.BuscarCuenta("DNI", sDNI);
+		sleep(15000);
 		cc.irAHistoriales();
 		WebElement historialDeAjustes = null;
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
@@ -1183,8 +1162,7 @@ public class Ajustes extends TestBase {
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		System.out.println(datosInicial);
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
 		sleep(10000);
