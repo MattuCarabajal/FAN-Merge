@@ -89,6 +89,26 @@ public class BasePageFw {
 			if(x.getText().contains(parametroBusqueda)) {
 				aux=true;
 				getFluentWait().until(ExpectedConditions.elementToBeClickable(x));
+				
+				x.click();
+				break;
+			}
+		}
+		return aux;
+		 
+		
+	}
+	
+	public boolean clickElementoPorTextExacto(List<WebElement> listado, String parametroBusqueda){
+		//filtra por texto y retorna un elemento web 
+		//System.out.println(listado.size());
+		boolean aux = false;
+		for (WebElement x : listado) {
+			
+			//System.out.println(x.getText()+"<--------------->"+parametroBusqueda);
+			if(x.getText().equalsIgnoreCase(parametroBusqueda)) {
+				aux=true;
+				getFluentWait().until(ExpectedConditions.elementToBeClickable(x));//hay que esperar porque a veces no le puede hacer click aunque este como elemento en la lista
 				x.click();
 				break;
 			}
