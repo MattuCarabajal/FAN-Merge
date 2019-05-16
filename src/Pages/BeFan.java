@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -64,6 +65,7 @@ public class BeFan extends BasePage{
 
 	//*********************************CONSTRUCTOR******************************************************//
 	static WebDriver driver;
+	TestBase tst = new TestBase();
 	
 	public BeFan(WebDriver driver){
 		this.driver = driver;
@@ -181,6 +183,109 @@ public class BeFan extends BasePage{
 	
 	//Metodos locos
 	
+	public String buscarUltimoArchivo() {
+		File folder = new File("C:\\New_Download");
+		File[] listOfFiles = folder.listFiles();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd_MM_yyyy hh_mm_ss");
+		int i = 0;
+		Instant elMejor = null;
+		String elMejorNombre = "";
+		int cont = 0;
+		for (File x : listOfFiles) {
+			if (x.getName().contains("PREACTIVACIONES DIARIAS ")) {
+				String[] part1 = x.getAbsolutePath().split("\\\\");
+				cont = part1.length;
+				String[] part2 = part1[cont-1].split("\\.");
+				String[] part3 = part2[0].split("PREACTIVACIONES DIARIAS ");
+				String[] part4 = part3[1].split("  ");
+				String[] part5 = part4[0].split("_");
+				String[] part6 = part4[1].split("_");
+				i = 0;
+				for (String y : part5) {
+					if (i==2) {
+					} else {
+						if (y.length()==1) {
+							part5[i] = "0" + part5[i];
+						}
+					}
+					i = i + 1;
+				}
+				i = 0;
+				
+				for (String y : part6) {
+					if (y.length()==1) {
+						part6[i] = "0" + part6[i];
+					}
+					i = i + 1;
+				}
+				
+				
+				String fecha = part5[2] + "-" + part5[1] + "-" + part5[0] + "T" + part6[0] + ":" + part6[1] + ":" + part6[2] + "Z"; 
+				
+				Instant instant = Instant.parse(fecha);
+				if (elMejor==null) {
+					elMejor = instant;
+					elMejorNombre = x.getAbsolutePath();
+				} else {
+					if (instant.compareTo(elMejor)>0) {
+						elMejor=instant;
+						elMejorNombre = x.getAbsolutePath();
+					}
+				}
+			}
+		}
+		if (elMejor==null) {
+			return "No hay archivos descargados con el nombre buscado";
+		}
+		
+		return (elMejorNombre);
+	}
+	
+	public boolean corroborarArchivo (String path) {
+		boolean resultado = false;
+		boolean algoFallo = false;
+		int i = 0;
+		try {
+			BufferedReader in;
+			in = new BufferedReader(new FileReader(path));
+			String readLine = "";
+			while ((readLine = in.readLine()) != null) {
+				if (i==1) {
+				      if (readLine.equals("<thead>")) {
+				      } else {
+				    	  algoFallo = true;
+				      }
+				} else {
+					if (i==11) {
+					      if (readLine.equals("</thead>")) {
+					      } else {
+					    	  algoFallo = true;
+					      }
+					} else {
+						if ((i-12) % 10==0) {
+						      if (readLine.equals("<tbody>")) {
+						      } else {
+						    	  if (readLine.equals("</tbody>")) {
+						    	  } else {
+							    	  algoFallo = true;
+						    	  }
+						      }
+							}
+						}
+					}
+				i = i + 1;
+				}
+			resultado = true;
+			in.close();
+		} catch (Exception e) {
+			return false;
+		}
+		if (algoFallo==true) {
+			return false;
+		}
+		return resultado;
+	}
+	
 	public String soyEzpesial(String caso) throws Exception{
 		
 		File folder = new File("C:\\BefanArchivos\\salida");
@@ -225,8 +330,77 @@ public class BeFan extends BasePage{
 		return finalmente;		
 	}
 	
+	public List<String> SGDatosArchivos() {
+		List <String> resultado = new ArrayList<String>();
+		int h = 1;
+		int i = 1;
+		int k = 1;
+		SGTablaVisible();
+		int paginas = SGTablaCantPaginas();
+		//Lo inicio con cualquier saraza para que quede vacio y no nulo
+		
+		for (h = 1; h <= paginas; h++) {
+			if(paginas==1) {
+			} else {
+				SGTablaSigPag();
+			}
+			List <WebElement> columnasEnPagina = driver.findElements(By.xpath("//*[@id=\"exportarTabla\"]/thead/tr/th"));
+			List <WebElement> elementosEnPagina = driver.findElements(By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr"));							
+			for(i = 1; i <= elementosEnPagina.size(); i++) {
+				for (k = 1; k <= columnasEnPagina.size(); k++) {
+					resultado.add(driver.findElement(By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr[" + i +"]/td[" + k + "]")).getText());
+				}
+			}
+			i = 1;
+			elementosEnPagina = null;
+		}
+//		for (i = 1; i <=resultado.size();i++) {
+//			System.out.println(resultado.get(i-1));
+//		}
+		
+		return (resultado);
+	}
 
+	//Log in
 	
+	public void andaAlMenu(String opcion, String subopcion) {
+		WebElement menu2 = null;
+		
+		tst.waitForClickeable(driver, By.xpath("/html/body/div[1]/div[1]/div/div[3]/div[2]/div/div/ul/li[3]/a"));
+		List <WebElement> menu = driver.findElements(By.className("dropdown-toggle"));
+		for (WebElement x : menu) {
+				if (x.getText().toLowerCase().contains(opcion)) {
+					x.click();
+					break;
+				}
+		}
+		
+		
+		tst.waitForVisible(driver, By.className("tpt-bg-subMenu"), 5);
+		for (WebElement y : driver.findElements(By.className("col-sm-4"))) {
+			if (y.getAttribute("ng-show").equals("headerCtrl.container.hasAccess(['sims_importacion', 'sims_gestion'])"))
+				menu2 = y;
+		}
+		
+		switch(subopcion) {
+		case "importacion":
+			try {
+				for (WebElement x : menu2.findElements(By.tagName("a"))) {
+					if (x.getText().toLowerCase().contains("importaci\u00f3n")) {
+						x.click();
+					}
+				}			
+			} catch(Exception e) {}
+		case "gestion":
+			try {
+				for (WebElement x : menu2.findElements(By.tagName("a"))) {
+					if (x.getText().toLowerCase().contains("gesti\u00f3n")) {
+						x.click();
+					}
+				}
+			} catch(Exception e) {}
+		}
+	}
 	
 	//Menu Simcard-Importacion
 	public void SISeleccionDeDeposito(String deposito) {
@@ -451,6 +625,155 @@ public class BeFan extends BasePage{
 		sleep(500);		
 	}
 	
+	public void SGTablaSigPag() {
+		tst.waitForVisible(driver, By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[2]/ul/button[3]"), 10);
+		int paginaActual = SGTablaPagActual();
+		int paginaTotal = SGTablaCantPaginas();
+		driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[2]/ul/button[3]")).click();
+		tst.waitForVisibleWithText(driver, By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[1]/div/div[2]"), "P\\u00e1gina " + (paginaActual+1) + "/" + paginaTotal, 10);
+	}
+	
+	public int SGTablaPagActual() {
+		List<WebElement> AUX = driver.findElements(By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[1]/div/div[2]/label"));
+		if(AUX.isEmpty()) {
+			return(0);
+		} else {
+			String[] AUX2 = AUX.get(0).getText().split("/");
+			String[] cant = AUX2[0].split(" ");
+			return(Integer.parseInt(cant[1]));
+		}
+	}
+	
+	public boolean SGValidarResultado (List<String> input, int indice, int CantidadDeColumnas, String resultadoEsperado) {
+		boolean resultado = false;
+		List <String> resultados = new ArrayList<String>();
+		int i = 1;
+		for (String x: input) {
+			if (i==indice) {
+				if (x.equals(resultadoEsperado)) {
+					resultados.add("ok");
+				} else {
+					resultados.add("no macho, no funco");
+				}
+				
+			}
+			i = i + 1;
+			if (CantidadDeColumnas==i) {
+				i = 0;
+			}
+		}
+		
+		if (resultados.isEmpty()) {
+			
+		} else {
+			for (String x: resultados) {
+				resultado = true;
+				if (x.equals("no macho, no funco")) {
+					resultado = false;
+				}
+			}
+		}
+		return resultado;
+	}
+	
+	public void SGFechaDesde(String yyyyMMdd) {
+		String[] fecha = new String[3];
+		fecha[2] = yyyyMMdd.substring(0, 4);
+		fecha[1] = yyyyMMdd.substring(4, 6);
+		fecha[0] = yyyyMMdd.substring(6, 8);
+		String izquierda = Keys.chord(Keys.ARROW_LEFT);
+		String borrar = Keys.chord(Keys.BACK_SPACE);
+		tst.waitForClickeable(driver, By.id("dataPickerDesde"));
+		driver.findElement(By.id("dataPickerDesde")).click();
+		driver.findElement(By.id("dataPickerDesde")).sendKeys(borrar + borrar + borrar + borrar + fecha[2] + izquierda + izquierda + izquierda + izquierda + izquierda + borrar + borrar + fecha[1] + izquierda + izquierda + izquierda + borrar + borrar + fecha[0]);	
+	}
+	
+	public void SGFechaHasta(String yyyyMMdd) {
+		String[] fecha = new String[3];
+		fecha[2] = yyyyMMdd.substring(0, 4);
+		fecha[1] = yyyyMMdd.substring(4, 6);
+		fecha[0] = yyyyMMdd.substring(6, 8);
+		String izquierda = Keys.chord(Keys.ARROW_LEFT);
+		String borrar = Keys.chord(Keys.BACK_SPACE);
+		tst.waitForClickeable(driver, By.id("dataPickerHasta"));
+		driver.findElement(By.id("dataPickerHasta")).click();
+		driver.findElement(By.id("dataPickerHasta")).sendKeys(borrar + borrar + borrar + borrar + fecha[2] + izquierda + izquierda + izquierda + izquierda + izquierda + borrar + borrar + fecha[1] + izquierda + izquierda + izquierda + borrar + borrar + fecha[0]);	
+	}
+	
+	public boolean SGValidarFechas (String fechaDesde, String fechaHasta, List<String> fechaActual, int indice, int CantidadDeColumnas) {
+		List<String> resultados = new ArrayList<String>();
+		boolean resultado = false;
+		SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
+		int i = 1;
+		try {
+			Date dateDesde = formatter.parse(fechaDesde);
+			Date dateHasta = formatter.parse(fechaHasta);
+			for (String x: fechaActual) {
+				if (i == indice) {
+					Date dateActual = formatter.parse(x);
+					if ((dateActual.after(dateDesde) || dateActual.equals(dateDesde)) && dateActual.before(dateHasta)) {
+						resultados.add("ok");
+					} else {
+						resultados.add("hola bebe");
+					}
+				}
+				
+				if (i == CantidadDeColumnas) {
+					i = 0;
+				}
+				i = i + 1;
+			}
+					
+		} catch (ParseException e) {
+			resultados.add("hola bebe");
+		}
+		
+		if (resultados.isEmpty()) {
+			resultado = false;
+		} else {
+			resultado = true;
+			for (String y: resultados) {
+				if (y.equals("hola bebe")) {
+					resultado = false;
+				}
+			}
+		}
+
+		return resultado;
+	}
+	
+	public List<WebElement> SGColumnas() {
+		tst.waitForVisible(driver, By.xpath("//*[@id=\"exportarTabla\"]/thead/tr/th"), 10);
+		List <WebElement> resultado = driver.findElements(By.xpath("//*[@id=\"exportarTabla\"]/thead/tr/th"));
+		return resultado;
+	}
+	
+	public void SGVerDetalleBotonExportar() {
+		tst.waitForClickeable(driver, By.id("botonExportar"));
+		driver.findElement(By.id("botonExportar")).click();
+	}
+	
+	public List<WebElement> SGVerDetalleColumnas() {
+		tst.waitForVisible(driver, By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/table/thead/tr/th"), 10);
+		List <WebElement> resultado = driver.findElements(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/table/thead/tr/th"));
+		return resultado;
+	}
+	
+	public void SGClickVerDetalle(int indicador) {
+		tst.waitForClickeable(driver, By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr[" + indicador + "]/td[9]/button"));
+		driver.findElement(By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr[" + indicador + "]/td[9]/button")).click();
+	}
+	
+	public int SGTablaCantPaginas() {
+		List<WebElement> AUX = driver.findElements(By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[1]/div/div[2]/label"));
+		String[] cant = AUX.get(0).getText().split("/");
+		if(cant[0].equals("")) {
+			return(1);
+		} else {
+			return(Integer.parseInt(cant[1]));
+		}
+	}
+	
 	public boolean SGLeerCampoYValidar(String nombreArch, String[] listaEstados, String[] listaResultados) {
 	boolean resultado = false;
 	int cont = 0;
@@ -496,6 +819,10 @@ public class BeFan extends BasePage{
 		}
 		}
 	return resultado;
+	}
+	
+	public void SGTablaVisible () {
+		tst.waitForVisible(driver, By.xpath("//*[@id=\"exportarTabla\"]/thead/tr/th[1]"), 10);
 	}
 	
 	//Menu Cupos-Importacion

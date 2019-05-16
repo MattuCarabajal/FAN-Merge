@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -64,7 +66,9 @@ public class TestBase {
 		
 		public static String urlFlow	= "https://webgestionmoviltesting/default.aspx";
 		
-		public static String urlBeFAN = "http://snapuat.telecom.com.ar/#/home";
+		public static String urlBeFANUAT = "http://snapuat.telecom.com.ar/#/home";
+		
+		public static String urlBeFAN = "https://befantest2.personal.corp/#/signin";
 		
 		public static boolean activarFalsos = true;
 		
@@ -2116,4 +2120,94 @@ public class TestBase {
 			return sleepCambioDeFrame(driver, elementSelector, timeMax, timeAcumulated + 0.200);
 		}
 	}
+	
+	public void loginBeFANVictor(WebDriver driver, String perfil) {
+		driver.get(urlBeFAN);
+	    Login page0 = new Login(driver);
+		waitForClickeable(driver, By.id("containerTxtMail"));
+	    page0.ingresarBeFANVictor(perfil, urlBeFAN);
+	}
+	
+	public Boolean waitForVisible(WebDriver driver, By element, int timeout) {
+		Boolean resultado = false;
+		WebDriverWait wait = new WebDriverWait(driver, timeout);
+		
+		try {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(element));
+		resultado = true;
+		System.out.println("Encontro el elemento " + element.toString());
+		}
+		catch (TimeoutException ex) {
+			resultado = false;
+			System.out.println("No encontro el elemento " + element.toString());
+		}
+		
+		return resultado;
+	}
+	
+	public void waitForVisibleWithText(WebDriver driver, By element, String texto, int timeout) {
+		List <WebElement> tigesito = driver.findElements(element);
+		for(WebElement x : tigesito) {
+			if (x.getText().toLowerCase().equals(texto.toLowerCase())) {
+					new WebDriverWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(element));
+			}
+		}
+		
+	}
+	
+	public String teTraigoLaFecha() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");  
+		LocalDateTime now = LocalDateTime.now(); 
+		String time = dtf.format(now);
+		return time;
+	}
+	public String teTraigoRandomStrings(String NumeroAleatorio) {
+		
+		//Inicializo variables
+		String papito = "";
+		char[] papito3 = {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'};
+		int i = 0;
+		
+		//Guardo cada caracter del string recibido (NumeroAleatorio) y lo guardo en un array de chars llamado papito3
+		NumeroAleatorio.getChars(0, 13, papito3, 0);
+		
+		//Genero en el array de chars de strings (papito4) los valores alterados del array de chars de numeros (papito3)
+		for(i=0;i<14;i++) {
+			switch(papito3[i]) {
+			case '0':
+					papito = papito + 'a';
+					break;
+			case '1':
+				papito = papito + 'b';
+				break;
+			case '2':
+				papito = papito + 'c';
+				break;
+			case '3':
+				papito = papito + 'd';
+				break;
+			case '4':
+				papito = papito + 'e';
+				break;
+			case '5':
+				papito = papito + 'f';
+				break;
+			case '6':
+				papito = papito + 'g';
+				break;
+			case '7':
+				papito = papito + 'h';
+				break;
+			case '8':
+				papito = papito + 'i';
+				break;
+			case '9':
+				papito = papito + 'j';
+				break;
+			}
+		}
+		System.out.println(papito);
+		return papito;
+	}
+	
 }
