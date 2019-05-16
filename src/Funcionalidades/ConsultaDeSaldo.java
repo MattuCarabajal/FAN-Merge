@@ -33,7 +33,6 @@ public class ConsultaDeSaldo extends TestBase {
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	private LoginFw log;
-	private GestionDeClientes_Fw ges;
 	String detalles;
 	
 	
