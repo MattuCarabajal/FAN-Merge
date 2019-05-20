@@ -112,7 +112,7 @@ public class Recargas extends TestBase {
 		imagen = "TS134318";
 		detalles = imagen + "-Recarga-DNI: " + sDNI;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 1));
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
 		System.out.println("datosInicial: " + datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
@@ -132,40 +132,9 @@ public class Recargas extends TestBase {
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		cbsm.Servicio_NotificarPago(caso);
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 1));
+		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
 		System.out.println(datosFinal);
-		
-		
-		
-		
-//		driver.switchTo().defaultContent();
-//		sb.cerrarPestaniaGestion(driver);
-//		String orden = cc.obtenerTNyMonto2(driver, nroOrden);
-//		System.out.println("orden = " + orden);
-//		Assert.assertTrue(cbsm.PagoEnCaja("1006", accID, "1001", orden.split("-")[2], orden.split("-")[1],driver));
-//		
-//		/*sOrders.add("Recargas" + orden + ", cuenta:"+accID+", DNI: " + sDNI +", Monto:"+orden.split("-")[2]);
-//		Assert.assertTrue(cbsm.PagoEnCaja("1006", accID, "1001", orden.split("-")[2], orden.split("-")[1],driver));*/
-//		sleep(5000);
-//		driver.navigate().refresh();
-//		sleep(10000);
-//		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-//		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
-//		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-//		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
-//		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-//		System.out.println("saldo nuevo "+uMainBalance);
-//		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
-//		Integer monto = Integer.parseInt(orden.split("-")[2].replace(".", ""));
-//		monto = Integer.parseInt(monto.toString().substring(0, monto.toString().length()-1));
-//		System.out.println("monto inicial "+iMainBalance);
-//		System.out.println("monto recarga "+monto);
-//		System.out.println("monto uifinal "+uiMainBalance);
-//		monto = iMainBalance+monto;
-//		System.out.println("Sumatoria :"+monto);
-//		Assert.assertTrue(monto == uiMainBalance);
-//		/*CalculoImpuestos CI = new CalculoImpuestos();
-//		System.out.println(CI.determinarCategoriaIVA(driver));*/
+		Assert.assertTrue(datosInicial + 10000 == datosFinal);
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","Recargas","E2E", "Ciclo1"}, dataProvider="RecargaTC")
