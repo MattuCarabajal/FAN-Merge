@@ -107,7 +107,7 @@ public class Recargas extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"GestionesPerfilOficina", "Recargas","E2E","Ciclo1"}, dataProvider = "RecargaEfectivo")
+	@Test (groups = {"PerfilOficina"}, dataProvider = "RecargaEfectivo")
 	public void TS134318_CRM_Movil_REPRO_Recargas_Presencial_Efectivo_Ofcom(String sDNI, String sMonto, String sLinea) {
 		imagen = "TS134318";
 		detalles = imagen + "-Recarga-DNI: " + sDNI;
@@ -137,7 +137,7 @@ public class Recargas extends TestBase {
 		cc.verificarPedido(caso, "activada");
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","Recargas","E2E", "Ciclo1"}, dataProvider="RecargaTC")
+	@Test (groups = {"PerfilOficina"}, dataProvider="RecargaTC")
 	public void TS134319_CRM_Movil_REPRO_Recargas_Presencial_TC_Ofcom(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) {
 		imagen = "TS134319";
 		detalles = imagen + "-Recarga-DNI:" + sDNI;
@@ -171,7 +171,7 @@ public class Recargas extends TestBase {
 		cc.verificarPedido(caso, "activada");
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "Recargas","E2E"}, dataProvider = "RecargaTD")
+	@Test (groups = {"PerfilOficina"}, dataProvider = "RecargaTD")
 	public void TS134320_CRM_Movil_REPRO_Recargas_Presencial_TD_Ofcom(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) {
 		detalles = imagen + "-Recarga-DNI:" + sDNI;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -204,7 +204,7 @@ public class Recargas extends TestBase {
 		cc.verificarPedido(caso, "activada");
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "Recargas","E2E","Ciclo1"}, dataProvider = "RecargaTC")
+	@Test (groups = {"PerfilOficina"}, dataProvider = "RecargaTC")
 	public void TS134330_CRM_Movil_REPRO_Recargas_Presencial_TC_Ofcom_Financiacion(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) {
 		imagen = "TS134330";
 		detalles = imagen + "-Recarga-DNI:" + sDNI;
@@ -240,7 +240,7 @@ public class Recargas extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
-	@Test (groups = {"GestionesPerfilTelefonico", "Recargas","E2E"}, dataProvider = "RecargaTC")  //Error despues de ingresar la tarjeta
+	@Test (groups = {"PerfilTelefonico"}, dataProvider = "RecargaTC")  //Error despues de ingresar la tarjeta
 	public void TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) throws AWTException {
 		imagen= "TS134332";
 		detalles = imagen+"-Recarga-DNI:"+sDNI;
@@ -290,7 +290,7 @@ public class Recargas extends TestBase {
 			
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
-	@Test (groups = {"GestionesPerfilAgente","Recargas","E2E", "Ciclo1"}, dataProvider="RecargaTC")
+	@Test (groups = {"PerfilAgente"}, dataProvider="RecargaTC")
 	public void TS134322_CRM_Movil_REPRO_Recargas_Presencial_TC_Agente(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) {
 		imagen = "TS134322";
 		detalles = imagen + "-Recarga-DNI:" + sDNI;

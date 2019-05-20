@@ -130,11 +130,9 @@ public class ConsultaDeSaldo extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
-		cbs = new CBS();
-		cbsm = new CBS_Mattu();
 		Integer saldoEnCard = Integer.parseInt(saldo);
-		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "arc:TotalAmount");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 4));
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalUsageAmount");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
 	
