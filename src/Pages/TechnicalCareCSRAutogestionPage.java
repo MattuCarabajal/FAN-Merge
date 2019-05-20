@@ -199,6 +199,16 @@ public class TechnicalCareCSRAutogestionPage extends BasePage {
 	
 	public boolean cerrarCaso(String estado, String motivo) {
 		TestBase tb = new TestBase();
+		CustomerCare cc = new CustomerCare(driver);		
+		String caso = "";
+		for (WebElement x : driver.findElements(By.tagName("span"))) {
+			if (x.getText().contains("00")) {
+				caso = x.getText();
+			}
+			break;
+		}
+		caso = caso.substring(caso.indexOf("0"), caso.indexOf("0")+8);
+		cc.buscarCaso(caso);		
 		driver.switchTo().frame(tb.cambioFrame(driver, By.xpath("//*[@id=\"ep\"]")));
 		driver.findElement(By.name("close")).click();
 		sleep(5000);
