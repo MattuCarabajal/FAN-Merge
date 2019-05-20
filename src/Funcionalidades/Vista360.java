@@ -47,7 +47,7 @@ public class Vista360 extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	//@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
