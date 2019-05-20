@@ -245,7 +245,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	public void BuscarCuenta(String Type, String NDNI){
 		driver.switchTo().defaultContent();
 		TestBase tb = new TestBase();
-		tb.sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
+		tb.cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
 		getSelect(DNIbuscador).selectByVisibleText(Type);
 		DNI.sendKeys(NDNI);

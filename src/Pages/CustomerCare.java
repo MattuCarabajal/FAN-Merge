@@ -1839,9 +1839,23 @@ public class CustomerCare extends BasePage {
 	
 	public void verificarStatus(String orden, String estado){
 		Boolean ord = false;
-		WebElement status = driver.findElement(By.id("Case_body")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(1);
-    	if(status.getText().toLowerCase().contains(estado)){
-    		ord = true;
+		List<WebElement> status = driver.findElement(By.id("Case_body")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+		for(WebElement s : status){
+			if(s.getText().toLowerCase().contains(estado)){
+				ord = true;
+			}
+    	}
+    Assert.assertTrue(ord);
+	}
+	public void verificarPedido(String orden, String estado){
+		Boolean ord = false;
+		TestBase tb = new TestBase();
+		driver.switchTo().frame(tb.cambioFrame(driver, By.id("Order_body")));
+		List<WebElement> status = driver.findElement(By.id("Order_body")).findElement(By.tagName("tbody")).findElements(By.tagName("td"));
+		for(WebElement s : status){
+			if(s.getText().toLowerCase().contains(estado)){
+				ord = true;
+			}
     	}
     Assert.assertTrue(ord);
 	}

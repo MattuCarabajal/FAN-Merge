@@ -800,7 +800,7 @@ public class Nominacion extends TestBase {
 	}
 	
 	@Test (groups = {"PerfilOficina", "ConsultaDeSaldo", "Ciclo1"}, dataProvider = "DatosSalesNominacionNuevoOfCom")
-	public void NominacionSIT02(String sLinea, String sDni, String sNombre, String sApellido, String sSexo, String sFnac, String sEmail, String sProvincia, String sLocalidad, String sCalle, String sNumCa, String sCP) {
+	public void NominacionSIT02(String sLinea, String sDni, String sNombre, String sApellido, String sSexo, String sFnac, String sEmail, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) {
 		imagen ="TS134373";
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDni;
 		sleep(10000);
@@ -825,7 +825,38 @@ public class Nominacion extends TestBase {
 		contact.searchContact2("DNI", sDni, sSexo);
 		contact.Llenar_Contacto(sNombre, sApellido, sFnac);
 		try {contact.ingresarMail(sEmail, "si");}catch (org.openqa.selenium.ElementNotVisibleException ex1) {}
-		
+		contact.tipoValidacion("documento");
+		File directory = new File("Dni.jpg");
+		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
+		BasePage bp = new BasePage(driver);
+		sleep(8000);
+		bp.setSimpleDropdown(driver.findElement(By.id("ImpositiveCondition")), "IVA Consumidor Final");
+		bp.setSimpleDropdown(driver.findElement(By.id("state-LegalAddress")), sProvincia);
+		driver.findElements(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")).get(0).sendKeys(sLocalidad);
+		bp.setSimpleDropdown(driver.findElement(By.id("zoneType-LegalAddress")), sZona);
+		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")).sendKeys(sCalle);
+		driver.findElement(By.id("streetNumber-LegalAddress")).sendKeys(sNumCa);
+		driver.findElement(By.id("postalCode-LegalAddress")).sendKeys(sCP);
+		bp.setSimpleDropdown(driver.findElement(By.id("addresssType-LegalAddress")), tDomic);
+		driver.findElement(By.id("btnSameAsLegalAddress")).click();
+		sleep(5000);
+		driver.findElement(By.id("AccountData_nextBtn")).click();		
+		sleep(32000);
+		CBS_Mattu invoSer = new CBS_Mattu();
+		invoSer.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
+		List <WebElement> element = driver.findElement(By.id("NominacionExitosa")).findElements(By.tagName("p"));
+		//System.out.println("cont="+element.get(0).getText());
+		boolean a = false;
+		for (WebElement x : element) {
+			if (x.getText().toLowerCase().contains("nominaci\u00f3n exitosa!")) {
+				a = true;
+				System.out.println(x.getText());
+			}
+		}
+		Assert.assertTrue(a);
+		driver.findElement(By.id("FinishProcess_nextBtn")).click();
+		sleep(3000);
+		invoSer.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
 		
 	}
 	
