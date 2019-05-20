@@ -32,6 +32,7 @@ public class Vista360 extends TestBase {
 	private String imagen;
 	private GestionDeClientes_Fw ges;
 	private LoginFw log ;
+	private TestBase tb;
 	String detalles;
 	
 	
@@ -191,8 +192,20 @@ public class Vista360 extends TestBase {
 		boolean a = false;
 		List<WebElement> filtro = driver.findElements(By.cssSelector(".slds-text-heading--small"));
 		for(WebElement f : filtro){
-			if(f.getText().toLowerCase().equals("filtros avanzados"))
+			if(f.getText().toLowerCase().equals("filtros avanzados")) {
 				a = true;
+				f.click();
+				WebElement desplegable = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-p-around--medium'] [class='slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--2-of-8 slds-large-size--2-of-8'] [class='slds-dropdown-trigger slds-dropdown-trigger--click'")).get(1);
+				System.out.println(desplegable.getText());
+				desplegable.click();
+				List<WebElement> lista = desplegable.findElements(By.tagName("li"));
+				for (WebElement fila : lista) {
+					if (fila.getText().contains("Internet")) {
+						fila.click();
+						break;
+					}
+				}
+			}
 		}	
 		Assert.assertTrue(a);
 		Select pagina = new Select (driver.findElement(By.cssSelector(".slds-select.ng-pristine.ng-untouched.ng-valid.ng-not-empty")));
@@ -208,8 +221,8 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(b);
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "CuentaModificacionDeDatos")
-	public void TS134370_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_OOCC(String sDNI , String sLinea) {
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360")
+	public void TS134370_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_OOCC(String sDNI , String sLinea, String sNombre) {
 		imagen = "TS134370";
 		detalles = imagen+"- Vista 360 - DNI: "+sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -272,7 +285,6 @@ public class Vista360 extends TestBase {
 		detalles = imagen+"- Vista 360 - DNI: "+sDNI;
 		String day = fechaDeHoy();
 		String dia = day.substring(0, 2);
-		boolean gestion = false;
 		sb.BuscarCuenta("DNI", sDNI);
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(15000);
@@ -294,8 +306,6 @@ public class Vista360 extends TestBase {
 				}
 			} catch (Exception e) {}
 		}
-		sleep(3000);
-		driver.switchTo().defaultContent();
 		driver.findElement(By.id("text-input-id-2")).click();
 		WebElement fecha = driver.findElement(By.id("text-input-id-2"));
 		List<WebElement> tableRows2 = fecha.findElements(By.xpath("//tr//td"));
@@ -308,26 +318,13 @@ public class Vista360 extends TestBase {
 		}
 		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-03")));
 		driver.findElement(By.id("text-input-03")).click();
-		driver.findElement(By.xpath("//*[text() = 'Casos']")).click();
+		driver.findElement(By.xpath("//*[text() = 'Ordenes']")).click();
 		sleep(5000);
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")).click();
 		sleep(12000);
 		WebElement nroCaso = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")).findElement(By.tagName("tbody")).findElement(By.tagName("tr"));
-		nroCaso.findElements(By.tagName("td")).get(2).click();
-		sleep(15000);
-		WebElement estado = null;
-		driver.switchTo().frame(cambioFrame(driver, By.name("ta_clone")));
-		for (WebElement x : driver.findElements(By.className("detailList"))) {
-			if (x.getText().toLowerCase().contains("n\u00famero de pedido"))
-				estado = x;
-		}
-		for (WebElement x : estado.findElements(By.tagName("tr"))) {
-			if (x.getText().toLowerCase().contains("estado"))
-				estado = x;
-		}
-		if (estado.getText().toLowerCase().contains("activada") || (estado.getText().toLowerCase().contains("iniciada")))
-			gestion = true;
-		Assert.assertTrue(gestion);
+		String estado = nroCaso.findElements(By.tagName("td")).get(4).getText();
+		Assert.assertTrue(estado.toLowerCase().contains("activada") || (estado.toLowerCase().contains("iniciada")));
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360")
@@ -404,7 +401,7 @@ public class Vista360 extends TestBase {
 		sleep(25000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		WebElement linea = driver.findElement(By.className("card-top")).findElements(By.className("slds-text-heading_medium")).get(2);
-		Assert.assertTrue(linea.getText().contains(sLinea));		
+		Assert.assertTrue(linea.getText().equals(sLinea));		
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360")
@@ -519,8 +516,8 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(detalles && historiales && misServicios && gestiones);
 	}
 	
-	@Test (groups = "PerfilTelefonico", dataProvider = "documentacionVista360")
-	public void TS134800_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_Telefonico(String sDNI) {
+	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaVista360")
+	public void TS134800_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
 		imagen = "TS134800";
 		detalles = imagen + "-Vista 360-DNI:" + sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
@@ -953,8 +950,8 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(asd);
 	}
 	
-	@Test (groups = "PerfilAgente", dataProvider = "documentacionVista360")
-	public void TS134817_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_OOCC_Agentes(String sDNI){
+	@Test (groups = "PerfilAgente", dataProvider = "CuentaVista360")
+	public void TS134817_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_OOCC_Agentes(String sDNI, String sLinea, String sNombre){
 		imagen = "TS134817";
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
