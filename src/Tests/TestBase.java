@@ -2139,6 +2139,17 @@ public class TestBase {
 		}
 	}
 	
+	public void sleepFindBy (WebElement element, By byForElement, double timeAcumulated) {
+		if (10 > timeAcumulated) {
+			try {
+				element.findElement(byForElement);
+			} catch (Exception e) {
+				try {Thread.sleep(100);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+				sleepFindBy(element, byForElement, timeAcumulated + 0.100);
+			}
+		}
+	}
+	
 	//=================================================================================================================================\\
 	
 	public void loginBeFANVictor(WebDriver driver, String perfil) {
