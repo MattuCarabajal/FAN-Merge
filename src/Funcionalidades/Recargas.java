@@ -133,6 +133,8 @@ public class Recargas extends TestBase {
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
 		Assert.assertTrue(datosInicial + 1000 == datosFinal);
+		cc.buscarOrdenDiag(caso+"*");
+		cc.verificarPedido(caso, "activada");
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","Recargas","E2E", "Ciclo1"}, dataProvider="RecargaTC")
@@ -165,6 +167,8 @@ public class Recargas extends TestBase {
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
 		Assert.assertTrue(datosInicial + 1000 == datosFinal);
+		cc.buscarOrdenDiag(caso+"*");
+		cc.verificarPedido(caso, "activada");
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "Recargas","E2E"}, dataProvider = "RecargaTD")
@@ -196,6 +200,8 @@ public class Recargas extends TestBase {
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
 		Assert.assertTrue(datosInicial + 900 == datosFinal);
+		cc.buscarOrdenDiag(caso+"*");
+		cc.verificarPedido(caso, "activada");
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "Recargas","E2E","Ciclo1"}, dataProvider = "RecargaTC")
@@ -228,6 +234,8 @@ public class Recargas extends TestBase {
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
 		Assert.assertTrue(datosInicial + 1000 == datosFinal);
+		cc.buscarOrdenDiag(caso+"*");
+		cc.verificarPedido(caso, "activada");
 	}
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
@@ -312,5 +320,7 @@ public class Recargas extends TestBase {
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
 		Assert.assertTrue(datosInicial + 1000 == datosFinal);
+		cc.buscarOrdenDiag(caso+"*");
+		cc.verificarPedido(caso, "activada");
 	}
 }
