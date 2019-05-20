@@ -22,12 +22,15 @@ import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
 public class Recargas extends TestBase {
 
 	private WebDriver driver;
+	private LoginFw log;
+	private GestionDeClientes_Fw ges;
 	private SalesBase sb;
 	private CustomerCare cc;
 	private CBS cbs;
@@ -41,26 +44,28 @@ public class Recargas extends TestBase {
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
-		sb = new SalesBase(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.loginOOCC();
+		ges.irAConsolaFAN();
 	}
 		
 	//@BeforeClass (alwaysRun = true)
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
-		sb = new SalesBase(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
-		loginTelefonico(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.loginTelefonico();
+		ges.irAConsolaFAN();
 	}
 	
 	//@BeforeClass (alwaysRun = true)
@@ -79,13 +84,12 @@ public class Recargas extends TestBase {
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
 		detalles = null;
-		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
-		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
+		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod(alwaysRun=true)
+	//@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -106,63 +110,62 @@ public class Recargas extends TestBase {
 	public void TS134318_CRM_Movil_REPRO_Recargas_Presencial_Efectivo_Ofcom(String sDNI, String sMonto, String sLinea) throws AWTException {
 		sleep(6000);
 		imagen = "TS134318";
-		detalles = null;
 		detalles = imagen + "-Recarga-DNI: " + sDNI;
-		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
-		System.out.println("iMainBalance: " + iMainBalance);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sb.BuscarCuenta("DNI", sDNI);
-		String accID = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
-		System.out.println("id "+ accID);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(10000);
-		cc.irAGestionEnCard("Recarga de cr\u00e9dito");
+		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 1));
+		System.out.println("datosInicial: " + datosInicial);
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("RefillAmount")));
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
-		sleep(10000);		
-		String nroOrden = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).findElements(By.tagName("p")).get(1).getText();
-		nroOrden = nroOrden.substring(nroOrden.indexOf("0"), nroOrden.length());
-		System.out.println("sOrden: " + nroOrden);
+		sleep(10000);
+		driver.switchTo().frame(cambioFrame(driver, By.id("InvoicePreview_nextBtn")));
+		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
+		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
 		sleep(10000);
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "efectivo");
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
 		sleep(10000);
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
-		driver.switchTo().defaultContent();
-		sb.cerrarPestaniaGestion(driver);
-		String orden = cc.obtenerTNyMonto2(driver, nroOrden);
-		System.out.println("orden = " + orden);
-		Assert.assertTrue(cbsm.PagoEnCaja("1006", accID, "1001", orden.split("-")[2], orden.split("-")[1],driver));
+		cbsm.Servicio_NotificarPago(caso);
+		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 1));
+		System.out.println(datosFinal);
 		
-		/*sOrders.add("Recargas" + orden + ", cuenta:"+accID+", DNI: " + sDNI +", Monto:"+orden.split("-")[2]);
-		Assert.assertTrue(cbsm.PagoEnCaja("1006", accID, "1001", orden.split("-")[2], orden.split("-")[1],driver));*/
-		sleep(5000);
-		driver.navigate().refresh();
-		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
-		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
-		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		System.out.println("saldo nuevo "+uMainBalance);
-		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
-		Integer monto = Integer.parseInt(orden.split("-")[2].replace(".", ""));
-		monto = Integer.parseInt(monto.toString().substring(0, monto.toString().length()-1));
-		System.out.println("monto inicial "+iMainBalance);
-		System.out.println("monto recarga "+monto);
-		System.out.println("monto uifinal "+uiMainBalance);
-		monto = iMainBalance+monto;
-		System.out.println("Sumatoria :"+monto);
-		Assert.assertTrue(monto == uiMainBalance);
-		/*CalculoImpuestos CI = new CalculoImpuestos();
-		System.out.println(CI.determinarCategoriaIVA(driver));*/
+		
+		
+		
+//		driver.switchTo().defaultContent();
+//		sb.cerrarPestaniaGestion(driver);
+//		String orden = cc.obtenerTNyMonto2(driver, nroOrden);
+//		System.out.println("orden = " + orden);
+//		Assert.assertTrue(cbsm.PagoEnCaja("1006", accID, "1001", orden.split("-")[2], orden.split("-")[1],driver));
+//		
+//		/*sOrders.add("Recargas" + orden + ", cuenta:"+accID+", DNI: " + sDNI +", Monto:"+orden.split("-")[2]);
+//		Assert.assertTrue(cbsm.PagoEnCaja("1006", accID, "1001", orden.split("-")[2], orden.split("-")[1],driver));*/
+//		sleep(5000);
+//		driver.navigate().refresh();
+//		sleep(10000);
+//		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
+//		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
+//		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
+//		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
+//		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+//		System.out.println("saldo nuevo "+uMainBalance);
+//		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
+//		Integer monto = Integer.parseInt(orden.split("-")[2].replace(".", ""));
+//		monto = Integer.parseInt(monto.toString().substring(0, monto.toString().length()-1));
+//		System.out.println("monto inicial "+iMainBalance);
+//		System.out.println("monto recarga "+monto);
+//		System.out.println("monto uifinal "+uiMainBalance);
+//		monto = iMainBalance+monto;
+//		System.out.println("Sumatoria :"+monto);
+//		Assert.assertTrue(monto == uiMainBalance);
+//		/*CalculoImpuestos CI = new CalculoImpuestos();
+//		System.out.println(CI.determinarCategoriaIVA(driver));*/
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina","Recargas","E2E", "Ciclo1"}, dataProvider="RecargaTC")
