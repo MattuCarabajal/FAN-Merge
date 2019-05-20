@@ -2085,6 +2085,8 @@ public class TestBase {
 	    page0.ingresarLogisticaYEntrega();
 	}
 	
+	//========================================================= Metodos con Sleep Incluido =========================================================\\
+	
 	public boolean sleepCambioDeFrame (WebDriver driver, String elementSelector, double timeMax, double timeAcumulated) {
 		if (timeMax < timeAcumulated) {
 			return true;
@@ -2097,6 +2099,47 @@ public class TestBase {
 			return sleepCambioDeFrame(driver, elementSelector, timeMax, timeAcumulated + 0.200);
 		}
 	}
+	
+	private WebElement frameConElElemento(WebDriver driver, By byForElement) {
+		List<WebElement> frames = driver.findElements(By.tagName("iframe"));
+		driver.switchTo().defaultContent();
+		for (WebElement frame : frames) {
+			try {
+				driver.switchTo().frame(frame);
+				driver.findElement(byForElement);
+				driver.switchTo().defaultContent();
+				return frame;
+			} catch (NoSuchElementException e) {
+				driver.switchTo().defaultContent();
+			}
+		}
+		return null;
+	}
+
+	public void cambioDeFrame(WebDriver driver, By byForElement, double timeAcumulated) {
+		if (10 > timeAcumulated) {
+			try {
+				WebElement myFrame = frameConElElemento(driver, byForElement);
+				driver.switchTo().frame(myFrame);
+			} catch (Exception e1) {
+				try {Thread.sleep(100);} catch (Exception e2) {}
+				cambioDeFrame(driver, byForElement, timeAcumulated + 0.100);
+			}
+		}
+	}
+	
+	public void sleepFindBy (WebDriver driver, By byForElement, double timeAcumulated) {
+		if (10 > timeAcumulated) {
+			try {
+				driver.findElement(byForElement);
+			} catch (Exception e) {
+				try {Thread.sleep(100);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+				sleepFindBy(driver, byForElement, timeAcumulated + 0.100);
+			}
+		}
+	}
+	
+	//=================================================================================================================================\\
 	
 	public void loginBeFANVictor(WebDriver driver, String perfil) {
 		driver.get(urlBeFAN);
