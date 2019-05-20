@@ -49,7 +49,7 @@ public class Ajustes extends TestBase {
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		log.loginAgente();
+		log.loginOOCC();
 		ges.irAConsolaFAN();
 	}
 		
