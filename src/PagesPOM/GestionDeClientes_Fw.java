@@ -245,7 +245,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	public void BuscarCuenta(String Type, String NDNI){
 		driver.switchTo().defaultContent();
 		TestBase tb = new TestBase();
-		tb.sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
+		tb.sleepCambioDeFrame(driver, By.id("SearchClientDocumentType"), 10, 0);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
 		getSelect(DNIbuscador).selectByVisibleText(Type);
 		DNI.sendKeys(NDNI);
@@ -329,9 +329,14 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		elementos.addAll(driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li")));
 		elementos.addAll(driver.findElements(By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class*='slds-grid slds-grid--vertical slds-align-middle'] [class='items-card ng-not-empty ng-valid'] [class='slds-col'] button")));
 		System.out.println(clickElementoPorTextExacto(elementos, sGestion));		
+		try {Thread.sleep(8000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		driver.switchTo().defaultContent();
 
 	}
 	
+	public WebDriverWait getWait() {
+		return new WebDriverWait(driver,30);
+		
+	}
 	
 }
