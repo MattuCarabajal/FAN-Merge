@@ -72,9 +72,10 @@ public class LoginFw extends BasePageFw {
 	public void LoginSit02() {
 		  driver.get(urlMerge);
 		  fluentWait.until(ExpectedConditions.elementToBeClickable(loginMerge));
-		  username.sendKeys("florangel.rojas@xappia.com.fan.sit02");
-		  password.sendKeys("Testa10k");
-		  	
+		 // username.sendKeys("florangel.rojas@xappia.com.fan.sit02");
+		  //password.sendKeys("Testa10k");
+		  username.sendKeys("u577822@telecom.com.ar.sit02");
+		  password.sendKeys("Atos.001");
 		  	System.out.println("Log Si02");	
 		  	fluentWait.until(ExpectedConditions.elementToBeClickable(loginMerge)).click();
 	}
