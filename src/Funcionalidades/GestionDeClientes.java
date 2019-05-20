@@ -95,7 +95,7 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135496";
 		detalles = null;
 		detalles = imagen + "- Gestion de clientes - DNI:" + sDNI;
-		ges.BuscarCuenta("DNI", sDNI);
+		sb.BuscarCuenta("DNI", sDNI);
 		sleep(6000);
 		WebElement cliente = driver.findElement(By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"));
 		String dni = cliente.findElements(By.tagName("td")).get(3).getText();
@@ -107,7 +107,7 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135497";
 		detalles = null;
 		detalles = imagen + "-Gestion de clientes - DNI:  "+ sDNI;
-		ges.BuscarCuenta("DNI", sDNI);
+		sb.BuscarCuenta("DNI", sDNI);
 		sleep(5000);
 		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.";
 		String messageFound = driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']")).getText();
@@ -129,7 +129,7 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135499";
 		detalles = null;
 		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
-		ges.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
+		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
 		sleep(5000);
 		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
 		Assert.assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
@@ -140,7 +140,7 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135500";
 		detalles = null;
 		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
-		ges.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
+		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
 		sleep(5000);
 		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento";
 		String messageFound = driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']")).getText().toLowerCase();

@@ -43,7 +43,7 @@ public class DetalleDeConsumos extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	//@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);

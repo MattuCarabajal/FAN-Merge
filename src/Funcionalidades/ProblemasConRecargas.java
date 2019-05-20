@@ -19,7 +19,6 @@ import org.testng.annotations.Test;
 import Pages.CBS;
 import Pages.CustomerCare;
 import Pages.Marketing;
-import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
@@ -29,7 +28,6 @@ import Tests.TestBase;
 public class ProblemasConRecargas extends TestBase {
 
 	private WebDriver driver;
-	private SalesBase sb;
 	private CustomerCare cc;
 	private Marketing mk;
 	private CBS cbs;
@@ -45,7 +43,6 @@ public class ProblemasConRecargas extends TestBase {
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
-		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
@@ -57,7 +54,6 @@ public class ProblemasConRecargas extends TestBase {
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
-		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);

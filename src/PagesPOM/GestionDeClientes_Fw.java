@@ -328,7 +328,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		List<WebElement> elementos = driver.findElements(By.cssSelector("[class='card-info'] [class='actions'] li"));
 		elementos.addAll(driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li")));
 		elementos.addAll(driver.findElements(By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class*='slds-grid slds-grid--vertical slds-align-middle'] [class='items-card ng-not-empty ng-valid'] [class='slds-col'] button")));
-		System.out.println(clickElementoPorText(elementos, sGestion));
+		System.out.println(clickElementoPorTextExacto(elementos, sGestion));		
 		driver.switchTo().defaultContent();
 
 	}
