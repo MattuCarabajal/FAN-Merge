@@ -31,7 +31,7 @@ public class DetalleDeConsumos extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
