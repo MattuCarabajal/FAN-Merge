@@ -36,7 +36,7 @@ public class Vista360 extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -60,7 +60,7 @@ public class Vista360 extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -82,7 +82,7 @@ public class Vista360 extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod (alwaysRun = true)
+	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -90,7 +90,7 @@ public class Vista360 extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass (alwaysRun = true)
+	//@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -484,8 +484,8 @@ public class Vista360 extends TestBase {
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		boolean creditoRecarga = false, creditoPromocional = false, estado = false, internetDisponible = false;
 		boolean detalles = false, historiales = false, misServicios = false, gestiones = false;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		ges.BuscarCuenta("DNI", sDNI);
+		//driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
 		sleep(25000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		WebElement plan = driver.findElement(By.className("card-top")).findElements(By.className("slds-text-heading_medium")).get(0);
@@ -520,9 +520,20 @@ public class Vista360 extends TestBase {
 	public void TS134800_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_Telefonico(String sDNI, String sLinea, String sNombre) {
 		imagen = "TS134800";
 		detalles = imagen + "-Vista 360-DNI:" + sDNI;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		
+		//		sb.BuscarCuenta("DNI", sDNI);
+//		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+//		sleep(25000);
+//		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+//		cc.irAGestiones();
+		ges.BuscarCuenta("DNI", sDNI);
+	//	ges.irAGestionEnCard("mis servicios");
+	
 		sleep(10000);
+	/*	driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")));
+		driver.findElement(By.id("text-input-03")).click();
+		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
+		sleep(10000);*/
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
 		sleep(3000);
 		driver.findElement(By.className("card-top")).click();
@@ -530,7 +541,7 @@ public class Vista360 extends TestBase {
 		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "mis servicios");
 		sleep(10000);
 		boolean a = false;
-		driver.switchTo().frame(cambioFrame(driver,By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium")));
+		driver.switchTo().frame(cambioFrame(driver,By.cssSelector(".via-slds.slds-m-around--small.ng-scope")));
 		WebElement verif = driver.findElement(By.cssSelector(".via-slds.slds-m-around--small.ng-scope"));
 		if (verif.getText().toLowerCase().contains("servicios incluidos"))
 			a = true;

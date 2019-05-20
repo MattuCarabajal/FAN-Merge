@@ -33,7 +33,7 @@ public class ConsultaDeSaldo extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -188,6 +188,7 @@ public class ConsultaDeSaldo extends TestBase {
 		Integer credito = Integer.parseInt(sMainBalance.substring(0, 7));
 		String card = driver.findElement(By.className("card-info")).findElement(By.className("uLdetails")).findElement(By.tagName("li")).findElements(By.tagName("span")).get(2).getText();
 		card = card.replaceAll("[$.,]", "");
+		System.out.println("credito en card:" + card);
 		Integer creditoCard = Integer.parseInt(card);
 		Assert.assertTrue(credito.equals(creditoCard));
 	}

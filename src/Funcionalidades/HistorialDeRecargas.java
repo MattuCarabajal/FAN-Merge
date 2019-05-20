@@ -40,7 +40,7 @@ public class HistorialDeRecargas extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -73,7 +73,7 @@ public class HistorialDeRecargas extends TestBase {
 		sleep(5000);
 	}
 
-	@AfterMethod (alwaysRun = true)
+	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
