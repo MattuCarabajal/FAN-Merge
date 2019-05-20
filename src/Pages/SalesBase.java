@@ -196,7 +196,7 @@ public void BusquedaAvanzada(){
 public void BuscarAvanzada(String nombre, String apellido, String razon, String cuenta, String email){
 	TestBase TB = new TestBase();
 	try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	TB.sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
+	TB.cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
 	BusquedaAvanzada();
 	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	firstname.sendKeys(nombre);
@@ -204,10 +204,8 @@ public void BuscarAvanzada(String nombre, String apellido, String razon, String 
 	razonsocial.sendKeys(razon);
 	numerodecuenta.sendKeys(cuenta);
 	Email.sendKeys(email);
-	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	TB.sleepFindBy(driver, By.id("SearchClientsDummy"), 0);
 	driver.findElement(By.id("SearchClientsDummy")).click();
-	try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-
 }
 public void validarespacio(){
 	try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
@@ -231,7 +229,7 @@ public void validarcamposbusqueda(){
 public void BuscarCuenta(String Type, String NDNI){
 	try {Thread.sleep(4000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	TestBase TB = new TestBase();
-	TB.sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
+	TB.cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
 	setSimpleDropdown(DNIbuscador, Type);
 	DNI.sendKeys(NDNI);
 	TB.waitForClickeable(driver, By.id("SearchClientsDummy"));

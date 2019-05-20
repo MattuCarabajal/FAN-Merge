@@ -72,7 +72,7 @@ public class GestionDeClientes extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass (alwaysRun = true)
+//	@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -85,7 +85,7 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135495";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes";
-		super.sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
+		cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
 		selectByText(driver.findElement(By.id("SearchClientDocumentType")), "DNI");
 		Assert.assertTrue(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("dni"));
 	}
@@ -96,7 +96,6 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen + "- Gestion de clientes - DNI:" + sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
-		sleep(6000);
 		WebElement cliente = driver.findElement(By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"));
 		String dni = cliente.findElements(By.tagName("td")).get(3).getText();
 		Assert.assertTrue(sDNI.equals(dni));
@@ -108,7 +107,7 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen + "-Gestion de clientes - DNI:  "+ sDNI;
 		sb.BuscarCuenta("DNI", sDNI);
-		sleep(5000);
+		sleepFindBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
 		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.";
 		String messageFound = driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']")).getText();
 		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
@@ -119,8 +118,8 @@ public class GestionDeClientes extends TestBase {
 		imagen = "TS135498";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes";
+		cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
 		selectByText(driver.findElement(By.id("SearchClientDocumentType")), "Libreta de Enrolamiento");
-		sleep(5000);
 		Assert.assertTrue(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("libreta de enrolamiento"));
 	}
 	
@@ -130,7 +129,6 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
 		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
-		sleep(5000);
 		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
 		Assert.assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
 	}
@@ -141,7 +139,7 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
 		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
-		sleep(5000);
+		sleepFindBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
 		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento";
 		String messageFound = driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']")).getText().toLowerCase();
 		Assert.assertTrue(messageFound.contains(message));
@@ -153,9 +151,7 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Nombre: " + sNombre;
 		sb.BuscarAvanzada(sNombre, "", "", "", "");
-		sleep(1500);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(5000);
+		sleepFindBy(driver, By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"), 0);
 		boolean encontrado = false;
 		List<WebElement> clientes = driver.findElements(By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"));
 		for (WebElement cliente : clientes) {
@@ -174,9 +170,7 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Nombre: " + sNombre;
 		sb.BuscarAvanzada(sNombre,"","","","");
-		sleep(1500);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(5000);
+		sleepFindBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
 		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.";
 		String messageFound = driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']")).getText();
 		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
@@ -188,9 +182,7 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen + "- Gestion de Clientes - DNI: " + sDNI;
 		sb.BuscarAvanzada("", sApellido, "", "", "");
-		sleep(1500);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(5000);
+		sleepFindBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
 		boolean encontrado = false;
 		List<WebElement> clientes = driver.findElements(By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"));
 		for (WebElement cliente : clientes) {
@@ -209,9 +201,7 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen + "- Gestion de clinetes - Apellido: " + sApellido;
 		sb.BuscarAvanzada("",sApellido,"","","");
-		sleep(1500);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(5000);
+		sleepFindBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
 		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.";
 		String messageFound = driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']")).getText();
 		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
@@ -223,9 +213,7 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Razon social: " + sRazon;
 		sb.BuscarAvanzada("", "", sRazon, "", "");
-		sleep(1500);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(5000);
+		sleepFindBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
 		boolean encontrado = false;
 		List<WebElement> clientes = driver.findElements(By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"));
 		for (WebElement cliente : clientes) {
@@ -244,9 +232,7 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen+" - Gestion de clientes - Razon social: "+sRazon;
 		sb.BuscarAvanzada("","",sRazon,"","");
-		sleep(1500);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(5000);
+		sleepFindBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
 		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.";
 		String messageFound = driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']")).getText();
 		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
@@ -258,12 +244,17 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Email: " + sEmail;
 		sb.BuscarAvanzada("", "", "", "", sEmail);
-		sleep(1500);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(5000);
-		WebElement cliente = driver.findElement(By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"));
-		String dni = cliente.findElements(By.tagName("td")).get(3).getText();
-		Assert.assertTrue(sDNI.equals(dni));
+		sleepFindBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
+		boolean encontrado = false;
+		List<WebElement> clientes = driver.findElements(By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"));
+		for (WebElement cliente : clientes) {
+			String dni = cliente.findElements(By.tagName("td")).get(3).getText();
+			if (sDNI.equals(dni)) {
+				encontrado = true;
+				break;
+			}
+		}
+		Assert.assertTrue(encontrado);
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "invalidaDocumentacion")
@@ -272,9 +263,7 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Email: " + sEmail;
 		sb.BuscarAvanzada("","","","",sEmail);
-		sleep(1500);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(5000);
+		sleepFindBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
 		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.";
 		String messageFound = driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']")).getText();
 		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
@@ -286,12 +275,17 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen + "- Gestion de Clientes - DNI: " + sDNI;
 		sb.BuscarAvanzada("", "", "", sNumeroDeCuenta, "");
-		sleep(1500);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(5000);
-		WebElement cliente = driver.findElement(By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"));
-		String dni = cliente.findElements(By.tagName("td")).get(3).getText();
-		Assert.assertTrue(sDNI.equals(dni));
+		sleepFindBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
+		boolean encontrado = false;
+		List<WebElement> clientes = driver.findElements(By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"));
+		for (WebElement cliente : clientes) {
+			String dni = cliente.findElements(By.tagName("td")).get(3).getText();
+			if (sDNI.equals(dni)) {
+				encontrado = true;
+				break;
+			}
+		}
+		Assert.assertTrue(encontrado);
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "invalidaDocumentacion")
@@ -300,9 +294,7 @@ public class GestionDeClientes extends TestBase {
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Numero de cuenta: " + sNumeroDeCuenta;
 		sb.BuscarAvanzada("", "", "", sNumeroDeCuenta, "");
-		sleep(1500);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(10000);
+		sleepFindBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
 		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.";
 		String messageFound = driver.findElement(By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']")).getText();
 		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
