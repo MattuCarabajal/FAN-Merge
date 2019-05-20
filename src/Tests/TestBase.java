@@ -842,7 +842,7 @@ public class TestBase {
 	private String dataProviderE2E() {
 		String sDataProviderE2E;
 		
-		if (urlAmbiente.contains("SIT")) {
+		if (urlAmbiente.contains("sit")) {
 			sDataProviderE2E = "E2ESIT.xlsx";
 		}
 		else {
@@ -1106,7 +1106,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosSalesNominacionNuevoOfCom() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,12,"NominacionNuevoOfCom");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,14,"NominacionNuevoOfCom");
 
 	 return (testObjArray);
 
@@ -1196,7 +1196,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] RecargaTC() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EconPago",1,1,14,"Recargas TC");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,12,"Recargas TC");
 
 	 return (testObjArray);
 

@@ -49,7 +49,7 @@
               <ul>
                 <li>
                   <a href="#" class="navigator-link " panel-name="test-xml-Default_suite">
-                    <span>C:\Users\xappiens\AppData\Local\Temp\testng-eclipse--1009796787\testng-customsuite.xml</span>
+                    <span>C:\Users\Sofia Chardin\AppData\Local\Temp\testng-eclipse-1072872575\testng-customsuite.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -102,7 +102,7 @@
                     <div class="method-list-content failed suite-Default_suite">
                       <span>
                         <img width="3%" src="failed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="Funcionalidades.HistorialDeRecargas" hash-for-method="TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico(21475787, 2932449250)">TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico(21475787, 2932449250)</a> <!-- method navigator-link -->
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="Funcionalidades.Recargas" hash-for-method="TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion(22222035, 100, 2932442894, BANCO SANTANDER RIO S.A., VISA, VISA ARGENTINA S.A. - Cuotas: 1.. 1 Recar...)">TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion(22222035, 100, 2932442894, BANCO SANTANDER RIO S.A., VISA, VISA ARGENTINA S.A. - Cuotas: 1.. 1 Recar...)</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                     </div> <!-- method-list-content failed suite-Default_suite -->
@@ -120,42 +120,47 @@
           <div class="suite-Default_suite-class-failed">
             <div class="main-panel-header rounded-window-top">
               <img src="failed.png"/>
-              <span class="class-name">Funcionalidades.HistorialDeRecargas</span>
+              <span class="class-name">Funcionalidades.Recargas</span>
             </div> <!-- main-panel-header rounded-window-top -->
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico(21475787, 2932449250)">
-                  </a> <!-- TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico(21475787, 2932449250) -->
-                  <span class="method-name">TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico</span>
-                  <span class="parameters">(21475787, 2932449250)</span>
-                  <div class="stack-trace">java.lang.NullPointerException
-	at Funcionalidades.HistorialDeRecargas.TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico(HistorialDeRecargas.java:812)
+                  <a name="TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion(22222035, 100, 2932442894, BANCO SANTANDER RIO S.A., VISA, VISA ARGENTINA S.A. - Cuotas: 1.. 1 Recar...)">
+                  </a> <!-- TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion(22222035, 100, 2932442894, BANCO SANTANDER RIO S.A., VISA, VISA ARGENTINA S.A. - Cuotas: 1.. 1 Recar...) -->
+                  <span class="method-name">TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion</span>
+                  <span class="parameters">(22222035, 100, 2932442894, BANCO SANTANDER RIO S.A., VISA, VISA ARGENTINA S.A. - Cuotas: 1.. 1 Recargo:  0,00, 1 - CFT %1.0, 4507990000000010, 3, 2020, 318, Ron Harward)</span>
+                  <div class="stack-trace">java.lang.NullPointerException: null value in entry: id=null
+	at com.google.common.collect.CollectPreconditions.checkEntryNotNull(CollectPreconditions.java:34)
+	at com.google.common.collect.SingletonImmutableBiMap.&lt;init&gt;(SingletonImmutableBiMap.java:42)
+	at com.google.common.collect.ImmutableBiMap.of(ImmutableBiMap.java:73)
+	at com.google.common.collect.ImmutableMap.of(ImmutableMap.java:120)
+	at org.openqa.selenium.remote.RemoteWebDriver$RemoteTargetLocator.frame(RemoteWebDriver.java:980)
+	at Funcionalidades.Recargas.TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion(Recargas.java:438)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
 	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
-	at org.testng.internal.Invoker.invokeMethod(Invoker.java:580)
-	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:716)
-	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:988)
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:108)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:661)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:869)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1193)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:126)
 	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
-	at org.testng.TestRunner.privateRun(TestRunner.java:648)
-	at org.testng.TestRunner.run(TestRunner.java:505)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:364)
+	at org.testng.TestRunner.privateRun(TestRunner.java:744)
+	at org.testng.TestRunner.run(TestRunner.java:602)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:380)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:375)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:340)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:289)
 	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
-	at org.testng.TestNG.runSuites(TestNG.java:1049)
-	at org.testng.TestNG.run(TestNG.java:1017)
-	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:114)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1301)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1226)
+	at org.testng.TestNG.runSuites(TestNG.java:1144)
+	at org.testng.TestNG.run(TestNG.java:1115)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:132)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:230)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:76)
 
 </div> <!-- stack-trace -->
                 </div> <!-- method-content -->
@@ -165,20 +170,20 @@
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">C:\Users\xappiens\AppData\Local\Temp\testng-eclipse--1009796787\testng-customsuite.xml</span>
+            <span class="header-content">C:\Users\Sofia Chardin\AppData\Local\Temp\testng-eclipse-1072872575\testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE suite SYSTEM &quot;http://testng.org/testng-1.0.dtd&quot;&gt;
 &lt;suite guice-stage=&quot;DEVELOPMENT&quot; name=&quot;Default suite&quot;&gt;
-  &lt;test thread-count=&quot;5&quot; verbose=&quot;2&quot; name=&quot;Default test&quot;&gt;
+  &lt;test verbose=&quot;2&quot; name=&quot;Default test&quot;&gt;
     &lt;classes&gt;
-      &lt;class name=&quot;Funcionalidades.HistorialDeRecargas&quot;&gt;
+      &lt;class name=&quot;Funcionalidades.Recargas&quot;&gt;
         &lt;methods&gt;
-          &lt;include name=&quot;TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico&quot;/&gt;
+          &lt;include name=&quot;TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion&quot;/&gt;
         &lt;/methods&gt;
-      &lt;/class&gt; &lt;!-- Funcionalidades.HistorialDeRecargas --&gt;
+      &lt;/class&gt; &lt;!-- Funcionalidades.Recargas --&gt;
     &lt;/classes&gt;
   &lt;/test&gt; &lt;!-- Default test --&gt;
 &lt;/suite&gt; &lt;!-- Default suite --&gt;
@@ -203,10 +208,10 @@
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="test-group">
-              <span class="test-group-name">Ciclo2</span>
+              <span class="test-group-name">E2E</span>
               <br/>
               <div class="method-in-group">
-                <span class="method-in-group-name">TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico</span>
+                <span class="method-in-group-name">TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion</span>
                 <br/>
               </div> <!-- method-in-group -->
             </div> <!-- test-group -->
@@ -214,15 +219,15 @@
               <span class="test-group-name">GestionesPerfilTelefonico</span>
               <br/>
               <div class="method-in-group">
-                <span class="method-in-group-name">TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico</span>
+                <span class="method-in-group-name">TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion</span>
                 <br/>
               </div> <!-- method-in-group -->
             </div> <!-- test-group -->
             <div class="test-group">
-              <span class="test-group-name">HistorialDeRecargas</span>
+              <span class="test-group-name">Recargas</span>
               <br/>
               <div class="method-in-group">
-                <span class="method-in-group-name">TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico</span>
+                <span class="method-in-group-name">TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion</span>
                 <br/>
               </div> <!-- method-in-group -->
             </div> <!-- test-group -->
@@ -244,14 +249,14 @@ data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
 data.addRows(1);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico')
-data.setCell(0, 2, 'Funcionalidades.HistorialDeRecargas')
-data.setCell(0, 3, 8);
+data.setCell(0, 1, 'TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion')
+data.setCell(0, 2, 'Funcionalidades.Recargas')
+data.setCell(0, 3, 1295);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 8 ms</span>
+              <span class="suite-total-time">Total running time: 1 seconds</span>
               <div id="times-div-Default_suite">
               </div> <!-- times-div-Default_suite -->
             </div> <!-- times-div -->
@@ -266,77 +271,21 @@ return data;
         </div> <!-- panel -->
         <div panel-name="ignored-methods-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">33 ignored methods</span>
+            <span class="header-content">5 ignored methods</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="ignored-class-div">
-              <span class="ignored-class-name">Funcionalidades.HistorialDeRecargas</span>
+              <span class="ignored-class-name">Funcionalidades.Recargas</span>
               <div class="ignored-methods-div">
-                <span class="ignored-method-name">TS134792_CRM_Movil_Prepago_Historial_de_Recargas_S141_FAN_Front_Telefonico</span>
+                <span class="ignored-method-name">TS134318_CRM_Movil_REPRO_Recargas_Presencial_Efectivo_Ofcom</span>
                 <br/>
-                <span class="ignored-method-name">TS135361_CRM_Movil_Prepago_Otros_Historiales_Historial_de_ajustes_FAN_Front_OOCC_S138</span>
+                <span class="ignored-method-name">TS134322_CRM_Movil_REPRO_Recargas_Presencial_TC_Agente</span>
                 <br/>
-                <span class="ignored-method-name">TS134787_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_con_Beneficios_FAN_Front_OOCC</span>
+                <span class="ignored-method-name">TS134320_CRM_Movil_REPRO_Recargas_Presencial_TD_Ofcom</span>
                 <br/>
-                <span class="ignored-method-name">TS134473_CRM_Movil_Prepago_Historial_De_Packs_Fan_Front_OOCC</span>
+                <span class="ignored-method-name">TS134319_CRM_Movil_REPRO_Recargas_Presencial_TC_Ofcom</span>
                 <br/>
-                <span class="ignored-method-name">TS135469_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS134845_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_SMS_Fan_FRONT_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS134470_CRM_Movil_Prepago_Historial_De_Recargas_SOS_S440_FAN_Front_OOCC</span>
-                <br/>
-                <span class="ignored-method-name">TS134793_CRM_Movil_Prepago_Historial_De_Recargas_SOS_S440_FAN_Front_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS134840_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Fecha_Fan_FRONT_OOCC</span>
-                <br/>
-                <span class="ignored-method-name">TS135467_CRM_Movil_Prepago_Historial_de_Packs_Fan_Front_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS134747_CRM_Movil_Prepago_Historial_de_Recargas_S141_FAN_Front_OOCC</span>
-                <br/>
-                <span class="ignored-method-name">TS134846_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_ROL_Fan_FRONT_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS134844_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_IVR_Fan_FRONT_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS134791_CRM_Movil_Prepago_Historial_de_Recargas_Monto_total_FAN_Front_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS135346_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_TODOS_Fan_FRONT_OOCC</span>
-                <br/>
-                <span class="ignored-method-name">TS135477_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internet_40_Mb_FAN_Front_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS135468_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_OOCC</span>
-                <br/>
-                <span class="ignored-method-name">TS135437_CRM_Movil_Prepago_Historial_De_Packs_Fan_Front_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS135475_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Familia_FAN_Front_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS134789_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_con_Beneficios_Fan_FRONT_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS135472_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internacional_FAN_Front_OOCC</span>
-                <br/>
-                <span class="ignored-method-name">TS134788_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_FAN_Front_OOCC</span>
-                <br/>
-                <span class="ignored-method-name">TS134841_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_SMS_Fan_FRONT_OOCC</span>
-                <br/>
-                <span class="ignored-method-name">TS135474_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Familia_FAN_Front_OOCC</span>
-                <br/>
-                <span class="ignored-method-name">TS134786_CRM_Movil_Prepago_Historial_de_Recargas_Monto_total_FAN_Front_OOCC</span>
-                <br/>
-                <span class="ignored-method-name">TS135484_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS134842_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_ROL_Fan_FRONT_OOCC</span>
-                <br/>
-                <span class="ignored-method-name">TS134838_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_IVR_Fan_FRONT_OOCC</span>
-                <br/>
-                <span class="ignored-method-name">TS134839_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Fecha_Fan_FRONT_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS135476_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internet_50_Mb_FAN_Front_OOCC</span>
-                <br/>
-                <span class="ignored-method-name">TS135347_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_TODOS_Fan_FRONT_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS134847_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_Atencion_al_cliente_Fan_FRONT_Telefonico</span>
-                <br/>
-                <span class="ignored-method-name">TS135483_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_OOCC</span>
+                <span class="ignored-method-name">TS134330_CRM_Movil_REPRO_Recargas_Presencial_TC_Ofcom_Financiacion</span>
                 <br/>
               </div> <!-- ignored-methods-div -->
             </div> <!-- ignored-class-div -->
@@ -348,21 +297,25 @@ return data;
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="chronological-class">
-              <div class="chronological-class-name">Funcionalidades.HistorialDeRecargas</div> <!-- chronological-class-name -->
+              <div class="chronological-class-name">Funcionalidades.Recargas</div> <!-- chronological-class-name -->
               <div class="configuration-class before">
                 <span class="method-name">initTelefonico</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-class before -->
               <div class="configuration-method before">
                 <span class="method-name">setup</span>
-                <span class="method-start">95562 ms</span>
+                <span class="method-start">86291 ms</span>
               </div> <!-- configuration-method before -->
               <div class="test-method">
                 <img src="failed.png">
                 </img>
-                <span class="method-name">TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico(21475787, 2932449250)</span>
-                <span class="method-start">130224 ms</span>
+                <span class="method-name">TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion(22222035, 100, 2932442894, BANCO SANTANDER RIO S.A., VISA, VISA ARGENTINA S.A. - Cuotas: 1.. 1 Recar...)</span>
+                <span class="method-start">90710 ms</span>
               </div> <!-- test-method -->
+              <div class="configuration-method after">
+                <span class="method-name">after</span>
+                <span class="method-start">92008 ms</span>
+              </div> <!-- configuration-method after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
       </div> <!-- main-panel-root -->

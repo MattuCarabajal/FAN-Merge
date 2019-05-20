@@ -39,7 +39,7 @@ public class ProblemasConRecargas extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -71,7 +71,7 @@ public class ProblemasConRecargas extends TestBase {
 		ges.irGestionClientes();	
 	}
 
-	@AfterMethod (alwaysRun = true)
+	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -79,7 +79,7 @@ public class ProblemasConRecargas extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass (alwaysRun = true)
+	//@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -215,6 +215,7 @@ public class ProblemasConRecargas extends TestBase {
 		CBS_Mattu cbsm = new CBS_Mattu();
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
+		System.out.println(datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
@@ -228,7 +229,7 @@ public class ProblemasConRecargas extends TestBase {
 		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("OnlineRefillData_nextBtn")));
 		driver.findElement(By.id("RefillDate")).sendKeys("11-08-2018");
-		driver.findElement(By.id("RefillAmount")).sendKeys("500000");
+		driver.findElement(By.id("OnlineRefillAmount")).sendKeys("500000");
 		driver.findElement(By.id("ReceiptCode")).sendKeys("111");
 		driver.findElement(By.id("OnlineRefillData_nextBtn")).click();
 		sleep(5000);
@@ -248,7 +249,8 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(gestion.getText().contains("Recarga realizada con \u00e9xito"));
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 5));
-		Assert.assertTrue(datosInicial + 50 == datosFinal);
+		System.out.println(datosFinal);
+		Assert.assertTrue(datosInicial + 5000 == datosFinal);
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecargaQuemada")
