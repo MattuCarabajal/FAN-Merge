@@ -118,11 +118,13 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	@FindBy (how = How.CSS, using = locator_razonSocial)
 	private WebElement razonSocial ;
 	
+	private WebDriverWait wait;
 			
 //-------------------------------------------------------------------CONTRUCTOR
 	public GestionDeClientes_Fw(WebDriver driver) {
 		super(driver);
 		super.setDriver(driver);
+		wait = new WebDriverWait(driver,30);
 		//PageFactory.initElements(driver, this);
 		PageFactory.initElements(getDriver(), this);
 		super.setFluentWait(new FluentWait<WebDriver>(driver));
@@ -335,7 +337,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public WebDriverWait getWait() {
-		return new WebDriverWait(driver,30);
+		return  wait;
 		
 	}
 	
