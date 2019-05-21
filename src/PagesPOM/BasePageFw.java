@@ -88,6 +88,7 @@ public class BasePageFw {
 			//System.out.println(x.getText()+"<--------------->"+parametroBusqueda);
 			if(x.getText().contains(parametroBusqueda)) {
 				aux=true;
+				getFluentWait().until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(x));
 				getFluentWait().until(ExpectedConditions.elementToBeClickable(x));
 				
 				x.click();
