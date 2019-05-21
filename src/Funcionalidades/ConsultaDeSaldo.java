@@ -108,8 +108,7 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen ="TS134373";
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		cambioDeFrame(driver, By.className("card-top"), 0);
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer credito = Integer.parseInt(sMainBalance.substring(0, 7));
 		String card = driver.findElement(By.className("card-info")).findElement(By.className("uLdetails")).findElement(By.tagName("li")).findElements(By.tagName("span")).get(2).getText();
@@ -123,18 +122,14 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen ="TS134376";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(8000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		cambioDeFrame(driver, By.className("card-top"), 0);
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
-		cbs = new CBS();
-		cbsm = new CBS_Mattu();
 		Integer saldoEnCard = Integer.parseInt(saldo);
-		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "arc:TotalAmount");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 4));
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalUsageAmount");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
 	
@@ -145,8 +140,7 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen = "TS134811";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		cambioDeFrame(driver, By.className("card-top"), 0);
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer credito = Integer.parseInt(sMainBalance.substring(0, 7));
 		String card = driver.findElement(By.className("card-info")).findElement(By.className("uLdetails")).findElement(By.tagName("li")).findElements(By.tagName("span")).get(2).getText();
@@ -160,19 +154,16 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen = "TS134813";		
 		detalles = imagen + " -Consulta de saldo - DNI: " + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(8000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		cambioDeFrame(driver, By.className("card-top"), 0);
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
-		cbs = new CBS();
-		cbsm = new CBS_Mattu();
 		Integer saldoEnCard = Integer.parseInt(saldo);
-		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "arc:TotalAmount");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 4));
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalUsageAmount");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
+		
 	}
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
@@ -182,8 +173,7 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen = "TS134814";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		cambioDeFrame(driver, By.className("card-top"), 0);
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer credito = Integer.parseInt(sMainBalance.substring(0, 7));
 		String card = driver.findElement(By.className("card-info")).findElement(By.className("uLdetails")).findElement(By.tagName("li")).findElements(By.tagName("span")).get(2).getText();
@@ -198,18 +188,14 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen = "TS134815";
 		detalles = imagen + "Consulta de saldo -DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(8000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		cambioDeFrame(driver, By.className("card-top"), 0);
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
-		cbs = new CBS();
-		cbsm = new CBS_Mattu();
 		Integer saldoEnCard = Integer.parseInt(saldo);
-		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "arc:TotalAmount");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 4));
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalUsageAmount");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
 }

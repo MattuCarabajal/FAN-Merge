@@ -87,7 +87,9 @@ public class Marketing extends CustomerCare {
 		CustomerCare cCC = new CustomerCare(driver);
 		WebElement wCloseTab = cCC.obtenerPestanaActiva();
 		Actions aAction = new Actions(driver);
-		sleep(5000);
+		TestBase tb = new TestBase();
+//		sleep(5000);
+		tb.sleepFindBy(wCloseTab, By.className("x-tab-strip-close"), 0);
 		WebElement wClose = wCloseTab.findElement(By.className("x-tab-strip-close"));
 		aAction.moveToElement(wClose).perform();
 		wClose.click();
