@@ -36,10 +36,9 @@ public class Vista360 extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
@@ -48,10 +47,9 @@ public class Vista360 extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+//	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
@@ -63,7 +61,6 @@ public class Vista360 extends TestBase {
 	//@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
@@ -104,21 +101,19 @@ public class Vista360 extends TestBase {
 		imagen = "TS134379";
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
 		try {
 			ges.cerrarPanelDerecho();
 		} catch (Exception e) {}
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		sleep(3000);
+		cambioDeFrame(driver, By.className("card-top"), 0);
 		driver.findElement(By.className("card-top")).click();
-		sleep(3000);
+		sleepFindBy(driver, By.className("slds-text-body_regular"), 0);
 		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "mis servicios");
-		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver,By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium")));
+		cambioDeFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium"), 0);
 		WebElement tabla = null;
 		for(WebElement x : driver.findElements(By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium"))){
 				if(x.getText().toLowerCase().contains("servicios incluidos")) {
 					tabla = x;
+					break;
 				}
 		}
 		List<WebElement> elementosDeLaTabla = tabla.findElement(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small slds-p-around--medium'] [class='slds-p-bottom--small'] ")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
@@ -136,24 +131,17 @@ public class Vista360 extends TestBase {
 	public void TS134349_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_abiertas_Plazo_vencido_Asistencia_registrada_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134349";
 		detalles = imagen + " - Vista 360 - DNI: "+sDNI+" - Nombre: "+sNombre;
-//		sb.BuscarCuenta("DNI", sDNI);
-//		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-//		sleep(25000);
-//		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-//		cc.irAGestiones();
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Gestiones");
-		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")));
+		cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont"), 0);
 		driver.findElement(By.id("text-input-03")).click();
 		driver.findElement(By.xpath("//*[text() = 'Casos']")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")).click();
-		sleep(10000);
+		sleepFindBy(driver, By.cssSelector(".slds-p-bottom--small"), 0);
 		WebElement nroCaso = driver.findElement(By.cssSelector(".slds-p-bottom--small")).findElement(By.tagName("table")).findElement(By.tagName("tbody")).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).findElement(By.tagName("div")).findElement(By.tagName("a"));
 		nroCaso.click();
-		sleep(8000);
 		WebElement fechaYHora = null;
-		driver.switchTo().frame(cambioFrame(driver, By.name("close")));
+		cambioDeFrame(driver, By.name("close"), 0);
 		for (WebElement x : driver.findElements(By.className("pbSubsection"))) {
 			if (x.getText().toLowerCase().contains("owned by me"))
 				fechaYHora = x;

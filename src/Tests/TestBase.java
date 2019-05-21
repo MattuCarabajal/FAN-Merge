@@ -2084,23 +2084,23 @@ public class TestBase {
 	    Login page0 = new Login(driver);
 	    page0.ingresarLogisticaYEntrega();
 	}
-	
+
 	//========================================================= Metodos con Sleep Incluido =========================================================\\
 	
-	public boolean sleepCambioDeFrame (WebDriver driver, String elementSelector, double timeMax, double timeAcumulated) {
-		if (timeMax < timeAcumulated) {
+	public boolean sleepCambioDeFrame (WebDriver driver, String elementSelector, double timeAcumulated) {
+		if (20 < timeAcumulated) {
 			return true;
 		}
 		try {
 			driver.switchTo().frame(cambioFrame(driver, By.id(elementSelector)));
 			return true;
 		} catch (Exception e) {
-			try {Thread.sleep(200);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			return sleepCambioDeFrame(driver, elementSelector, timeMax, timeAcumulated + 0.200);
+			try {Thread.sleep(250);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+			return sleepCambioDeFrame(driver, elementSelector, timeAcumulated + 0.250);
 		}
 	}
 	
-	private WebElement frameConElElemento(WebDriver driver, By byForElement) {
+	private WebElement frameConElElemento (WebDriver driver, By byForElement) {
 		List<WebElement> frames = driver.findElements(By.tagName("iframe"));
 		driver.switchTo().defaultContent();
 		for (WebElement frame : frames) {
@@ -2144,8 +2144,8 @@ public class TestBase {
 			try {
 				element.findElement(byForElement);
 			} catch (Exception e) {
-				try {Thread.sleep(100);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-				sleepFindBy(element, byForElement, timeAcumulated + 0.100);
+				try {Thread.sleep(250);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+				sleepFindBy(element, byForElement, timeAcumulated + 0.250);
 			}
 		}
 	}
