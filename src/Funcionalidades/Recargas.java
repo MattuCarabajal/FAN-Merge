@@ -43,7 +43,6 @@ public class Recargas extends TestBase {
 	//@BeforeClass (alwaysRun = true)
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
 		cbs = new CBS();
@@ -57,7 +56,6 @@ public class Recargas extends TestBase {
 	//@BeforeClass (alwaysRun = true)
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
 		cbs = new CBS();
@@ -71,13 +69,11 @@ public class Recargas extends TestBase {
 	@BeforeClass (alwaysRun = true)
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
-		ges = new GestionDeClientes_Fw(driver);
 		log.loginAgente();
 		ges.irAConsolaFAN();
 	}
@@ -115,12 +111,12 @@ public class Recargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("RefillAmount")));
+		sleep(5000);
+		cambioDeFrame(driver, By.id("RefillAmount"), 0);
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
 		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("InvoicePreview_nextBtn")));
+		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
 		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
 		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
@@ -145,12 +141,12 @@ public class Recargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("RefillAmount")));
+		sleep(5000);
+		cambioDeFrame(driver, By.id("RefillAmount"), 0);
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
 		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("InvoicePreview_nextBtn")));
+		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
 		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
 		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
@@ -178,12 +174,12 @@ public class Recargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("RefillAmount")));
+		sleep(5000);
+		cambioDeFrame(driver, By.id("RefillAmount"), 0);
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
 		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("InvoicePreview_nextBtn")));
+		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
 		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
 		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
@@ -212,12 +208,11 @@ public class Recargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("RefillAmount")));
+		sleep(5000);
+		cambioDeFrame(driver, By.id("RefillAmount"), 0);
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
-		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("InvoicePreview_nextBtn")));
+		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
 		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
 		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
@@ -240,7 +235,7 @@ public class Recargas extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilTelefonico"}, dataProvider = "RecargaTC")  //Error despues de ingresar la tarjeta
+	@Test (groups = {"PerfilTelefonico"}, dataProvider = "RecargaTC")  
 	public void TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) throws AWTException {
 		imagen= "TS134332";
 		detalles = imagen+"-Recarga-DNI:"+sDNI;
@@ -249,13 +244,12 @@ public class Recargas extends TestBase {
 		System.out.println("datosInicial: " + datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(12000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("RefillAmount")));
-		driver.findElement(By.id("RefillAmount")).click();
+		sleep(5000);
+		cambioDeFrame(driver, By.id("RefillAmount"), 0);
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
 		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("InvoicePreview_nextBtn")));
+		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
 		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
 		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
@@ -298,12 +292,12 @@ public class Recargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("RefillAmount")));
+		sleep(5000);
+		cambioDeFrame(driver, By.id("AmountSelectionStep_nextBtn"), 0);
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
 		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("InvoicePreview_nextBtn")));
+		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
 		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
 		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
