@@ -121,15 +121,12 @@ public class BasePageFw {
 	
 	public boolean macheaText(List<WebElement> listaElementos, String textoaComparar){
 		//de una lista de ElemetosWeb toma el texto y compara con un texto que puede estar formado por mas de una condicion(ver metodo Matches)
-		boolean temp=false;
-		for (WebElement x : listaElementos) {	
+		for (WebElement x : listaElementos) {
 	        System.out.println(x.getText()+" "+x.getText().matches(textoaComparar));
 			if (x.getText().matches(textoaComparar))
-				temp = true;		
-		}
-																					
-		return temp;
-		
+				return true;	
+		}												
+		return false;
 	}
 	
 	public boolean containText(List<WebElement> listaElementos, String textoaComparar){
