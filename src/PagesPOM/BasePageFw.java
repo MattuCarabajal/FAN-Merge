@@ -80,7 +80,7 @@ public class BasePageFw {
 	}
 	
 	public boolean clickElementoPorText(List<WebElement> listado, String parametroBusqueda){
-		//filtra por texto y retorna un elemento web 
+
 		//System.out.println(listado.size());
 		boolean aux = false;
 		for (WebElement x : listado) {
@@ -101,7 +101,7 @@ public class BasePageFw {
 	}
 	
 	public boolean clickElementoPorTextExacto(List<WebElement> listado, String parametroBusqueda){
-		//filtra por texto y retorna un elemento web 
+
 		//System.out.println(listado.size());
 		boolean aux = false;
 		for (WebElement x : listado) {
@@ -119,7 +119,7 @@ public class BasePageFw {
 		
 	}
 	
-	public boolean macheaText(List<WebElement> listaElementos, String textoaComparar){
+	public boolean matchText(List<WebElement> listaElementos, String textoaComparar){
 		//de una lista de ElemetosWeb toma el texto y compara con un texto que puede estar formado por mas de una condicion(ver metodo Matches)
 		for (WebElement x : listaElementos) {
 	        System.out.println(x.getText()+" "+x.getText().matches(textoaComparar));
@@ -129,16 +129,15 @@ public class BasePageFw {
 		return false;
 	}
 	
-	public boolean containText(List<WebElement> listaElementos, String textoaComparar){
+	public boolean containsText(List<WebElement> listaElementos, String textoaComparar){
 		//de una lista de ElemetosWeb toma el texto y compara a ver si contiene el Srting que toma como parametro
-		boolean temp=false;
 		for (WebElement x : listaElementos) {	
 	        System.out.println(x.getText()+" "+x.getText().contains(textoaComparar));
-			if (x.getText().contains(textoaComparar))
-				temp = true;		
+			if (x.getText().toLowerCase().contains(textoaComparar.toLowerCase()))
+				return true;		
 		}
 																					
-		return temp;
+		return false;
 		
 	}
 	

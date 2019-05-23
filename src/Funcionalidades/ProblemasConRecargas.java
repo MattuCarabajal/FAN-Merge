@@ -133,7 +133,8 @@ public class ProblemasConRecargas extends TestBase {
 		CBS cbs = new CBS();
 		CBS_Mattu cbsm = new CBS_Mattu();
 		String davoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosInicial = Integer.parseInt(davoViejo.substring(0, (davoViejo.length()) - 1));
+		Integer datosInicial = Integer.parseInt(davoViejo.substring(0, 7));
+		System.out.println(datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
@@ -159,8 +160,9 @@ public class ProblemasConRecargas extends TestBase {
 		}
 		Assert.assertTrue(gest);
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, (datoNuevo.length()) - 1));
-		Assert.assertTrue(datosInicial + 123000 == datosFinal);
+		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0,7));
+		System.out.println(datosFinal);
+		Assert.assertTrue(datosInicial + 123 == datosFinal);
 		String orden = cc.obtenerOrden(driver, "Problemas con Recargas");
 		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + " - Orden: " + orden;
 	}
@@ -171,7 +173,7 @@ public class ProblemasConRecargas extends TestBase {
 		CBS cbs = new CBS();
 		CBS_Mattu cbsm = new CBS_Mattu();
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 1));
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 7));
 		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
@@ -183,10 +185,15 @@ public class ProblemasConRecargas extends TestBase {
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
 		sleep(5000);
 		driver.findElement(By.id("RefillDate")).sendKeys("23-07-2018");
-		driver.findElement(By.id("RefillAmount")).sendKeys("123");
+		driver.findElement(By.id("OnlineRefillAmount")).sendKeys("123");
 		driver.findElement(By.id("ReceiptCode")).sendKeys("123");
 		driver.findElement(By.id("OnlineRefillData_nextBtn")).click();
-		sleep(5000);
+		sleep(7000);
+		try {
+			driver.findElement(By.xpath("//*[@id=\"SessionCase|0\"]/div/div[1]/label[2]/span/div/div")).click();
+			driver.findElement(By.id("ExistingCase_nextBtn")).click();
+			sleep(10000);
+		} catch (Exception e) {}
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "contains", "si");
 		File directory = new File("Dni.jpg");
 		driver.findElement(By.id("FileAttach")).sendKeys(new File(directory.getAbsolutePath()).toString());
@@ -201,8 +208,8 @@ public class ProblemasConRecargas extends TestBase {
 		}
 		Assert.assertTrue(gest);
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, (datoNuevo.length()) - 1));
-		Assert.assertTrue(datosInicial + 123000 == datosFinal);
+		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 7));
+		Assert.assertTrue(datosInicial + 123 == datosFinal);
 		String orden = cc.obtenerOrden(driver, "Problemas con Recargas");
 		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + " - Orden: " + orden;
 	}
@@ -578,7 +585,7 @@ public class ProblemasConRecargas extends TestBase {
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
 		sleep(5000);
 		driver.findElement(By.id("RefillDate")).sendKeys("01-12-2018");
-		driver.findElement(By.id("RefillAmount")).sendKeys("5000");
+		driver.findElement(By.id("OnlineRefillAmount")).sendKeys("5000");
 		driver.findElement(By.id("ReceiptCode")).sendKeys("123");
 		driver.findElement(By.id("OnlineRefillData_nextBtn")).click();
 		sleep(7000);
