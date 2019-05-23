@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -53,7 +54,7 @@ public class Recargas extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	//@BeforeClass (alwaysRun = true)
+	@BeforeClass (alwaysRun = true)
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -94,7 +95,7 @@ public class Recargas extends TestBase {
 		sleep(2000);
 	}
 
-	//@AfterClass(alwaysRun=true)
+	//@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -305,8 +306,17 @@ public class Recargas extends TestBase {
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "tarjeta de credito");
 		selectByText(driver.findElement(By.id("BankingEntity-0")), sBanco);
 		selectByText(driver.findElement(By.id("CardBankingEntity-0")), sTarjeta);
+		sleep(1000);
 		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), sPromo);
+		sleep(5000);
 		selectByText(driver.findElement(By.id("Installment-0")), sCuota);
+		driver.findElement(By.id("CardNumber-0")).sendKeys(sNumTarjeta);
+		selectByText(driver.findElement(By.id("expirationMonth-0")), sVenceMes);
+		selectByText(driver.findElement(By.id("expirationYear-0")), sVenceAno);
+		driver.findElement(By.id("securityCode-0")).sendKeys(sCodSeg);
+		selectByText(driver.findElement(By.id("documentType-0")), "DNI");
+		driver.findElement(By.id("documentNumber-0")).sendKeys(sDNI);
+		driver.findElement(By.id("cardHolder-0")).sendKeys(sTitular);
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
 		sleep(10000);
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));

@@ -1129,6 +1129,7 @@ public class Ajustes extends TestBase {
 		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAHistoriales();
+		sleep(10000);
 		WebElement historialDeAjustes = null;
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
 		for (WebElement x : driver.findElements(By.className("slds-card"))) {

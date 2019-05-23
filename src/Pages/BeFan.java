@@ -8,11 +8,13 @@ import java.util.Arrays;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.BufferedReader;
@@ -61,11 +63,11 @@ import org.apache.http.util.EntityUtils;
 //import Tests.File;
 import Tests.TestBase;
 
+
 public class BeFan extends BasePage{
 
 	//*********************************CONSTRUCTOR******************************************************//
 	static WebDriver driver;
-	TestBase tst = new TestBase();
 	
 	public BeFan(WebDriver driver){
 		this.driver = driver;
@@ -74,7 +76,7 @@ public class BeFan extends BasePage{
 	
 	
 	//*********************************ELEMENTOS******************************************************//
-	
+	TestBase tst = new TestBase();
 	//Login
 	@FindBy(name="username")
 	private WebElement user;
@@ -330,36 +332,6 @@ public class BeFan extends BasePage{
 		return finalmente;		
 	}
 	
-	public List<String> SGDatosArchivos() {
-		List <String> resultado = new ArrayList<String>();
-		int h = 1;
-		int i = 1;
-		int k = 1;
-		SGTablaVisible();
-		int paginas = SGTablaCantPaginas();
-		//Lo inicio con cualquier saraza para que quede vacio y no nulo
-		
-		for (h = 1; h <= paginas; h++) {
-			if(paginas==1) {
-			} else {
-				SGTablaSigPag();
-			}
-			List <WebElement> columnasEnPagina = driver.findElements(By.xpath("//*[@id=\"exportarTabla\"]/thead/tr/th"));
-			List <WebElement> elementosEnPagina = driver.findElements(By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr"));							
-			for(i = 1; i <= elementosEnPagina.size(); i++) {
-				for (k = 1; k <= columnasEnPagina.size(); k++) {
-					resultado.add(driver.findElement(By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr[" + i +"]/td[" + k + "]")).getText());
-				}
-			}
-			i = 1;
-			elementosEnPagina = null;
-		}
-//		for (i = 1; i <=resultado.size();i++) {
-//			System.out.println(resultado.get(i-1));
-//		}
-		
-		return (resultado);
-	}
 
 	//Log in
 	
@@ -404,57 +376,69 @@ public class BeFan extends BasePage{
 	
 	//Menu Simcard-Importacion
 	public void SISeleccionDeDeposito(String deposito) {
-		if (driver.findElements(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")).isEmpty()) {
-			selectByText(driver.findElements(By.cssSelector(".text.form-control.ng-untouched.ng-valid.ng-not-empty.ng-dirty.ng-valid-parse")).get(0), deposito);
-		} else {
-			
-			selectByText(driver.findElements(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")).get(0), deposito);
-		}
-		
+		tst.waitForClickeableAndDropdownValuesToLoad(driver, By.name("vendedores"), By.xpath("/html/body/div[1]/div[2]/div/section/div[1]/div/div[2]/div/select/option[2]"), 10);
+			selectByText(driver.findElement(By.name("vendedores")), deposito);		
 	}
 	
 	public void SISeleccionDePrefijo (String prefijo) {
-	
-		if (driver.findElements(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")).isEmpty()) {
-			selectByText(driver.findElements(By.cssSelector(".text.form-control.ng-valid.ng-dirty.ng-touched.ng-empty")).get(0), prefijo);
-		} else {
-		selectByText(driver.findElements(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")).get(0), prefijo);
-		}
+		tst.waitForClickeable(driver, By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[1]/div[2]/div[1]/select"));
+		selectByText(driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[1]/div[2]/div[1]/select")), prefijo);
+//		if (tst.waitForQuantityMoreThan(driver, By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty"), 0, 15)) {
+//			tst.waitForClickeable(driver, By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty"));
+//			selectByText(driver.findElements(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")).get(0), prefijo);
+//		} else {
+//			tst.waitForClickeable(driver, By.cssSelector(".text.form-control.ng-valid.ng-dirty.ng-touched.ng-empty"));
+//		selectByText(driver.findElements(By.cssSelector(".text.form-control.ng-valid.ng-dirty.ng-touched.ng-empty")).get(0), prefijo);
+//		}
 	}
 	
 	public void SISeleccionCantidadDePrefijo (String cantidadPrefijo) {
 		
-		if (driver.findElements(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")).isEmpty()) {
-			driver.findElement(By.cssSelector(".text.form-control.ng-valid.ng-dirty.ng-touched.ng-empty")).sendKeys(cantidadPrefijo);
-		} else {
-			driver.findElement(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")).sendKeys(cantidadPrefijo);
-		}
+		tst.waitForClickeable(driver, By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[1]/div[2]/div[2]/input"));
+		driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[1]/div[2]/div[2]/input")).sendKeys(cantidadPrefijo);
+//		if (tst.waitForQuantityMoreThan(driver, By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty"), 0, 15)) {
+//			tst.waitForClickeable(driver, By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty"));
+//			driver.findElement(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")).sendKeys(cantidadPrefijo);
+//		} else {
+//			tst.waitForClickeable(driver, By.cssSelector(".text.form-control.ng-valid.ng-dirty.ng-touched.ng-empty"));
+//			driver.findElement(By.cssSelector(".text.form-control.ng-valid.ng-dirty.ng-touched.ng-empty")).sendKeys(cantidadPrefijo);
+//		}
+		
 	}
 	
 	public void SIClickAgregar() {
+		tst.waitForClickeable(driver, By.name("btnAgregar"));
 	driver.findElement(By.name("btnAgregar")).click();
 	}
 	
 	public String SIMensajeModal() {
 		String mensaje;
+		tst.waitForVisible(driver, By.xpath("/html/body/div[1]/div/div/div/div[1]/div[1]/h3"), 15);
 		mensaje = driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[1]/h3")).getText();
 		return mensaje;
 	}
 	
 	public String SIMensajeModalMasDeUnMensaje() {
 		String mensaje;
+		tst.waitForVisible(driver, By.xpath("/html/body/div[1]/div/div/div/div[1]/div[1]/h3/h2"), 15);
 		mensaje = driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[1]/h3/h2")).getText();
 		return mensaje;
 	}
 	
 	public void SIImportarArchivo(String path) {
+	tst.waitForClickeable(driver, By.id("fileinput"));
 	WebElement uploadElement = driver.findElement(By.id("fileinput"));
 	uploadElement.sendKeys(path);
 	}
 	
 	public void SIClickImportar() {
-	int cont = driver.findElements(By.cssSelector(".btn.btn-primary")).size();
-	driver.findElements(By.cssSelector(".btn.btn-primary")).get(cont-1).click();
+	tst.waitForClickeableWithTextAndThenClick(driver, By.cssSelector(".btn.btn-primary"), "Importar", 10);
+//	int cont = driver.findElements(By.cssSelector(".btn.btn-primary")).size();
+//	if (tst.waitForQuantityMoreThan(driver, By.cssSelector(".btn.btn-primary"), 2, 15) == true) {
+//		driver.findElements(By.cssSelector(".btn.btn-primary")).get(cont-1).click();
+//	} else {
+//		Assert.assertTrue(false);
+//	}
 	}
 	
 	public String SICreacionArchivo(String nombreArch, String path, String serial1, String serial2) throws IOException {
@@ -536,17 +520,8 @@ public class BeFan extends BasePage{
 	}
 	
 	
-	
-	public void SIDesRenombreDeArchivo(String nombreArch, String path) {
-	String[] parts = nombreArch.split("\\\\");
-	String[] partes = parts[2].split("2");
-	File archivo = new File(nombreArch);
-	String path2 = path + "\\" + partes[0] + ".txt";
-	File archivo2 = new File(path2);
-	Boolean faio = archivo.renameTo(archivo2);
-	}
-	
 	public void SIClickAceptarImportar() {
+	tst.waitForClickeable(driver, By.cssSelector(".btn.btn-link"));
 	driver.findElement(By.cssSelector(".btn.btn-link")).click();	
 	}
 	
@@ -601,36 +576,81 @@ public class BeFan extends BasePage{
 	//Menu Simcard-Gestion
 	
 	//Estados Procesado, En Proceso, Eliminado y Pendiente
+	//QUEDE ACA, REVISAR AMBOS
 	public void SGSeleccionEstado(String estado){
-	selectByText(driver.findElement(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")), estado);
+	tst.waitForClickeable(driver, By.xpath("/html/body/div[1]/div[2]/div/section/div[1]/div[1]/select"));
+	selectByText(driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/section/div[1]/div[1]/select")), estado);
 	}
 	
 	public void SGSeleccionDeposito(String deposito) {
-	selectByText(driver.findElements(By.cssSelector(".text.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty")).get(1), deposito);
+	tst.waitForClickeableAndDropdownValuesToLoad(driver, By.name("vendedores"), By.xpath("/html/body/div[1]/div[2]/div/section/div[1]/div[3]/select/option[2]"), 10);
+	selectByText(driver.findElement(By.name("vendedores")), deposito);
 	}
 	
-	public void SGClickBuscar() {
-	driver.findElement(By.cssSelector(".btn.btn-primary")).click();
+	public void SGNombreDelArchivo(String nombre) {
+		tst.waitForClickeable(driver, By.xpath("/html/body/div[1]/div[2]/div/section/div[1]/div[4]/input"));
+		driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/section/div[1]/div[4]/input")).sendKeys(nombre);
 	}
 	
 	public void SGFechaDesdeAhora() {
+		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
 		LocalDateTime now = LocalDateTime.now(); 
 		String time = dtf.format(now);
 		String[] fecha = time.split("/");
 		String izquierda = Keys.chord(Keys.ARROW_LEFT);
 		String borrar = Keys.chord(Keys.BACK_SPACE);
+		tst.waitForClickeable(driver, By.id("dataPickerDesde"));
 		driver.findElement(By.id("dataPickerDesde")).click();
-		driver.findElement(By.id("dataPickerDesde")).sendKeys(borrar + borrar + borrar + borrar + fecha[2] + izquierda + izquierda + izquierda + izquierda + izquierda + borrar + borrar + fecha[1] + izquierda + izquierda + izquierda + borrar + borrar + fecha[0]);
-		sleep(500);		
+		driver.findElement(By.id("dataPickerDesde")).sendKeys(borrar + borrar + borrar + borrar + fecha[2] + izquierda + izquierda + izquierda + izquierda + izquierda + borrar + borrar + fecha[1] + izquierda + izquierda + izquierda + borrar + borrar + fecha[0]);		
 	}
 	
-	public void SGTablaSigPag() {
-		tst.waitForVisible(driver, By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[2]/ul/button[3]"), 10);
-		int paginaActual = SGTablaPagActual();
-		int paginaTotal = SGTablaCantPaginas();
-		driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[2]/ul/button[3]")).click();
-		tst.waitForVisibleWithText(driver, By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[1]/div/div[2]"), "P\\u00e1gina " + (paginaActual+1) + "/" + paginaTotal, 10);
+	public void SGFechaDesde(String yyyyMMdd) {
+		String[] fecha = new String[3];
+		fecha[2] = yyyyMMdd.substring(0, 4);
+		fecha[1] = yyyyMMdd.substring(4, 6);
+		fecha[0] = yyyyMMdd.substring(6, 8);
+		String izquierda = Keys.chord(Keys.ARROW_LEFT);
+		String borrar = Keys.chord(Keys.BACK_SPACE);
+		tst.waitForClickeable(driver, By.id("dataPickerDesde"));
+		driver.findElement(By.id("dataPickerDesde")).click();
+		driver.findElement(By.id("dataPickerDesde")).sendKeys(borrar + borrar + borrar + borrar + fecha[2] + izquierda + izquierda + izquierda + izquierda + izquierda + borrar + borrar + fecha[1] + izquierda + izquierda + izquierda + borrar + borrar + fecha[0]);	
+	}
+	
+	public void SGFechaHasta(String yyyyMMdd) {
+		String[] fecha = new String[3];
+		fecha[2] = yyyyMMdd.substring(0, 4);
+		fecha[1] = yyyyMMdd.substring(4, 6);
+		fecha[0] = yyyyMMdd.substring(6, 8);
+		String izquierda = Keys.chord(Keys.ARROW_LEFT);
+		String borrar = Keys.chord(Keys.BACK_SPACE);
+		tst.waitForClickeable(driver, By.id("dataPickerHasta"));
+		driver.findElement(By.id("dataPickerHasta")).click();
+		driver.findElement(By.id("dataPickerHasta")).sendKeys(borrar + borrar + borrar + borrar + fecha[2] + izquierda + izquierda + izquierda + izquierda + izquierda + borrar + borrar + fecha[1] + izquierda + izquierda + izquierda + borrar + borrar + fecha[0]);	
+	}
+	
+	public void SGClickBuscar() {
+	tst.waitForClickeable(driver, By.cssSelector(".btn.btn-primary"));
+	driver.findElement(By.cssSelector(".btn.btn-primary")).click();
+	}
+	
+	public void SGTablaVisible () {
+		tst.waitForVisible(driver, By.xpath("//*[@id=\"exportarTabla\"]/thead/tr/th[1]"), 10);
+	}
+	
+	public void SGVerDetalleBotonExportar() {
+		tst.waitForClickeable(driver, By.id("botonExportar"));
+		driver.findElement(By.id("botonExportar")).click();
+	}
+	
+	public int SGTablaCantPaginas() {
+		List<WebElement> AUX = driver.findElements(By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[1]/div/div[2]/label"));
+		String[] cant = AUX.get(0).getText().split("/");
+		if(cant[0].equals("")) {
+			return(1);
+		} else {
+			return(Integer.parseInt(cant[1]));
+		}
 	}
 	
 	public int SGTablaPagActual() {
@@ -642,6 +662,135 @@ public class BeFan extends BasePage{
 			String[] cant = AUX2[0].split(" ");
 			return(Integer.parseInt(cant[1]));
 		}
+	}
+	
+	public void SGTablaSigPag() {
+		tst.waitForVisible(driver, By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[2]/ul/button[3]"), 10);
+		int paginaActual = SGTablaPagActual();
+		int paginaTotal = SGTablaCantPaginas();
+		driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[2]/ul/button[3]")).click();
+		tst.waitForVisibleWithText(driver, By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[1]/div/div[2]"), "P\\u00e1gina " + (paginaActual+1) + "/" + paginaTotal, 10);
+	}
+	
+	public List<WebElement> SGColumnas() {
+		tst.waitForVisible(driver, By.xpath("//*[@id=\"exportarTabla\"]/thead/tr/th"), 10);
+		List <WebElement> resultado = driver.findElements(By.xpath("//*[@id=\"exportarTabla\"]/thead/tr/th"));
+		return resultado;
+	}
+	
+	public void SGClickVerDetalle(int indicador) {
+		tst.waitForClickeable(driver, By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr[" + indicador + "]/td[9]/button"));
+		driver.findElement(By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr[" + indicador + "]/td[9]/button")).click();
+	}
+	
+	public int SGVerDetalleCantPag() {
+		tst.waitForVisible(driver, By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/table/thead/tr/th[1]"), 15);
+		String textoCantidadDePaginas = driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/div/div[1]/div/div[2]/label")).getText();
+		String[] cantidadDePaginas = textoCantidadDePaginas.split("/");
+		return Integer.parseInt(cantidadDePaginas[1]);
+	}
+	
+	public void SGVerDetalleBotonSig() {
+		tst.waitForClickeable(driver, By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/div/div[2]/ul/button[3]"));
+		driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/div/div[2]/ul/button[3]")).click();
+	}
+	
+	public List<WebElement> SGVerDetalleColumnas() {
+		tst.waitForVisible(driver, By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/table/thead/tr/th"), 10);
+		List <WebElement> resultado = driver.findElements(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/table/thead/tr/th"));
+		return resultado;
+	}
+
+	
+	public List<String> SGDatosArchivos() {
+		List <String> resultado = new ArrayList<String>();
+		int h = 1;
+		int i = 1;
+		int k = 1;
+		SGTablaVisible();
+		int paginas = SGTablaCantPaginas();
+		//Lo inicio con cualquier saraza para que quede vacio y no nulo
+		
+		for (h = 1; h <= paginas; h++) {
+			if(paginas==1) {
+			} else {
+				SGTablaSigPag();
+			}
+			List <WebElement> columnasEnPagina = driver.findElements(By.xpath("//*[@id=\"exportarTabla\"]/thead/tr/th"));
+			List <WebElement> elementosEnPagina = driver.findElements(By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr"));							
+			for(i = 1; i <= elementosEnPagina.size(); i++) {
+				for (k = 1; k <= columnasEnPagina.size(); k++) {
+					resultado.add(driver.findElement(By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr[" + i +"]/td[" + k + "]")).getText());
+				}
+			}
+			i = 1;
+			elementosEnPagina = null;
+		}
+//		for (i = 1; i <=resultado.size();i++) {
+//			System.out.println(resultado.get(i-1));
+//		}
+		
+		return (resultado);
+	}
+	
+	public List<String> SGBuscarArchivo(String nombre) {
+		List <String> resultado = new ArrayList<String>();
+		int i = 1;
+		int j = 0;
+		int k = 1;
+		int z = 1;
+		int h = 1;
+		//Lo inicio con cualquier saraza para que quede vacio y no nulo
+		List <WebElement> elementos = driver.findElements(By.xpath("holaquetaltucomoesta"));
+		
+		SGTablaVisible();
+		int paginas = SGTablaCantPaginas();
+		
+		for (h = 1; h <= paginas; h++) {
+			if(paginas==1) {
+			} else {
+				SGTablaSigPag();
+			}
+			
+			List <WebElement> elementosEnPagina = driver.findElements(By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr"));							
+			for(i = 1; i <= elementosEnPagina.size(); i++) {
+				elementos.add(driver.findElement(By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr[" + i +"]/td[6]")));
+				if(elementos.get(i-1).getText().equals(nombre)) {
+					SGClickVerDetalle(i);
+					i = elementosEnPagina.size()+1;
+					j = 1;
+				}
+			}
+			i = 1;
+			elementos.clear();
+			elementosEnPagina = null;
+			if (j==1) {
+				break;
+			}
+		}
+		if (j==1) {
+			int AUX = SGVerDetalleCantPag();
+			List <WebElement> columnaEnDetallePagina = driver.findElements(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/table/thead/tr/th"));
+			int AUX2 = columnaEnDetallePagina.size();
+			for (i = 0; i <= AUX*AUX2; i = i + AUX2) {
+				List <WebElement> elementosEnDetallePagina = driver.findElements(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/table/tbody/tr"));
+				z = 1;
+				for (z = 1; z <= elementosEnDetallePagina.size();z++) {
+					for (k= 1; k <= AUX2; k++) {
+						resultado.add(driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/table/tbody/tr[" + z + "]/td[" + k + "]")).getText());
+					}
+				}
+				SGVerDetalleBotonSig();
+			}
+			} else {
+			return resultado;
+		}
+		
+//		for (i = 0; i <= resultado.size()-1; i++) {
+//			System.out.println("i indice: " + i);
+//			System.out.println(resultado.get(i));
+//		}
+		return resultado;
 	}
 	
 	public boolean SGValidarResultado (List<String> input, int indice, int CantidadDeColumnas, String resultadoEsperado) {
@@ -676,29 +825,6 @@ public class BeFan extends BasePage{
 		return resultado;
 	}
 	
-	public void SGFechaDesde(String yyyyMMdd) {
-		String[] fecha = new String[3];
-		fecha[2] = yyyyMMdd.substring(0, 4);
-		fecha[1] = yyyyMMdd.substring(4, 6);
-		fecha[0] = yyyyMMdd.substring(6, 8);
-		String izquierda = Keys.chord(Keys.ARROW_LEFT);
-		String borrar = Keys.chord(Keys.BACK_SPACE);
-		tst.waitForClickeable(driver, By.id("dataPickerDesde"));
-		driver.findElement(By.id("dataPickerDesde")).click();
-		driver.findElement(By.id("dataPickerDesde")).sendKeys(borrar + borrar + borrar + borrar + fecha[2] + izquierda + izquierda + izquierda + izquierda + izquierda + borrar + borrar + fecha[1] + izquierda + izquierda + izquierda + borrar + borrar + fecha[0]);	
-	}
-	
-	public void SGFechaHasta(String yyyyMMdd) {
-		String[] fecha = new String[3];
-		fecha[2] = yyyyMMdd.substring(0, 4);
-		fecha[1] = yyyyMMdd.substring(4, 6);
-		fecha[0] = yyyyMMdd.substring(6, 8);
-		String izquierda = Keys.chord(Keys.ARROW_LEFT);
-		String borrar = Keys.chord(Keys.BACK_SPACE);
-		tst.waitForClickeable(driver, By.id("dataPickerHasta"));
-		driver.findElement(By.id("dataPickerHasta")).click();
-		driver.findElement(By.id("dataPickerHasta")).sendKeys(borrar + borrar + borrar + borrar + fecha[2] + izquierda + izquierda + izquierda + izquierda + izquierda + borrar + borrar + fecha[1] + izquierda + izquierda + izquierda + borrar + borrar + fecha[0]);	
-	}
 	
 	public boolean SGValidarFechas (String fechaDesde, String fechaHasta, List<String> fechaActual, int indice, int CantidadDeColumnas) {
 		List<String> resultados = new ArrayList<String>();
@@ -742,37 +868,7 @@ public class BeFan extends BasePage{
 		return resultado;
 	}
 	
-	public List<WebElement> SGColumnas() {
-		tst.waitForVisible(driver, By.xpath("//*[@id=\"exportarTabla\"]/thead/tr/th"), 10);
-		List <WebElement> resultado = driver.findElements(By.xpath("//*[@id=\"exportarTabla\"]/thead/tr/th"));
-		return resultado;
-	}
-	
-	public void SGVerDetalleBotonExportar() {
-		tst.waitForClickeable(driver, By.id("botonExportar"));
-		driver.findElement(By.id("botonExportar")).click();
-	}
-	
-	public List<WebElement> SGVerDetalleColumnas() {
-		tst.waitForVisible(driver, By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/table/thead/tr/th"), 10);
-		List <WebElement> resultado = driver.findElements(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[2]/table/thead/tr/th"));
-		return resultado;
-	}
-	
-	public void SGClickVerDetalle(int indicador) {
-		tst.waitForClickeable(driver, By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr[" + indicador + "]/td[9]/button"));
-		driver.findElement(By.xpath("//*[@id=\"exportarTabla\"]/tbody/tr[" + indicador + "]/td[9]/button")).click();
-	}
-	
-	public int SGTablaCantPaginas() {
-		List<WebElement> AUX = driver.findElements(By.xpath("/html/body/div[1]/div[2]/div/section/div[2]/div[1]/div/div[2]/label"));
-		String[] cant = AUX.get(0).getText().split("/");
-		if(cant[0].equals("")) {
-			return(1);
-		} else {
-			return(Integer.parseInt(cant[1]));
-		}
-	}
+
 	
 	public boolean SGLeerCampoYValidar(String nombreArch, String[] listaEstados, String[] listaResultados) {
 	boolean resultado = false;
@@ -782,14 +878,16 @@ public class BeFan extends BasePage{
 	ArrayList<String> estados = new ArrayList<String>();
 	ArrayList<String> resultados = new ArrayList<String>();
 	
+	tst.waitForClickeable(driver, By.cssSelector(".ng-binding"));
 	List<WebElement> tabla = driver.findElements(By.cssSelector(".ng-binding"));
 	String[] parts = nombreArch.split("\\\\");
 	String[] partes = parts[3].split("\\.");
-	for (WebElement x : tabla) {
+	for (WebElement x : tabla) { 
 		cont = cont + 1;
 		if (x.getText().contains(partes[0]) && (listaEstados[0] != "" || listaResultados[0] != "")) {
 		driver.findElements(By.cssSelector(".btn.btn-primary.btn-xs")).get((cont - 14) / 8).click();
-		sleep(500);
+		//sleep(500);
+		tst.waitForClickeable(driver, By.cssSelector(".padding-left-15.ng-binding"));
 		List<WebElement> tabla2 = driver.findElements(By.cssSelector(".padding-left-15.ng-binding"));
 		for (cont2 = 7;cont2 < tabla2.size();cont2 = cont2 + 8) {
 			estados.add(driver.findElements(By.cssSelector(".padding-left-15.ng-binding")).get(cont2).getText());
@@ -805,7 +903,8 @@ public class BeFan extends BasePage{
 				cont3 = 1;
 			}
 		}
-		sleep(1000);
+		//sleep(1000);
+		tst.waitForClickeable(driver, By.cssSelector(".btn.btn-link"));
 		driver.findElements(By.cssSelector(".btn.btn-link")).get(0).click();
 		if (cont3 == 1) {
 			resultado = false;
@@ -819,10 +918,6 @@ public class BeFan extends BasePage{
 		}
 		}
 	return resultado;
-	}
-	
-	public void SGTablaVisible () {
-		tst.waitForVisible(driver, By.xpath("//*[@id=\"exportarTabla\"]/thead/tr/th[1]"), 10);
 	}
 	
 	//Menu Cupos-Importacion

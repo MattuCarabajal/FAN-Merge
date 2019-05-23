@@ -164,7 +164,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	public void irConsolaFanSit02() {
 		driver.switchTo().defaultContent();
 		 getCajon().click();
-		if(!super.macheaText(this.getElementosCajon(), "Consola FAN" )) {
+		if(!super.matchText(this.getElementosCajon(), "Consola FAN" )) {
 			System.out.println("no hace  falta  cambiar");
 		}else{
 			super.getBuscarElementoPorText(this.getElementosCajon(), "Consola FAN").click();

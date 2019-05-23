@@ -201,10 +201,11 @@ public class DetalleDeConsumos extends TestBase {
 		driver.findElement(By.id("text-input-02")).click();
 		driver.findElement(By.xpath("//*[text() = 'Los \u00faltimos 15 d\u00edas']")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
-		sleep(5000);
+		sleep(10000);
 		driver.findElement(By.cssSelector(".slds-p-right--x-small.spacer")).findElement(By.tagName("span")).click();
 		driver.findElements(By.id("text-input-02")).get(1).click();
 		driver.findElement(By.xpath("//*[text() = 'SMS']")).click();
+		sleep(10000);
 		WebElement filaTabla = driver.findElement(By.cssSelector(".slds-table.slds-table_striped.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")).findElement(By.tagName("tbody")).findElement(By.tagName("tr"));
 		if (filaTabla.findElements(By.tagName("td")).get(1).getAttribute("title").equalsIgnoreCase("SMS"))
 			sms = true;
