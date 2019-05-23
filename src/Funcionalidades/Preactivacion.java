@@ -188,8 +188,8 @@ public class Preactivacion extends TestBase {
 	public void initMayo() {
 		driver = setConexion.setupEze();
 		scp = new SCP(driver);
-	//	loginBeFANVictor(driver, "mayorista");
-		loginBeFAN(driver);
+		loginBeFANVictor(driver, "mayorista");
+//		loginBeFAN(driver);
 	}
 	
 	//@BeforeClass (groups = "PerfilConfigurador")

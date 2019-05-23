@@ -2158,7 +2158,7 @@ public class TestBase {
 		driver.get(urlBeFAN);
 	    Login page0 = new Login(driver);
 		waitForClickeable(driver, By.id("containerTxtMail"));
-	    page0.ingresarBeFANVictor(perfil, urlBeFANUAT);
+	    page0.ingresarBeFANVictor(perfil, urlBeFAN);
 	}
 	
 	public Boolean waitForVisible(WebDriver driver, By element, int timeout) {
