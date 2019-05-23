@@ -373,7 +373,7 @@ public class CustomerCare extends BasePage {
 	
 	public void irADetalleDeConsumos() {
 		TestBase tb = new TestBase();
-		driver.switchTo().frame(tb.cambioFrame(driver, By.className("card-top")));
+		tb.cambioDeFrame(driver, By.className("card-top"), 0);
 		driver.findElement(By.className("card-top")).click();
 		WebElement card = driver.findElement(By.cssSelector(".console-card.active")).findElement(By.className("actions"));
 		for (WebElement x : card.findElements(By.className("slds-text-body_regular"))) {
@@ -1560,7 +1560,8 @@ public class CustomerCare extends BasePage {
 	public void seleccionarCardPornumeroLinea(String sLinea, WebDriver driver) {
 		TestBase tTB = new TestBase();
 		boolean esta = false;
-		driver.switchTo().frame(tTB.cambioFrame(driver, By.className("card-top")));		
+//		driver.switchTo().frame(tTB.cambioFrame(driver, By.className("card-top")));		
+		tTB.cambioDeFrame(driver, By.className("card-top"), 0);
 		List<WebElement> wCard = driver.findElements(By.className("card-top"));		
 		for (WebElement wAux : wCard) {
 			if (wAux.getText().contains(sLinea)) {
@@ -1839,9 +1840,23 @@ public class CustomerCare extends BasePage {
 	
 	public void verificarStatus(String orden, String estado){
 		Boolean ord = false;
-		WebElement status = driver.findElement(By.id("Case_body")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(1);
-    	if(status.getText().toLowerCase().contains(estado)){
-    		ord = true;
+		List<WebElement> status = driver.findElement(By.id("Case_body")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+		for(WebElement s : status){
+			if(s.getText().toLowerCase().contains(estado)){
+				ord = true;
+			}
+    	}
+    Assert.assertTrue(ord);
+	}
+	public void verificarPedido(String orden, String estado){
+		Boolean ord = false;
+		TestBase tb = new TestBase();
+		driver.switchTo().frame(tb.cambioFrame(driver, By.id("Order_body")));
+		List<WebElement> status = driver.findElement(By.id("Order_body")).findElement(By.tagName("tbody")).findElements(By.tagName("td"));
+		for(WebElement s : status){
+			if(s.getText().toLowerCase().contains(estado)){
+				ord = true;
+			}
     	}
     Assert.assertTrue(ord);
 	}

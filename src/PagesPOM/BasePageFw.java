@@ -80,7 +80,7 @@ public class BasePageFw {
 	}
 	
 	public boolean clickElementoPorText(List<WebElement> listado, String parametroBusqueda){
-		//filtra por texto y retorna un elemento web 
+
 		//System.out.println(listado.size());
 		boolean aux = false;
 		for (WebElement x : listado) {
@@ -88,7 +88,9 @@ public class BasePageFw {
 			//System.out.println(x.getText()+"<--------------->"+parametroBusqueda);
 			if(x.getText().contains(parametroBusqueda)) {
 				aux=true;
+				getFluentWait().until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(x));
 				getFluentWait().until(ExpectedConditions.elementToBeClickable(x));
+				
 				x.click();
 				break;
 			}
@@ -98,29 +100,44 @@ public class BasePageFw {
 		
 	}
 	
-	public boolean macheaText(List<WebElement> listaElementos, String textoaComparar){
-		//de una lista de ElemetosWeb toma el texto y compara con un texto que puede estar formado por mas de una condicion(ver metodo Matches)
-		boolean temp=false;
-		for (WebElement x : listaElementos) {	
-	        System.out.println(x.getText()+" "+x.getText().matches(textoaComparar));
-			if (x.getText().matches(textoaComparar))
-				temp = true;		
+	public boolean clickElementoPorTextExacto(List<WebElement> listado, String parametroBusqueda){
+
+		//System.out.println(listado.size());
+		boolean aux = false;
+		for (WebElement x : listado) {
+			
+			//System.out.println(x.getText()+"<--------------->"+parametroBusqueda);
+			if(x.getText().equalsIgnoreCase(parametroBusqueda)) {
+				aux=true;
+				getFluentWait().until(ExpectedConditions.elementToBeClickable(x));//hay que esperar porque a veces no le puede hacer click aunque este como elemento en la lista
+				x.click();
+				break;
+			}
 		}
-																					
-		return temp;
+		return aux;
+		 
 		
 	}
 	
-	public boolean containText(List<WebElement> listaElementos, String textoaComparar){
+	public boolean matchText(List<WebElement> listaElementos, String textoaComparar){
+		//de una lista de ElemetosWeb toma el texto y compara con un texto que puede estar formado por mas de una condicion(ver metodo Matches)
+		for (WebElement x : listaElementos) {
+	        System.out.println(x.getText()+" "+x.getText().matches(textoaComparar));
+			if (x.getText().matches(textoaComparar))
+				return true;	
+		}												
+		return false;
+	}
+	
+	public boolean containsText(List<WebElement> listaElementos, String textoaComparar){
 		//de una lista de ElemetosWeb toma el texto y compara a ver si contiene el Srting que toma como parametro
-		boolean temp=false;
 		for (WebElement x : listaElementos) {	
 	        System.out.println(x.getText()+" "+x.getText().contains(textoaComparar));
-			if (x.getText().contains(textoaComparar))
-				temp = true;		
+			if (x.getText().toLowerCase().contains(textoaComparar.toLowerCase()))
+				return true;		
 		}
 																					
-		return temp;
+		return false;
 		
 	}
 	

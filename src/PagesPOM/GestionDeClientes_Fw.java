@@ -118,11 +118,13 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	@FindBy (how = How.CSS, using = locator_razonSocial)
 	private WebElement razonSocial ;
 	
+	private WebDriverWait wait;
 			
 //-------------------------------------------------------------------CONTRUCTOR
 	public GestionDeClientes_Fw(WebDriver driver) {
 		super(driver);
 		super.setDriver(driver);
+		wait = new WebDriverWait(driver,30);
 		//PageFactory.initElements(driver, this);
 		PageFactory.initElements(getDriver(), this);
 		super.setFluentWait(new FluentWait<WebDriver>(driver));
@@ -162,7 +164,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	public void irConsolaFanSit02() {
 		driver.switchTo().defaultContent();
 		 getCajon().click();
-		if(!super.macheaText(this.getElementosCajon(), "Consola FAN" )) {
+		if(!super.matchText(this.getElementosCajon(), "Consola FAN" )) {
 			System.out.println("no hace  falta  cambiar");
 		}else{
 			super.getBuscarElementoPorText(this.getElementosCajon(), "Consola FAN").click();
@@ -245,7 +247,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	public void BuscarCuenta(String Type, String NDNI){
 		driver.switchTo().defaultContent();
 		TestBase tb = new TestBase();
-		tb.sleepCambioDeFrame(driver, "SearchClientDocumentType", 10, 0);
+		tb.cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
 		getSelect(DNIbuscador).selectByVisibleText(Type);
 		DNI.sendKeys(NDNI);
@@ -328,10 +330,15 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		List<WebElement> elementos = driver.findElements(By.cssSelector("[class='card-info'] [class='actions'] li"));
 		elementos.addAll(driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li")));
 		elementos.addAll(driver.findElements(By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class*='slds-grid slds-grid--vertical slds-align-middle'] [class='items-card ng-not-empty ng-valid'] [class='slds-col'] button")));
-		System.out.println(clickElementoPorText(elementos, sGestion));
+		System.out.println(clickElementoPorTextExacto(elementos, sGestion));		
+		try {Thread.sleep(8000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		driver.switchTo().defaultContent();
 
 	}
 	
+	public WebDriverWait getWait() {
+		return  wait;
+		
+	}
 	
 }

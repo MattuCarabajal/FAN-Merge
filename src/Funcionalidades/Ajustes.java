@@ -39,7 +39,7 @@ public class Ajustes extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -49,11 +49,11 @@ public class Ajustes extends TestBase {
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		log.loginAgente();
+		log.loginOOCC();
 		ges.irAConsolaFAN();
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -63,7 +63,7 @@ public class Ajustes extends TestBase {
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		log.loginAgente();
+		log.loginTelefonico();
 		ges.irAConsolaFAN();
 		
 	}
@@ -82,7 +82,7 @@ public class Ajustes extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	//@BeforeClass (groups = "PerfilBackOffice")
+	@BeforeClass (groups = "PerfilBackOffice")
 		public void initBackOffice() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -105,7 +105,7 @@ public class Ajustes extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod (alwaysRun = true)
+	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -113,7 +113,7 @@ public class Ajustes extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass (alwaysRun = true)
+	//@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -1129,6 +1129,7 @@ public class Ajustes extends TestBase {
 		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		cc.irAHistoriales();
+		sleep(10000);
 		WebElement historialDeAjustes = null;
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
 		for (WebElement x : driver.findElements(By.className("slds-card"))) {

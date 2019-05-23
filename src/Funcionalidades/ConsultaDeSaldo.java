@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -14,7 +13,6 @@ import org.testng.annotations.*;
 import Pages.CBS;
 import Pages.CustomerCare;
 import Pages.Marketing;
-import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
@@ -24,7 +22,6 @@ import Tests.TestBase;
 public class ConsultaDeSaldo extends TestBase {
 
 	private WebDriver driver;
-	private SalesBase sb;
 	private CustomerCare cc;
 	private Marketing mk;
 	private CBS cbs;
@@ -36,12 +33,11 @@ public class ConsultaDeSaldo extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		ges = new GestionDeClientes_Fw(driver);
-		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
 		cbs = new CBS();
@@ -49,17 +45,14 @@ public class ConsultaDeSaldo extends TestBase {
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		log.loginOOCC();
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		
+		ges.irAConsolaFAN();
 	}
 		
-	//@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		ges = new GestionDeClientes_Fw(driver);
-		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
 		cbs = new CBS();
@@ -70,12 +63,11 @@ public class ConsultaDeSaldo extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups = "PerfilAgente")
+	@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		ges = new GestionDeClientes_Fw(driver);
-		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
 		cbs = new CBS();
@@ -86,7 +78,7 @@ public class ConsultaDeSaldo extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		detalles = null;
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
@@ -95,7 +87,7 @@ public class ConsultaDeSaldo extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod(alwaysRun=true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -103,7 +95,7 @@ public class ConsultaDeSaldo extends TestBase {
 		sleep(2000);
 	}
 
-	//@AfterClass(alwaysRun=true)
+	@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -116,10 +108,9 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen ="TS134373";
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		cambioDeFrame(driver, By.className("card-top"), 0);
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer credito = Integer.parseInt(sMainBalance.substring(0, 6));
+		Integer credito = Integer.parseInt(sMainBalance.substring(0, 7));
 		String card = driver.findElement(By.className("card-info")).findElement(By.className("uLdetails")).findElement(By.tagName("li")).findElements(By.tagName("span")).get(2).getText();
 		card = card.replaceAll("[$.,]", "");
 		Integer creditoCard = Integer.parseInt(card);
@@ -131,18 +122,14 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen ="TS134376";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(8000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		cambioDeFrame(driver, By.className("card-top"), 0);
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
-		cbs = new CBS();
-		cbsm = new CBS_Mattu();
 		Integer saldoEnCard = Integer.parseInt(saldo);
-		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "arc:TotalAmount");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 4));
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalUsageAmount");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
 	
@@ -153,10 +140,9 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen = "TS134811";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		cambioDeFrame(driver, By.className("card-top"), 0);
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer credito = Integer.parseInt(sMainBalance.substring(0, 6));
+		Integer credito = Integer.parseInt(sMainBalance.substring(0, 7));
 		String card = driver.findElement(By.className("card-info")).findElement(By.className("uLdetails")).findElement(By.tagName("li")).findElements(By.tagName("span")).get(2).getText();
 		card = card.replaceAll("[$.,]", "");
 		Integer creditoCard = Integer.parseInt(card);
@@ -168,19 +154,16 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen = "TS134813";		
 		detalles = imagen + " -Consulta de saldo - DNI: " + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(8000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		cambioDeFrame(driver, By.className("card-top"), 0);
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
-		cbs = new CBS();
-		cbsm = new CBS_Mattu();
 		Integer saldoEnCard = Integer.parseInt(saldo);
-		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "arc:TotalAmount");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 4));
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalUsageAmount");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
+		
 	}
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
@@ -190,12 +173,12 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen = "TS134814";		
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		cambioDeFrame(driver, By.className("card-top"), 0);
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer credito = Integer.parseInt(sMainBalance.substring(0, 6));
+		Integer credito = Integer.parseInt(sMainBalance.substring(0, 7));
 		String card = driver.findElement(By.className("card-info")).findElement(By.className("uLdetails")).findElement(By.tagName("li")).findElements(By.tagName("span")).get(2).getText();
 		card = card.replaceAll("[$.,]", "");
+		System.out.println("credito en card:" + card);
 		Integer creditoCard = Integer.parseInt(card);
 		Assert.assertTrue(credito.equals(creditoCard));
 	}
@@ -205,19 +188,14 @@ public class ConsultaDeSaldo extends TestBase {
 		imagen = "TS134815";
 		detalles = imagen + "Consulta de saldo -DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(8000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
+		cambioDeFrame(driver, By.className("card-top"), 0);
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
-		cbs = new CBS();
-		cbsm = new CBS_Mattu();
 		Integer saldoEnCard = Integer.parseInt(saldo);
-		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "arc:TotalAmount");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 4));
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalUsageAmount");
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 	}
-
 }

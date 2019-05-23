@@ -842,7 +842,7 @@ public class TestBase {
 	public String dataProviderE2E() {
 		String sDataProviderE2E;
 		
-		if (urlAmbiente.contains("SIT")) {
+		if (urlAmbiente.contains("sit")) {
 			sDataProviderE2E = "E2ESIT.xlsx";
 		}
 		else {
@@ -1106,7 +1106,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosSalesNominacionNuevoOfCom() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,12,"NominacionNuevoOfCom");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,14,"NominacionNuevoOfCom");
 
 	 return (testObjArray);
 
@@ -1196,7 +1196,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] RecargaTC() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EconPago",1,1,14,"Recargas TC");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,12,"Recargas TC");
 
 	 return (testObjArray);
 
@@ -2085,19 +2085,73 @@ public class TestBase {
 	    Login page0 = new Login(driver);
 	    page0.ingresarLogisticaYEntrega();
 	}
+
+	//========================================================= Metodos con Sleep Incluido =========================================================\\
 	
-	public boolean sleepCambioDeFrame (WebDriver driver, String elementSelector, double timeMax, double timeAcumulated) {
-		if (timeMax < timeAcumulated) {
+	public boolean sleepCambioDeFrame (WebDriver driver, String elementSelector, double timeAcumulated) {
+		if (20 < timeAcumulated) {
 			return true;
 		}
 		try {
 			driver.switchTo().frame(cambioFrame(driver, By.id(elementSelector)));
 			return true;
 		} catch (Exception e) {
-			try {Thread.sleep(200);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			return sleepCambioDeFrame(driver, elementSelector, timeMax, timeAcumulated + 0.200);
+			try {Thread.sleep(250);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+			return sleepCambioDeFrame(driver, elementSelector, timeAcumulated + 0.250);
 		}
 	}
+	
+	private WebElement frameConElElemento (WebDriver driver, By byForElement) {
+		List<WebElement> frames = driver.findElements(By.tagName("iframe"));
+		driver.switchTo().defaultContent();
+		for (WebElement frame : frames) {
+			try {
+				driver.switchTo().frame(frame);
+				driver.findElement(byForElement);
+				driver.switchTo().defaultContent();
+				return frame;
+			} catch (NoSuchElementException e) {
+				driver.switchTo().defaultContent();
+			}
+		}
+		return null;
+	}
+
+	public void cambioDeFrame(WebDriver driver, By byForElement, double timeAcumulated) {
+		if (10 > timeAcumulated) {
+			try {
+				WebElement myFrame = frameConElElemento(driver, byForElement);
+				driver.switchTo().frame(myFrame);
+			} catch (Exception e1) {
+				try {Thread.sleep(100);} catch (Exception e2) {}
+				cambioDeFrame(driver, byForElement, timeAcumulated + 0.100);
+			}
+		}
+	}
+	
+	public void sleepFindBy (WebDriver driver, By byForElement, double timeAcumulated) {
+		if (10 > timeAcumulated) {
+			try {
+				driver.findElement(byForElement);
+			} catch (Exception e) {
+				try {Thread.sleep(100);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+				sleepFindBy(driver, byForElement, timeAcumulated + 0.100);
+			}
+		}
+	}
+	
+	public void sleepFindBy (WebElement element, By byForElement, double timeAcumulated) {
+		if (10 > timeAcumulated) {
+			try {
+				element.findElement(byForElement);
+			} catch (Exception e) {
+				try {Thread.sleep(250);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+				sleepFindBy(element, byForElement, timeAcumulated + 0.250);
+			}
+		}
+	}
+	
+	//=================================================================================================================================\\
 	
 	public void loginBeFANVictor(WebDriver driver, String perfil) {
 		driver.get(urlBeFAN);
