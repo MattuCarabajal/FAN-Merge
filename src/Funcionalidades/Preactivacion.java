@@ -192,7 +192,7 @@ public class Preactivacion extends TestBase {
 //		loginBeFAN(driver);
 	}
 	
-	@BeforeClass (groups = "PerfilConfigurador")
+	//@BeforeClass (groups = "PerfilConfigurador")
 	public void initConf() {
 		driver = setConexion.setupEze();
 		scp = new SCP(driver);
@@ -638,7 +638,7 @@ public class Preactivacion extends TestBase {
 	public void TS123_ElMetodoQueSopapeaATodosLosMetodos() throws Exception {
 		
 		//Adquiero datos del excel
-		Object[][] testObjArray = ExcelUtils.getTableArray("E2EUAT.xlsx","E2EsinPago",1,1,8,"Preactivacion");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"Preactivacion");
 		
 		//Inicio las otras clases
 		DPW dpw = new DPW();
@@ -2529,7 +2529,7 @@ public class Preactivacion extends TestBase {
 		driver.findElements(By.cssSelector(".btn.btn-primary")).get(1).click();
 		sleep(2000);
 		
-		if (driver.findElement(By.xpath("/html/body/div[1]/div/div/div[1]/div[1]/div[1]/h3")).getText().equals("¿Tambien desea eliminar la Region " + sRegion + " ?")) {
+		if (driver.findElement(By.xpath("/html/body/div[1]/div/div/div[1]/div[1]/div[1]/h3")).getText().equals("ï¿½Tambien desea eliminar la Region " + sRegion + " ?")) {
 			mensaje = true;
 		} else {
 			mensaje = false;

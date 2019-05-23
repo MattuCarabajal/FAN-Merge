@@ -37,7 +37,7 @@ public class Vista360 extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
@@ -59,7 +59,7 @@ public class Vista360 extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	//@BeforeClass (groups = "PerfilAgente")
+	@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
@@ -80,7 +80,7 @@ public class Vista360 extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod (alwaysRun = true)
+	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -798,7 +798,7 @@ public class Vista360 extends TestBase {
 	
 	@Test (groups = "PerfilAgente", dataProvider = "CuentaVista360")//ok
 	public void TS134823_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
-		imagen = "TS13823";
+		imagen = "TS134823";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		boolean creditoRecarga = false, creditoPromocional = false, estado = false, internetDisponible = false;
 		boolean detalles = false, historiales = false, misServicios = false, gestiones = false;
@@ -834,7 +834,7 @@ public class Vista360 extends TestBase {
 	
 	@Test (groups = "PerfilAgente", dataProvider = "CuentaVista360")//ok
 	public void TS134824_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Desplegable_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
-		imagen = "TS13824";
+		imagen = "TS134824";
 		detalles = imagen + " -ServicioTecnico: " + sDNI;
 		boolean historial = false, recarga = false, renovacion = false, servicios = false, cambioSim = false, cambioPlan = false;
 		ges.BuscarCuenta("DNI", sDNI);

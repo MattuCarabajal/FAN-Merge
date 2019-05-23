@@ -24,6 +24,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.Assert;
 
+import PagesPOM.GestionDeClientes_Fw;
 import Tests.TestBase;
 
 public class CustomerCare extends BasePage {
@@ -400,6 +401,7 @@ public class CustomerCare extends BasePage {
 	
 	public void irAHistoriales() {
 		TestBase tb = new TestBase();
+		
 		driver.switchTo().frame(tb.cambioFrame(driver, By.className("card-top")));
 		WebElement card = driver.findElement(By.cssSelector(".console-card.active")).findElement(By.className("actions"));
 		for (WebElement x : card.findElements(By.className("slds-text-body_regular"))) {
@@ -1799,15 +1801,19 @@ public class CustomerCare extends BasePage {
 	//================================================================================Metodos=====Angel=============================================================================
 	public void seleccionDeHistorial(String sRecarga) {
 		TestBase TB = new TestBase();
+		//GestionDeClientes_Fw ges  = new GestionDeClientes_Fw(driver);
 		WebElement historial = null;
-		driver.switchTo().frame(TB.cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
+		TB.cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button_brand"), 0);
+		//ges.getWait().until(ExpectedConditions.numberOfElementsToBe(By.cssSelector(".slds-button.slds-button_brand"),3));
 		for (WebElement x : driver.findElements(By.className("slds-card"))) {
 			String titulo = x.findElement(By.tagName("header")).findElement(By.tagName("h2")).getText().toLowerCase();
 			if (titulo.equalsIgnoreCase(sRecarga)) {
+				System.out.println(x.getText());
 				historial = x;
 				((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+ x.getLocation().y+" )");
 			}
 		}
+		
 		historial.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
 		sleep(8000);
 	}

@@ -14,6 +14,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -81,7 +82,7 @@ public class HistorialDeRecargas extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass(alwaysRun = true)
+	//@AfterClass(alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -95,26 +96,32 @@ public class HistorialDeRecargas extends TestBase {
 		imagen = "TS134787";
 		detalles = imagen + " - Historial de recargas - DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(12000);
-		cc.irAHistoriales();
-		WebElement historialDeRecargas = null;
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
-		for (WebElement x : driver.findElements(By.className("slds-card"))) {
-			if (x.getText().toLowerCase().contains("historial de recargas"))
-				historialDeRecargas = x;
-		}
-		historialDeRecargas.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
-		sleep(7000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("text-input-03")));
+		ges.irAGestionEnCard("Historiales");
+		boolean enc = false;
+		sleep(8000);
+		cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button_brand"), 0);
+		cc.seleccionDeHistorial("historial de recargas");
+		cambioDeFrame(driver, By.id("text-input-03") ,0);
 		driver.findElement(By.id("text-input-03")).click();
 		driver.findElement(By.xpath("//*[text() = 'Todos']")).click();
 		driver.findElement(By.id("text-input-04")).click();
 		driver.findElement(By.xpath("//*[text() = 'Con Beneficios']")).click();
-		if (driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).isDisplayed()) {
-			driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-			Assert.assertTrue(true);
-		} else
-			Assert.assertTrue(false);
+		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
+		cambioDeFrame(driver, By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium"), 0);
+		sleep(7000);
+		WebElement tabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody")).findElement(By.tagName("tr"));
+		List<WebElement> recargas = tabla.findElements(By.tagName("td"));
+		for(WebElement r : recargas){
+			if(r.getText().contains("Con Beneficios")){
+				System.out.println(r.getText());
+				enc = true;
+				break;
+			}
+		}
+		Assert.assertTrue(enc);
+		
+		
+		
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")

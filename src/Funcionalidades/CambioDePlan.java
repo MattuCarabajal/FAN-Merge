@@ -21,6 +21,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import Pages.CRMGestionDeClientes;
 import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
@@ -36,9 +37,11 @@ public class CambioDePlan extends TestBase {
 	private CustomerCare cc;
 	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
+	private CRMGestionDeClientes GdC;
 	private String imagen;
 	LoginFw log;
 	String detalles;
+	private GestionDeClientes_Fw ges;
 	
 	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
@@ -46,12 +49,21 @@ public class CambioDePlan extends TestBase {
 		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
-		log.loginOOCC();
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges = new GestionDeClientes_Fw(driver);
+		GdC = new CRMGestionDeClientes();
+		log.LoginSit02();
+		ges.irAConsolaFAN();
+//		driver = setConexion.setupEze();
+//		sleep(5000);
+//		sb = new SalesBase(driver);
+//		cc = new CustomerCare(driver);
+//		cbsm = new CBS_Mattu();
+//		log = new LoginFw(driver);
+//		log.loginOOCC();
+//		cc.irAConsolaFAN();	
+//		driver.switchTo().defaultContent();
+//		sleep(6000);
 	}
 	
 	//@BeforeClass (groups = "PerfilTelefonico")
@@ -95,6 +107,11 @@ public class CambioDePlan extends TestBase {
 	
 	@Test (groups = {"GestionesPerfilOficina", "CambioDePlan", "Release1"})
 	public void TS_CambioDePlan() {
+		
+//		GdC.SeleccionDocumento("DNI");
+//		GdC.IngresoNumeroDocumento("37821382");
+//		GdC.IngresoNumeroLinea("1234567890");
+//		GdC.ClickBuscar();
 //		imagen = "TS134787";
 //		detalles = imagen + " - Historial de recargas - DNI:" + sDNI;
 //		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
