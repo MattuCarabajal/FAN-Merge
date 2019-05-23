@@ -2118,7 +2118,7 @@ public class TestBase {
 	}
 
 	public void cambioDeFrame(WebDriver driver, By byForElement, double timeAcumulated) {
-		if (10 > timeAcumulated) {
+		if (18 > timeAcumulated) {
 			try {
 				WebElement myFrame = frameConElElemento(driver, byForElement);
 				driver.switchTo().frame(myFrame);
@@ -2138,6 +2138,7 @@ public class TestBase {
 				sleepFindBy(driver, byForElement, timeAcumulated + 0.100);
 			}
 		}
+		System.out.println(timeAcumulated);
 	}
 	
 	public void sleepFindBy (WebElement element, By byForElement, double timeAcumulated) {
@@ -2157,7 +2158,7 @@ public class TestBase {
 		driver.get(urlBeFAN);
 	    Login page0 = new Login(driver);
 		waitForClickeable(driver, By.id("containerTxtMail"));
-	    page0.ingresarBeFANVictor(perfil, urlBeFAN);
+	    page0.ingresarBeFANVictor(perfil, urlBeFANUAT);
 	}
 	
 	public Boolean waitForVisible(WebDriver driver, By element, int timeout) {

@@ -188,8 +188,8 @@ public class Preactivacion extends TestBase {
 	public void initMayo() {
 		driver = setConexion.setupEze();
 		scp = new SCP(driver);
-		loginBeFANVictor(driver, "mayorista");
-//		loginBeFAN(driver);
+	//	loginBeFANVictor(driver, "mayorista");
+		loginBeFAN(driver);
 	}
 	
 	//@BeforeClass (groups = "PerfilConfigurador")
@@ -1144,7 +1144,7 @@ public class Preactivacion extends TestBase {
 			
 			
 			}
-		}
+		}*/
 		
 		
 		dpw.main();
@@ -2529,7 +2529,7 @@ public class Preactivacion extends TestBase {
 		driver.findElements(By.cssSelector(".btn.btn-primary")).get(1).click();
 		sleep(2000);
 		
-		if (driver.findElement(By.xpath("/html/body/div[1]/div/div/div[1]/div[1]/div[1]/h3")).getText().equals("¿Tambien desea eliminar la Region " + sRegion + " ?")) {
+		if (driver.findElement(By.xpath("/html/body/div[1]/div/div/div[1]/div[1]/div[1]/h3")).getText().equals("ï¿½Tambien desea eliminar la Region " + sRegion + " ?")) {
 			mensaje = true;
 		} else {
 			mensaje = false;

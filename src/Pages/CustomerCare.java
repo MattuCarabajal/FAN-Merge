@@ -24,6 +24,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.Assert;
 
+import PagesPOM.GestionDeClientes_Fw;
 import Tests.TestBase;
 
 public class CustomerCare extends BasePage {
@@ -400,6 +401,7 @@ public class CustomerCare extends BasePage {
 	
 	public void irAHistoriales() {
 		TestBase tb = new TestBase();
+		
 		driver.switchTo().frame(tb.cambioFrame(driver, By.className("card-top")));
 		WebElement card = driver.findElement(By.cssSelector(".console-card.active")).findElement(By.className("actions"));
 		for (WebElement x : card.findElements(By.className("slds-text-body_regular"))) {
