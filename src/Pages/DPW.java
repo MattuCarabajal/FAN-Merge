@@ -40,7 +40,7 @@ public class DPW {
             }
 */
         try {
-            HttpPost httpPost = new HttpPost("https://apiu.telecom.com.ar/catalogo/api/ProcesoMasivo/IniciarProceso");
+            HttpPost httpPost = new HttpPost("https://apiu2.telecom.com.ar/catalogo/api/ProcesoMasivo/IniciarProceso");
             List <NameValuePair> nvps = new ArrayList <NameValuePair>();
             httpPost.addHeader("Content-Type", "application/json");
             httpPost.addHeader("Authorization", "Basic d2VidmFzOkNPT0twOCFEN0J4aFc=");

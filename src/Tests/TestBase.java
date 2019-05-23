@@ -68,7 +68,7 @@ public class TestBase {
 		
 		public static String urlBeFANUAT = "http://snapuat.telecom.com.ar/#/home";
 		
-		public static String urlBeFAN = "https://befantest2.personal.corp/#/signin";
+		public static String urlBeFAN = "https://befanuat2.personal.corp/#/signin";
 		
 		public static boolean activarFalsos = true;
 		
@@ -839,7 +839,7 @@ public class TestBase {
 		return sDataProviderCuentas;
 	}
 	
-	private String dataProviderE2E() {
+	public String dataProviderE2E() {
 		String sDataProviderE2E;
 		
 		if (urlAmbiente.contains("SIT")) {
@@ -1911,6 +1911,7 @@ public class TestBase {
 		
 	}
 	
+	
 	@DataProvider
 	public Object[][] RecargasHistorias() throws Exception{
 		
@@ -2185,6 +2186,22 @@ public class TestBase {
 		}
 		System.out.println(papito);
 		return papito;
+	}
+	
+	public void waitForClickeableAndDropdownValuesToLoad(WebDriver driver, By element, By elementHijo, int timeout) {
+		(new WebDriverWait(driver, timeout)).until(ExpectedConditions.and(ExpectedConditions.elementToBeClickable(element),ExpectedConditions.visibilityOfNestedElementsLocatedBy(element, elementHijo)));
+	}
+	
+	public void waitForClickeableWithTextAndThenClick(WebDriver driver, By element, String texto, int timeout) {
+		List <WebElement> tigesito = driver.findElements(element);
+		for(WebElement x : tigesito) {
+			if (x.getText().toLowerCase().equals(texto.toLowerCase())) {
+				
+				(new WebDriverWait(driver, timeout)).until(ExpectedConditions.elementToBeClickable(x));
+				x.click();
+			}
+		}
+		
 	}
 	
 }

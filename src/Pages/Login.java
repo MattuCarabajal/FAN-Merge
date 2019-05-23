@@ -472,4 +472,35 @@ public class Login extends BasePage {
 		  try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		
 	}
+	
+	public void ingresarBeFANVictor(String perfil, String urlAmbiente) {
+		if (urlAmbiente.contains("snapuat.telecom.com")) {
+			switch (perfil) {
+			case "mayorista":
+				driver.findElement(By.name("username")).sendKeys("UAT195528");
+				driver.findElement(By.name("txtPass")).sendKeys("Testa10k");
+				break;
+			case "configurador":
+				driver.findElement(By.name("username")).sendKeys("UAT529763");
+				driver.findElement(By.name("txtPass")).sendKeys("Testa10k");
+				break;
+			}
+		} else {
+			if (urlAmbiente.contains("befanuat2.personal.corp")) {
+				switch (perfil) {
+				case "mayorista":
+					driver.findElement(By.name("username")).sendKeys("ua2195528");
+					driver.findElement(By.name("txtPass")).sendKeys("Testa10k");
+					break;
+				case "configurador":
+					driver.findElement(By.name("username")).sendKeys("ua2608027");
+					driver.findElement(By.name("txtPass")).sendKeys("Testa10k");
+					break;
+				}
+			}
+		}
+		driver.findElement(By.name("btnIngresar")).click();
+	}
+	
+	
 }

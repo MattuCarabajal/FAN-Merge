@@ -192,7 +192,7 @@ public class Preactivacion extends TestBase {
 //		loginBeFAN(driver);
 	}
 	
-	@BeforeClass (groups = "PerfilConfigurador")
+	//@BeforeClass (groups = "PerfilConfigurador")
 	public void initConf() {
 		driver = setConexion.setupEze();
 		scp = new SCP(driver);
@@ -638,7 +638,7 @@ public class Preactivacion extends TestBase {
 	public void TS123_ElMetodoQueSopapeaATodosLosMetodos() throws Exception {
 		
 		//Adquiero datos del excel
-		Object[][] testObjArray = ExcelUtils.getTableArray("E2EUAT.xlsx","E2EsinPago",1,1,8,"Preactivacion");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"Preactivacion");
 		
 		//Inicio las otras clases
 		DPW dpw = new DPW();
