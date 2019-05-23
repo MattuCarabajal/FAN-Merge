@@ -134,7 +134,7 @@ public class HistorialDeRecargas extends TestBase {
 		driver.findElement(By.id("text-input-04")).click();
 		driver.findElement(By.xpath("//*[text() = 'Sin Beneficios']")).click();
 		driver.findElement(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small']")).click();
-		sleep(5000);
+		sleep(10000);
 		List<WebElement> detallesUltimaRecarga = driver.findElements(By.cssSelector("[class='slds-p-bottom--small slds-p-left--medium slds-p-right--medium'] tbody tr")).get(0).findElements(By.tagName("td"));
 		String fecha = fechaDeHoy();
 		String fechaDeRecarga = detallesUltimaRecarga.get(0).getText();
@@ -297,14 +297,14 @@ public class HistorialDeRecargas extends TestBase {
 		ges.BuscarCuenta("DNI", sDNI);
 		sleep(20000);
 		cc.seleccionarCardPornumeroLinea(sLinea, driver);
-		sleep(3000);
+		sleep(5000);
 		cc.irAHistoriales();
-		sleep(5000);
+		sleep(8000);
 		cc.seleccionDeHistorial("historial de recargas");
-		sleep(5000);
+		sleep(8000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-size--1-of-1.slds-medium-size--1-of-1.slds-large-size--1-of-1.slds-p-bottom--small.slds-p-left--medium")));
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		sleep(3000);
+		sleep(10000);
 		String montoTotalOriginal = driver.findElement(By.className("tableHeader")).findElement(By.cssSelector(".slds-size--1-of-1.slds-medium-size--1-of-1.slds-large-size--1-of-1.slds-p-bottom--small.slds-p-left--medium")).findElement(By.tagName("span")).findElement(By.tagName("b")).getText();
 		montoTotalOriginal = montoTotalOriginal.replaceAll("[$.,]", "");
 		Integer montoTotalDeRecarga = Integer.parseInt(montoTotalOriginal);
@@ -313,7 +313,7 @@ public class HistorialDeRecargas extends TestBase {
 		Integer recarga = Integer.parseInt(montoARecargar.substring(0, 4));
 		sleep(3000);
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		sleep(3000);
+		sleep(8000);
 		String montoTotalNuevo = driver.findElement(By.className("tableHeader")).findElement(By.className("slds-text-heading--medium")).findElement(By.tagName("b")).getText();
 		montoTotalNuevo = montoTotalNuevo.replaceAll("[$.,]", "");
 		Integer montoTRecarga = Integer.parseInt(montoTotalNuevo);
