@@ -189,7 +189,7 @@ public class Preactivacion extends TestBase {
 		driver = setConexion.setupEze();
 		scp = new SCP(driver);
 		loginBeFANVictor(driver, "mayorista");
-//		loginBeFAN(driver);
+	//	loginBeFAN(driver);
 	}
 	
 	//@BeforeClass (groups = "PerfilConfigurador")
@@ -919,7 +919,7 @@ public class Preactivacion extends TestBase {
 					Botones.andaAlMenu("sims", "importacion");
 					Botones.SISeleccionDeDeposito(deposito);
 					Botones.SISeleccionDePrefijo(prefijo);
-					Botones.SISeleccionCantidadDePrefijo("1");
+					Botones.SISeleccionCantidadDePrefijo(Cantidad);
 					Botones.SIClickAgregar();
 					Botones.SIImportarArchivo(nombreArch = Botones.LecturaDeDatosTxt(path + "\\"+ nombreArch + ".txt", cant));
 					Botones.SIClickImportar();

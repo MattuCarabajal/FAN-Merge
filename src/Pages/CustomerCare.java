@@ -587,14 +587,14 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public void openleftpanel() {	
-		sleep(10000);
+		TestBase tb = new TestBase();
 		driver.switchTo().defaultContent();
+		tb.sleepFindBy(driver, By.cssSelector(".x-layout-collapsed.x-layout-collapsed-west.x-layout-cmini-west"), 0);
 		if(driver.findElements(By.cssSelector(".x-layout-collapsed.x-layout-collapsed-west.x-layout-cmini-west")).size() != 0) {
 			panelizq.click();
 		}
 		List<WebElement> frame1 = driver.findElements(By.tagName("iframe"));
 		driver.switchTo().frame(frame1.get(5));
-		sleep(10000);
 	}
 	
 	public void closeleftpanel() {
@@ -1490,7 +1490,7 @@ public class CustomerCare extends BasePage {
 			WebElement Caso = driver.findElement(By.cssSelector(".listRelatedObject.caseBlock")).findElement(By.cssSelector(".bPageBlock.brandSecondaryBrd.secondaryPalette")).findElement(By.className("pbBody")).findElement(By.className("list")).findElements(By.tagName("tr")).get(1).findElement(By.tagName("th")).findElement(By.tagName("a"));
 			Caso.click();
 		}
-		sleep(5000);
+		sleep(10000);
 	}
 	
 	public WebElement botonConsultar() {
@@ -1560,10 +1560,9 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public void seleccionarCardPornumeroLinea(String sLinea, WebDriver driver) {
-		TestBase tTB = new TestBase();
+		TestBase tb = new TestBase();
 		boolean esta = false;
-//		driver.switchTo().frame(tTB.cambioFrame(driver, By.className("card-top")));		
-		tTB.cambioDeFrame(driver, By.className("card-top"), 0);
+		tb.cambioDeFrame(driver, By.className("card-top"), 0);
 		List<WebElement> wCard = driver.findElements(By.className("card-top"));		
 		for (WebElement wAux : wCard) {
 			if (wAux.getText().contains(sLinea)) {
@@ -1573,7 +1572,6 @@ public class CustomerCare extends BasePage {
 			}
 		}	
 		assertTrue(esta);
-		sleep(7000);
 	}
 	
 	private void intentarAbrirPanelIzquierdo() {
