@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -31,7 +32,7 @@ public class Recargas extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -77,7 +78,7 @@ public class Recargas extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod (alwaysRun = true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -85,7 +86,7 @@ public class Recargas extends TestBase {
 		sleep(2000);
 	}
 
-	//@AfterClass (alwaysRun = true)
+	@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -102,19 +103,19 @@ public class Recargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(5000);
 		cambioDeFrame(driver, By.id("RefillAmount"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
-		sleep(10000);
 		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")));
 		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
 		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-		sleep(10000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "efectivo");
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
-		sleep(10000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		cbsm.Servicio_NotificarPago(caso);
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -132,23 +133,23 @@ public class Recargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(5000);
 		cambioDeFrame(driver, By.id("RefillAmount"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
-		sleep(10000);
 		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")));
 		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
 		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-		sleep(10000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "tarjeta de credito");
 		selectByText(driver.findElement(By.id("BankingEntity-0")), sBanco);
 		selectByText(driver.findElement(By.id("CardBankingEntity-0")), sTarjeta);
 		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), sPromo);
 		selectByText(driver.findElement(By.id("Installment-0")), sCuota);
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
-		sleep(10000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		cbsm.Servicio_NotificarPago(caso);
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -165,23 +166,23 @@ public class Recargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(5000);
 		cambioDeFrame(driver, By.id("RefillAmount"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
-		sleep(10000);
 		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")));
 		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
 		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-		sleep(10000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "tarjeta de debito");
 		selectByText(driver.findElement(By.id("BankingEntity-0")), sBanco);
 		selectByText(driver.findElement(By.id("CardBankingEntity-0")), sTarjeta);
 		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), sPromo);
 		selectByText(driver.findElement(By.id("Installment-0")), sCuota);
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
-		sleep(10000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		cbsm.Servicio_NotificarPago(caso);
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -199,22 +200,23 @@ public class Recargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(5000);
 		cambioDeFrame(driver, By.id("RefillAmount"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
 		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")));
 		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
 		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-		sleep(10000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "tarjeta de credito");
 		selectByText(driver.findElement(By.id("BankingEntity-0")), sBanco);
 		selectByText(driver.findElement(By.id("CardBankingEntity-0")), sTarjeta);
 		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), sPromo);
 		selectByText(driver.findElement(By.id("Installment-0")), sCuota);
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
-		sleep(10000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		cbsm.Servicio_NotificarPago(caso);
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -232,25 +234,22 @@ public class Recargas extends TestBase {
 		detalles = imagen+"-Recarga-DNI:"+sDNI;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
-		System.out.println("datosInicial: " + datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(5000);
 		cambioDeFrame(driver, By.id("RefillAmount"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
-		sleep(10000);
 		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")));
 		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
 		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-		sleep(10000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "tarjeta de credito");
 		selectByText(driver.findElement(By.id("BankingEntity-0")), sBanco);
 		selectByText(driver.findElement(By.id("CardBankingEntity-0")), sTarjeta);
-		sleep(1000);
 		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), sPromo);
-		sleep(5000);
 		selectByText(driver.findElement(By.id("Installment-0")), sCuota);
 		driver.findElement(By.id("CardNumber-0")).sendKeys(sNumTarjeta);
 		selectByText(driver.findElement(By.id("expirationMonth-0")), sVenceMes);
@@ -260,14 +259,13 @@ public class Recargas extends TestBase {
 		driver.findElement(By.id("documentNumber-0")).sendKeys(sDNI);
 		driver.findElement(By.id("cardHolder-0")).sendKeys(sTitular);				
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
-		sleep(20000);
-		buscarYClick(driver.findElements(By.id("InvoicePreview_nextBtn")), "equals", "siguiente");
-		sleep(10000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("InvoicePreview_nextBtn")));
+		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		cbsm.Servicio_NotificarPago(caso);
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
-		System.out.println("Saldo Final:"+datosFinal);
 		Assert.assertTrue(datosInicial + 1000 == datosFinal);
 		cc.buscarOrdenDiag(caso+"*");
 		cc.verificarPedido(caso, "activada");
@@ -283,32 +281,23 @@ public class Recargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
-		sleep(5000);
-		cambioDeFrame(driver, By.id("AmountSelectionStep_nextBtn"), 0);
+		cambioDeFrame(driver, By.id("RefillAmount"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
 		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
 		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
-		sleep(10000);
 		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")));
 		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
 		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-		sleep(10000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "tarjeta de credito");
 		selectByText(driver.findElement(By.id("BankingEntity-0")), sBanco);
 		selectByText(driver.findElement(By.id("CardBankingEntity-0")), sTarjeta);
-		sleep(1000);
 		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), sPromo);
-		sleep(5000);
 		selectByText(driver.findElement(By.id("Installment-0")), sCuota);
-		driver.findElement(By.id("CardNumber-0")).sendKeys(sNumTarjeta);
-		selectByText(driver.findElement(By.id("expirationMonth-0")), sVenceMes);
-		selectByText(driver.findElement(By.id("expirationYear-0")), sVenceAno);
-		driver.findElement(By.id("securityCode-0")).sendKeys(sCodSeg);
-		selectByText(driver.findElement(By.id("documentType-0")), "DNI");
-		driver.findElement(By.id("documentNumber-0")).sendKeys(sDNI);
-		driver.findElement(By.id("cardHolder-0")).sendKeys(sTitular);
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
-		sleep(10000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		cbsm.Servicio_NotificarPago(caso);
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");

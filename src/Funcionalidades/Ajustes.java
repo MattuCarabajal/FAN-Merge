@@ -9,16 +9,13 @@ import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import Pages.Accounts;
 import Pages.CBS;
 import Pages.CustomerCare;
-import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
@@ -29,7 +26,6 @@ public class Ajustes extends TestBase {
 
 	private WebDriver driver;
 	private LoginFw log;
-	private SalesBase sb;
 	private CustomerCare cc;
 	private CBS cbs;
 	private CBS_Mattu cbsm;
@@ -43,7 +39,6 @@ public class Ajustes extends TestBase {
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
-		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
@@ -57,7 +52,6 @@ public class Ajustes extends TestBase {
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
-		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
@@ -72,7 +66,6 @@ public class Ajustes extends TestBase {
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
-		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
@@ -86,7 +79,6 @@ public class Ajustes extends TestBase {
 		public void initBackOffice() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
-		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
@@ -99,7 +91,6 @@ public class Ajustes extends TestBase {
 	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		detalles = null;
-		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
