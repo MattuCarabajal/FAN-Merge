@@ -39,24 +39,28 @@ public class ProblemasConRecargas extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
 		log.loginOOCC();
 		ges.irAConsolaFAN();	
 	}
 		
-	//@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
 		log.loginTelefonico();
 		ges.irAConsolaFAN();
 		
@@ -65,9 +69,8 @@ public class ProblemasConRecargas extends TestBase {
 	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		detalles = null;
-		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
-		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
+		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();	
 	}
 
@@ -96,12 +99,8 @@ public class ProblemasConRecargas extends TestBase {
 		System.out.println(datosInicial);
 		boolean gest = false;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(3000);
-		cc.irAGestionEnCard("Inconvenientes con Recargas");
-		sleep(8000);
+		ges.irAGestionEnCard("Inconvenientes con Recargas");
+		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("RefillMethods_nextBtn")));
 		buscarYClick(driver.findElements(By.className("borderOverlay")), "equals", "tarjeta prepaga");
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
@@ -130,29 +129,23 @@ public class ProblemasConRecargas extends TestBase {
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga")
 	public void problemaRecargaCredito(String sDNI, String sLinea) {
 		imagen = "problemaRecargaCredito";
-		CBS cbs = new CBS();
-		CBS_Mattu cbsm = new CBS_Mattu();
 		String davoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(davoViejo.substring(0, 7));
 		System.out.println(datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(3000);
-		cc.irAGestionEnCard("Inconvenientes con Recargas");
-		sleep(8000);
+		ges.irAGestionEnCard("Inconvenientes con Recargas");
+		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("RefillMethods_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".imgItemContainer.ng-scope")),"contains", "tarjeta de cr\u00e9dito");
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
-		sleep(8000);
+		sleep(5000);
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")),"contains", "si");
 		driver.findElement(By.id("CreditCardRefillAmount")).sendKeys("123");
 		driver.findElement(By.id("CreditCardRefillReceipt")).sendKeys("123");
 		driver.findElement(By.id("CreditCardData_nextBtn")).click();
-		sleep(8000);
+		sleep(5000);
 		driver.findElement(By.id("Summary_nextBtn")).click();
-		sleep(8000);
+		sleep(5000);
 		boolean gest = false;
 		for (WebElement x :  driver.findElements(By.cssSelector(".slds-box.ng-scope"))) {
 			if (x.getText().toLowerCase().contains("recarga realizada con \u00e9xito!"))
@@ -175,11 +168,8 @@ public class ProblemasConRecargas extends TestBase {
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 7));
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(3000);
-		cc.irAGestionEnCard("Inconvenientes con Recargas");
+		ges.irAGestionEnCard("Inconvenientes con Recargas");
+		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("RefillMethods_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".imgItemContainer.ng-scope")),"contains", "recarga online");
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
@@ -218,17 +208,11 @@ public class ProblemasConRecargas extends TestBase {
 	public void TS104346_CRM_Movil_Repro_Problemas_con_Recarga_Presencial_On_Line_Ofcom(String sDNI, String sLinea) {
 		imagen = "TS104346";
 		detalles = imagen + " -Problemas Con Recargas-DNI: " + sDNI;
-		CBS cbs = new CBS();
-		CBS_Mattu cbsm = new CBS_Mattu();
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		System.out.println(datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(3000);
-		cc.irAGestionEnCard("Inconvenientes con Recargas");
+		ges.irAGestionEnCard("Inconvenientes con Recargas");
 		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("borderOverlay")));
 		driver.findElements(By.className("borderOverlay")).get(1).click();
@@ -265,11 +249,7 @@ public class ProblemasConRecargas extends TestBase {
 		imagen = "TS104347";
 		detalles = imagen + " -Problema con recargas - DNI: " + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(3000);
-		cc.irAGestionEnCard("Inconvenientes con Recargas");
+		ges.irAGestionEnCard("Inconvenientes con Recargas");
 		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("RefillMethods_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".imgItemContainer.ng-scope")), "contains", "tarjeta prepaga");
@@ -278,7 +258,7 @@ public class ProblemasConRecargas extends TestBase {
 		driver.findElement(By.id("BatchNumber")).sendKeys(sTarjeta);
 		driver.findElement(By.id("PIN")).sendKeys(sPIN);
 		driver.findElement(By.id("PrepaidCardData_nextBtn")).click();
-		sleep(15000);
+		sleep(7000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-icon.slds-icon--large.ta-care-omniscript-error-icon")));
 		boolean error = false;
 		for (WebElement x : driver.findElements(By.className("ta-care-omniscript-done"))) {
@@ -292,18 +272,14 @@ public class ProblemasConRecargas extends TestBase {
 	public void TS104351_CRM_Movil_Repro_Problemas_con_Recarga_On_line_Sin_comprobante_En_espera_del_cliente_Ofcom(String sDNI, String sLinea) {
 		imagen = "TS104351";
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(3000);
-		cc.irAGestionEnCard("Inconvenientes con Recargas");
+		ges.irAGestionEnCard("Inconvenientes con Recargas");
 		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("borderOverlay")));
 		driver.findElements(By.className("borderOverlay")).get(1).click();
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
 		sleep(5000);
 		driver.findElement(By.id("RefillDate")).sendKeys("11-08-2018");
-		driver.findElement(By.id("RefillAmount")).sendKeys("5000");
+		driver.findElement(By.id("OnlineRefillAmount")).sendKeys("5000");
 		driver.findElement(By.id("ReceiptCode")).sendKeys("111");
 		driver.findElement(By.id("OnlineRefillData_nextBtn")).click();
 		sleep(5000);		
@@ -319,10 +295,9 @@ public class ProblemasConRecargas extends TestBase {
 		sleep(5000);
 		WebElement gestion = driver.findElement(By.className("ta-care-omniscript-done")).findElement(By.tagName("header")).findElement(By.tagName("h1"));
 		Assert.assertTrue(gestion.getText().contains("La gesti\u00f3n fue derivada"));
-		Assert.assertTrue(false);
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecargaAYD") 
+	@Test (groups = "PerfilOficina", dataProvider = "ProblemaRecargaPrepaga") 
 	public void TS104353_CRM_Movil_Repro_Problemas_con_Recarga_Presencial_Tarjeta_Scratch_Caso_Nuevo_Tarjeta_Activa_y_Disponible_Ofcom(String sDNI, String sLinea, String sTarjeta, String sPIN) {
 		imagen = "TS104353";
 		detalles = imagen + " -Problemas Con Recargas-DNI: " + sDNI;
@@ -330,11 +305,7 @@ public class ProblemasConRecargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		System.out.println(datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(3000);
-		cc.irAGestionEnCard("Inconvenientes con Recargas");
+		ges.irAGestionEnCard("Inconvenientes con Recargas");
 		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("borderOverlay")));
 		driver.findElements(By.className("borderOverlay")).get(0).click();
@@ -343,7 +314,7 @@ public class ProblemasConRecargas extends TestBase {
 		driver.findElement(By.id("BatchNumber")).sendKeys(sTarjeta);
 		driver.findElement(By.id("PIN")).sendKeys(sPIN);
 		driver.findElement(By.id("PrepaidCardData_nextBtn")).click();
-		sleep(5000);
+		sleep(7000);
 		WebElement estado = driver.findElement(By.id("PrepaidCardStatusLabel"));
 		Assert.assertTrue(estado.getText().toLowerCase().contains("activa"));
 		driver.findElement(By.id("Summary_nextBtn")).click();
@@ -356,7 +327,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(datosInicial + 5000000 == datosFinal);
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecargaAYD")
+	@Test (groups = "PerfilOficina", dataProvider = "ProblemaRecargaPrepaga")
 	public void TS135714_CRM_Movil_PRE_Problemas_con_Recarga_Telefonico_Tarjeta_Scratch_Caso_Nuevo_Tarjeta_Activa_y_Disponible(String sDNI, String sLinea, String sTarjeta, String sPIN){
 		imagen = "TS135714";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -364,22 +335,18 @@ public class ProblemasConRecargas extends TestBase {
 		System.out.println(datosInicial);
 		detalles = imagen + " -Problema con recargas - DNI: " + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(8000);
-		cc.irAGestionEnCard("Inconvenientes con Recargas");
-		sleep(8000);
+		ges.irAGestionEnCard("Inconvenientes con Recargas");
+		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("RefillMethods_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".imgItemContainer.ng-scope")), "contains", "tarjeta prepaga");
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
-		sleep(8000);
+		sleep(5000);
 		driver.findElement(By.id("BatchNumber")).sendKeys(sTarjeta);
 		driver.findElement(By.id("PIN")).sendKeys(sPIN);
 		driver.findElement(By.id("PrepaidCardData_nextBtn")).click();
-		sleep(15000);
+		sleep(7000);
 		driver.findElement(By.id("Summary_nextBtn")).click();
-		sleep(10000);
+		sleep(5000);
 		boolean gest = false;
 		List <WebElement> prob = driver.findElements(By.cssSelector(".slds-box.ng-scope"));
 		for (WebElement x : prob) {
@@ -520,11 +487,7 @@ public class ProblemasConRecargas extends TestBase {
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(8000);
-		cc.irAGestionEnCard("Inconvenientes con Recargas");
+		ges.irAGestionEnCard("Inconvenientes con Recargas");
 		sleep(8000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("RefillMethods_nextBtn")));
 		buscarYClick(driver.findElements(By.className("borderOverlay")), "equals", "tarjeta prepaga");

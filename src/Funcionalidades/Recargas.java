@@ -2,25 +2,16 @@ package Funcionalidades;
 
 import java.awt.AWTException;
 import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import Pages.BasePage;
 import Pages.CBS;
 import Pages.CustomerCare;
-import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
@@ -32,7 +23,6 @@ public class Recargas extends TestBase {
 	private WebDriver driver;
 	private LoginFw log;
 	private GestionDeClientes_Fw ges;
-	private SalesBase sb;
 	private CustomerCare cc;
 	private CBS cbs;
 	private CBS_Mattu cbsm;
@@ -41,7 +31,7 @@ public class Recargas extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (alwaysRun = true)
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -54,7 +44,7 @@ public class Recargas extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -67,7 +57,7 @@ public class Recargas extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -79,7 +69,7 @@ public class Recargas extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		detalles = null;
 		ges.cerrarPestaniaGestion(driver);
@@ -87,7 +77,7 @@ public class Recargas extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod(alwaysRun=true)
+	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -104,7 +94,7 @@ public class Recargas extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilOficina"}, dataProvider = "RecargaEfectivo")
+	@Test (groups = "PerfilOficina", dataProvider = "RecargaEfectivo")
 	public void TS134318_CRM_Movil_REPRO_Recargas_Presencial_Efectivo_Ofcom(String sDNI, String sMonto, String sLinea) {
 		imagen = "TS134318";
 		detalles = imagen + "-Recarga-DNI: " + sDNI;
@@ -134,7 +124,7 @@ public class Recargas extends TestBase {
 		cc.verificarPedido(caso, "activada");
 	}
 	
-	@Test (groups = {"PerfilOficina"}, dataProvider="RecargaTC")
+	@Test (groups = "PerfilOficina", dataProvider="RecargaTC")
 	public void TS134319_CRM_Movil_REPRO_Recargas_Presencial_TC_Ofcom(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) {
 		imagen = "TS134319";
 		detalles = imagen + "-Recarga-DNI:" + sDNI;
@@ -168,7 +158,7 @@ public class Recargas extends TestBase {
 		cc.verificarPedido(caso, "activada");
 	}
 	
-	@Test (groups = {"PerfilOficina"}, dataProvider = "RecargaTD")
+	@Test (groups = "PerfilOficina", dataProvider = "RecargaTD")
 	public void TS134320_CRM_Movil_REPRO_Recargas_Presencial_TD_Ofcom(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) {
 		detalles = imagen + "-Recarga-DNI:" + sDNI;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -201,7 +191,7 @@ public class Recargas extends TestBase {
 		cc.verificarPedido(caso, "activada");
 	}
 	
-	@Test (groups = {"PerfilOficina"}, dataProvider = "RecargaTC")
+	@Test (groups = "PerfilOficina", dataProvider = "RecargaTC")
 	public void TS134330_CRM_Movil_REPRO_Recargas_Presencial_TC_Ofcom_Financiacion(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) {
 		imagen = "TS134330";
 		detalles = imagen + "-Recarga-DNI:" + sDNI;
@@ -236,7 +226,7 @@ public class Recargas extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilTelefonico"}, dataProvider = "RecargaTC")  
+	@Test (groups = "PerfilTelefonico", dataProvider = "RecargaTC")  
 	public void TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC_Callcenter_Financiacion(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) throws AWTException {
 		imagen= "TS134332";
 		detalles = imagen+"-Recarga-DNI:"+sDNI;
@@ -285,7 +275,7 @@ public class Recargas extends TestBase {
 			
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilAgente"}, dataProvider="RecargaTC")
+	@Test (groups = "PerfilAgente", dataProvider="RecargaTC")
 	public void TS134322_CRM_Movil_REPRO_Recargas_Presencial_TC_Agente(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) {
 		imagen = "TS134322";
 		detalles = imagen + "-Recarga-DNI:" + sDNI;
