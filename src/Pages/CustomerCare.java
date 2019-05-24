@@ -1490,7 +1490,7 @@ public class CustomerCare extends BasePage {
 			WebElement Caso = driver.findElement(By.cssSelector(".listRelatedObject.caseBlock")).findElement(By.cssSelector(".bPageBlock.brandSecondaryBrd.secondaryPalette")).findElement(By.className("pbBody")).findElement(By.className("list")).findElements(By.tagName("tr")).get(1).findElement(By.tagName("th")).findElement(By.tagName("a"));
 			Caso.click();
 		}
-		sleep(5000);
+		sleep(10000);
 	}
 	
 	public WebElement botonConsultar() {
