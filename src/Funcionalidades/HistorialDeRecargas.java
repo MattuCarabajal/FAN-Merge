@@ -41,7 +41,7 @@ public class HistorialDeRecargas extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -67,14 +67,13 @@ public class HistorialDeRecargas extends TestBase {
 	
 	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
-		//GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 		sleep(5000);
 	}
 
-	//@AfterMethod (alwaysRun = true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -82,7 +81,7 @@ public class HistorialDeRecargas extends TestBase {
 		sleep(2000);
 	}
 
-	//@AfterClass(alwaysRun = true)
+	@AfterClass(alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -287,7 +286,7 @@ public class HistorialDeRecargas extends TestBase {
 		montoTotalNuevo = montoTotalNuevo.replaceAll("[$.,]", "");
 		Integer montoTRecarga = Integer.parseInt(montoTotalNuevo);
 		System.out.println(montoTRecarga);
-		Assert.assertTrue(montoTRecarga == (montoTotalDeRecarga + recarga));		
+		Assert.assertTrue(montoTRecarga == (montoTotalDeRecarga + recarga));	
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
