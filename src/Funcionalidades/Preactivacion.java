@@ -919,7 +919,7 @@ public class Preactivacion extends TestBase {
 					Botones.andaAlMenu("sims", "importacion");
 					Botones.SISeleccionDeDeposito(deposito);
 					Botones.SISeleccionDePrefijo(prefijo);
-					Botones.SISeleccionCantidadDePrefijo("1");
+					Botones.SISeleccionCantidadDePrefijo(Cantidad);
 					Botones.SIClickAgregar();
 					Botones.SIImportarArchivo(nombreArch = Botones.LecturaDeDatosTxt(path + "\\"+ nombreArch + ".txt", cant));
 					Botones.SIClickImportar();
@@ -1147,7 +1147,7 @@ public class Preactivacion extends TestBase {
 		}
 		
 		
-		dpw.main();
+		DPW.main();
 		BufferedWriter c = new BufferedWriter(new FileWriter(salida));
 	    for (String x : resultados) {
 	    	c.write(x + System.lineSeparator());

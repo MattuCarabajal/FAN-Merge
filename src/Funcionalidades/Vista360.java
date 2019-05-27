@@ -58,7 +58,7 @@ public class Vista360 extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+//	@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
@@ -73,7 +73,6 @@ public class Vista360 extends TestBase {
 	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		detalles = null;
-		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
@@ -174,8 +173,7 @@ public class Vista360 extends TestBase {
 			if(f.getText().toLowerCase().equals("filtros avanzados")) {
 				a = true;
 				f.click();
-				WebElement desplegable = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-p-around--medium'] [class='slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--2-of-8 slds-large-size--2-of-8'] [class='slds-dropdown-trigger slds-dropdown-trigger--click']")).get(1);
-				System.out.println(desplegable.getText());
+				WebElement desplegable = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-p-around--medium'] [class='slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-8 slds-large-size--2-of-8']")).get(3);
 				desplegable.click();
 				List<WebElement> lista = desplegable.findElements(By.tagName("li"));
 				for (WebElement fila : lista) {
@@ -191,10 +189,11 @@ public class Vista360 extends TestBase {
 		pagina.selectByVisibleText("30");
 		sleep(7000);
 		boolean b = false;
-		WebElement lista = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElement(By.tagName("tbody"));
+		WebElement lista = driver.findElement(By.cssSelector("[class='slds-table slds-table_striped slds-table--bordered slds-table--resizable-cols slds-table--fixed-layout via-slds-table-pinned-header'] tbody"));
 		List <WebElement> consumos = lista.findElements(By.tagName("tr"));
+		System.out.println(lista.getText());
 		for(WebElement x : consumos) {
-			if(x.getText().contains("Internet 50 MB Dia") || x.getText().contains("Promocion Personal WhatApp") || x.getText().contains("Reseteo 200 MB por Dia")) {
+			if(x.getText().contains("Internet")) {
 				b = true;
 				break;
 			}

@@ -1801,6 +1801,7 @@ public class CustomerCare extends BasePage {
 		TestBase TB = new TestBase();
 		//GestionDeClientes_Fw ges  = new GestionDeClientes_Fw(driver);
 		WebElement historial = null;
+		TB.sleepFindBy(driver, By.cssSelector("[class = 'slds-button slds-button_brand']"), 0);
 		TB.cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button_brand"), 0);
 		//ges.getWait().until(ExpectedConditions.numberOfElementsToBe(By.cssSelector(".slds-button.slds-button_brand"),3));
 		for (WebElement x : driver.findElements(By.className("slds-card"))) {
@@ -1813,26 +1814,14 @@ public class CustomerCare extends BasePage {
 		}
 		
 		historial.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
-		sleep(8000);
 	}
 	
 	public void verificacionDeHistorial(String sHistorial) {
 		TestBase TB = new TestBase();
 		boolean enc = false;
-		/*driver.switchTo().frame(TB.cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
-		boolean a = false;
-		List <WebElement> pack = driver.findElements(By.cssSelector(".slds-m-around_small.ta-fan-slds"));
-		for(WebElement x : pack) {
-			if(x.getText().toLowerCase().contains(sHistorial)) {
-				System.out.println(x);
-				a = true;
-			}
-		}
-		Assert.assertTrue(a);*/
-		driver.switchTo().frame(TB.cambioFrame(driver, By.cssSelector(".slds-card.slds-m-around--small.ta-fan-slds")));
-		List <WebElement> historiales = driver.findElements(By.className("slds-card"));
-		for (WebElement UnH: historiales) {
-			//System.out.println(UnH.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText());
+		TB.sleepFindBy(driver, By.cssSelector("[class = 'slds-button slds-button_brand']"), 0);
+		TB.cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button_brand"), 0);
+		for (WebElement UnH: driver.findElements(By.className("slds-card"))) {
 			if(UnH.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText().equals(sHistorial)) {
 				enc = true;
 				break;
