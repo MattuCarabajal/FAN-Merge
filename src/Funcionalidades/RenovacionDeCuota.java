@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -24,14 +25,17 @@ import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
 public class RenovacionDeCuota extends TestBase {
 
 	private WebDriver driver;
+	private LoginFw log;
 	private SalesBase sb;
 	private CustomerCare cc;
+	private GestionDeClientes_Fw ges;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	String detalles;
@@ -40,40 +44,34 @@ public class RenovacionDeCuota extends TestBase {
 	@BeforeClass (alwaysRun = true)
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges = new GestionDeClientes_Fw(driver);
+		log = new LoginFw(driver);
+		log.loginOOCC();
+		ges.irAConsolaFAN();	
 	}
 		
 	//@BeforeClass (alwaysRun = true)
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginTelefonico(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges = new GestionDeClientes_Fw(driver);
+		log = new LoginFw(driver);
+		log.loginTelefonico();
+		ges.irAConsolaFAN();	
 	}
 	
 	//@BeforeClass (alwaysRun = true)
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginAgente(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		ges = new GestionDeClientes_Fw(driver);
+		log = new LoginFw(driver);
+		log.loginAgente();
+		ges.irAConsolaFAN();	
 	}
 	
 	@BeforeMethod(alwaysRun=true)
@@ -103,58 +101,42 @@ public class RenovacionDeCuota extends TestBase {
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
 	@Test (groups = {"GestionesPerfilOficina", "RenovacionDeCuota","E2E"}, dataProvider="RenovacionCuotaConSaldo")
-	public void TS130056_CRM_Movil_REPRO_Renovacion_de_cuota_Presencial_Reseteo_200_MB_por_Dia_Efectivo_con_Credito(String sDNI, String sLinea) throws AWTException {
+	public void TS130056_CRM_Movil_REPRO_Renovacion_de_cuota_Presencial_Reseteo_200_MB_por_Dia_Efectivo_con_Credito(String sDNI, String sLinea, String accid) throws AWTException {
 		imagen="TS130056";
 		detalles = null;
 		detalles = "Renocavion de cuota: "+imagen+" - DNI: "+sDNI+" - Linea: "+sLinea;
 		CBS cCBS = new CBS();
 		CBS_Mattu cCBSM = new CBS_Mattu();
 		String datosInicial = cCBS.ObtenerUnidadLibre(cCBSM.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
-		BasePage cambioFrameByID=new BasePage();
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SearchClientDocumentType")));
-		sleep(1000);
-		SalesBase sSB = new SalesBase(driver);
-		sSB.BuscarCuenta("DNI", sDNI);
-		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
-		System.out.println("id "+accid);
+		cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
+		ges.BuscarCuenta("DNI", sDNI);
 		detalles+="-Cuenta: "+accid;
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
-		sleep(20000);
-		cc.seleccionarCardPornumeroLinea(sLinea, driver);
-		sleep(5000);
 		CustomerCare cCC = new CustomerCare(driver);
-		cCC.irAGestionEnCard("Renovacion de Datos");
-		sleep(12000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("combosMegas")));
-		List<WebElement> elementos = driver.findElement(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-		for(WebElement UnE:elementos) {
-			if(UnE.findElement(By.tagName("td")).getText().contains("200 MB")) {
-				UnE.findElement(By.className("slds-checkbox")).click();
-			}
-		}sleep(2000);
-		cCC.obligarclick(driver.findElement(By.id("CombosDeMegas_nextBtn")));
-		sleep(10000);
-		List<WebElement> pago = driver.findElement(By.id("PaymentTypeRadio|0")).findElements(By.cssSelector(".slds-radio.ng-scope"));
-		for (WebElement UnP : pago) {
-			if (UnP.getText().toLowerCase().contains("factura")){
-				UnP.click();
+		ges.irAGestionEnCard("Renovacion de Datos");
+		cambioDeFrame(driver, By.id("combosMegas"), 0);
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-wrap ng-invalid ng-invalid-vlc-val-error ng-dirty'] tbody tr"), 2));
+		List<WebElement> elementos = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap ng-invalid ng-invalid-vlc-val-error ng-dirty'] tbody tr"));
+		for(WebElement elemento : elementos) {
+			if(elemento.getText().contains("200 MB")) {
+				elemento.findElement(By.className("slds-checkbox")).click();
 				break;
 			}
 		}
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("CombosDeMegas_nextBtn")));
+		cCC.obligarclick(driver.findElement(By.id("CombosDeMegas_nextBtn")));
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Factura de Venta')]")));
+		driver.findElement(By.xpath("//span[contains(text(), 'Factura de Venta')]")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SetPaymentType_nextBtn")));
 		cCC.obligarclick(driver.findElement(By.id("SetPaymentType_nextBtn")));
-		sleep(16000);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("InvoicePreview_nextBtn")));
 		cCC.obligarclick(driver.findElement(By.id("InvoicePreview_nextBtn")));
 		sleep(12000);
 		String sOrden = cCC.obtenerOrden2(driver);
 		detalles+="-Orden: "+sOrden;
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "efectivo");
-		sleep(8000);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SelectPaymentMethodsStep_nextBtn")));
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
-		sleep(20000);
-		//String msj = driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText(); 
-		//String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
-		//Assert.assertTrue(msj.toLowerCase().contains("se ha enviado correctamente la factura a huawei. dirigirse a caja para realizar el pago de la misma"));
-		//Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(8000);
 		String orden = cc.obtenerTNyMonto2(driver, sOrden);
