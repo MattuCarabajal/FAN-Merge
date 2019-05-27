@@ -29,7 +29,7 @@ public class DetalleDeConsumos extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -49,7 +49,7 @@ public class DetalleDeConsumos extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
