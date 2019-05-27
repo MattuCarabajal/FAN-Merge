@@ -11,6 +11,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -35,10 +36,9 @@ public class Ajustes extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		cc = new CustomerCare(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
@@ -51,7 +51,6 @@ public class Ajustes extends TestBase {
 	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		cc = new CustomerCare(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
@@ -65,7 +64,6 @@ public class Ajustes extends TestBase {
 	//@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		cc = new CustomerCare(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
@@ -75,10 +73,9 @@ public class Ajustes extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups = "PerfilBackOffice")
+	//@BeforeClass (groups = "PerfilBackOffice")
 		public void initBackOffice() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		cc = new CustomerCare(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
@@ -118,27 +115,26 @@ public class Ajustes extends TestBase {
 		imagen = "Gestion_Ajustes_Credito_Pospago";
 		boolean gest = false;
 		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
 		cc.irAGestion("inconvenientes con cargos tasados");
-		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("Step-TipodeAjuste_nextBtn")));
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("Step-TipodeAjuste_nextBtn")));
 		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO POSPAGO");
 		selectByText(driver.findElement(By.id("CboItem")), "Minutos/SMS");
 		selectByText(driver.findElement(By.id("CboMotivo")), "Error/omisi\u00f3n/demora gesti\u00f3n");
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si");
 		driver.findElement(By.id("Step-TipodeAjuste_nextBtn")).click();
-		sleep(7000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("Step1-SelectBillingAccount_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "contains", "cuenta: ");
 		driver.findElement(By.id("Step1-SelectBillingAccount_nextBtn")).click();
-		sleep(7000);
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope"), 0));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si, ajustar");
 		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
-		sleep(7000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("Step-AjusteNivelCuenta_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "nota de d\u00e9bito");
 		driver.findElement(By.id("MontoLibre")).sendKeys("123");
 		selectByText(driver.findElement(By.id("SelectItemAjusteLibre")), "Ajuste Minutos");
 		driver.findElement(By.id("Step-AjusteNivelCuenta_nextBtn")).click();
-		sleep(7000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("Step-Summary_nextBtn")));
 		driver.findElement(By.id("Step-Summary_nextBtn")).click();
 		sleep(7000);
 		List <WebElement> element = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));

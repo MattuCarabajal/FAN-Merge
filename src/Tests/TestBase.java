@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
@@ -47,7 +48,7 @@ import Pages.CustomerCare;
 import Pages.HomeBase;
 import Pages.Login;
 import Pages.setConexion;
-
+import PagesPOM.GestionDeClientes_Fw;
 //Data provider
 import DataProvider.ExcelUtils;
 
@@ -72,6 +73,7 @@ public class TestBase {
 		
 		public static boolean activarFalsos = true;
 		
+				
 	public void leftDropdown(WebDriver driver, String selection) {
 		driver.findElement(By.className("x-btn-mc")).click();
 		switch(selection) {
@@ -1106,7 +1108,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosSalesNominacionNuevoOfCom() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,14,"NominacionNuevoOfCom");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,15,"NominacionNuevoOfCom");
 
 	 return (testObjArray);
 
@@ -1142,7 +1144,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosSalesNominacionNuevoPasaporteOfCom() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,13,"NominacionNuevoPasaporteOfCom");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,15,"NominacionNuevoPasaporteOfCom");
 
 	 return (testObjArray);
 
@@ -1204,7 +1206,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosAltaLineaOfCom() throws Exception{//verofocadp
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,9,"Alta Linea OFCOM");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,15,"Alta Linea OFCOM");
 
 	 return (testObjArray);
 
@@ -1218,7 +1220,7 @@ public class TestBase {
 
 	}
 	@DataProvider
-	public Object[][] AltaLineaExistenteOfComPresencial() throws Exception{//verificado
+	public Object[][] AltaLineaExistenteOfComPresencial() throws Exception{
 
 	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,4,"Alta Linea Existente OfCom Presencial");
 
@@ -2178,7 +2180,7 @@ public class TestBase {
 		return resultado;
 	}
 	
-	public void waitForVisibleWithText(WebDriver driver, By element, String texto, int timeout) {
+	public void sleepFindBy(WebDriver driver, By element, String texto, int timeout) {
 		List <WebElement> tigesito = driver.findElements(element);
 		for(WebElement x : tigesito) {
 			if (x.getText().toLowerCase().equals(texto.toLowerCase())) {
@@ -2258,5 +2260,4 @@ public class TestBase {
 		}
 		
 	}
-	
 }

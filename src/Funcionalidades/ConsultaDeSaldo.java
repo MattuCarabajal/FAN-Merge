@@ -92,7 +92,7 @@ public class ConsultaDeSaldo extends TestBase {
 		sleep(2000);
 	}
 
-//	@AfterClass (alwaysRun = true)
+	//@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -139,7 +139,7 @@ public class ConsultaDeSaldo extends TestBase {
 		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver, By.className("card-top"), 0);
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer credito = Integer.parseInt(sMainBalance.substring(0, 7));
+		Integer credito = Integer.parseInt(sMainBalance.substring(0, 6));
 		String card = driver.findElement(By.className("card-info")).findElement(By.className("uLdetails")).findElement(By.tagName("li")).findElements(By.tagName("span")).get(2).getText();
 		card = card.replaceAll("[$.,]", "");
 		Integer creditoCard = Integer.parseInt(card);
@@ -157,8 +157,10 @@ public class ConsultaDeSaldo extends TestBase {
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
 		Integer saldoEnCard = Integer.parseInt(saldo);
+		System.out.println("Saldo en card :"+saldoEnCard);
 		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalUsageAmount");
-		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 6));
+		Integer saldoFacturacion = Integer.parseInt(response.substring(0, 5));
+		System.out.println("saldo en facturacion: "+ saldoFacturacion);
 		Assert.assertTrue(saldoEnCard.equals(saldoFacturacion));
 		
 	}
