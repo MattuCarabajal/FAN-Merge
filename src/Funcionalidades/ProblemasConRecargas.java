@@ -9,6 +9,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -39,7 +40,7 @@ public class ProblemasConRecargas extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -52,7 +53,7 @@ public class ProblemasConRecargas extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -100,15 +101,14 @@ public class ProblemasConRecargas extends TestBase {
 		boolean gest = false;
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Inconvenientes con Recargas");
-		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("RefillMethods_nextBtn")));
+		cambioDeFrame(driver, By.id("RefillMethods_nextBtn"), 0);
 		buscarYClick(driver.findElements(By.className("borderOverlay")), "equals", "tarjeta prepaga");
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
-		sleep(5000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("BatchNumber")));
 		driver.findElement(By.id("BatchNumber")).sendKeys(sBatch);
 		driver.findElement(By.id("PIN")).sendKeys(sPin);
 		driver.findElement(By.id("PrepaidCardData_nextBtn")).click();
-		sleep(7000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("Summary_nextBtn")));
 		driver.findElement(By.id("Summary_nextBtn")).click();
 		sleep(10000);
 		List <WebElement> element = driver.findElements(By.className("ta-care-omniscript-done"));
@@ -133,16 +133,15 @@ public class ProblemasConRecargas extends TestBase {
 		System.out.println(datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Inconvenientes con Recargas");
-		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("RefillMethods_nextBtn")));
+		cambioDeFrame(driver, By.id("RefillMethods_nextBtn"), 0);
 		buscarYClick(driver.findElements(By.cssSelector(".imgItemContainer.ng-scope")),"contains", "tarjeta de cr\u00e9dito");
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
-		sleep(5000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("CreditCardData_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")),"contains", "si");
 		driver.findElement(By.id("CreditCardRefillAmount")).sendKeys("1000");
 		driver.findElement(By.id("CreditCardRefillReceipt")).sendKeys("123");
 		driver.findElement(By.id("CreditCardData_nextBtn")).click();
-		sleep(5000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("Summary_nextBtn")));
 		driver.findElement(By.id("Summary_nextBtn")).click();
 		sleep(5000);
 		boolean gest = false;
@@ -168,17 +167,16 @@ public class ProblemasConRecargas extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 7));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Inconvenientes con Recargas");
-		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("RefillMethods_nextBtn")));
+		cambioDeFrame(driver, By.id("RefillMethods_nextBtn"), 0);
 		buscarYClick(driver.findElements(By.cssSelector(".imgItemContainer.ng-scope")),"contains", "recarga online");
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
-		sleep(5000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("RefillDate")));
 		driver.findElement(By.id("RefillDate")).sendKeys("23-07-2018");
 		driver.findElement(By.id("OnlineRefillAmount")).sendKeys("123");
 		driver.findElement(By.id("ReceiptCode")).sendKeys("123");
 		driver.findElement(By.id("OnlineRefillData_nextBtn")).click();
-		sleep(7000);
 		try {
+			ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("ExistingCase_nextBtn")));
 			driver.findElement(By.xpath("//*[@id=\"SessionCase|0\"]/div/div[1]/label[2]/span/div/div")).click();
 			driver.findElement(By.id("ExistingCase_nextBtn")).click();
 			sleep(10000);
