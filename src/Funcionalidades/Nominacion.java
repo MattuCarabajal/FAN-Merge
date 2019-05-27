@@ -111,8 +111,10 @@ public class Nominacion extends TestBase {
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
 	@Test(groups = {"PerfilOficina", "Nominacion","E2E","Ciclo1"}, dataProvider="DatosSalesNominacionNuevoOfCom") 
-	public void TS85094_CRM_Movil_REPRO_Nominatividad_Cliente_Nuevo_Presencial_DOC_OfCom(String sLinea, String sDni, String sNombre, String sApellido, String sSexo, String sFnac, String sEmail, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) { 
+	public void TS85094_CRM_Movil_REPRO_Nominatividad_Cliente_Nuevo_Presencial_DOC_OfCom(String sLinea, String sDni, String sGenero, String sNombre, String sApellido, String sSexo, String sFnac, String sEmail, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) { 
 		imagen = "85094-Nominacion"+sDni;
+		ContactSearch contact = new ContactSearch(driver);
+		TestBase tb = new TestBase();
 		detalles = imagen + "- Consulta de Saldo - DNI:" + sDni;
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("PhoneNumber")));
@@ -131,34 +133,18 @@ public class Nominacion extends TestBase {
 				break;
 			}
 		}
-		sleep(10000);
-		ContactSearch contact = new ContactSearch(driver);
-		contact.searchContact2("DNI", sDni, sSexo);
-		contact.Llenar_Contacto(sNombre, sApellido, sFnac);
-		try {contact.ingresarMail(sEmail, "si");}catch (org.openqa.selenium.ElementNotVisibleException ex1) {}
+		sleep(15000);
+		tb.cambioDeFrame(driver, By.id("DocumentTypeSearch"),0);
+		contact.crearClienteNominacion("DNI", sDni, sGenero, sNombre, sApellido, sFnac, sEmail);
 		contact.tipoValidacion("documento");
 		File directory = new File("Dni.jpg");
 		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
-		BasePage bp = new BasePage(driver);
 		sleep(12000);
-		bp.setSimpleDropdown(driver.findElement(By.id("ImpositiveCondition")), "IVA Consumidor final");
-		bp.setSimpleDropdown(driver.findElement(By.id("state-LegalAddress")), sProvincia);
-		driver.findElements(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")).get(0).sendKeys(sLocalidad);
-		driver.findElement(By.id("zoneType-LegalAddress")).sendKeys(sZona);
-		driver.findElement(By.id("CityTypeAhead")).sendKeys(Keys.ARROW_DOWN);
-		driver.findElement(By.id("CityTypeAhead")).sendKeys(Keys.ENTER);
-		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")).sendKeys(sCalle);
-		driver.findElement(By.id("streetNumber-LegalAddress")).sendKeys(sNumCa);
-		driver.findElement(By.id("postalCode-LegalAddress")).sendKeys(sCP);
-		bp.setSimpleDropdown(driver.findElement(By.id("addresssType-LegalAddress")), tDomic);
-		driver.findElement(By.id("btnSameAsLegalAddress")).click();
-		sleep(5000);
-		driver.findElement(By.id("AccountData_nextBtn")).click();		
+		contact.completarDomicilio(sProvincia, sLocalidad, sZona, sCalle, sNumCa, sCP, tDomic);
 		sleep(32000);
 		CBS_Mattu invoSer = new CBS_Mattu();
 		invoSer.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
 		List <WebElement> element = driver.findElement(By.id("NominacionExitosa")).findElements(By.tagName("p"));
-		//System.out.println("cont="+element.get(0).getText());
 		boolean a = false;
 		for (WebElement x : element) {
 			if (x.getText().toLowerCase().contains("nominaci\u00f3n exitosa!")) {
@@ -173,42 +159,39 @@ public class Nominacion extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilOficina", "Nominacion", "Ciclo1"},dataProvider = "DatosSalesNominacionNuevoPasaporteOfCom") 
-	public void TS128436_CRM_Movil_REPRO_Nominatividad_Presencial_DOC_Pasaporte_OfCom(String sLinea, String sPasaporte, String sNombre, String sApellido, String sSexo, String sPermanencia, String sFnac, String sEmail, String sProvincia, String sLocalidad, String sCalle, String sNumCa, String sCP) {
+	public void TS128436_CRM_Movil_REPRO_Nominatividad_Presencial_DOC_Pasaporte_OfCom(String sLinea, String sPasaporte, String sNombre, String sApellido, String sSexo, String sFnac, String sPermanencia, String sEmail, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) {
 		imagen = "TS128436";
 		detalles = null;
 		detalles = imagen + " -Nominacion: " + sPasaporte + " -Linea: "+sLinea;
 		boolean nominacion = false;
-		SalesBase SB = new SalesBase(driver);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+		sleep(10000);
+		driver.switchTo().frame(cambioFrame(driver, By.id("PhoneNumber")));
 		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
 		driver.findElement(By.id("SearchClientsDummy")).click();
 		sleep(5000);
-		driver.findElement(By.cssSelector(".slds-button.slds-button--icon.slds-m-right--x-small.ng-scope")).click();
-		sleep(2000);
-		WebElement botonNominar = null;
-		for (WebElement x : driver.findElements(By.cssSelector(".slds-hint-parent.ng-scope"))) {
-			if (x.getText().toLowerCase().contains("plan con tarjeta"))
-				botonNominar = x;
+		WebElement cli = driver.findElement(By.id("tab-scoped-2")); 	
+		cli.findElement(By.tagName("tbody")).findElement(By.tagName("tr")).click();
+		sleep(3000);
+		List<WebElement> Lineas = driver.findElement(By.id("tab-scoped-2")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+		for(WebElement UnaL: Lineas) {
+			if(UnaL.getText().toLowerCase().contains("plan con tarjeta repro")) {
+				UnaL.findElements(By.tagName("td")).get(6).findElement(By.tagName("svg")).click();
+				System.out.println("Linea Encontrada");
+				break;
+			}
 		}
-		for (WebElement x : botonNominar.findElements(By.tagName("td"))) {
-			if (x.getAttribute("data-label").equals("actions"))
-				botonNominar = x;
-		}
-		botonNominar.findElement(By.tagName("a")).click();
 		sleep(5000);
 		ContactSearch contact = new ContactSearch(driver);
 		contact.searchContact2("Pasaporte", sPasaporte, "Masculino");
-		contact.Llenar_Contacto(sNombre, sApellido, sFnac);
+		//contact.Llenar_Contacto(sNombre, sApellido, sFnac);
 		driver.findElement(By.id("PermanencyDueDate")).sendKeys(sPermanencia);
 		driver.findElement(By.id("Contact_nextBtn")).click();
 		sleep(10000);
 		contact.tipoValidacion("documento");
 		File directory = new File("Dni.jpg");
 		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
-		sleep(7000);
-		BasePage bp = new BasePage(driver);
-		bp.setSimpleDropdown(driver.findElement(By.id("ImpositiveCondition")), "IVA Consumidor Final");
-		SB.Crear_DomicilioLegal(sProvincia, sLocalidad, sCalle, "", sNumCa, "", "", sCP);
+		sleep(12000);
+		sb.Crear_DomicilioLegal( sProvincia, sLocalidad, sZona,sCalle,sNumCa,sCP,tDomic);
 		sleep(38000);
 		directory = new File("form.pdf");
 		driver.findElement(By.id("UploadSignedForm")).sendKeys(new File(directory.getAbsolutePath()).toString());
@@ -324,7 +307,7 @@ public class Nominacion extends TestBase {
 		sleep(13000);
 		ContactSearch contact = new ContactSearch(driver);
 		contact.searchContact2("DNI", sDni, sSexo);
-		contact.Llenar_Contacto(sNombre, sApellido, sFnac);
+		//contact.Llenar_Contacto(sNombre, sApellido, sFnac);
 		try {contact.ingresarMail(sEmail, "si");}catch (org.openqa.selenium.ElementNotVisibleException ex1) {}
 		contact.tipoValidacion("preguntas y respuestas");
 		sleep(5000);
@@ -333,7 +316,7 @@ public class Nominacion extends TestBase {
 		sleep(5000);
 		BasePage bp = new BasePage(driver);
 		bp.setSimpleDropdown(driver.findElement(By.id("ImpositiveCondition")), "IVA Consumidor Final");
-		SB.Crear_DomicilioLegal(sProvincia, sLocalidad, sCalle, "", sNumCa, "", "", sCP);
+		//SB.Crear_DomicilioLegal(sProvincia, sLocalidad, sCalle, "", sNumCa, "", "", sCP);
 		sleep(38000);
 		CBS_Mattu invoSer = new CBS_Mattu();
 		invoSer.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
@@ -437,7 +420,7 @@ public class Nominacion extends TestBase {
 		ContactSearch contact = new ContactSearch(driver);
 		contact.searchContact2("Pasaporte", sPasaporte, sSexo);
 		//sleep(2000);
-		contact.Llenar_Contacto(sNombre, sApellido, sFnac);
+		//contact.Llenar_Contacto(sNombre, sApellido, sFnac);
 		driver.findElement(By.id("PermanencyDueDate")).sendKeys(sFperm);
 		driver.findElement(By.id("Contact_nextBtn")).click();
 		//sleep(10000);
@@ -521,7 +504,7 @@ public class Nominacion extends TestBase {
 		ContactSearch contact = new ContactSearch(driver);
 		contact.searchContact2("DNI", sDni, sSexo);
 		sleep(2000);
-		contact.Llenar_Contacto(sNombre, sApellido, sFnac);
+		//contact.Llenar_Contacto(sNombre, sApellido, sFnac);
 		try {contact.ingresarMail(sEmail, "si");}catch (org.openqa.selenium.ElementNotVisibleException ex1) {}
 		contact.tipoValidacion("preguntas y respuestas");
 		sleep(8000);
@@ -658,13 +641,13 @@ public class Nominacion extends TestBase {
 		sleep(13000);
 		ContactSearch contact = new ContactSearch(driver);
 		contact.searchContact2("DNI", sDni, sSexo);
-		contact.Llenar_Contacto(sNombre, sApellido, sFnac);
+	//	contact.Llenar_Contacto(sNombre, sApellido, sFnac);
 		try {contact.ingresarMail(sEmail, "si");}catch (org.openqa.selenium.ElementNotVisibleException ex1) {}
 		contact.tipoValidacion("documento");
 		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
 		BasePage bp = new BasePage(driver);
 		bp.setSimpleDropdown(driver.findElement(By.id("ImpositiveCondition")), "IVA Consumidor Final");
-		SB.Crear_DomicilioLegal(sProvincia, sLocalidad, sCalle, "", sNumCa, "", "", sCP);
+		//SB.Crear_DomicilioLegal(sProvincia, sLocalidad, sCalle, "", sNumCa, "", "", sCP);
 		sleep(38000);
 		CBS_Mattu invoSer = new CBS_Mattu();
 		invoSer.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
@@ -794,7 +777,7 @@ public class Nominacion extends TestBase {
 		ContactSearch contact = new ContactSearch(driver);
 		contact.searchContact2("DNI", sDni, sSexo);
 		sleep(2000);
-		contact.Llenar_Contacto(sNombre, sApellido, sFnac);
+		//contact.Llenar_Contacto(sNombre, sApellido, sFnac);
 		try {contact.ingresarMail(sEmail, "si");}catch (org.openqa.selenium.ElementNotVisibleException ex1) {}
 		contact.tipoValidacion("documento");
 		File directory = new File("DniMal.jpg");
