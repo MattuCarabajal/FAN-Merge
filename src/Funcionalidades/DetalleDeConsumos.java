@@ -8,6 +8,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -131,12 +132,12 @@ public class DetalleDeConsumos extends TestBase {
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
 		boolean llamadaDeVoz = false;
 		ges.BuscarCuenta("DNI", sDNI);
-		cc.irADetalleDeConsumos();
+		ges.irAGestionEnCard("Detalles de Consumo");
 		cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button--brand"), 0);
 		driver.findElement(By.id("text-input-02")).click();
 		driver.findElement(By.xpath("//*[text() = 'Los \u00faltimos 15 d\u00edas']")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
-		sleep(5000);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(driver.findElement(By.cssSelector(".slds-p-right--x-small.spacer")).findElement(By.tagName("span"))));
 		driver.findElement(By.cssSelector(".slds-p-right--x-small.spacer")).findElement(By.tagName("span")).click();
 		driver.findElements(By.id("text-input-02")).get(1).click();
 		driver.findElement(By.xpath("//*[text() = 'Llamada de voz']")).click();
@@ -151,7 +152,7 @@ public class DetalleDeConsumos extends TestBase {
 		imagen = "TS134785";
 		detalles = imagen + "- Detalles de Consumos -DNI:" + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		cc.irADetalleDeConsumos();
+		ges.irAGestionEnCard("Detalles de Consumo");
 		cambioDeFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter"), 0);
 		driver.findElements(By.cssSelector(".slds-picklist.slds-dropdown-trigger.slds-dropdown-trigger--click")).get(1).findElement(By.cssSelector(".slds-button.slds-input__icon.slds-text-color--default")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();

@@ -23,6 +23,7 @@ import Pages.SCP;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.TestBase;
 
 public class ResumenDeCuenta extends TestBase {
@@ -31,6 +32,8 @@ public class ResumenDeCuenta extends TestBase {
 	private SalesBase sb;
 	private CustomerCare cc;
 	private Marketing mk;
+	private GestionDeClientes_Fw ges;
+	private LoginFw log;
 	private SCP scp;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
@@ -40,27 +43,28 @@ public class ResumenDeCuenta extends TestBase {
 	@BeforeClass (alwaysRun = true)
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
+		ges = new GestionDeClientes_Fw(driver);
+		mk = new Marketing(driver);
+		log = new LoginFw(driver);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		log.loginOOCC();
+		ges.irAConsolaFAN();	
+
 	}
 		
 	//@BeforeClass (alwaysRun = true)
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
+		driver = setConexion.setupEze();
+		ges = new GestionDeClientes_Fw(driver);
+		mk = new Marketing(driver);
+		log = new LoginFw(driver);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginTelefonico(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		log.loginTelefonico();
+		ges.irAConsolaFAN();	
+
 	}
 	
 	@BeforeMethod(alwaysRun=true)
@@ -95,19 +99,16 @@ public class ResumenDeCuenta extends TestBase {
 		detalles = null;
 		detalles = imagen + " -Resumen de Cuenta Corriente - DNI: " + sDNI;
 		Marketing mk = new Marketing(driver);
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(20000);
 		mk.closeActiveTab();
-		driver.switchTo().frame(cambioFrame(driver, By.className("profile-edit")));
+		cambioDeFrame(driver, By.className("profile-edit"),0);
 		buscarYClick(driver.findElements(By.className("left-sidebar-section-header")), "equals", "facturaci\u00f3n");
-		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "resumen de cuenta");
-		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".boton3.secondaryFontWhite")));
+		
+		cambioDeFrame(driver, By.className("card-top"),0);
+		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "contains", "resumen de cuenta");
+		
+		cambioDeFrame(driver, By.cssSelector(".boton3.secondaryFontWhite"),0);
 		WebElement saldo = driver.findElement(By.className("secondaryFontNormal"));
 		WebElement fechas = driver.findElement(By.cssSelector(".slds-text-heading--small.secondaryFont"));
 		WebElement boton = driver.findElement(By.cssSelector(".boton3.secondaryFontWhite"));
@@ -123,15 +124,18 @@ public class ResumenDeCuenta extends TestBase {
 		imagen="TS129462";
 		detalles = null;
 		detalles = imagen + "- Resumen de Cuenta - DNI:" +sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(15000);
+
+		ges.BuscarCuenta("DNI", sDNI);
+
+		sleep(20000);
 		cc.openleftpanel();
+		sleep(5000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
-		sleep(5000);
-		cc.irAResumenDeCuentaCorriente();
+		cambioDeFrame(driver, By.className("card-top"),0);
+		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "contains", "resumen de cuenta");
+		
+		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter")));
 		driver.findElement(By.id("text-input-id-1")).click();
 		WebElement table = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));

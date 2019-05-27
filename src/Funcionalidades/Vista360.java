@@ -36,7 +36,7 @@ public class Vista360 extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
@@ -96,16 +96,14 @@ public class Vista360 extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = "PerfilOficina", dataProvider = "documentacionVista360")
+	@Test (groups = "PerfilOficina", dataProvider = "documentacionVista360")//ok
 	public void TS134379_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_OOCC(String sDNI) throws AWTException {
 		imagen = "TS134379";
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
-		cambioDeFrame(driver, By.className("card-top"), 0);
-		driver.findElement(By.className("card-top")).click();
-		sleepFindBy(driver, By.className("slds-text-body_regular"), 0);
-		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "mis servicios");
+		ges.irAGestionEnCard("Mis servicios");
+		
 		cambioDeFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium"), 0);
 		WebElement tabla = null;
 		for(WebElement x : driver.findElements(By.cssSelector(".slds-grid.slds-wrap.slds-card.slds-m-bottom--small.slds-p-around--medium"))){
@@ -136,22 +134,20 @@ public class Vista360 extends TestBase {
 		driver.findElement(By.xpath("//*[text() = 'Casos']")).click();
 		driver.findElement(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small secondaryFont']")).click();
 		sleep(2000);
+		ges.getWait().until(ExpectedConditions.visibilityOf(driver.findElements(By.cssSelector("[class='slds-m-around--medium'] tbody tr a")).get(0)));
+		
 		WebElement nroCaso = driver.findElements(By.cssSelector("[class='slds-m-around--medium'] tbody tr a")).get(0);
-		nroCaso.click();
+		nroCaso.click(); 
 		WebElement fechaYHora = null;
-		cambioDeFrame(driver, By.name("close"), 0);
+		cambioDeFrame(driver, By.name("close"),0);
 		for (WebElement x : driver.findElements(By.className("pbSubsection"))) {
-			if (x.getText().toLowerCase().contains("owned by me")) {
+			if (x.getText().toLowerCase().contains("owned by me"))
 				fechaYHora = x;
-				break;
-			}
 		}
 		fechaYHora = fechaYHora.findElement(By.tagName("tbody"));
 		for (WebElement x : fechaYHora.findElements(By.tagName("tr"))) {
-			if (x.getText().toLowerCase().contains("fecha/hora de cierre")) {
+			if (x.getText().toLowerCase().contains("fecha/hora de cierre"))
 				fechaYHora = x;
-				break;
-			}	
 		}
 		Assert.assertTrue(fechaYHora.getText().contains("Fecha/Hora de cierre"));
 		Assert.assertTrue(fechaYHora.findElements(By.tagName("td")).get(3).getText().matches("^\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}$"));
@@ -161,9 +157,8 @@ public class Vista360 extends TestBase {
 	public void TS134368_OFCOM_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_visualizacion_y_busqueda_de_los_distintos_consumos_realizados_por_el_cliente_FAN_Front_OOCC(String sDNI, String sLinea,String sNombre) {
 		imagen = "TS134368";
 		detalles = imagen + "-Vista 360 - DNI: "+sDNI+ " - Nombre: "+sNombre;
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		cc.irADetalleDeConsumos();
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Detalles de Consumo"); 
 		cambioDeFrame(driver, By.id("text-input-02"), 0);
 		driver.findElement(By.id("text-input-02")).click();
 		List<WebElement> pres = driver.findElement(By.id("option-list-01")).findElements(By.tagName("li"));
@@ -172,7 +167,7 @@ public class Vista360 extends TestBase {
 			cc.obligarclick(p);
 		}
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
-		sleep(7000);
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-text-heading--small"),0));
 		boolean a = false;
 		List<WebElement> filtro = driver.findElements(By.cssSelector(".slds-text-heading--small"));
 		for(WebElement f : filtro){

@@ -320,7 +320,9 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	
 	public void irAGestionEnCard(String sGestion) {
 		driver.switchTo().defaultContent();
-		switchToFrameBySrc("/apex/vlocity_cmt__ConsoleCards?Id=0010r000008A9jg&layout=ta-console-services&");
+		//switchToFrameBySrc("/apex/vlocity_cmt__ConsoleCards?Id=0010r000008A9jg&layout=ta-console-services&");
+		TestBase cc = new TestBase();
+		cc.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='card-top']")));
 		WebElement card = driver.findElement(By.cssSelector("[class='card-top']"));
 		card.click();
