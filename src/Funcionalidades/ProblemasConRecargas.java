@@ -121,16 +121,15 @@ public class ProblemasConRecargas extends TestBase {
 		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 5));
 		System.out.println(datosFinal);
 		Assert.assertTrue(datosInicial + 500 == datosFinal);
-		String orden = cc.obtenerOrden(driver, "Problema con recarga con tarjeta prepaga");
-		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + "-Orden: " + orden;
-		Assert.assertTrue(cc.verificarOrden(orden));
+		String orden = cc.obtenerOrden(driver, "Problemas con Recargas");
+		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + " - Orden: " + orden;
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga")
 	public void problemaRecargaCredito(String sDNI, String sLinea) {
 		imagen = "problemaRecargaCredito";
 		String davoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosInicial = Integer.parseInt(davoViejo.substring(0, 7));
+		Integer datosInicial = Integer.parseInt(davoViejo.substring(0, 6));
 		System.out.println(datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Inconvenientes con Recargas");
@@ -140,7 +139,7 @@ public class ProblemasConRecargas extends TestBase {
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
 		sleep(5000);
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")),"contains", "si");
-		driver.findElement(By.id("CreditCardRefillAmount")).sendKeys("123");
+		driver.findElement(By.id("CreditCardRefillAmount")).sendKeys("1000");
 		driver.findElement(By.id("CreditCardRefillReceipt")).sendKeys("123");
 		driver.findElement(By.id("CreditCardData_nextBtn")).click();
 		sleep(5000);
@@ -153,9 +152,9 @@ public class ProblemasConRecargas extends TestBase {
 		}
 		Assert.assertTrue(gest);
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0,7));
+		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 6));
 		System.out.println(datosFinal);
-		Assert.assertTrue(datosInicial + 123 == datosFinal);
+		Assert.assertTrue(datosInicial + 1000 == datosFinal);
 		String orden = cc.obtenerOrden(driver, "Problemas con Recargas");
 		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + " - Orden: " + orden;
 	}
@@ -209,7 +208,7 @@ public class ProblemasConRecargas extends TestBase {
 		imagen = "TS104346";
 		detalles = imagen + " -Problemas Con Recargas-DNI: " + sDNI;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 6));
 		System.out.println(datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Inconvenientes con Recargas");
@@ -220,7 +219,7 @@ public class ProblemasConRecargas extends TestBase {
 		sleep(5000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("OnlineRefillData_nextBtn")));
 		driver.findElement(By.id("RefillDate")).sendKeys("11-08-2018");
-		driver.findElement(By.id("OnlineRefillAmount")).sendKeys("500000");
+		driver.findElement(By.id("OnlineRefillAmount")).sendKeys("1000");
 		driver.findElement(By.id("ReceiptCode")).sendKeys("111");
 		driver.findElement(By.id("OnlineRefillData_nextBtn")).click();
 		sleep(5000);
@@ -239,9 +238,9 @@ public class ProblemasConRecargas extends TestBase {
 		WebElement gestion = driver.findElement(By.className("ta-care-omniscript-done")).findElement(By.tagName("header")).findElement(By.tagName("h1"));
 		Assert.assertTrue(gestion.getText().contains("Recarga realizada con \u00e9xito"));
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 5));
+		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 6));
 		System.out.println(datosFinal);
-		Assert.assertTrue(datosInicial + 5000 == datosFinal);
+		Assert.assertTrue(datosInicial + 1000 == datosFinal);
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecargaQuemada")
@@ -324,7 +323,7 @@ public class ProblemasConRecargas extends TestBase {
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 5));
 		System.out.println(datosFinal);
-		Assert.assertTrue(datosInicial + 5000000 == datosFinal);
+		Assert.assertTrue(datosInicial + 500 == datosFinal);
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "ProblemaRecargaPrepaga")
@@ -368,6 +367,7 @@ public class ProblemasConRecargas extends TestBase {
 		boolean gestion = false;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 5));
+		System.out.println(datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
 		sleep(15000);
 		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
@@ -380,7 +380,7 @@ public class ProblemasConRecargas extends TestBase {
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
 		sleep(5000);
 		driver.findElement(By.id("RefillDate")).sendKeys("01-12-2018");
-		driver.findElement(By.id("RefillAmount")).sendKeys("5000");
+		driver.findElement(By.id("OnlineRefillAmount")).sendKeys("5000");
 		driver.findElement(By.id("ReceiptCode")).sendKeys("123");
 		driver.findElement(By.id("OnlineRefillData_nextBtn")).click();
 		sleep(7000);
@@ -403,6 +403,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(gestion);
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 5));
+		System.out.println(datosFinal);
 		Assert.assertTrue(datosInicial + 500 == datosFinal);
 	}
 	

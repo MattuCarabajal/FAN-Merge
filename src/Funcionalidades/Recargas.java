@@ -259,8 +259,6 @@ public class Recargas extends TestBase {
 		driver.findElement(By.id("documentNumber-0")).sendKeys(sDNI);
 		driver.findElement(By.id("cardHolder-0")).sendKeys(sTitular);				
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("InvoicePreview_nextBtn")));
-		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		cbsm.Servicio_NotificarPago(caso);

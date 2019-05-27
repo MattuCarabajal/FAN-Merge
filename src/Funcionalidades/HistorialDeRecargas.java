@@ -90,7 +90,7 @@ public class HistorialDeRecargas extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
+	//@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
 	public void TS134787_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_con_Beneficios_FAN_Front_OOCC(String sDNI,String sLinea) {
 		imagen = "TS134787";
 		detalles = imagen + " - Historial de recargas - DNI:" + sDNI;
@@ -581,7 +581,7 @@ public class HistorialDeRecargas extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
-	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
+	//@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
 	public void TS134789_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_con_Beneficios_Fan_FRONT_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS134789";
 		detalles = imagen+"-HistorialDeRecargasTelefonico-DNI:"+sDNI;
