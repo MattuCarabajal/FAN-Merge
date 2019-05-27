@@ -8,6 +8,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -94,8 +95,8 @@ public class DetalleDeConsumos extends TestBase {
 		driver.findElement(By.id("text-input-02")).click();
 		driver.findElement(By.xpath("//*[text() = 'Los \u00faltimos 15 d\u00edas']")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
-		sleep(5000);
-		driver.findElement(By.cssSelector(".slds-p-right--x-small.spacer")).findElement(By.tagName("span")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-p-right--x-small spacer'] span")));
+		driver.findElement(By.cssSelector("[class='slds-p-right--x-small spacer'] span")).click();
 		driver.findElements(By.id("text-input-02")).get(1).click();
 		driver.findElement(By.xpath("//*[text() = 'SMS']")).click();
 		WebElement filaTabla = driver.findElement(By.cssSelector(".slds-table.slds-table_striped.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")).findElement(By.tagName("tbody")).findElement(By.tagName("tr"));
@@ -115,8 +116,8 @@ public class DetalleDeConsumos extends TestBase {
 		driver.findElement(By.id("text-input-02")).click();
 		driver.findElement(By.xpath("//*[text() = 'Los \u00faltimos 15 d\u00edas']")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
-		sleep(5000);
-		driver.findElement(By.cssSelector(".slds-p-right--x-small.spacer")).findElement(By.tagName("span")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-p-right--x-small spacer'] span")));
+		driver.findElement(By.cssSelector("[class='slds-p-right--x-small spacer'] span")).click();
 		driver.findElements(By.id("text-input-02")).get(1).click();
 		driver.findElement(By.xpath("//*[text() = 'Recarga']")).click();
 		WebElement filaTabla = driver.findElement(By.cssSelector(".slds-table.slds-table_striped.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")).findElement(By.tagName("tbody")).findElement(By.tagName("tr"));
@@ -136,8 +137,8 @@ public class DetalleDeConsumos extends TestBase {
 		driver.findElement(By.id("text-input-02")).click();
 		driver.findElement(By.xpath("//*[text() = 'Los \u00faltimos 15 d\u00edas']")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
-		sleep(5000);
-		driver.findElement(By.cssSelector(".slds-p-right--x-small.spacer")).findElement(By.tagName("span")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-p-right--x-small spacer'] span")));
+		driver.findElement(By.cssSelector("[class='slds-p-right--x-small spacer'] span")).click();
 		driver.findElements(By.id("text-input-02")).get(1).click();
 		driver.findElement(By.xpath("//*[text() = 'Llamada de voz']")).click();
 		WebElement filaTabla = driver.findElement(By.cssSelector(".slds-table.slds-table_striped.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")).findElement(By.tagName("tbody")).findElement(By.tagName("tr"));
@@ -155,7 +156,7 @@ public class DetalleDeConsumos extends TestBase {
 		cambioDeFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter"), 0);
 		driver.findElements(By.cssSelector(".slds-picklist.slds-dropdown-trigger.slds-dropdown-trigger--click")).get(1).findElement(By.cssSelector(".slds-button.slds-input__icon.slds-text-color--default")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
-		sleepFindBy(driver, By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"), 0);
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"), 0));
 		List<WebElement> filas = driver.findElements(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"));
 		filas.get(0).click();
 		filas = driver.findElements(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"));
@@ -179,7 +180,7 @@ public class DetalleDeConsumos extends TestBase {
 		WebElement periodosDeConsulta = driver.findElement(By.cssSelector("[class='slds-grid slds-wrap slds-grid--pull-padded slds-m-around--medium slds-p-around--medium negotationsfilter'] [class='slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--2-of-8 slds-large-size--2-of-8'] [class='slds-dropdown slds-dropdown--left'] [class='slds-dropdown__list slds-dropdown--length-3']"));
 		periodosDeConsulta.findElements(By.tagName("li")).get(1).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
-		sleep(5000);
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"), 0));
 		List<WebElement> filas = driver.findElements(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"));
 		filas.get(0).click();
 		filas = driver.findElements(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"));
@@ -201,8 +202,8 @@ public class DetalleDeConsumos extends TestBase {
 		driver.findElement(By.id("text-input-02")).click();
 		driver.findElement(By.xpath("//*[text() = 'Los \u00faltimos 15 d\u00edas']")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
-		sleep(10000);
-		driver.findElement(By.cssSelector(".slds-p-right--x-small.spacer")).findElement(By.tagName("span")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-p-right--x-small spacer'] span")));
+		driver.findElement(By.cssSelector("[class='slds-p-right--x-small spacer'] span")).click();
 		driver.findElements(By.id("text-input-02")).get(1).click();
 		driver.findElement(By.xpath("//*[text() = 'SMS']")).click();
 		sleep(10000);
