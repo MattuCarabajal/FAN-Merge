@@ -40,11 +40,11 @@ public class ProblemasConRecargas extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		cc = new CustomerCare(driver);
+		mk = new Marketing(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		cbs = new CBS();
@@ -53,11 +53,11 @@ public class ProblemasConRecargas extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	//@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		cc = new CustomerCare(driver);
+		mk = new Marketing(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		cbs = new CBS();
@@ -445,7 +445,7 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(datosInicial + 500 == datosFinal);
 	}
 	
-	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaProblemaRecargaAYD") 
+	@Test (groups = "PerfilTelefonico", dataProvider = "ProblemaRecargaPrepaga") 
 	public void TS104332_CRM_Movil_Repro_Problemas_con_Recarga_Telefonico_Tarjeta_Scratch_Caso_Nuevo_Tarjeta_Activa_y_Disponible(String sDNI, String sLinea, String sTarjeta, String sPIN) {
 		imagen = "TS104332";
 		detalles = imagen + " -Problemas Con Recargas-DNI: " + sDNI;
@@ -476,7 +476,7 @@ public class ProblemasConRecargas extends TestBase {
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 5));
 		System.out.println(datosFinal);
-		Assert.assertTrue(datosInicial + 5000000 == datosFinal);
+		Assert.assertTrue(datosInicial + 500 == datosFinal);
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "ProblemaRecargaPrepaga")
@@ -567,6 +567,5 @@ public class ProblemasConRecargas extends TestBase {
 				gestion = true;
 		}
 		Assert.assertTrue(gestion);
-		//Assert.assertTrue(false);
 	}
 }

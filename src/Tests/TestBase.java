@@ -2026,7 +2026,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosNoNominacionNuevoTelefonicoPasaporte() throws Exception{
 		
-		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,8,"NoNominacionNuevoTelefonicoPasaporte");
+		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,8,"NoNominacionNuevoTelefonicoPasaporte");
 
 		 return (testObjArray);
 	}
@@ -2050,7 +2050,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosNominacionExistente5Lineas() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,2,"NominacionExistente5Lineas");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,2,"NominacionExistente5Lineas");
 
 	 return (testObjArray);
 
