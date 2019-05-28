@@ -295,6 +295,10 @@ public class ContactSearch extends BasePage {
 	public void Llenar_Contacto(String sNom, String sAp, String sFN, String genero, String mail ) {
 		TestBase TB = new TestBase();
 		TB.waitFor(driver,By.id("FirstName"));
+		nombre.clear();
+		apellido.clear();
+		fNac.clear();
+		//Email.clear();
 		nombre.sendKeys(sNom);
 		apellido.sendKeys(sAp);
 		fNac.sendKeys(sFN);
