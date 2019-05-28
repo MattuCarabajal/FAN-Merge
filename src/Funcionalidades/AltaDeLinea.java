@@ -107,7 +107,7 @@ public class AltaDeLinea extends TestBase {
 	@Test (groups={"PerfilOficina","AltaDeLinea"}, dataProvider="DatosAltaLineaOfCom")
 	public void TS_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_OfCom_Efectivo_Presencial_DNI(String sDni, String sNombre, String sApellido, String sSexo, String sFnac,String sEmail, String sPlan, String sEntrega, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) throws IOException {
 		imagen = "TS_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_OfCom_Efectivo_Presencial_DNI";
-		contact.crearCliente("DNI",sDni);
+		sDni = contact.crearCliente("DNI");
 		contact.Llenar_Contacto(sNombre, sApellido, sFnac, sSexo, sEmail);
 		contact.elegirPlan(sPlan);
 		contact.continuar();
