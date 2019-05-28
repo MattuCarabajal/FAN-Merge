@@ -30,12 +30,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
+import PagesPOM.GestionDeClientes_Fw;
 import Tests.TestBase;
 import javafx.scene.control.Accordion;
 
+
 public class SalesBase extends BasePage {
-	
-final WebDriver driver;
+
+
+
+	final WebDriver driver;
 	
 	@FindBy (how = How.ID, using = "phSearchInput")
 	private WebElement searchInput;
@@ -403,7 +407,7 @@ for(WebElement e: btns){
  }
  
  public void elegirplan(String plan){
-		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		try {Thread.sleep(9500);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		/*driver.findElement(By.cssSelector(".slds-button.custom-view-dropdown-button.slds-button_neutral.slds-p-right_small.slds-picklist__label.cpq-base-header-picklist-label")).click();
 		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		List<WebElement> list = driver.findElements(By.className("slds-dropdown__item"));
@@ -413,7 +417,7 @@ for(WebElement e: btns){
 				System.out.println(e.getText());
 				e.click();
 				break;}}
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}*/
+		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		try {
 			driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-valid")).sendKeys(plan);	}
 		catch(Exception ex1) {driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-valid.ng-empty")).sendKeys(plan);}
@@ -432,6 +436,19 @@ for(WebElement e: btns){
 		//for(WebElement UnP : agregar) {
 			agregar.get(1).click();
 		//}*/
+	
+		driver.findElement(By.cssSelector(".slds-input.input-icon.ng-pristine.ng-untouched.ng-valid.ng-empty")).sendKeys(plan);
+		sleep(7500);
+		List<WebElement> productos = driver.findElements(By.cssSelector(".slds-media.cpq-product-item-container"));
+		List<WebElement> botones = driver.findElements(By.cssSelector(".slds-button.slds-button_neutral.icon-add_shopping_cart.icon-only.cpq-add-button"));
+		for (int i = 0; i <= productos.size()-1; i++) {
+			System.out.println(i + ". " + productos.get(i).getText());
+			if (productos.get(i).getText().substring(0, productos.get(i).getText().indexOf("\n")).equalsIgnoreCase(plan)) {
+				botones.get(i).click();
+				break;
+			}
+		}
+		sleep(15000);
 }
  public void agregarplan(String plan){
 		try {Thread.sleep(30000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
@@ -600,60 +617,32 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 
  }
- public void Crear_DomicilioLegal(String provincia, String localidad,String calle, String local, String altura, String piso, String dpto,String CP){
-	 waitForVisibilityOf(driver.findElement(By.id("state-LegalAddress")));
-		//try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	List<WebElement> check = driver.findElements(By.cssSelector(".slds-checkbox--faux"));
-	setSimpleDropdown(driver.findElement(By.id("state-LegalAddress")), provincia);
-	sleep(3000);
-	driver.findElement(By.id("CityTypeAhead")).sendKeys(localidad);
-	try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();} 
-	driver.findElement(By.id("CityTypeAhead")).sendKeys(Keys.ARROW_DOWN);
-	driver.findElement(By.id("CityTypeAhead")).sendKeys(Keys.ENTER);
-	driver.findElement(By.id("StreetCode")).sendKeys(calle); 
-	/*try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	driver.findElement(By.id("LegalStreetTypeAhead")).sendKeys(Keys.ARROW_DOWN);
-	driver.findElement(By.id("LegalStreetTypeAhead")).sendKeys(Keys.ENTER);
-	driver.findElement(By.id("NewStreetName")).sendKeys(calle);*/
-	
-
-	switch(local){
-	case "si":
-		if(!driver.findElement(By.id("Local")).isSelected()){
-			check.get(0).click();}
-		break;
-	case "no":
-		if(driver.findElement(By.id("Local")).isSelected()){
-			check.get(0).click();}
-		break;}
-	driver.findElement(By.id("StreetNumber")).sendKeys(altura);
-	driver.findElement(By.id("FloorNumber")).sendKeys(piso);
-	driver.findElement(By.id("Department")).sendKeys(dpto);
-	driver.findElement(By.id("LegalPostalCode")).sendKeys(CP);
-	/*try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	driver.findElement(By.id("PostalCodeTypeAhead")).sendKeys(Keys.ARROW_DOWN);
-	driver.findElement(By.id("PostalCodeTypeAhead")).sendKeys(Keys.ARROW_DOWN); 
-	driver.findElement(By.id("PostalCodeTypeAhead")).sendKeys(Keys.ENTER);
-	try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	driver.findElement(By.id("NewPostalCodeName")).sendKeys(CP);*/
+ public void Crear_DomicilioLegal(String sProvincia, String sLocalidad, String sZona, String sCalle, String sNumCa, String sCP, String tDomic){
+	BasePage bp = new BasePage(driver);
+	waitForVisibilityOf(driver.findElement(By.id("state-LegalAddress")));
+	bp.setSimpleDropdown(driver.findElement(By.id("ImpositiveCondition")), "IVA Consumidor final");
+	bp.setSimpleDropdown(driver.findElement(By.id("state-LegalAddress")), sProvincia);
+	WebElement localidad = driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required"));
+	localidad.sendKeys(sLocalidad);
+	localidad.sendKeys(Keys.ENTER);
+	driver.findElement(By.id("zoneType-LegalAddress")).sendKeys(sZona);
+	driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")).sendKeys(sCalle);
+	driver.findElement(By.id("streetNumber-LegalAddress")).sendKeys(sNumCa);
+	driver.findElement(By.id("postalCode-LegalAddress")).sendKeys(sCP);
+	bp.setSimpleDropdown(driver.findElement(By.id("addresssType-LegalAddress")), tDomic);
 	driver.findElement(By.id("btnSameAsLegalAddress")).click();
-	try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	if(CP!="6666")
+	sleep(5000);
 	driver.findElement(By.id("AccountData_nextBtn")).click();
  }
  
- public void Crear_DomicilioLegalNuevo(String provincia, String localidad, 
-		 String calle, String local, String altura, String piso, String dpto,
-		 String CP){
+ public void Crear_DomicilioLegalNuevo(String sProvincia, String sLocalidad, String sZona, String local, String altura, String piso, String dpto, String CP){
 	
-		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		List<WebElement> check = driver.findElements(By.cssSelector(".slds-checkbox--faux"));
-
-	 setSimpleDropdown(driver.findElement(By.id("ShippingProvince")), provincia);
-
-	driver.findElement(By.id("ShippingLocalidad")).sendKeys(localidad);
+	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	List<WebElement> check = driver.findElements(By.cssSelector(".slds-checkbox--faux"));
+	setSimpleDropdown(driver.findElement(By.id("ShippingProvince")), sProvincia);
+	driver.findElement(By.id("ShippingLocalidad")).sendKeys(sLocalidad);
 	setSimpleDropdown(driver.findElement(By.id("ShippingTipoDeZona")), "Urbana");
-	driver.findElement(By.id("ShippingCalle")).sendKeys(calle); 
+	driver.findElement(By.id("ShippingCalle")).sendKeys(sZona); 
 	driver.findElement(By.id("ShippingAltitude")).sendKeys(altura);
 	driver.findElement(By.id("ShippingCodigoPostal")).sendKeys(CP);
 	try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
@@ -720,13 +709,10 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 		}
 	
 	public void BtnCrearNuevoCliente(){
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		boolean existe = false;
-		BasePage dni = new BasePage(driver);
 		Random aleatorio = new Random(System.currentTimeMillis());
 		aleatorio.setSeed(System.currentTimeMillis());
 		int intAleatorio = aleatorio.nextInt(8999999)+1000000;
-		dni.setSimpleDropdown(driver.findElement(By.id("SearchClientDocumentType")),"DNI");
 		driver.findElement(By.id("SearchClientDocumentNumber")).click();
 		driver.findElement(By.id("SearchClientDocumentNumber")).sendKeys(Integer.toString(intAleatorio));
 		sleep(3500);
@@ -742,7 +728,6 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 		}
 		try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
-	
 	
 	
 		public void AsignarLinea(){
@@ -957,7 +942,7 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 			driver.findElement(By.id("SearchClientDocumentNumber")).sendKeys(DNI);
 			driver.findElement(By.id("SearchClientsDummy")).click();
 			try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			List <WebElement> cc = driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding"));
+			List <WebElement> cc = driver.findElements(By.cssSelector(".slds-form-element__label"));
 			for (WebElement x : cc) {
 				if (x.getText().toLowerCase().contains("+ crear nuevo cliente")) {
 					x.click();

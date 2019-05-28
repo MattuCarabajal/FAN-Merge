@@ -569,7 +569,7 @@ public class HistorialDeRecargas extends TestBase {
 		imagen = "TS134790";
 		detalles = null;
 		detalles = imagen+"-HistorialDeRecargasTelefonico-DNI:"+sDNI;
-		cbsm.Servicio_Recharge(sLinea,"25000000","0");
+		cbsm.Servicio_Recharge(sLinea,"10000000","0");
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Historiales");
 		cambioDeFrame(driver, By.id("text-input-03"), 0);
@@ -585,7 +585,7 @@ public class HistorialDeRecargas extends TestBase {
 		boolean coincideLaFecha = fechaDeRecarga.contains(fecha);
 		String beneficios = detallesUltimaRecarga.get(3).getText();
 		boolean sinBeneficios = beneficios.equalsIgnoreCase("sin beneficios");
-		String montoDeRecarga = "$25,00";
+		String montoDeRecarga = "$10,00";
 		boolean montoCorrecto = montoDeRecarga.equals(detallesUltimaRecarga.get(5).getText());
 		Assert.assertTrue(coincideLaFecha && sinBeneficios && montoCorrecto);
 	}
@@ -619,7 +619,7 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS134792_CRM_Movil_Prepago_Historial_de_Recargas_S141_FAN_Front_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS134792";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
-		String monto = "30000000";
+		String monto = "10000000";
 		String dia = fechaDeHoy();
 		cbsm.Servicio_Recharge(sLinea,monto , "0");
 		ges.BuscarCuenta("DNI", sDNI);
@@ -672,7 +672,7 @@ public class HistorialDeRecargas extends TestBase {
 		aleatorio.setSeed(System.currentTimeMillis());
 		int intAleatorio = aleatorio.nextInt(899999)+10000000;
 		for(int i=0;i<=2;i++) {
-			cbsm.Servicio_Recharge(sLinea,"25000000" , "0");
+			cbsm.Servicio_Recharge(sLinea,"10000000" , "0");
 			sleep(1000);
 		}
 		cbsm.Servicio_Loan(sLinea,Integer.toString(intAleatorio));
@@ -760,7 +760,7 @@ public class HistorialDeRecargas extends TestBase {
 		imagen = "TS134845";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
 		String dia = fechaDeHoy();
-		String monto = "30000000";
+		String monto = "10000000";
 		cbsm.Servicio_Recharge(sLinea,monto,"2");
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Historiales");
@@ -793,7 +793,7 @@ public class HistorialDeRecargas extends TestBase {
 	public void TS134846_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_por_Canal_ROL_Fan_FRONT_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS134846";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
-		cbsm.Servicio_Recharge(sLinea,"25000000", "E");
+		cbsm.Servicio_Recharge(sLinea,"10000000", "E");
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Historiales");
 		cc.verificacionDeHistorial("Historial de packs");
@@ -818,7 +818,7 @@ public class HistorialDeRecargas extends TestBase {
 		boolean coincideLaFecha = fechaDeRecarga.contains(fecha);
 		String elCanal = detallesUltimaRecarga.get(2).getText();
 		boolean rol = elCanal.equalsIgnoreCase("Recarga Online");
-		String montoDeRecarga = "$25,00";
+		String montoDeRecarga = "$10,00";
 		String ultimaRecarga = detallesUltimaRecarga.get(5).getText();
 		boolean montoCorrecto = montoDeRecarga.equals(ultimaRecarga);
 		Assert.assertTrue(coincideLaFecha && rol && montoCorrecto);
@@ -829,7 +829,7 @@ public class HistorialDeRecargas extends TestBase {
 		imagen = "TS134847";
 		detalles = imagen+"-Historial De Recarga-DNI:"+sDNI;
 		String dia = fechaDeHoy();
-		String monto = "30000000";
+		String monto = "10000000";
 		cbsm.Servicio_Recharge(sLinea,monto,"J");
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Historiales");

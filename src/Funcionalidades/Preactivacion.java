@@ -1147,7 +1147,7 @@ public class Preactivacion extends TestBase {
 		}
 		
 		
-		dpw.main();
+		DPW.main();
 		BufferedWriter c = new BufferedWriter(new FileWriter(salida));
 	    for (String x : resultados) {
 	    	c.write(x + System.lineSeparator());

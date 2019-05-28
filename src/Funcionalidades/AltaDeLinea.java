@@ -7,52 +7,67 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.*;
 
 import Pages.Accounts;
+import Pages.BasePage;
+import Pages.CBS;
 import Pages.ContactSearch;
 import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
 public class AltaDeLinea extends TestBase {
 
 	private WebDriver driver;
+	private LoginFw log;
+	private GestionDeClientes_Fw ges;
 	private SalesBase sb;
 	private CustomerCare cc;
+	private CBS cbs;
+	private CBS_Mattu cbsm;
+	private ContactSearch contact;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups= "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
-		sb = new SalesBase(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		contact = new ContactSearch(driver);
+		log.loginOOCC();
+		ges.irAConsolaFAN();
+		
 	}
 	
-	//@BeforeClass (alwaysRun = true)
+	//@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
+		contact = new ContactSearch(driver);
 		loginAgente(driver);
 		sleep(15000);
 		cc.irAConsolaFAN();	
@@ -63,9 +78,8 @@ public class AltaDeLinea extends TestBase {
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
 		detalles = null;
-		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
-		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
+		ges.selectMenuIzq("Inicio");		
 		ges.irGestionClientes();
 	}
 
@@ -86,61 +100,27 @@ public class AltaDeLinea extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test(groups={"Sales", "AltaLineaDatos","E2E"}, priority=2, dataProvider="DatosAltaLineaOfCom")
-	public void TS_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_OfCom_Efectivo_Presencial_DNI(String sDni, String sNombre, String sApellido, String sSexo, String sFNac, String sEmail, String sPlan, String sProvincia, String sLocalidad) throws IOException {
+	
+		
+	
+	
+	@Test (groups={"PerfilOficina","AltaDeLinea"}, dataProvider="DatosAltaLineaOfCom")
+	public void TS_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_OfCom_Efectivo_Presencial_DNI(String sDni, String sNombre, String sApellido, String sSexo, String sFnac,String sEmail, String sPlan, String sEntrega, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) throws IOException {
 		imagen = "TS_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_OfCom_Efectivo_Presencial_DNI";
-		sleep(8000);
-		sb.BtnCrearNuevoCliente();
-		sDni = driver.findElement(By.id("SearchClientDocumentNumber")).getAttribute("value");
-		//sb.Crear_Cliente(sDni);
-		ContactSearch contact = new ContactSearch(driver);
-		contact.sex(sSexo);
-		contact.Llenar_Contacto(sNombre, sApellido, sFNac);
-		driver.findElement(By.id("EmailSelectableItems")).findElement(By.tagName("input")).sendKeys(sEmail);
-		driver.findElement(By.id("Contact_nextBtn")).click();
-		sleep(35000);
-		driver.switchTo().defaultContent();
-		Accounts accountPage = new Accounts(driver);
-		driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-		List<WebElement> frames = driver.findElements(By.tagName("iframe"));
-		boolean enc = false;
-		int index = 0;
-		for(WebElement frame : frames) {
-			try {
-				System.out.println("aca");
-				driver.switchTo().frame(frame);
+		sDni = contact.crearCliente("DNI");
+		contact.Llenar_Contacto(sNombre, sApellido, sFnac, sSexo, sEmail);
+		contact.elegirPlan(sPlan);
+		contact.continuar();
+		contact.completarDomicilio(sProvincia, sLocalidad, sZona, sCalle, sNumCa, sCP, tDomic);
+		//btn siguiente asignacion de linea
+		driver.findElement(By.id("LineAssignment_nextBtn")).click();
 
-				driver.findElement(By.cssSelector(".slds-grid.slds-m-bottom_small.slds-wrap.cards-container")).getText(); //each element is in the same iframe.
-				//System.out.println(index); //prints the used index.
-
-				driver.findElement(By.cssSelector(".slds-grid.slds-m-bottom_small.slds-wrap.cards-container")).isDisplayed(); //each element is in the same iframe.
-				//System.out.println(index); //prints the used index.
-
-				driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-				enc = true;
-				break;
-			}catch(NoSuchElementException noSuchElemExcept) {
-				index++;
-				driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-			}
-		}
-		if(enc == false)
-			index = -1;
-		try {
-				driver.switchTo().frame(frames.get(index));
-		}catch(ArrayIndexOutOfBoundsException iobExcept) {System.out.println("Elemento no encontrado en ningun frame 2.");
-			
-		}
-		sleep(4000);
-		driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-valid.ng-empty")));
-		sb.elegirplan(sPlan);
-		sb.continuar();
-		sleep(20000);
-		sb.Crear_DomicilioLegal(sProvincia, sLocalidad, "falsa", "", "1000", "", "", "1549");
-		sleep(12000);
-		WebElement sig = driver.findElement(By.id("LineAssignment_nextBtn"));
+		// ++++++++++++++++++++++++ el flujo funciona hasta aca queda automatizar el resto desde asignacion de serial (que no funicona)+++++++++++++++++++++++++++
+		
+	/*	WebElement sig = driver.findElement(By.id("LineAssignment_nextBtn"));
 		cc.obligarclick(sig);
 		sleep(25000);
+		
 		cc.obligarclick(driver.findElement(By.id("InvoicePreview_nextBtn")));
 		sleep(20000);
 		try {
@@ -158,7 +138,7 @@ public class AltaDeLinea extends TestBase {
 			driver.findElements(By.cssSelector(".slds-button.slds-button--neutral.ng-binding.ng-scope")).get(1).click();
 			sleep(15000);
 		}catch(Exception ex1) {}
-		String orden = driver.findElement(By.className("top-data")).findElement(By.className("ng-binding")).getText();
+		/*String orden = driver.findElement(By.className("top-data")).findElement(By.className("ng-binding")).getText();
 		String NCuenta = driver.findElements(By.className("top-data")).get(1).findElements(By.className("ng-binding")).get(3).getText();
 		String Linea = driver.findElement(By.cssSelector(".top-data.ng-scope")).findElements(By.className("ng-binding")).get(1).getText();
 		System.out.println("Orden "+orden);
@@ -202,7 +182,7 @@ public class AltaDeLinea extends TestBase {
 		sb.completarEntrega(orden, driver);
 		CambiarPerfil("ofcom",driver);
 		try {
-			cc.cajonDeAplicaciones("Consola FAN");
+		//	cc.cajonDeAplicaciones("Consola FAN");
 		} catch(Exception e) {
 			//sleep(3000);
 			waitForClickeable(driver,By.id("tabBar"));
@@ -217,24 +197,16 @@ public class AltaDeLinea extends TestBase {
 		tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
 		invoSer.ValidarInfoCuenta(Linea, sNombre,sApellido, sPlan);
-		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
+		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));*/
 	}
 	
-	@Test(groups={"Sales", "AltaLineaDatos","E2E"}, priority=2, dataProvider="AltaLineaExistenteOfComPresencial")//verificado
-	public void TS119298_CRM_Movil_PRE_Alta_Linea_Cliente_Existente_OFCOM_Efectivo_Presencial_DNI(String sDni, String sPlan, String sNombre, String sApellido) throws IOException {
+	@Test(groups={"PerfilOficina", "AltaDeLinea"}, dataProvider="AltaLineaExistenteOfComPresencial")
+	public void TS119298_CRM_Movil_PRE_Alta_Linea_Cliente_Existente_OFCOM_Efectivo_Presencial_DNI(String sDni, String sPlan, String sEntrega, String sNombre, String sApellido) throws IOException {
 		imagen = "TS119298";
-		sleep(5000);
-		sb.BuscarCuenta("DNI", sDni);
-		sleep(5000);
-		List<WebElement> btns = driver.findElements(By.cssSelector(".slds-button.slds-button.slds-button--icon"));
-		for(WebElement e: btns){
-			System.out.println(e.getText());
-			if(e.getText().toLowerCase().equals("catalogo")){ 
-				e.click();
-				break;
-			}
-		}
-		sb.elegirplan(sPlan);
+		contact.buscarCuenta("DNI", sDni);
+		contact.seleccionarCatalogo();
+		contact.elegirPlan(sPlan);
+		contact.continuar();
 		sleep(18000);
 		sb.ResolverEntrega(driver, "Presencial","nada","nada");
 		sleep(7000);
@@ -340,7 +312,7 @@ public class AltaDeLinea extends TestBase {
 		sb.completarEntrega(orden, driver);
 		CambiarPerfil("ofcom",driver);
 		try {
-			cc.cajonDeAplicaciones("Consola FAN");
+			//cc.cajonDeAplicaciones("Consola FAN");
 		} catch(Exception e) {
 			//sleep(3000);
 			waitForClickeable(driver,By.id("tabBar"));
@@ -358,7 +330,7 @@ public class AltaDeLinea extends TestBase {
 		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
 	}
 	
-	@Test(groups={"Sales", "AltaLineaDatos","E2E"}, priority=2, dataProvider="AltaLineaExistenteOfComTD")//verificado
+	@Test(groups={"PerfilOficina", "AltaDeLinea"}, priority=2, dataProvider="AltaLineaExistenteOfComTD")//verificado
 	public void TS119300_CRM_Movil_PRE_Alta_Linea_Cliente_Existente_OFCOM_TD_Presencial_DNI(String sDni, String sNombre, String sApellido, String sPlan, String sBanco, String sTarjeta, String sPromo, String sCuotas, String sNumTar) throws IOException {
 		imagen = "TS119300";
 		sleep(5000);
@@ -474,7 +446,7 @@ public class AltaDeLinea extends TestBase {
 		sb.completarEntrega(orden, driver);
 		CambiarPerfil("ofcom",driver);
 		try {
-			cc.cajonDeAplicaciones("Consola FAN");
+			//cc.cajonDeAplicaciones("Consola FAN");
 		} catch(Exception e) {
 			waitForClickeable(driver,By.id("tabBar"));
 			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
@@ -495,13 +467,13 @@ public class AltaDeLinea extends TestBase {
 	@Test(groups={"Sales", "AltaLineaDatos","E2E"}, priority=1, dataProvider="DatosAltaLineaAgente")
 	public void TS_CRM_Alta_de_Linea_Agente(String sDni, String sNombre, String sApellido, String sSexo, String sFNac, String sEmail, String sPlan, String sProvincia, String sLocalidad, String sCalle, String sNumCa, String sCP, String sEntrega, String sStoreProv, String sStoreLoc, String sTipoDelivery) throws IOException {
 		imagen = "TS_CRM_Alta_de_Linea_Agente";
+		cambioDeFrame(driver, By.id("SearchClientDocumentType"),0);
 		sb.BtnCrearNuevoCliente();
 		sDni = driver.findElement(By.id("SearchClientDocumentNumber")).getAttribute("value");
 		
-		//sb.Crear_Cliente(sDni);
+		
 		ContactSearch contact = new ContactSearch(driver);
-		contact.sex(sSexo);
-		contact.Llenar_Contacto(sNombre, sApellido, sFNac);
+		contact.Llenar_Contacto(sNombre, sApellido, sFNac, sSexo,sEmail);
 		driver.findElement(By.id("EmailSelectableItems")).findElement(By.tagName("input")).sendKeys(sEmail);
 		driver.findElement(By.id("Contact_nextBtn")).click();
 		sleep(28000);
@@ -545,7 +517,7 @@ public class AltaDeLinea extends TestBase {
 		sb.elegirplan(sPlan);
 		sb.continuar();
 		sleep(22000);
-		sb.Crear_DomicilioLegal(sProvincia, sLocalidad, sCalle, "", sNumCa, "", "", sCP);
+		//sb.Crear_DomicilioLegal(sProvincia, sLocalidad, sCalle, "", sNumCa, "", "", sCP);
 		sleep(24000);
 		WebElement sig = driver.findElement(By.id("LineAssignment_nextBtn"));
 		cc.obligarclick(sig);
@@ -624,7 +596,7 @@ public class AltaDeLinea extends TestBase {
 		sb.completarEntrega(orden, driver);
 		CambiarPerfil("agente",driver);
 		try {
-			cc.cajonDeAplicaciones("Consola FAN");
+		//	cc.cajonDeAplicaciones("Consola FAN");
 		} catch(Exception e) {
 			//sleep(3000);
 			waitForClickeable(driver,By.id("tabBar"));
@@ -650,7 +622,7 @@ public class AltaDeLinea extends TestBase {
 		sDni = driver.findElement(By.id("SearchClientDocumentNumber")).getAttribute("value");		
 		ContactSearch contact = new ContactSearch(driver);
 		contact.sex(sSexo);
-		contact.Llenar_Contacto(sNombre, sApellido, sFNac);
+		contact.Llenar_Contacto(sNombre, sApellido, sFNac, sSexo,sEmail);
 		driver.findElement(By.id("EmailSelectableItems")).findElement(By.tagName("input")).sendKeys(sEmail);
 		driver.findElement(By.id("Contact_nextBtn")).click();
 		sleep(18000);
@@ -694,7 +666,7 @@ public class AltaDeLinea extends TestBase {
 		sb.elegirplan(sPlan);
 		sb.continuar();
 		sleep(22000);
-		sb.Crear_DomicilioLegal(sProvincia, sLocalidad, sCalle, "", sNumCa, "", "", sCodPos);
+	//	sb.Crear_DomicilioLegal(sProvincia, sLocalidad, sCalle, "", sNumCa, "", "", sCodPos);
 		sleep(24000);
 		WebElement sig = driver.findElement(By.id("LineAssignment_nextBtn"));
 		cc.obligarclick(sig);
@@ -765,7 +737,7 @@ public class AltaDeLinea extends TestBase {
 		sb.completarEntrega(orden, driver);
 		CambiarPerfil("agente",driver);
 		try {
-			cc.cajonDeAplicaciones("Consola FAN");
+			//cc.cajonDeAplicaciones("Consola FAN");
 		} catch(Exception e) {
 			//sleep(3000);
 			waitForClickeable(driver,By.id("tabBar"));
@@ -791,7 +763,7 @@ public class AltaDeLinea extends TestBase {
 		//sb.Crear_Cliente(sDni);
 		ContactSearch contact = new ContactSearch(driver);
 		contact.sex(sSexo);
-		contact.Llenar_Contacto(sNombre, sApellido, sFNac);
+		contact.Llenar_Contacto(sNombre, sApellido, sFNac, sSexo,sEmail);
 		driver.findElement(By.id("EmailSelectableItems")).findElement(By.tagName("input")).sendKeys(sEmail);
 		driver.findElement(By.id("Contact_nextBtn")).click();
 		sleep(28000);
@@ -833,7 +805,7 @@ public class AltaDeLinea extends TestBase {
 		sb.elegirplan(sPlan);
 		sb.continuar();
 		sleep(22000);
-		sb.Crear_DomicilioLegal(sProvincia, sLocalidad, sCalle, "", sNumCa, "", "", sCP);
+		//sb.Crear_DomicilioLegal(sProvincia, sLocalidad, sCalle, "", sNumCa, "", "", sCP);
 		sleep(24000);
 		WebElement sig = driver.findElement(By.id("LineAssignment_nextBtn"));
 		cc.obligarclick(sig);
@@ -910,7 +882,7 @@ public class AltaDeLinea extends TestBase {
 		sb.completarEntrega(orden, driver);
 		CambiarPerfil("agente",driver);
 		try {
-			cc.cajonDeAplicaciones("Consola FAN");
+			//cc.cajonDeAplicaciones("Consola FAN");
 		} catch(Exception e) {
 			//sleep(3000);
 			waitForClickeable(driver,By.id("tabBar"));
@@ -925,6 +897,9 @@ public class AltaDeLinea extends TestBase {
 		tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
 		invoSer.ValidarInfoCuenta(Linea, sNombre,sApellido, sPlan);
-		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));		
+		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
+
 	}
+	
+	
 }
