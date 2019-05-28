@@ -33,10 +33,9 @@ public class ConsultaDeSaldo extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups = "PerfilOficina")
+//	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
@@ -48,10 +47,9 @@ public class ConsultaDeSaldo extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+//	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
@@ -63,10 +61,9 @@ public class ConsultaDeSaldo extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups = "PerfilAgente")
+	@BeforeClass (groups = "PerfilAgente")
 		public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
@@ -87,7 +84,7 @@ public class ConsultaDeSaldo extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod (alwaysRun = true)
+//	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();

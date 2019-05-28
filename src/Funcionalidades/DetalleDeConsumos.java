@@ -95,6 +95,7 @@ public class DetalleDeConsumos extends TestBase {
 		driver.findElement(By.id("text-input-02")).click();
 		driver.findElement(By.xpath("//*[text() = 'Los \u00faltimos 15 d\u00edas']")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
+		sleep(3000);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-p-right--x-small spacer'] span")));
 		driver.findElement(By.cssSelector("[class='slds-p-right--x-small spacer'] span")).click();
 		driver.findElements(By.id("text-input-02")).get(1).click();
@@ -116,6 +117,7 @@ public class DetalleDeConsumos extends TestBase {
 		driver.findElement(By.id("text-input-02")).click();
 		driver.findElement(By.xpath("//*[text() = 'Los \u00faltimos 15 d\u00edas']")).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
+		sleep(3000);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-p-right--x-small spacer'] span")));
 		driver.findElement(By.cssSelector("[class='slds-p-right--x-small spacer'] span")).click();
 		driver.findElements(By.id("text-input-02")).get(1).click();
