@@ -11,7 +11,9 @@ import org.openqa.selenium.interactions.ClickAction;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import PagesPOM.GestionDeClientes_Fw;
 import Tests.TestBase;
 
 public class ContactSearch extends BasePage {
@@ -128,8 +130,7 @@ public class ContactSearch extends BasePage {
 
 	public void searchContact2(String docType, String docValue, String genero) {
 		TestBase TB = new TestBase();
-		TB.waitForClickeable(driver,By.id("DocumentInputSearch"));
-		//try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		TB.cambioDeFrame(driver, By.id("DocumentTypeSearch"), 0);
 		setSimpleDropdown(documentType2, docType);
 		driver.findElement(By.id("DocumentInputSearch")).click();
 		driver.findElement(By.id("DocumentInputSearch")).sendKeys(docValue);
@@ -338,6 +339,7 @@ public class ContactSearch extends BasePage {
 	
 	public String crearCliente(String tipoDoc){
 		TestBase tb = new TestBase();
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		tb.cambioDeFrame(driver,By.id("SearchClientDocumentType"),0);
 		Random aleatorio = new Random(System.currentTimeMillis());
 		aleatorio.setSeed(System.currentTimeMillis());
@@ -346,7 +348,7 @@ public class ContactSearch extends BasePage {
 		document.click();
 		document.sendKeys(Integer.toString(intAleatorio));
 		buscar.click();
-		tb.sleepFindBy(driver, By.cssSelector(".OSradioButton.ng-scope.only-buttom"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".OSradioButton.ng-scope.only-buttom")));
 		BotonCrearNuevoCliente.click();
 		return document.getAttribute("value");
 	}
@@ -354,8 +356,8 @@ public class ContactSearch extends BasePage {
 	
 	public void completarDomicilio(String cProvincia, String cLocalidad, String cZona, String cCalle, String cNumCalle, String cCodPostal, String cTipoDomicilio){
 		TestBase tb = new TestBase();
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		tb.cambioDeFrame(driver,(By.id("state-LegalAddress")),0);
-		sleep(3500);
 		selectByText(CondicionImpositiva, "IVA Consumidor final");
 		selectByText(Provincia, cProvincia);
 		Localidad.sendKeys(cLocalidad);

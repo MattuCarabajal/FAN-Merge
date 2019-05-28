@@ -111,29 +111,18 @@ public class AltaDeLinea extends TestBase {
 		contact.Llenar_Contacto(sNombre, sApellido, sFnac, sSexo, sEmail);
 		contact.elegirPlan(sPlan);
 		contact.continuar();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")));
 		contact.completarDomicilio(sProvincia, sLocalidad, sZona, sCalle, sNumCa, sCP, tDomic);
 		//btn siguiente asignacion de linea
 		driver.findElement(By.id("LineAssignment_nextBtn")).click();
-
-		// ++++++++++++++++++++++++ el flujo funciona hasta aca queda automatizar el resto desde asignacion de serial (que no funicona)+++++++++++++++++++++++++++
-		
-	/*	WebElement sig = driver.findElement(By.id("LineAssignment_nextBtn"));
-		cc.obligarclick(sig);
-		sleep(25000);
-		
-		cc.obligarclick(driver.findElement(By.id("InvoicePreview_nextBtn")));
-		sleep(20000);
-		try {
-			cc.obligarclick(driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")));
-			sleep(12000);
-		}catch(Exception ex1) {}
-		contact.tipoValidacion("documento");
-		sleep(8000);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("InvoicePreview_nextBtn")));
+		driver.findElement(By.id("InvoicePreview_nextBtn"));
 		File directory = new File("Dni.jpg");
-		driver.findElement(By.id("FileDocumentImage")).sendKeys(new File(directory.getAbsolutePath()).toString());
-		sleep(3000);
+		contact.tipoValidacion("documento");
+		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
 		cc.obligarclick(driver.findElement(By.id("DocumentMethod_nextBtn")));
-		sleep(15000);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderSumary_nextBtn")));
+		driver.findElement(By.id("OrderSumary_nextBtn")).click();
 		try {
 			driver.findElements(By.cssSelector(".slds-button.slds-button--neutral.ng-binding.ng-scope")).get(1).click();
 			sleep(15000);
@@ -613,6 +602,7 @@ public class AltaDeLinea extends TestBase {
 		invoSer.ValidarInfoCuenta(Linea, sNombre,sApellido, sPlan);
 		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));	
 	}
+	
 	
 	@Test(groups={"Sales", "AltaLinea","E2E"}, priority=1, dataProvider="AltaLineaNuevoAgentePresencial")
 	public void TS118938_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_Agente_Efectivo_Presencial_DNI(String sDni, String sNombre, String sApellido, String sSexo, String sFNac, String sEmail, String sPlan, String sProvincia, String sLocalidad, String sCalle, String sNumCa, String sCodPos) throws IOException {

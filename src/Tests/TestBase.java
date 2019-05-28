@@ -1116,7 +1116,7 @@ public class TestBase {
 	
 	
 	@DataProvider
-	public Object[][] DatosSalesNominacionExistenteOfCom() throws Exception{
+	public Object[][] NominacionExistenteOfCom() throws Exception{
 
 	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,4,"NominacionExistenteOfCom");
 
@@ -1136,7 +1136,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosSalesNominacionNuevoAgente() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,12,"NominacionNuevoAgente");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,14,"NominacionNuevoAgente");
 
 	 return (testObjArray);
 
