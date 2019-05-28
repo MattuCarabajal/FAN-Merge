@@ -11,7 +11,9 @@ import org.openqa.selenium.interactions.ClickAction;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import PagesPOM.GestionDeClientes_Fw;
 import Tests.TestBase;
 
 public class ContactSearch extends BasePage {
@@ -47,6 +49,9 @@ public class ContactSearch extends BasePage {
 
 	@FindBy(how = How.ID, using = "EmailSelectableItems")
 	private WebElement Email;
+	
+	@FindBy(how = How.ID, using = "PermanencyDueDate")
+	private WebElement FechaDePermanencia;
 	
 	@FindBy(how = How.ID, using = "Contact_nextBtn")
 	private WebElement next; 
@@ -96,6 +101,9 @@ public class ContactSearch extends BasePage {
 	@FindBy(how = How.ID, using = "AccountData_nextBtn")
 	private WebElement BotonCrearCliente;
 	
+	@FindBy(how = How.ID, using = "PDFForm_nextBtn")
+	private WebElement botonSiguienteFormulario;
+	
 	public ContactSearch(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
@@ -122,8 +130,7 @@ public class ContactSearch extends BasePage {
 
 	public void searchContact2(String docType, String docValue, String genero) {
 		TestBase TB = new TestBase();
-		TB.waitForClickeable(driver,By.id("DocumentInputSearch"));
-		//try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		TB.cambioDeFrame(driver, By.id("DocumentTypeSearch"), 0);
 		setSimpleDropdown(documentType2, docType);
 		driver.findElement(By.id("DocumentInputSearch")).click();
 		driver.findElement(By.id("DocumentInputSearch")).sendKeys(docValue);
@@ -137,7 +144,7 @@ public class ContactSearch extends BasePage {
 			break;
 		}
 		if(!genero.equals(""))
-		driver.findElement(By.cssSelector(".OSradioButton.ng-scope.only-buttom")).click();
+			BotonCrearNuevoCliente.click();
 		try {Thread.sleep(4000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	
@@ -238,17 +245,20 @@ public class ContactSearch extends BasePage {
 		try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	
-	public void subirformulario(String uploadPath, String continuar) {
+	public void subirformulario(String uploadPath) {
+		TestBase tb = new TestBase();
+		tb.cambioDeFrame(driver,(By.id("UploadSignedForm")),0);
 		driver.findElement(By.id("UploadSignedForm")).sendKeys(uploadPath);
 		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		switch (continuar) {
+		/*switch (Siguiente) {
 		case "si":
 			try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 			driver.findElement(By.id("PDFForm_nextBtn")).click();
 			break;
 		case "no":
 			//Nada
-		}
+		}*/
+		botonSiguienteFormulario.click();
 		try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	
@@ -285,6 +295,10 @@ public class ContactSearch extends BasePage {
 	public void Llenar_Contacto(String sNom, String sAp, String sFN, String genero, String mail ) {
 		TestBase TB = new TestBase();
 		TB.waitFor(driver,By.id("FirstName"));
+		nombre.clear();
+		apellido.clear();
+		fNac.clear();
+		//Email.clear();
 		nombre.sendKeys(sNom);
 		apellido.sendKeys(sAp);
 		fNac.sendKeys(sFN);
@@ -323,8 +337,9 @@ public class ContactSearch extends BasePage {
 		}
 	}
 	
-	public String crearCliente(String tipoDoc, String dni){
+	public String crearCliente(String tipoDoc){
 		TestBase tb = new TestBase();
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		tb.cambioDeFrame(driver,By.id("SearchClientDocumentType"),0);
 		Random aleatorio = new Random(System.currentTimeMillis());
 		aleatorio.setSeed(System.currentTimeMillis());
@@ -332,19 +347,17 @@ public class ContactSearch extends BasePage {
 		selectByText(documentType,tipoDoc);
 		document.click();
 		document.sendKeys(Integer.toString(intAleatorio));
-		dni = document.getAttribute("value");
-		System.out.println("del metodo value: "+ dni);
 		buscar.click();
-		tb.sleepFindBy(driver, By.cssSelector(".OSradioButton.ng-scope.only-buttom"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".OSradioButton.ng-scope.only-buttom")));
 		BotonCrearNuevoCliente.click();
-		return dni;
+		return document.getAttribute("value");
 	}
 	
 	
 	public void completarDomicilio(String cProvincia, String cLocalidad, String cZona, String cCalle, String cNumCalle, String cCodPostal, String cTipoDomicilio){
 		TestBase tb = new TestBase();
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		tb.cambioDeFrame(driver,(By.id("state-LegalAddress")),0);
-		sleep(3500);
 		selectByText(CondicionImpositiva, "IVA Consumidor final");
 		selectByText(Provincia, cProvincia);
 		Localidad.sendKeys(cLocalidad);
@@ -416,6 +429,29 @@ public class ContactSearch extends BasePage {
 		fNac.sendKeys(sFN);
 		Email.findElement(By.tagName("input")).sendKeys(mail);
 		next.click();
-		
+	}
+	
+	public void crearClienteNominacionPasaporte(String tipoDoc, String dni, String genero, String sNom, String sAp, String sFN, String mail, String fPemanencia){
+		TestBase tb = new TestBase();
+		tb.cambioDeFrame(driver, By.id("DocumentTypeSearch"), 0);
+		selectByText(documentType2,tipoDoc);
+		document2.click();
+		document2.sendKeys(dni);
+		switch (genero.toLowerCase()) {
+		case "femenino":
+			gender.get(0).click();
+			break;
+		case "masculino":
+			gender.get(1).click();
+			break;
+		}
+		BotonCrearNuevoCliente.click();
+		tb.waitFor(driver,By.id("FirstName"));
+		nombre.sendKeys(sNom);
+		apellido.sendKeys(sAp);
+		fNac.sendKeys(sFN);
+		Email.findElement(By.tagName("input")).sendKeys(mail);
+		FechaDePermanencia.sendKeys(fPemanencia);
+		next.click();
 	}
 }
