@@ -45,10 +45,9 @@ public class Nominacion extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
+	//@BeforeClass (alwaysRun = true)
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
@@ -56,38 +55,30 @@ public class Nominacion extends TestBase {
 		tb = new TestBase();
 		log.loginOOCC();
 		ges.irAConsolaFAN();
-		
-//		loginOOCC(driver);
-//		sleep(15000);
-//		cc.irAConsolaFAN();	
-//		driver.switchTo().defaultContent();
-//		sleep(6000);
 	}
 		
-	//@BeforeClass (alwaysRun = true)
+	@BeforeClass (alwaysRun = true)
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginTelefonico(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		tb = new TestBase();
+		log.loginTelefonico();
+		ges.irAConsolaFAN();
 	}
 	
 	//@BeforeClass (alwaysRun = true)
-		public void initAgente() throws IOException, AWTException {
+	public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginAgente(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		tb = new TestBase();
+		log.loginAgente();
+		ges.irAConsolaFAN();
 	}
 	
 	@BeforeMethod(alwaysRun=true)
@@ -441,7 +432,7 @@ public class Nominacion extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("DocumentInputSearch")));
 		ContactSearch contact = new ContactSearch(driver);
 		contact.searchContact2("Pasaporte", sPasaporte, "Masculino");
-		contact.Llenar_Contacto(sNombre, sApellido, sFnac);
+		contact.Llenar_Contacto(sNombre, sApellido, sFnac, "", "");
 		driver.findElement(By.id("PermanencyDueDate")).sendKeys(sFperm);
 		System.out.println(driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText());
 		if (driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText().toLowerCase().contains("la permanencia no puede ser mayor a 2 a�os a partir de la fecha o menor a la fecha actual"))
@@ -477,18 +468,17 @@ public class Nominacion extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("DocumentInputSearch")));
 		ContactSearch contact = new ContactSearch(driver);
 		contact.searchContact2("DNI", "22222035", "Masculino");
-		contact.Llenar_Contacto("Quenico", "Newton", "15/02/1992");
-		try{
-			contact.ingresarMail("asd@gmail.com", "si");
-		} catch(Exception e) {}
-		driver.findElement(By.id("Contact_nextBtn")).click();
+		contact.Llenar_Contacto("Quenico", "Newton", "15/02/1992", "", "");
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("MethodSelection_nextBtn")));
-		contact.tipoValidacion("preguntas y respuestas");
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("QAQuestions_nextBtn")));
-		driver.findElement(By.id("QAQuestions_nextBtn")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("QAResult_nextBtn")));
-		for (WebElement x : driver.findElements(By.cssSelector(".message.description.ng-binding.ng-scope"))) {
-			if (x.getText().toLowerCase().contains("validaci\u00f3n no superada"))
+		List<WebElement> valdni = driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding"));
+		for (WebElement x : valdni) {
+			if (x.getText().toLowerCase().equals("validaci\u00f3n por preguntas y respuestas"))
+				x.click();
+		}
+		driver.findElement(By.id("MethodSelection_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("QAError_nextBtn")));
+		for (WebElement x : driver.findElements(By.cssSelector(".slds-page-header__title.vlc-slds-page-header__title.slds-truncate.ng-binding"))) {
+			if (x.getText().toLowerCase().equals("validaci\u00f3n no superada"))
 				msj = true;
 		}
 		driver.findElement(By.cssSelector(".vlc-slds-button--tertiary.ng-binding.ng-scope")).click();
@@ -497,18 +487,19 @@ public class Nominacion extends TestBase {
 		Assert.assertTrue(msj);
 	}
 	
-	@Test (groups = {"GestionesPerfilTelefonico", "Nominacion", "Ciclo1"}, dataProvider="DatosNoNominacionNuevoTelefonico")
-	public void TS85111_CRM_Movil_REPRO_No_Nominatividad_No_Valida_Identidad_Cliente_Nuevo_Telefonico_Preguntas_y_Respuestas(String sLinea, String sDni, String sNombre, String sApellido, String sSexo, String sFnac, String sEmail) {
+	@Test (groups = {"GestionesPerfilTelefonico", "Nominacion", "Ciclo1"}, dataProvider="DatosNoNominaNuevoEdadOfCom")
+	public void TS85111_CRM_Movil_REPRO_No_Nominatividad_No_Valida_Identidad_Cliente_Nuevo_Telefonico_Preguntas_y_Respuestas(String sLinea, String sDni, String sSexo, String sFnac) {
 		imagen = "TS85111";
-		detalles = null;
-		detalles = imagen+"No nominacion Agente- DNI: "+sDni+"-Linea: "+sLinea;
-		sleep(2000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+		
+		
+		boolean msj = false;
+		cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("PhoneNumber")));
 		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
 		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(5000);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button--icon.slds-m-right--x-small.ng-scope")));
 		driver.findElement(By.cssSelector(".slds-button.slds-button--icon.slds-m-right--x-small.ng-scope")).click();
-		sleep(2000);
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-hint-parent.ng-scope"), 0));
 		WebElement botonNominar = null;
 		for (WebElement x : driver.findElements(By.cssSelector(".slds-hint-parent.ng-scope"))) {
 			if (x.getText().toLowerCase().contains("plan con tarjeta"))
@@ -519,34 +510,73 @@ public class Nominacion extends TestBase {
 				botonNominar = x;
 		}
 		botonNominar.findElement(By.tagName("a")).click();
-		sleep(10000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("DocumentInputSearch")));
 		ContactSearch contact = new ContactSearch(driver);
-		contact.searchContact2("DNI", sDni, sSexo);
-		sleep(2000);
-		//contact.Llenar_Contacto(sNombre, sApellido, sFnac);
-		try {contact.ingresarMail(sEmail, "si");}catch (org.openqa.selenium.ElementNotVisibleException ex1) {}
-		contact.tipoValidacion("preguntas y respuestas");
-		sleep(8000);
-		CustomerCare cCC = new CustomerCare(driver);
-		cCC.obligarclick(driver.findElement(By.id("QAContactData_nextBtn"))); 
-		sleep(5000);
-		List<WebElement> valdni = driver.findElements(By.className("slds-radio__label"));
+		contact.searchContact2("DNI", "85217943", "Masculino");
+		contact.Llenar_Contacto("Quenico", "Newton", "15/02/1992", "", "");
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("MethodSelection_nextBtn")));
+		List<WebElement> valdni = driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding"));
 		for (WebElement x : valdni) {
-			System.out.println(x.getText());
-			if (x.getText().toLowerCase().contains("ninguno de los anteriores")) {
+			if (x.getText().toLowerCase().equals("validaci\u00f3n por preguntas y respuestas"))
 				x.click();
-			}
 		}
-		cCC.obligarclick(driver.findElement(By.id("QAQuestions_nextBtn")));      
-		sleep(5000);
-		List<WebElement> errores = driver.findElements(By.cssSelector(".message.description.ng-binding.ng-scope")); 
-		boolean error = false;
-		for (WebElement UnE: errores) {
-			if (UnE.getText().toLowerCase().contains("no superada")) {
-				error = true;
-			}
-		}		
-		Assert.assertTrue(error);
+		driver.findElement(By.id("MethodSelection_nextBtn")).click();		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+//		detalles = null;
+//		detalles = imagen+"No nominacion Agente- DNI: "+sDni+"-Linea: "+sLinea;
+//		sleep(2000);
+//		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+//		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
+//		driver.findElement(By.id("SearchClientsDummy")).click();
+//		sleep(5000);
+//		driver.findElement(By.cssSelector(".slds-button.slds-button--icon.slds-m-right--x-small.ng-scope")).click();
+//		sleep(2000);
+//		WebElement botonNominar = null;
+//		for (WebElement x : driver.findElements(By.cssSelector(".slds-hint-parent.ng-scope"))) {
+//			if (x.getText().toLowerCase().contains("plan con tarjeta"))
+//				botonNominar = x;
+//		}
+//		for (WebElement x : botonNominar.findElements(By.tagName("td"))) {
+//			if (x.getAttribute("data-label").equals("actions"))
+//				botonNominar = x;
+//		}
+//		botonNominar.findElement(By.tagName("a")).click();
+//		sleep(10000);
+//		ContactSearch contact = new ContactSearch(driver);
+//		contact.searchContact2("DNI", sDni, sSexo);
+//		sleep(2000);
+//		//contact.Llenar_Contacto(sNombre, sApellido, sFnac);
+//		try {contact.ingresarMail(sEmail, "si");}catch (org.openqa.selenium.ElementNotVisibleException ex1) {}
+//		contact.tipoValidacion("preguntas y respuestas");
+//		sleep(8000);
+//		CustomerCare cCC = new CustomerCare(driver);
+//		cCC.obligarclick(driver.findElement(By.id("QAContactData_nextBtn"))); 
+//		sleep(5000);
+//		List<WebElement> valdni = driver.findElements(By.className("slds-radio__label"));
+//		for (WebElement x : valdni) {
+//			System.out.println(x.getText());
+//			if (x.getText().toLowerCase().contains("ninguno de los anteriores")) {
+//				x.click();
+//			}
+//		}
+//		cCC.obligarclick(driver.findElement(By.id("QAQuestions_nextBtn")));      
+//		sleep(5000);
+//		List<WebElement> errores = driver.findElements(By.cssSelector(".message.description.ng-binding.ng-scope")); 
+//		boolean error = false;
+//		for (WebElement UnE: errores) {
+//			if (UnE.getText().toLowerCase().contains("no superada")) {
+//				error = true;
+//			}
+//		}		
+//		Assert.assertTrue(error);
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "Nominacion", "Ciclo1"}, dataProvider = "DatosNoNominacionNuevoFraudeTelef")
