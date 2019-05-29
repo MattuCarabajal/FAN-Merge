@@ -1055,7 +1055,7 @@ public class TestBase {
 		switch (match) {
 		case "contains":
 			for (WebElement x : elements) {
-				if (x.getText().toLowerCase().contains(texto)) {
+				if (x.getText().toLowerCase().contains(texto.toLowerCase())) {
 					x.click();
 					break;
 				}
@@ -1063,7 +1063,7 @@ public class TestBase {
 			break;
 		case "equals":
 			for (WebElement x : elements) {
-				if (x.getText().toLowerCase().equals(texto)) {
+				if (x.getText().toLowerCase().equals(texto.toLowerCase())) {
 					x.click();
 					break;
 				}
@@ -1108,7 +1108,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosSalesNominacionNuevoOfCom() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,15,"NominacionNuevoOfCom");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,14,"NominacionNuevoOfCom");
 
 	 return (testObjArray);
 
@@ -1116,9 +1116,9 @@ public class TestBase {
 	
 	
 	@DataProvider
-	public Object[][] DatosSalesNominacionExistenteOfCom() throws Exception{
+	public Object[][] NominacionExistenteOfCom() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,2,"NominacionExistenteOfCom");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,4,"NominacionExistenteOfCom");
 
 	 return (testObjArray);
 
@@ -1136,7 +1136,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosSalesNominacionNuevoAgente() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,12,"NominacionNuevoAgente");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,14,"NominacionNuevoAgente");
 
 	 return (testObjArray);
 
@@ -1231,7 +1231,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] RenovacionCuotaConSaldo() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,2,"Renovacion Cuota Con Saldo");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,3,"Renovacion Cuota Con Saldo");
 
 	 return (testObjArray);
 
@@ -1240,7 +1240,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] RenovacionCuotaSinSaldo() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,2,"Renovacion Cuota Sin Saldo");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,3,"Renovacion Cuota Sin Saldo");
 
 	 return (testObjArray);
 
@@ -1249,7 +1249,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] RenovacionCuotaSinSaldoConTC() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,13,"Renovacion Cuota TC");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,14,"Renovacion Cuota TC");
 
 	 return (testObjArray);
 
@@ -1257,7 +1257,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] RenovacionCuotaconSaldoConTC() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,13,"Renovacion Cuota Con TC Con Saldo");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,14,"Renovacion Cuota Con TC Con Saldo");
 
 	 return (testObjArray);
 
@@ -2028,7 +2028,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosNoNominacionNuevoTelefonicoPasaporte() throws Exception{
 		
-		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,8,"NoNominacionNuevoTelefonicoPasaporte");
+		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,8,"NoNominacionNuevoTelefonicoPasaporte");
 
 		 return (testObjArray);
 	}
@@ -2052,7 +2052,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosNominacionExistente5Lineas() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,2,"NominacionExistente5Lineas");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,2,"NominacionExistente5Lineas");
 
 	 return (testObjArray);
 

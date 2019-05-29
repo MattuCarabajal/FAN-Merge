@@ -1356,8 +1356,12 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public void irAFacturacion() {
-		BasePage cambioFrameByID = new BasePage(driver);
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.className("profile-edit")));
+//		BasePage cambioFrameByID = new BasePage(driver);
+//		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.className("profile-edit")));
+		TestBase tb = new TestBase();
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
+		tb.cambioDeFrame(driver, By.className("profile-edit"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Facturaci\u00f3n']")));
 		//List <WebElement> fact = driver.findElements(By.cssSelector(".slds-grid.slds-p-around--small.slds-wrap.via-slds-story-cards--header.slds-theme--shade.profile-tags-header"));
 		//fact.get(0).click();
 		driver.findElement(By.xpath("//span[text()='Facturaci\u00f3n']")).click();
@@ -1490,7 +1494,7 @@ public class CustomerCare extends BasePage {
 			WebElement Caso = driver.findElement(By.cssSelector(".listRelatedObject.caseBlock")).findElement(By.cssSelector(".bPageBlock.brandSecondaryBrd.secondaryPalette")).findElement(By.className("pbBody")).findElement(By.className("list")).findElements(By.tagName("tr")).get(1).findElement(By.tagName("th")).findElement(By.tagName("a"));
 			Caso.click();
 		}
-		sleep(10000);
+//		sleep(10000);
 	}
 	
 	public WebElement botonConsultar() {
@@ -1747,11 +1751,10 @@ public class CustomerCare extends BasePage {
 	public String obtenerTNyMonto2(WebDriver driver, String sOrder) {
 		buscarCaso(sOrder);
 		String datos = null;
-		TestBase TB = new TestBase();
+		TestBase tb = new TestBase();
 		boolean esta = false;
 		String texto = null;
-		sleep(8000);
-		driver.switchTo().frame(TB.cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
+		tb.cambioDeFrame(driver,  By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		datos = tabla.findElement(By.tagName("tr")).findElements(By.tagName("td")).get(3).getText();
 		tabla.findElement(By.tagName("tr")).findElements(By.tagName("td")).get(1).click();
@@ -1807,7 +1810,6 @@ public class CustomerCare extends BasePage {
 		for (WebElement x : driver.findElements(By.className("slds-card"))) {
 			String titulo = x.findElement(By.tagName("header")).findElement(By.tagName("h2")).getText().toLowerCase();
 			if (titulo.equalsIgnoreCase(sRecarga)) {
-				System.out.println(x.getText());
 				historial = x;
 				((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+ x.getLocation().y+" )");
 			}
