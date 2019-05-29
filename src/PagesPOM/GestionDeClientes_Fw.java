@@ -71,7 +71,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	@FindBy (id = locator_TipoDoc)
 	private WebElement tipoDoc;
 
-	final String locator_listaMenuIzq= "[class='x-menu-list'] li";
+	final String locator_listaMenuIzq= "[class='x-menu-item-text'][id*='ext-gen']";
 	@FindBy (css = locator_listaMenuIzq)
 	private List<WebElement> listaMenuIzq;
 	
@@ -216,9 +216,10 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	
 	public void selectMenuIzq(String opcionVisible) {
 		clickMenuIzq();
-		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(this.locator_listaMenuIzq), 0));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(this.locator_listaMenuIzq), 2));
 		try{
 			fluentWait.until(ExpectedConditions.elementToBeClickable(listaMenuIzq.get(0)));
+			
 			super.getBuscarElementoPorText(listaMenuIzq, opcionVisible).click();
 		}catch(Exception e) {
 			System.out.println("no se encuentra elemento verificar que coincida con el texto visible");
