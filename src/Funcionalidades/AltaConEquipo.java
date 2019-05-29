@@ -98,12 +98,12 @@ public class AltaConEquipo extends TestBase {
 	@Test(groups={"Sales", "AltaLineaDatos","E2E"}, priority=1, dataProvider="DatosAltaEquipoExiste") //========  31- 8 Aparece el paso de carga de datos de la cuenta
 	public void TS125214_CRM_Movil_PRE_Alta_Linea_con_Equipo_Cliente_existente_Presencial_OFCOM(String sDni, String sNombre, String sApellido, String sPlan, String sEquipo) throws IOException, AWTException {
 		imagen = "TS125214";
-		sb.BuscarCuenta("DNI", "32328505");
+		sb.BuscarCuenta("DNI", "33333022");
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-button.slds-button.slds-button--icon"), 0));
 		contact.seleccionarCatalogo();
 		contact.elegirPlan("plan con tarjeta");
 		driver.findElement(By.cssSelector(".slds-input.input-icon.ng-valid.ng-not-empty.ng-dirty.ng-valid-parse.ng-touched")).clear();
-		driver.findElement(By.cssSelector(".slds-input.input-icon.ng-valid.ng-dirty.ng-valid-parse.ng-touched.ng-empty")).sendKeys("moto z");
+		driver.findElement(By.cssSelector(".slds-input.input-icon.ng-valid.ng-dirty.ng-valid-parse.ng-touched.ng-empty")).sendKeys("moto z2");
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".slds-button.slds-button--neutral.add-button")));
 		driver.findElement(By.cssSelector(".slds-button.slds-button--neutral.add-button")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button--brand.ta-button-brand")));
