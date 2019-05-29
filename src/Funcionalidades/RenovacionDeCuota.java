@@ -442,6 +442,7 @@ public class RenovacionDeCuota extends TestBase {
 		buscarYClick(driver.findElements(By.cssSelector("[class='slds-radio ng-scope']")), "contains", "Saldo");
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SetPaymentType_nextBtn")));
 		cc.obligarclick(driver.findElement(By.id("SetPaymentType_nextBtn")));
+		sleep(10000);
 		String datosFinal = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		Assert.assertTrue((Integer.parseInt(datosInicial)+51200)==Integer.parseInt(datosFinal));
 		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -456,50 +457,52 @@ public class RenovacionDeCuota extends TestBase {
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "RenovacionDeCuota","E2E"}, dataProvider="RenovacionCuotaconSaldoConTC")
-	public void TS130065_CRM_Movil_REPRO_Renovacion_de_cuota_Telefonico_Reseteo_200_MB_por_Dia_TC_con_Credito(String sDNI, String sLinea, String cBanco, String cTarjeta, String cPromo, String cCuotas, String cNumTarjeta, String cVenceMes, String cVenceAno, String cCodSeg, String cTipoDNI, String cDNITarjeta, String cTitular) throws AWTException {
-		BasePage cambioFrameByID=new BasePage();
+	public void TS130065_CRM_Movil_REPRO_Renovacion_de_cuota_Telefonico_Reseteo_200_MB_por_Dia_TC_con_Credito(String sDNI, String sLinea, String accid, String cBanco, String cTarjeta, String cPromo, String cCuotas, String cNumTarjeta, String cVenceMes, String cVenceAno, String cCodSeg, String cTipoDNI, String cDNITarjeta, String cTitular) throws AWTException {
 		imagen = "TS130065";
 		detalles = null;
 		detalles = "Renovacion de cuota: "+imagen+"DNI: "+sDNI+"Linea: "+sLinea;
-		CBS cCBS = new CBS();
-		CBS_Mattu cCBSM = new CBS_Mattu();
-		String datosInicial = cCBS.ObtenerUnidadLibre(cCBSM.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SearchClientDocumentType")));
-		sleep(1000);
-		SalesBase sSB = new SalesBase(driver);
-		sSB.BuscarCuenta("DNI", sDNI);
-		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
+		String datosInicial = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
+		ges.BuscarCuenta("DNI", sDNI);
 		System.out.println("id "+accid);
 		detalles +="-Cuenta:"+accid;
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
-		sleep(20000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
+		ges.irAGestionEnCard("Renovacion de Datos");
+		cambioDeFrame(driver, By.id("combosMegas"), 0);
+//		List<WebElement> elementos = driver.findElement(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+//		for(WebElement elemento:elementos) {
+//			if(elemento.getText().contains("200 MB")) {
+//				elemento.findElement(By.className("slds-checkbox")).click();
+//				break;
+//			}
+//		}
+//		cc.obligarclick(driver.findElement(By.id("CombosDeMegas_nextBtn")));
+//		sleep(10000);
+//		List<WebElement> pagos = driver.findElement(By.id("PaymentTypeRadio|0")).findElements(By.cssSelector(".slds-radio.ng-scope"));
+//		for (WebElement pago : pagos) {
+//			if (pago.getText().toLowerCase().contains("factura")){
+//				pago.click();
+//				break;
+//			}
+//		}
+//		cc.obligarclick(driver.findElement(By.id("SetPaymentType_nextBtn")));
 		sleep(5000);
-		CustomerCare cCC = new CustomerCare(driver);
-		cCC.irAGestionEnCard("Renovacion de Datos");
-		sleep(12000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("combosMegas")));
 		List<WebElement> elementos = driver.findElement(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-		for(WebElement UnE:elementos) {
-			if(UnE.findElement(By.tagName("td")).getText().contains("200 MB")) {
-				UnE.findElement(By.className("slds-checkbox")).click();
-			}
-		}
-		cCC.obligarclick(driver.findElement(By.id("CombosDeMegas_nextBtn")));
-		sleep(10000);
-		List<WebElement> pago = driver.findElement(By.id("PaymentTypeRadio|0")).findElements(By.cssSelector(".slds-radio.ng-scope"));
-		for (WebElement UnP : pago) {
-			if (UnP.getText().toLowerCase().contains("factura")){
-				UnP.click();
+		for(WebElement elemento : elementos) {
+			if(elemento.getText().contains("200 MB")) {
+				elemento.findElement(By.className("slds-checkbox")).click();
 				break;
 			}
 		}
-		cCC.obligarclick(driver.findElement(By.id("SetPaymentType_nextBtn")));
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("CombosDeMegas_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("CombosDeMegas_nextBtn")));	
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-radio ng-scope']")));
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-radio ng-scope']")), "contains", "factura");
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SetPaymentType_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("SetPaymentType_nextBtn")));
+		sleep(10000);
+		cc.obligarclick(driver.findElement(By.id("InvoicePreview_nextBtn")));
+		
 		sleep(15000);
-		cCC.obligarclick(driver.findElement(By.id("InvoicePreview_nextBtn")));
-		sleep(15000);
-		String sOrden = cCC.obtenerOrden2(driver);
+		String sOrden = cc.obtenerOrden2(driver);
 		detalles += "-Orden:" + sOrden;
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "tarjeta de credito");
 		sleep(8000);
@@ -526,42 +529,25 @@ public class RenovacionDeCuota extends TestBase {
 		sleep(5000);
 		driver.navigate().refresh();
 		sleep(10000);
-		String datosFinal = cCBS.ObtenerUnidadLibre(cCBSM.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
+		String datosFinal = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		Assert.assertTrue((Integer.parseInt(datosInicial)+204800)==Integer.parseInt(datosFinal));
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
+		cambioDeFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
 		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "RenovacionDeCuota","E2E"}, dataProvider="RenovacionCuotaSinSaldo")
-	public void TS130067_CRM_Movil_REPRO_Renovacion_De_Cuota_Telefonico_Descuento_De_Saldo_Sin_Credito(String sDNI, String sLinea) {
+	public void TS130067_CRM_Movil_REPRO_Renovacion_De_Cuota_Telefonico_Descuento_De_Saldo_Sin_Credito(String sDNI, String sLinea, String accid) {
 		imagen = "TS130067";
 		detalles = null;
 		detalles = imagen+"-Renovacion de cuota-DNI:"+sDNI;
-		BasePage cambioFrameByID=new BasePage();
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SearchClientDocumentType")));
-		sleep(1000);
-		SalesBase sSB = new SalesBase(driver);
-		sSB.BuscarCuenta("DNI", sDNI);
-		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
+		ges.BuscarCuenta("DNI", sDNI);
 		System.out.println("id "+accid);
 		detalles +="-Cuenta:"+accid;
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
-		sleep(20000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("card-top")));
-		driver.findElement(By.className("card-top")).click();
-		sleep(3000);		
-		CustomerCare cCC = new CustomerCare(driver);
-		cCC.irAGestionEnCard("Renovacion de Datos");
-		sleep(10000);
-		try {
-			driver.switchTo().frame(cambioFrame(driver, By.id("combosMegas")));
-			driver.findElement(By.id("combosMegas")).findElements(By.className("slds-checkbox")).get(1).click();
-		}
-		catch (Exception ex) {
-			//Allways Empty
-		}
+		ges.irAGestionEnCard("Renovacion de Datos");
+		cambioDeFrame(driver, By.id("combosMegas"), 0);
+		driver.findElement(By.id("combosMegas")).findElements(By.className("slds-checkbox")).get(1).click();
 		sleep(2000);
 		Assert.assertTrue(driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText().equalsIgnoreCase("saldo insuficiente"));
 	}
