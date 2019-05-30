@@ -1055,7 +1055,7 @@ public class TestBase {
 		switch (match) {
 		case "contains":
 			for (WebElement x : elements) {
-				if (x.getText().toLowerCase().contains(texto)) {
+				if (x.getText().toLowerCase().contains(texto.toLowerCase())) {
 					x.click();
 					break;
 				}
@@ -1063,7 +1063,7 @@ public class TestBase {
 			break;
 		case "equals":
 			for (WebElement x : elements) {
-				if (x.getText().toLowerCase().equals(texto)) {
+				if (x.getText().toLowerCase().equals(texto.toLowerCase())) {
 					x.click();
 					break;
 				}
@@ -1240,7 +1240,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] RenovacionCuotaSinSaldo() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,2,"Renovacion Cuota Sin Saldo");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,3,"Renovacion Cuota Sin Saldo");
 
 	 return (testObjArray);
 
@@ -1249,7 +1249,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] RenovacionCuotaSinSaldoConTC() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,13,"Renovacion Cuota TC");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,14,"Renovacion Cuota TC");
 
 	 return (testObjArray);
 
@@ -1257,7 +1257,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] RenovacionCuotaconSaldoConTC() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,13,"Renovacion Cuota Con TC Con Saldo");
+	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,14,"Renovacion Cuota Con TC Con Saldo");
 
 	 return (testObjArray);
 

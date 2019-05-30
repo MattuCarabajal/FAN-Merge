@@ -1494,7 +1494,7 @@ public class CustomerCare extends BasePage {
 			WebElement Caso = driver.findElement(By.cssSelector(".listRelatedObject.caseBlock")).findElement(By.cssSelector(".bPageBlock.brandSecondaryBrd.secondaryPalette")).findElement(By.className("pbBody")).findElement(By.className("list")).findElements(By.tagName("tr")).get(1).findElement(By.tagName("th")).findElement(By.tagName("a"));
 			Caso.click();
 		}
-		sleep(10000);
+//		sleep(10000);
 	}
 	
 	public WebElement botonConsultar() {
@@ -1751,11 +1751,10 @@ public class CustomerCare extends BasePage {
 	public String obtenerTNyMonto2(WebDriver driver, String sOrder) {
 		buscarCaso(sOrder);
 		String datos = null;
-		TestBase TB = new TestBase();
+		TestBase tb = new TestBase();
 		boolean esta = false;
 		String texto = null;
-		sleep(8000);
-		driver.switchTo().frame(TB.cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
+		tb.cambioDeFrame(driver,  By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		datos = tabla.findElement(By.tagName("tr")).findElements(By.tagName("td")).get(3).getText();
 		tabla.findElement(By.tagName("tr")).findElements(By.tagName("td")).get(1).click();
