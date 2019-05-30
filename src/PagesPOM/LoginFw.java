@@ -89,7 +89,6 @@ public class LoginFw extends BasePageFw {
 		Ecom_Password.sendKeys("Testa10k");
 		
 		loginButton2.click();
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	
 	public void loginTelefonico() {
@@ -100,7 +99,6 @@ public class LoginFw extends BasePageFw {
 		Ecom_User_ID.sendKeys("Ua2591324"); // UAT
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	
 	public void loginAgente() {
@@ -111,7 +109,6 @@ public class LoginFw extends BasePageFw {
 		Ecom_User_ID.sendKeys("Ua2554620"); // UAT
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	
 	public void loginOperativo() {
@@ -132,7 +129,6 @@ public class LoginFw extends BasePageFw {
 		Ecom_User_ID.sendKeys("Ua2569324"); // UAT
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	public void loginAdminFuncional() {
 		driver.get(urlAmbiente);
@@ -142,6 +138,5 @@ public class LoginFw extends BasePageFw {
 		Ecom_User_ID.sendKeys("Ua2184370"); // UAT
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}		 
 }
