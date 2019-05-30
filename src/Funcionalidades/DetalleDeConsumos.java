@@ -176,20 +176,22 @@ public class DetalleDeConsumos extends TestBase {
 		imagen = "TS134802";
 		detalles = imagen + "-Vista 360 - DNI: " + sDNI + " - Nombre: " + sNombre;
 		ges.BuscarCuenta("DNI", sDNI);
-		cc.irADetalleDeConsumos();
+		ges.irAGestionEnCard("Detalles de Consumo");
 		cambioDeFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter"), 0);
 		driver.findElements(By.cssSelector(".slds-picklist.slds-dropdown-trigger.slds-dropdown-trigger--click")).get(1).findElement(By.cssSelector(".slds-button.slds-input__icon.slds-text-color--default")).click();
 		WebElement periodosDeConsulta = driver.findElement(By.cssSelector("[class='slds-grid slds-wrap slds-grid--pull-padded slds-m-around--medium slds-p-around--medium negotationsfilter'] [class='slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--2-of-8 slds-large-size--2-of-8'] [class='slds-dropdown slds-dropdown--left'] [class='slds-dropdown__list slds-dropdown--length-3']"));
 		periodosDeConsulta.findElements(By.tagName("li")).get(1).click();
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
-		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"), 0));
-		List<WebElement> filas = driver.findElements(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"));
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-p-top--medium'] tbody tr"), 0));
+		List<WebElement> filas = driver.findElements(By.cssSelector("[class='slds-p-top--medium'] tbody tr"));
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(filas.get(0)));
 		filas.get(0).click();
-		filas = driver.findElements(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"));
-		List<WebElement> detalles = filas.get(1).findElements(By.cssSelector(".slds-text-heading--label"));
+		filas = driver.findElements(By.cssSelector("[class='slds-p-top--medium'] tbody tr"));
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-p-top--medium'] tbody tr tr"), 3));
+		List<WebElement> detalles = driver.findElements(By.cssSelector("[class='slds-p-top--medium'] tbody tr tr"));
 		List<String> detallesReferencia = new ArrayList<String>(Arrays.asList("FECHA DE INICIO", "FECHA DE FIN", "PRODUCTO", "IMPORTE", "ORIGEN/DESTINO"));
 		for (int i = 0; i < detalles.size(); i++) {
-			Assert.assertTrue(detalles.get(i).getText().equals(detallesReferencia.get(i)));
+			Assert.assertTrue(detalles.get(i).getText().toLowerCase().contains(detallesReferencia.get(i).toLowerCase()));
 		}
 	}
 	
@@ -199,7 +201,7 @@ public class DetalleDeConsumos extends TestBase {
 		detalles = imagen + " -Detalle de consumos - DNI: " + sDNI;
 		boolean sms = false;
 		ges.BuscarCuenta("DNI", sDNI);
-		cc.irADetalleDeConsumos();
+		ges.irAGestionEnCard("Detalles de Consumo");;
 		cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button--brand"), 0);
 		driver.findElement(By.id("text-input-02")).click();
 		driver.findElement(By.xpath("//*[text() = 'Los \u00faltimos 15 d\u00edas']")).click();
