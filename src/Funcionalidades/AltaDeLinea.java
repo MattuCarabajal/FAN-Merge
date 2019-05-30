@@ -113,21 +113,23 @@ public class AltaDeLinea extends TestBase {
 		contact.continuar();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")));
 		contact.completarDomicilio(sProvincia, sLocalidad, sZona, sCalle, sNumCa, sCP, tDomic);
-		//btn siguiente asignacion de linea
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("LineAssignment_nextBtn")));
+		driver.findElement(By.id("SearchBlock")).clear();
+		driver.findElement(By.id("SearchBlock")).sendKeys(sLocalidad);
+		//sleep(1875);
+		//driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ENTER);
+		sleep(9000);
+		//driver.findElement(By.id("ChangeNumber")).click();
 		driver.findElement(By.id("LineAssignment_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("InvoicePreview_nextBtn")));
-		driver.findElement(By.id("InvoicePreview_nextBtn"));
+		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("ValidationMethods")));
 		File directory = new File("Dni.jpg");
 		contact.tipoValidacion("documento");
 		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
 		cc.obligarclick(driver.findElement(By.id("DocumentMethod_nextBtn")));
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderSumary_nextBtn")));
-		driver.findElement(By.id("OrderSumary_nextBtn")).click();
-		try {
-			driver.findElements(By.cssSelector(".slds-button.slds-button--neutral.ng-binding.ng-scope")).get(1).click();
-			sleep(15000);
-		}catch(Exception ex1) {}
-		/*String orden = driver.findElement(By.className("top-data")).findElement(By.className("ng-binding")).getText();
+		String orden = driver.findElement(By.className("top-data")).findElement(By.className("ng-binding")).getText();
 		String NCuenta = driver.findElements(By.className("top-data")).get(1).findElements(By.className("ng-binding")).get(3).getText();
 		String Linea = driver.findElement(By.cssSelector(".top-data.ng-scope")).findElements(By.className("ng-binding")).get(1).getText();
 		System.out.println("Orden "+orden);
@@ -137,17 +139,20 @@ public class AltaDeLinea extends TestBase {
 		NCuenta = NCuenta.substring(NCuenta.length()-16);
 		Linea = Linea.substring(Linea.length()-10);
 		cc.obligarclick(driver.findElement(By.id("OrderSumary_nextBtn")));
-		sleep(20000);
-		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SaleOrderMessages_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("SaleOrderMessages_nextBtn")));
 		sOrders.add("Orden:"+orden+"-DNI:"+sDni+"-Cuenta:"+NCuenta+"-Linea"+Linea);
 		sleep(15000);
 		System.out.println(cc.obtenerMontoyTNparaAlta(driver, orden));
 		CBS_Mattu invoSer = new CBS_Mattu();
-		if(activarFalsos==true) {
-			invoSer.Servicio_NotificarEmisionFactura(orden);
-			sleep(10000);
-		}
+		invoSer.Servicio_NotificarPago(orden);
 		driver.navigate().refresh();
+		ges.selectMenuIzq("Logistica");
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.className("ta-logistic-control-panel--prepareOrder")));
+		
+		
+		
+	/*	
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
