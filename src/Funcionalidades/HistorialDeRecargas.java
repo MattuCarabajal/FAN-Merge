@@ -572,6 +572,7 @@ public class HistorialDeRecargas extends TestBase {
 		cbsm.Servicio_Recharge(sLinea,"10000000","0");
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Historiales");
+		cc.seleccionDeHistorial("historial de recargas");
 		cambioDeFrame(driver, By.id("text-input-03"), 0);
 		driver.findElement(By.id("text-input-03")).click();
 		driver.findElement(By.xpath("//*[text() = 'Todos']")).click();
