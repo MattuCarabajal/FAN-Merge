@@ -40,7 +40,7 @@ public class ProblemasConRecargas extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -53,7 +53,7 @@ public class ProblemasConRecargas extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -83,7 +83,7 @@ public class ProblemasConRecargas extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass (alwaysRun = true)
+	//@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -161,10 +161,9 @@ public class ProblemasConRecargas extends TestBase {
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga")
 	public void problemaRecargaOnline(String sDNI, String sLinea) {
 		imagen = "problemaRecargaOnline";
-		CBS cbs = new CBS();
-		CBS_Mattu cbsm = new CBS_Mattu();
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 7));
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 6));
+		System.out.println(datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Inconvenientes con Recargas");
 		cambioDeFrame(driver, By.id("RefillMethods_nextBtn"), 0);
@@ -172,9 +171,9 @@ public class ProblemasConRecargas extends TestBase {
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("RefillDate")));
 		driver.findElement(By.id("RefillDate")).sendKeys("23-07-2018");
-		driver.findElement(By.id("OnlineRefillAmount")).sendKeys("123");
+		driver.findElement(By.id("OnlineRefillAmount")).sendKeys("1000");
 		driver.findElement(By.id("ReceiptCode")).sendKeys("123");
-		driver.findElement(By.id("OnlineRefillData_nextBtn")).click();
+		cc.obligarclick(driver.findElement(By.id("OnlineRefillData_nextBtn")));
 		try {
 			ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("ExistingCase_nextBtn")));
 			driver.findElement(By.xpath("//*[@id=\"SessionCase|0\"]/div/div[1]/label[2]/span/div/div")).click();
@@ -195,8 +194,9 @@ public class ProblemasConRecargas extends TestBase {
 		}
 		Assert.assertTrue(gest);
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 7));
-		Assert.assertTrue(datosInicial + 123 == datosFinal);
+		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 6));
+		System.out.println(datosFinal);
+		Assert.assertTrue(datosInicial + 1000 == datosFinal);
 		String orden = cc.obtenerOrden(driver, "Problemas con Recargas");
 		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + " - Orden: " + orden;
 	}
