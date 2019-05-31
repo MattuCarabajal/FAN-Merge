@@ -13,6 +13,7 @@ import org.testng.annotations.*;
 
 import Pages.CBS;
 import Pages.CustomerCare;
+import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
@@ -31,8 +32,18 @@ public class Recargas extends TestBase {
 	private String imagen;
 	String detalles;
 	
+	@BeforeClass (groups= "PerfilOficina")
+	public void Sit02() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		sleep(5000);
+		cc = new CustomerCare(driver);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.LoginSit02();
+		//cc.irAConsolaFAN();
+	}
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -45,7 +56,7 @@ public class Recargas extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -78,7 +89,7 @@ public class Recargas extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod(alwaysRun=true)
+	//@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -86,7 +97,7 @@ public class Recargas extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass (alwaysRun = true)
+	//@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);

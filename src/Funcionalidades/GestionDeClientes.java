@@ -30,20 +30,19 @@ public class GestionDeClientes extends TestBase {
 
 	String detalles;
 	
-	//@BeforeClass (groups= "PerfilOficina")
+	@BeforeClass (groups= "PerfilOficina")
 	public void Sit02() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
-
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		log.LoginSit02();
-		ges.irAConsolaFAN();
+		//ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups= "PerfilOficina")
+	//@BeforeClass (groups= "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -64,7 +63,7 @@ public class GestionDeClientes extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod (alwaysRun = true)
+	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -123,15 +122,15 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("libreta de enrolamiento"));
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "validaDocumentacion") 
-	public void TS135499_CRM_Movil_REPRO_Busqueda_Libreta_de_enrolamiento_Numero_de_Documento(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail){
-		imagen = "TS135499";
-		detalles = null;
-		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
-		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
-		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
-		Assert.assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
-	}
+	//@Test (groups = "PerfilOficina", dataProvider = "validaDocumentacion") 
+	//public void TS135499_CRM_Movil_REPRO_Busqueda_Libreta_de_enrolamiento_Numero_de_Documento(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail){
+	//	imagen = "TS135499";
+	//	detalles = null;
+	//	detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
+	//	sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
+	//	List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
+	//	Assert.assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
+	//}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "invalidaDocumentacion")
 	public void TS135500_CRM_Movil_REPRO_Busqueda_Libreta_dE_enrolamiento_Numero_de_Documento_no_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {

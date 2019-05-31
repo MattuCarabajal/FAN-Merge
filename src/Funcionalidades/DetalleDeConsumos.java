@@ -1,5 +1,6 @@
 package Funcionalidades;
 
+import java.awt.AWTException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +29,16 @@ public class DetalleDeConsumos extends TestBase {
 	private GestionDeClientes_Fw ges;
 	String detalles;
 	
+	@BeforeClass (groups= "PerfilOficina")
+	public void Sit02() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		sleep(5000);
+		cc = new CustomerCare(driver);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.LoginSit02();
+		//ges.irAConsolaFAN();
+	}
 	
 	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
@@ -39,7 +50,7 @@ public class DetalleDeConsumos extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);

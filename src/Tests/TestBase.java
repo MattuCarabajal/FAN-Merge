@@ -56,8 +56,8 @@ import DataProvider.ExcelUtils;
 public class TestBase {
 	protected static WebDriver driver;
 		
-		public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
-		//public static String urlAmbiente = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
+		//public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
+		public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com";
 		
 		// viejo public String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";
 		public static String urlSCP = "https://telecomcrm--uat.cs53.my.salesforce.com";
@@ -825,7 +825,7 @@ public class TestBase {
 	private String dataProviderCuentas() {
 		String sDataProviderCuentas;
 		
-		if (urlAmbiente.contains("sit".toUpperCase())) {
+		if (urlAmbiente.contains("sit".toLowerCase())) {
 			sDataProviderCuentas = "CuentasSIT.xlsx";
 		}
 		else {
@@ -844,7 +844,7 @@ public class TestBase {
 	public String dataProviderE2E() {
 		String sDataProviderE2E;
 		
-		if (urlAmbiente.contains("sit")) {
+		if (urlAmbiente.contains("sit02")) {
 			sDataProviderE2E = "E2ESIT.xlsx";
 		}
 		else {
