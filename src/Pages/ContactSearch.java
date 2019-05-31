@@ -247,9 +247,12 @@ public class ContactSearch extends BasePage {
 	
 	public void subirformulario(String uploadPath) {
 		TestBase tb = new TestBase();
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		tb.cambioDeFrame(driver,(By.id("UploadSignedForm")),0);
+//		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("UploadSignedForm")));
 		driver.findElement(By.id("UploadSignedForm")).sendKeys(uploadPath);
-		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("PDFForm_nextBtn")));
+//		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		/*switch (Siguiente) {
 		case "si":
 			try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
@@ -370,7 +373,6 @@ public class ContactSearch extends BasePage {
 		BotonDireccionLegal.click();
 		sleep(3000);
 		BotonCrearCliente.click();
-		sleep(12000);
 	}
 	
 	public void elegirPlan(String plan){

@@ -43,6 +43,16 @@ public class RenovacionDeCuota extends TestBase {
 	private String imagen;
 	String detalles;
 	
+	@BeforeClass (groups= "PerfilOficina")
+	public void Sit02() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		sleep(5000);
+		cc = new CustomerCare(driver);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.LoginSit02();
+		//ges.irAConsolaFAN();
+	}
 	
 	//@BeforeClass (alwaysRun = true)
 	public void initOOCC() throws IOException, AWTException {
@@ -57,7 +67,7 @@ public class RenovacionDeCuota extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	@BeforeClass (alwaysRun = true)
+	//@BeforeClass (alwaysRun = true)
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
