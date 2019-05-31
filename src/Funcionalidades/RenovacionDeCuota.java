@@ -371,6 +371,13 @@ public class RenovacionDeCuota extends TestBase {
 		selectByText(driver.findElement(By.id("CardBankingEntity-0")), sTarjeta);
 		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), sPromo);
 		selectByText(driver.findElement(By.id("Installment-0")), sCuota);
+		driver.findElement(By.id("CardNumber-0")).sendKeys(sNumTarjeta);
+		selectByText(driver.findElement(By.id("expirationMonth-0")), sVenceMes);
+		selectByText(driver.findElement(By.id("expirationYear-0")), sVenceAno);
+		driver.findElement(By.id("securityCode-0")).sendKeys(sCodSeg);
+		selectByText(driver.findElement(By.id("documentType-0")), sTipoDNI);
+		driver.findElement(By.id("documentNumber-0")).sendKeys(sDNITarjeta);
+		driver.findElement(By.id("cardHolder-0")).sendKeys(sTitular);
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing"))); 
 		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
@@ -379,12 +386,8 @@ public class RenovacionDeCuota extends TestBase {
 		String orden = cc.obtenerTNyMonto2(driver, sOrden);
 		System.out.println("orden = "+orden);
 		detalles+=", Monto:"+orden.split("-")[2]+"Prefactura: "+orden.split("-")[1];
-		cbsm.PagarTCPorServicio(sOrden);
-		sleep(5000);
-		if(activarFalsos == true) {
-			cbsm.Servicio_NotificarPago(sOrden);
-			sleep(20000);
-		}
+		cbsm.Servicio_NotificarPago(sOrden);
+		sleep(10000);
 		driver.navigate().refresh();
 		String datosFinal = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		Assert.assertTrue((Integer.parseInt(datosInicial)+51200)==Integer.parseInt(datosFinal));
@@ -403,7 +406,7 @@ public class RenovacionDeCuota extends TestBase {
 	}
 		
 	@Test (groups = {"GestionesPerfilOficina", "RenovacionDeCuota", "E2E", "Ciclo1"}, dataProvider = "RenovacionCuotaSinSaldo")
-	public void TS135512_CRM_Movil_REPRO_No_Renovacion_de_cuota_Pack_de_datos_Activo_Presencial(String sDNI, String sLinea) {
+	public void TS135512_CRM_Movil_REPRO_No_Renovacion_de_cuota_Pack_de_datos_Activo_Presencial(String sDNI, String sLinea,String accid) {
 		imagen = "TS135512";
 		detalles = null;
 		detalles = imagen + "- No renovacion de cuota - DNI:" + sDNI+ "-Linea: "+sLinea;
