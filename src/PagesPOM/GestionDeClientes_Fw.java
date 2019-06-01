@@ -19,6 +19,7 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Sleeper;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import Pages.Accounts;
@@ -71,7 +72,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	@FindBy (id = locator_TipoDoc)
 	private WebElement tipoDoc;
 
-	final String locator_listaMenuIzq= "[class='x-menu-list'] li";
+	final String locator_listaMenuIzq= "[class='x-menu-item-text'][id*='ext-gen']";
 	@FindBy (css = locator_listaMenuIzq)
 	private List<WebElement> listaMenuIzq;
 	
@@ -215,10 +216,12 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public void selectMenuIzq(String opcionVisible) {
+		try {Thread.sleep(2000);} catch (InterruptedException e1) {}
 		clickMenuIzq();
-		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(this.locator_listaMenuIzq), 0));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(this.locator_listaMenuIzq), 2));
 		try{
 			fluentWait.until(ExpectedConditions.elementToBeClickable(listaMenuIzq.get(0)));
+			
 			super.getBuscarElementoPorText(listaMenuIzq, opcionVisible).click();
 		}catch(Exception e) {
 			System.out.println("no se encuentra elemento verificar que coincida con el texto visible");
@@ -240,7 +243,9 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			break;
 
 		}
-		fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]")));
+//		fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]")));
+		TestBase tb = new TestBase();
+		tb.sleepClickBy(driver, By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]"), 0);
 		driver.findElement(By.xpath("//button[contains(text(),'Gesti')]")).click();
 	}
 	
@@ -320,7 +325,8 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	
 	public void irAGestionEnCard(String sGestion) {
 		driver.switchTo().defaultContent();
-		switchToFrameBySrc("/apex/vlocity_cmt__ConsoleCards");
+		TestBase cc = new TestBase();
+		cc.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='card-top']")));
 		WebElement card = driver.findElement(By.cssSelector("[class='card-top']"));
 		card.click();

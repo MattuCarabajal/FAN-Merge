@@ -68,19 +68,19 @@ public class SOAPClientSAAJ {
 	    			sEndPoint = sObtenerInformacionOrdenUAT;
 	    		break;
 	    	case "alta suscripcion":
-	    		if (TestBase.urlAmbiente.contains("sit02".toUpperCase()))
+	    		if (TestBase.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sRealizarAltaSuscripSIT;
 	    		else
 	    			sEndPoint = sRealizarAltaSuscripUAT;
 	    		break;
 	    	case "notificar pago":
-	    		if (TestBase.urlAmbiente.contains("sit02".toUpperCase()))
+	    		if (TestBase.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sPagoSimuladoSIT;
 	    		else
 	    			sEndPoint = sPagoSimuladoUAT;
 	    		break;
 	    	case "verificar saldo":
-	    		if (TestBase.urlAmbiente.contains("sit02".toUpperCase()))
+	    		if (TestBase.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sVerificarSaldoEnFacturacionSIT;
 	    		else
 	    			sEndPoint = sVerificarSaldoEnFacturacionUAT;

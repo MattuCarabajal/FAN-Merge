@@ -66,7 +66,7 @@ public class HistorialDeRecargas extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups = "PerfilTelefonico")
+//	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -94,7 +94,7 @@ public class HistorialDeRecargas extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass(alwaysRun = true)
+	//@AfterClass(alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -776,9 +776,9 @@ public class HistorialDeRecargas extends TestBase {
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")));
 		ArrayList<String> canales = new ArrayList<String>(Arrays.asList("Recarga Online", "Otros", "*111#", "SMS", "Atenci\u00f3n al cliente / Mi Personal"));
-		List<WebElement> recargasRealizadas = driver.findElements(By.cssSelector("[class='slds-p-bottom--small slds-p-left--medium slds-p-right--medium'] tbody tr"));
+		List<WebElement> recargasRealizadas = driver.findElements(By.cssSelector("[class='slds-p-bottom--small slds-p-left--medium slds-p-right--medium'] tbody tr [data-label='Canal'] div"));
 		for (WebElement recargaRealizada : recargasRealizadas) {
-			String canal = recargaRealizada.findElements(By.tagName("td")).get(2).getText();
+			String canal = recargaRealizada.getText();
 			Assert.assertTrue(canales.contains(canal));
 		}
 	}

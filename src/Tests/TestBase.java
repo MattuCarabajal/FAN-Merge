@@ -1855,7 +1855,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] ConsultaSaldo() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,3,"SaldoConsulta");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,1,"SaldoConsulta");
 		
 		return (testObjArray);
 		
@@ -2151,6 +2151,23 @@ public class TestBase {
 				try {Thread.sleep(250);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 				sleepFindBy(element, byForElement, timeAcumulated + 0.250);
 			}
+		}
+	}
+	
+	public void sleepClickBy(WebDriver driver, By byForElement, double timeAcumulated) {
+		WebElement element = null;
+		if (10 < timeAcumulated) {
+			element.click();
+		}
+		try {
+			driver.findElement(byForElement).click();
+		} catch (Exception e) {
+			try {
+				Thread.sleep(250);
+			} catch (InterruptedException ex) {
+				Thread.currentThread().interrupt();
+			}
+			sleepFindBy(driver, byForElement, timeAcumulated + 0.250);
 		}
 	}
 	
