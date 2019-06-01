@@ -56,8 +56,8 @@ import DataProvider.ExcelUtils;
 public class TestBase {
 	protected static WebDriver driver;
 		
-		//public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
-		public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com";
+		public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
+		//public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com";
 		
 		// viejo public String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";
 		public static String urlSCP = "https://telecomcrm--uat.cs53.my.salesforce.com";
@@ -1880,7 +1880,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] validaDocumentacion() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,7,"DocumentacionValida");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,6,"DocumentacionValida");
 		
 		return (testObjArray);
 		
@@ -1889,7 +1889,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] invalidaDocumentacion() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,7,"DocumentacionInvalida");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,6,"DocumentacionInvalida");
 		
 		return (testObjArray);
 		

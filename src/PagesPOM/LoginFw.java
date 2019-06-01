@@ -20,8 +20,8 @@ public class LoginFw extends BasePageFw {
 	//public static String urlMerge = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
 	
 	
-	//public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
-	public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com";
+	public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
+	//public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com";
 	
 	// viejo public String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";
 	public static String urlSCP = "https://telecomcrm--uat.cs53.my.salesforce.com";

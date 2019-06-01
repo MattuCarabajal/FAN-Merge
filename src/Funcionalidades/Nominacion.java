@@ -46,7 +46,7 @@ public class Nominacion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	//@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);
@@ -57,7 +57,7 @@ public class Nominacion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups = "PerfilAgente")
+	@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);
@@ -76,7 +76,7 @@ public class Nominacion extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod (alwaysRun = true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -84,7 +84,7 @@ public class Nominacion extends TestBase {
 		sleep(2000);
 	}
 
-	//@AfterClass (alwaysRun = true)
+	@AfterClass (alwaysRun = true)
 	public void quit() {
 		driver.quit();
 		sleep(5000);
@@ -254,54 +254,6 @@ public class Nominacion extends TestBase {
 		cbsm.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider="DatosSalesNominacionPyRNuevoOfCom") 
-	public void TS85099_CRM_Movil_REPRO_Nominatividad_Cliente_Existente_Presencial_Preguntas_Y_Respuestas_Ofcom(String sLinea, String sDni, String sNombre, String sApellido, String sSexo, String sFnac, String sEmail, String sProvincia, String sLocalidad, String sCalle, String sNumCa, String sCP) { 
-		imagen = "TS85099-Nominacion"+sDni;
-		detalles = imagen +"-Linea: "+sLinea;
-		CustomerCare cc = new CustomerCare(driver);
-		BasePage bp = new BasePage();
-		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
-		sleep(1500);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(10000);
-		WebElement cli = driver.findElement(By.id("tab-scoped-1"));
-		cli.findElement(By.tagName("tbody")).findElement(By.tagName("tr")).click();
-		sleep(3000);
-		List<WebElement> Lineas = driver.findElement(By.id("tab-scoped-1")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-		for(WebElement UnaL: Lineas) {
-			if(UnaL.getText().toLowerCase().contains("plan con tarjeta repro")||UnaL.getText().toLowerCase().contains("plan prepago nacional")) {
-				UnaL.findElements(By.tagName("td")).get(6).findElement(By.tagName("svg")).click();
-				System.out.println("Linea Encontrada");
-				break;
-			}
-		}
-		sleep(13000);
-		contact.searchContact2("DNI", sDni, sSexo);
-		try {contact.ingresarMail(sEmail, "si");}catch (org.openqa.selenium.ElementNotVisibleException ex1) {}
-		contact.tipoValidacion("preguntas y respuestas");
-		sleep(5000);
-		cc.obligarclick(driver.findElement(By.id("QAContactData_nextBtn")));
-		sleep(5000);
-		bp.setSimpleDropdown(driver.findElement(By.id("ImpositiveCondition")), "IVA Consumidor Final");
-		sleep(38000);
-		cbsm.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
-		List <WebElement> element = driver.findElement(By.id("NominacionExitosa")).findElements(By.tagName("p"));
-		System.out.println("cont="+element.get(0).getText());
-		boolean a = false;
-		for (WebElement x : element) {
-			if (x.getText().toLowerCase().contains("nominaci\u00f3n exitosa!")) {
-				a = true;
-				System.out.println(x.getText());
-			}
-		}
-		Assert.assertTrue(a);
-		driver.findElement(By.id("FinishProcess_nextBtn")).click();
-		sleep(3000);
-		cbsm.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
-	}
-	
 	@Test (groups = "PerfilOficina", dataProvider = "DatosNominacionExistente5Lineas")
 	public void TS85104_CRM_Movil_REPRO_No_Nominatividad_Numero_Limite_De_Lineas_Cliente_Existente_Presencial(String sLinea, String sDni) {
 		imagen = "TS85104";
@@ -335,31 +287,78 @@ public class Nominacion extends TestBase {
 		driver.findElement(By.id("alert-ok-button")).click();
 		Assert.assertTrue(enc);
 	}
+//	@Test (groups = "PerfilOficina", dataProvider="DatosSalesNominacionPyRNuevoOfCom") 
+//	public void TS85099_CRM_Movil_REPRO_Nominatividad_Cliente_Existente_Presencial_Preguntas_Y_Respuestas_Ofcom(String sLinea, String sDni, String sNombre, String sApellido, String sSexo, String sFnac, String sEmail, String sProvincia, String sLocalidad, String sCalle, String sNumCa, String sCP) { 
+//		imagen = "TS85099-Nominacion"+sDni;
+//		detalles = imagen +"-Linea: "+sLinea;
+//		CustomerCare cc = new CustomerCare(driver);
+//		BasePage bp = new BasePage();
+//		sleep(5000);
+//		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+//		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
+//		sleep(1500);
+//		driver.findElement(By.id("SearchClientsDummy")).click();
+//		sleep(10000);
+//		WebElement cli = driver.findElement(By.id("tab-scoped-1"));
+//		cli.findElement(By.tagName("tbody")).findElement(By.tagName("tr")).click();
+//		sleep(3000);
+//		List<WebElement> Lineas = driver.findElement(By.id("tab-scoped-1")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+//		for(WebElement UnaL: Lineas) {
+//			if(UnaL.getText().toLowerCase().contains("plan con tarjeta repro")||UnaL.getText().toLowerCase().contains("plan prepago nacional")) {
+//				UnaL.findElements(By.tagName("td")).get(6).findElement(By.tagName("svg")).click();
+//				System.out.println("Linea Encontrada");
+//				break;
+//			}
+//		}
+//		sleep(13000);
+//		contact.searchContact2("DNI", sDni, sSexo);
+//		try {contact.ingresarMail(sEmail, "si");}catch (org.openqa.selenium.ElementNotVisibleException ex1) {}
+//		contact.tipoValidacion("preguntas y respuestas");
+//		sleep(5000);
+//		cc.obligarclick(driver.findElement(By.id("QAContactData_nextBtn")));
+//		sleep(5000);
+//		bp.setSimpleDropdown(driver.findElement(By.id("ImpositiveCondition")), "IVA Consumidor Final");
+//		sleep(38000);
+//		cbsm.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
+//		List <WebElement> element = driver.findElement(By.id("NominacionExitosa")).findElements(By.tagName("p"));
+//		System.out.println("cont="+element.get(0).getText());
+//		boolean a = false;
+//		for (WebElement x : element) {
+//			if (x.getText().toLowerCase().contains("nominaci\u00f3n exitosa!")) {
+//				a = true;
+//				System.out.println(x.getText());
+//			}
+//		}
+//		Assert.assertTrue(a);
+//		driver.findElement(By.id("FinishProcess_nextBtn")).click();
+//		sleep(3000);
+//		cbsm.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
+//	}
 	
-	@Test(groups = "PerfilOficina", dataProvider = "DatosNoNominacionExistenteFraudeOfcom")
-	public void TS85105_CRM_Movil_REPRO_No_Nominatividad_Por_Fraude_Cliente_Existente_Presencial(String sLinea, String sDni) {
-		imagen = "TS85105";
-		detalles = imagen + " -Nominacion: " + sDni+"- Linea: "+sLinea;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(5000);
-		driver.findElement(By.cssSelector(".slds-button.slds-button--icon.slds-m-right--x-small.ng-scope")).click();
-		sleep(2000);
-		WebElement botonNominar = null;
-		for (WebElement x : driver.findElements(By.cssSelector(".slds-hint-parent.ng-scope"))) {
-			if (x.getText().toLowerCase().contains("plan con tarjeta"))
-				botonNominar = x;
-		}
-		for (WebElement x : botonNominar.findElements(By.tagName("td"))) {
-			if (x.getAttribute("data-label").equals("actions"))
-				botonNominar = x;
-		}
-		botonNominar.findElement(By.tagName("a")).click();
-		sleep(5000);
-		contact.searchContact2("DNI", sDni, "Masculino");
-		Assert.assertTrue(driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText().toLowerCase().contains("el dni figura en lista de fraude"));	
-	}
+	//@Test(groups = "PerfilOficina", dataProvider = "DatosNoNominacionExistenteFraudeOfcom")
+//	public void TS85105_CRM_Movil_REPRO_No_Nominatividad_Por_Fraude_Cliente_Existente_Presencial(String sLinea, String sDni) {
+//		imagen = "TS85105";
+//		detalles = imagen + " -Nominacion: " + sDni+"- Linea: "+sLinea;
+//		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+//		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
+//		driver.findElement(By.id("SearchClientsDummy")).click();
+//		sleep(5000);
+//		driver.findElement(By.cssSelector(".slds-button.slds-button--icon.slds-m-right--x-small.ng-scope")).click();
+//		sleep(2000);
+//		WebElement botonNominar = null;
+//		for (WebElement x : driver.findElements(By.cssSelector(".slds-hint-parent.ng-scope"))) {
+//			if (x.getText().toLowerCase().contains("plan con tarjeta"))
+//				botonNominar = x;
+//		}
+//		for (WebElement x : botonNominar.findElements(By.tagName("td"))) {
+//			if (x.getAttribute("data-label").equals("actions"))
+//				botonNominar = x;
+//		}
+//		botonNominar.findElement(By.tagName("a")).click();
+//		sleep(5000);
+//		contact.searchContact2("DNI", sDni, "Masculino");
+//		Assert.assertTrue(driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText().toLowerCase().contains("el dni figura en lista de fraude"));	
+//	}
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
@@ -490,30 +489,30 @@ public class Nominacion extends TestBase {
 		Assert.assertTrue(msj);
 	}
 	
-	@Test (groups = "PerfilTelefonico", dataProvider = "DatosNoNominacionNuevoFraudeTelef")
-	public void TS85112_CRM_Movil_REPRO_No_Nominatividad_Por_Fraude_Cliente_Nuevo_Telefonico(String sLinea, String sDni) {
-		imagen = "TS85112";
-		detalles = imagen + " -Nominacion: " + sDni+"- Linea: "+sLinea;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(5000);
-		driver.findElement(By.cssSelector(".slds-button.slds-button--icon.slds-m-right--x-small.ng-scope")).click();
-		sleep(2000);
-		WebElement botonNominar = null;
-		for (WebElement x : driver.findElements(By.cssSelector(".slds-hint-parent.ng-scope"))) {
-			if (x.getText().toLowerCase().contains("plan con tarjeta"))
-				botonNominar = x;
-		}
-		for (WebElement x : botonNominar.findElements(By.tagName("td"))) {
-			if (x.getAttribute("data-label").equals("actions"))
-				botonNominar = x;
-		}
-		botonNominar.findElement(By.tagName("a")).click();
-		sleep(5000);
-		contact.searchContact2("DNI", sDni, "Masculino");
-		Assert.assertTrue(driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText().toLowerCase().contains("el dni figura en lista de fraude"));	
-	}
+	//@Test (groups = "PerfilTelefonico", dataProvider = "DatosNoNominacionNuevoFraudeTelef")
+//	public void TS85112_CRM_Movil_REPRO_No_Nominatividad_Por_Fraude_Cliente_Nuevo_Telefonico(String sLinea, String sDni) {
+//		imagen = "TS85112";
+//		detalles = imagen + " -Nominacion: " + sDni+"- Linea: "+sLinea;
+//		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+//		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
+//		driver.findElement(By.id("SearchClientsDummy")).click();
+//		sleep(5000);
+//		driver.findElement(By.cssSelector(".slds-button.slds-button--icon.slds-m-right--x-small.ng-scope")).click();
+//		sleep(2000);
+//		WebElement botonNominar = null;
+//		for (WebElement x : driver.findElements(By.cssSelector(".slds-hint-parent.ng-scope"))) {
+//			if (x.getText().toLowerCase().contains("plan con tarjeta"))
+//				botonNominar = x;
+//		}
+//		for (WebElement x : botonNominar.findElements(By.tagName("td"))) {
+//			if (x.getAttribute("data-label").equals("actions"))
+//				botonNominar = x;
+//		}
+//		botonNominar.findElement(By.tagName("a")).click();
+//		sleep(5000);
+//		contact.searchContact2("DNI", sDni, "Masculino");
+//		Assert.assertTrue(driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText().toLowerCase().contains("el dni figura en lista de fraude"));	
+//	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "DatosNominacionExistente5Lineas")
 	public void TS85113_CRM_Movil_REPRO_No_Nominatividad_Numero_Limite_De_Lineas_Cliente_Existente_Telefonico(String sLinea, String sDni) {
@@ -549,35 +548,35 @@ public class Nominacion extends TestBase {
 		Assert.assertTrue(enc);
 	}
 	
-	@Test (groups = "PerfilTelefonico", dataProvider = "DatosNoNominacionExistenteFraudeOfcom")
-	public void TS85114_CRM_Movil_REPRO_No_Nominatividad_Por_Fraude_Cliente_Existente_Presencial(String sLinea, String sDni) {
-		imagen = "TS85114";
-		detalles = imagen + " -Nominacion: " + sDni+"- Linea: "+sLinea;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
-		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(5000);
-		driver.findElement(By.cssSelector(".slds-button.slds-button--icon.slds-m-right--x-small.ng-scope")).click();
-		sleep(2000);
-		WebElement botonNominar = null;
-		for (WebElement x : driver.findElements(By.cssSelector(".slds-hint-parent.ng-scope"))) {
-			if (x.getText().toLowerCase().contains("plan con tarjeta"))
-				botonNominar = x;
-		}
-		for (WebElement x : botonNominar.findElements(By.tagName("td"))) {
-			if (x.getAttribute("data-label").equals("actions"))
-				botonNominar = x;
-		}
-		botonNominar.findElement(By.tagName("a")).click();
-		sleep(5000);
-		contact.searchContact2("DNI", sDni, "Masculino");
-		Assert.assertTrue(driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText().toLowerCase().contains("el dni figura en lista de fraude"));		
-	}
+	//@Test (groups = "PerfilTelefonico", dataProvider = "DatosNoNominacionExistenteFraudeOfcom")
+//	public void TS85114_CRM_Movil_REPRO_No_Nominatividad_Por_Fraude_Cliente_Existente_Presencial(String sLinea, String sDni) {
+//		imagen = "TS85114";
+//		detalles = imagen + " -Nominacion: " + sDni+"- Linea: "+sLinea;
+//		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
+//		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
+//		driver.findElement(By.id("SearchClientsDummy")).click();
+//		sleep(5000);
+//		driver.findElement(By.cssSelector(".slds-button.slds-button--icon.slds-m-right--x-small.ng-scope")).click();
+//		sleep(2000);
+//		WebElement botonNominar = null;
+//		for (WebElement x : driver.findElements(By.cssSelector(".slds-hint-parent.ng-scope"))) {
+//			if (x.getText().toLowerCase().contains("plan con tarjeta"))
+//				botonNominar = x;
+//		}
+//		for (WebElement x : botonNominar.findElements(By.tagName("td"))) {
+//			if (x.getAttribute("data-label").equals("actions"))
+//				botonNominar = x;
+//		}
+//		botonNominar.findElement(By.tagName("a")).click();
+//		sleep(5000);
+//		contact.searchContact2("DNI", sDni, "Masculino");
+//		Assert.assertTrue(driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText().toLowerCase().contains("el dni figura en lista de fraude"));		
+//	}
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
 	@Test (groups = "PerfilAgente", dataProvider="DatosSalesNominacionNuevoAgente") 
-	public void TS_CRM_Nominacion_Argentino_Agente(String sLinea, String sDni, String sNombre, String sApellido, String sGenero, String sFnac, String sEmail, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) { 
+	public void TS_CRM_Nominacion_Cliente_Nuevo_Agente(String sLinea, String sDni, String sNombre, String sApellido, String sGenero, String sFnac, String sEmail, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) { 
 		imagen = "TS_CRM_Nominacion_Argentino_Agente"+sDni;
 		detalles = imagen + "- Nominacion - DNI:" + sDni;
 		sleep(10000);

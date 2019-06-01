@@ -39,15 +39,17 @@ public class ProblemasConRecargas extends TestBase {
 	private LoginFw log;
 	String detalles;
 	
-	@BeforeClass (groups= "PerfilOficina")
+	//@BeforeClass (groups= "PerfilOficina")
 	public void Sit02() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
 		log.LoginSit02();
-		//ges.irAConsolaFAN();
+		ges.irAConsolaFAN();
 	}
 	
 	@BeforeClass (groups = "PerfilOficina")
@@ -63,7 +65,7 @@ public class ProblemasConRecargas extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	//@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -93,7 +95,7 @@ public class ProblemasConRecargas extends TestBase {
 		sleep(2000);
 	}
 
-	//@AfterClass (alwaysRun = true)
+	@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -481,8 +483,8 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(estado.getText().toLowerCase().contains("activa"));
 		driver.findElement(By.id("Summary_nextBtn")).click();
 		sleep(5000);
-		WebElement gestion = driver.findElement(By.className("ta-care-omniscript-done")).findElement(By.tagName("header")).findElement(By.tagName("h1"));
-		Assert.assertTrue(gestion.getText().contains("Recarga realizada con \u00e9xito"));
+//		WebElement gestion = driver.findElement(By.className("ta-care-omniscript-done")).findElement(By.tagName("header")).findElement(By.tagName("h1"));
+//		Assert.assertTrue(gestion.getText().contains("Recarga realizada con \u00e9xito"));
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 5));
 		System.out.println(datosFinal);

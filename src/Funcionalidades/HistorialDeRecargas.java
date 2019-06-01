@@ -23,6 +23,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import Pages.CustomerCare;
+import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
@@ -38,8 +39,20 @@ public class HistorialDeRecargas extends TestBase {
 	private String imagen;
 	private GestionDeClientes_Fw ges;
 	private LoginFw log;
+	private SalesBase sb;
 	String detalles;
 	
+	//@BeforeClass (groups= "PerfilOficina")
+	public void Sit02() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		sleep(5000);
+		sb = new SalesBase(driver);
+		cc = new CustomerCare(driver);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.LoginSit02();
+		//ges.irAConsolaFAN();
+	}
 	
 	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
@@ -181,30 +194,6 @@ public class HistorialDeRecargas extends TestBase {
 		List<WebElement> recargas = tabla.findElements(By.tagName("tr"));
 		for(WebElement r : recargas){
 			if(r.getText().replaceAll("[$.,]","").contains(monto)){
-				enc = true;
-				break;
-			}
-		}
-		Assert.assertTrue(enc);
-	}
-
-	
-	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
-	public void TS134473_CRM_Movil_Prepago_Historial_De_Packs_Fan_Front_OOCC(String sDNI, String sLinea) {
-		imagen = "TS134473";
-		detalles = imagen + "- Historial de packs - DNI: " + sDNI;
-		boolean enc = false;
-		ges.BuscarCuenta("DNI", sDNI);
-		ges.irAGestionEnCard("Historiales");
-		cc.seleccionDeHistorial("historial de packs");
-		cambioDeFrame(driver,By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small']"),0);
-		driver.findElement(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small']")).click();
-		cambioDeFrame(driver,By.cssSelector("[class='slds-p-bottom--small slds-p-left--medium slds-p-right--medium']"),0);
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-p-bottom--small slds-p-left--medium slds-p-right--medium']")));
-		WebElement tabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElements(By.tagName("tbody")).get(1);
-		List<WebElement> recargas = tabla.findElements(By.tagName("tr"));
-		for(WebElement r : recargas){
-			if(r.getText().contains("$")){
 				enc = true;
 				break;
 			}
@@ -444,104 +433,8 @@ public class HistorialDeRecargas extends TestBase {
 		Assert.assertTrue(enc);
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
-	public void TS135468_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_OOCC(String sDNI , String sLinea){
-		imagen = "TS135468";
-		ges.BuscarCuenta("DNI", sDNI);
-		ges.irAGestionEnCard("Historiales");
-		cc.seleccionDeHistorial("historial de packs");
-		cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small"), 0);
-		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("text-input-03")));
-		driver.findElement(By.id("text-input-03")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-dropdown slds-dropdown--left resize-dropdowns']")));
-		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
-			if (x.getText().toLowerCase().contains("todos"))
-				cc.obligarclick(x);
-		}
-		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElement(By.tagName("td")).getText();
-		Assert.assertTrue(datoTabla.matches("[0-9]{2}[\\/]{1}[0-9]{2}[\\/]{1}[0-9]{4} [0-9]{2}[\\:][0-9]{2}[\\:][0-9]{2}"));
-	}
+
 	
-	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
-	public void TS135472_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internacional_FAN_Front_OOCC(String sDNI , String sLinea){
-		imagen = "TS135472";
-		ges.BuscarCuenta("DNI", sDNI);
-		ges.irAGestionEnCard("Historiales");
-		cc.seleccionDeHistorial("historial de packs");
-		cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small"), 0);
-		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("text-input-03")));
-		driver.findElement(By.id("text-input-03")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-dropdown slds-dropdown--left resize-dropdowns']")));
-		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
-			if (x.getText().toLowerCase().contains("bam pack 10gb x 30 dias"))
-				cc.obligarclick(x);
-		}
-		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
-		Assert.assertTrue(datoTabla.toLowerCase().contains("bam pack 10gb x 30 dias"));
-	}
-	
-	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
-	public void TS135474_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Familia_FAN_Front_OOCC(String sDNI , String sLinea){
-		imagen = "TS135474";
-		ges.BuscarCuenta("DNI", sDNI);
-		ges.irAGestionEnCard("Historiales");
-		cc.seleccionDeHistorial("historial de packs");
-		cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small"), 0);
-		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("text-input-03")));
-		driver.findElement(By.id("text-input-03")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-dropdown slds-dropdown--left resize-dropdowns']")));
-		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
-			if (x.getText().toLowerCase().contains("internet 100 mb dia"))
-				cc.obligarclick(x);
-		}
-		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
-		Assert.assertTrue(datoTabla.toLowerCase().contains("internet 100 mb dia"));
-	}
-	
-	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
-	public void TS135476_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internet_50_Mb_FAN_Front_OOCC(String sDNI , String sLinea){
-		imagen = "TS135476";
-		ges.BuscarCuenta("DNI", sDNI);
-		ges.irAGestionEnCard("Historiales");
-		cc.seleccionDeHistorial("historial de packs");
-		cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small"), 0);
-		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("text-input-03")));
-		driver.findElement(By.id("text-input-03")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-dropdown slds-dropdown--left resize-dropdowns']")));
-		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
-			if (x.getText().toLowerCase().contains("internet 50 mb dia nacional"))
-				cc.obligarclick(x);
-		}
-		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
-		Assert.assertTrue(datoTabla.toLowerCase().contains("internet 50 mb dia nacional"));
-	}
-	
-	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
-	public void TS135483_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_OOCC(String sDNI , String sLinea) throws ParseException{
-		imagen = "TS135483";
-		boolean verificarFecha = false;
-		ges.BuscarCuenta("DNI", sDNI);
-		ges.irAGestionEnCard("Historiales");
-		cc.seleccionDeHistorial("historial de packs");
-		cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small"), 0);
-		String desde = driver.findElement(By.id("text-input-id-1")).getAttribute("value");
-		String hasta = driver.findElement(By.id("text-input-id-2")).getAttribute("value");
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date fechaDesde = sdf.parse(desde);
-		Date fechaHasta = sdf.parse(hasta);
-		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")));
-		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElement(By.tagName("td")).getText();
-		datoTabla = datoTabla.substring(0, datoTabla.indexOf(" "));
-		Date fechaTabla = sdf.parse(datoTabla);
-		if (fechaTabla.compareTo(fechaDesde) >= 0 && fechaTabla.compareTo(fechaHasta) <= 0)
-			verificarFecha = true;
-		Assert.assertTrue(verificarFecha);
-	}
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
@@ -563,6 +456,7 @@ public class HistorialDeRecargas extends TestBase {
 	//	} else
 	//		Assert.assertTrue(false);
 	//}
+	
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
 	public void TS134790_CRM_Movil_Prepago_Historial_de_Recargas_Consultar_detalle_de_Recargas_Sin_Beneficios_Fan_FRONT_Telefonico(String sDNI, String sLinea) {
@@ -889,129 +783,6 @@ public class HistorialDeRecargas extends TestBase {
 		}
 	}
 	
-	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
-	public void TS135437_CRM_Movil_Prepago_Historial_De_Packs_Fan_Front_Telefonico(String cDNI , String sLinea) {
-		boolean enc = false;
-		imagen = "TS135437";
-		detalles = imagen+"-HistorialDePacksTelefonico - DNI: "+cDNI;
-		ges.BuscarCuenta("DNI", cDNI);
-		ges.irAGestionEnCard("Historiales");
-		cc.seleccionDeHistorial("historial de packs");
-		cambioDeFrame(driver,By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small']"),0);
-		driver.findElement(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small']")).click();
-		cambioDeFrame(driver,By.cssSelector("[class='slds-p-bottom--small slds-p-left--medium slds-p-right--medium']"),0);
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-p-bottom--small slds-p-left--medium slds-p-right--medium']")));
-		WebElement tabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElements(By.tagName("tbody")).get(1);
-		List<WebElement> recargas = tabla.findElements(By.tagName("tr"));
-		for(WebElement r : recargas){
-			if(r.getText().contains("$")){
-				enc = true;
-				break;
-			}
-		}
-		Assert.assertTrue(enc);
-	}
 	
-	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
-	public void TS135467_CRM_Movil_Prepago_Historial_de_Packs_Fan_Front_Telefonico(String cDNI , String sLinea) {
-		boolean enc = false;
-		imagen = "TS135467";
-		detalles = imagen+"-HistorialDePacksTelefonico - DNI:"+cDNI;
-		ges.BuscarCuenta("DNI", cDNI);
-		ges.irAGestionEnCard("Historiales");
-		cc.seleccionDeHistorial("historial de packs");
-		cambioDeFrame(driver,By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small']"),0);
-		driver.findElement(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small']")).click();
-		cambioDeFrame(driver,By.cssSelector("[class='slds-p-bottom--small slds-p-left--medium slds-p-right--medium']"),0);
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-p-bottom--small slds-p-left--medium slds-p-right--medium']")));
-		WebElement tabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElement(By.tagName("table")).findElements(By.tagName("tbody")).get(1);
-		List<WebElement> recargas = tabla.findElements(By.tagName("tr"));
-		for(WebElement r : recargas){
-			if(r.getText().contains("$")){
-				enc = true;
-				break;
-			}
-		}
-		Assert.assertTrue(enc);
-	}
 	
-	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
-	public void TS135469_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_TODOS_FAN_Front_Telefonico(String sDNI , String sLinea){
-		imagen = "TS135469";
-		ges.BuscarCuenta("DNI", sDNI);
-		ges.irAGestionEnCard("Historiales");
-		cc.seleccionDeHistorial("historial de packs");
-		cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small"), 0);
-		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("text-input-03")));
-		driver.findElement(By.id("text-input-03")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-dropdown slds-dropdown--left resize-dropdowns']")));
-		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
-			if (x.getText().toLowerCase().contains("todos"))
-				cc.obligarclick(x);
-		}
-		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElement(By.tagName("td")).getText();
-		Assert.assertTrue(datoTabla.matches("[0-9]{2}[\\/]{1}[0-9]{2}[\\/]{1}[0-9]{4} [0-9]{2}[\\:][0-9]{2}[\\:][0-9]{2}"));
-	}
-	
-	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
-	public void TS135475_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Familia_FAN_Front_Telefonico(String sDNI , String sLinea){
-		imagen = "TS135475";
-		ges.BuscarCuenta("DNI", sDNI);
-		ges.irAGestionEnCard("Historiales");
-		cc.seleccionDeHistorial("historial de packs");
-		cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small"), 0);
-		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("text-input-03")));
-		driver.findElement(By.id("text-input-03")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-dropdown slds-dropdown--left resize-dropdowns']")));
-		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
-			if (x.getText().toLowerCase().contains("internet 100 mb dia"))
-				cc.obligarclick(x);
-		}
-		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
-		Assert.assertTrue(datoTabla.toLowerCase().contains("internet 100 mb dia"));
-	}
-	
-	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
-	public void TS135477_CRM_Movil_Prepago_Historial_de_Packs_Nombre_del_Pack_Plan_Internet_40_Mb_FAN_Front_Telefonico(String sDNI , String sLinea){
-		imagen = "TS135477";
-		ges.BuscarCuenta("DNI", sDNI);
-		ges.irAGestionEnCard("Historiales");
-		cc.seleccionDeHistorial("historial de packs");
-		cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small"), 0);
-		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("text-input-03")));
-		driver.findElement(By.id("text-input-03")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-dropdown slds-dropdown--left resize-dropdowns']")));;
-		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
-			if (x.getText().toLowerCase().contains("1 gb renovacion cuota de datos"))
-				cc.obligarclick(x);
-		}
-		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
-		Assert.assertTrue(datoTabla.toLowerCase().contains("1 gb renovacion cuota de datos"));
-	}
-	
-	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
-	public void TS135484_CRM_Movil_Prepago_Historial_de_Packs_Seleccion_de_Fechas_FAN_Front_Telefonico(String sDNI , String sLinea) throws ParseException{
-		imagen = "TS135484";
-		boolean verificarFecha = false;
-		ges.BuscarCuenta("DNI", sDNI);
-		ges.irAGestionEnCard("Historiales");
-		cc.seleccionDeHistorial("historial de packs");
-		cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small"), 0);
-		String desde = driver.findElement(By.id("text-input-id-1")).getAttribute("value");
-		String hasta = driver.findElement(By.id("text-input-id-2")).getAttribute("value");
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date fechaDesde = sdf.parse(desde);
-		Date fechaHasta = sdf.parse(hasta);
-		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
-		ges.getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")));
-		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElement(By.tagName("td")).getText();
-		datoTabla = datoTabla.substring(0, datoTabla.indexOf(" "));
-		Date fechaTabla = sdf.parse(datoTabla);
-		if (fechaTabla.compareTo(fechaDesde) >= 0 && fechaTabla.compareTo(fechaHasta) <= 0)
-			verificarFecha = true;
-		Assert.assertTrue(verificarFecha);
-	}
 }
