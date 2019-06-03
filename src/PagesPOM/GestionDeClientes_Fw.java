@@ -173,9 +173,12 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public void irConsolaFanUat02(){
-		 fluentWait.until(ExpectedConditions.elementToBeClickable(menuAplicaciones));
-			if (driver.findElement(By.id("tsidLabel")).getText().equalsIgnoreCase("Consola FAN")) {
-				fluentWait.until(ExpectedConditions.elementToBeClickable(volverFan));
+//		 fluentWait.until(ExpectedConditions.elementToBeClickable(menuAplicaciones));
+//			if (driver.findElement(By.id("tsidLabel")).getText().equalsIgnoreCase("Consola FAN")) {
+//				fluentWait.until(ExpectedConditions.elementToBeClickable(volverFan));
+//				driver.findElement(By.id("BackToServiceDesk_Tab")).click();
+		 	fluentWait.until(ExpectedConditions.elementToBeClickable(By.id("BackToServiceDesk_Tab")));
+			if (driver.findElement(By.id("BackToServiceDesk_Tab")).getText().toLowerCase().contains("consola fan")) {
 				driver.findElement(By.id("BackToServiceDesk_Tab")).click();
 			} else {
 				fluentWait.until(ExpectedConditions.elementToBeClickable(cajonDeAplicaciones));
