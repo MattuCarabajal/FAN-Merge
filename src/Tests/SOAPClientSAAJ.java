@@ -38,54 +38,55 @@ public class SOAPClientSAAJ {
 	    		sEndPoint = sPagoSimuladoSIT;
 	    		break;
 	    	case "pago en caja":
-	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
+	    		if (TestBase.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sPagoEnCajaSIT;
 	    		else
 	    			sEndPoint = sPagoEnCajaUAT;
 	    		break;
 	    	case "datos usuario":
-	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
+	    		if (TestBase.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sQueryCustomerInfoSIT;
 	    		else
 	    			sEndPoint = sQueryCustomerInfoUAT;
 	    		break;
 	    	case "unidades libres":
-	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
+	    		if (TestBase.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sQueryFreeUnitSIT;
 	    		else
 	    			sEndPoint = sQueryFreeUnitUAT;
 	    		break;
 	    	case "notificar resultado orden":
-	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
+	    		if (TestBase.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sNotificarResultadoOrdenSIT;
 	    		else
 	    			sEndPoint = sNotificarResultadoOrdenUAT;
 	    		break;
 	    	case "obtener informacion orden":
-	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
+	    		if (TestBase.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sObtenerInformacionOrdenSIT;
 	    		else
 	    			sEndPoint = sObtenerInformacionOrdenUAT;
 	    		break;
 	    	case "alta suscripcion":
-	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
+	    		if (TestBase.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sRealizarAltaSuscripSIT;
 	    		else
 	    			sEndPoint = sRealizarAltaSuscripUAT;
 	    		break;
 	    	case "notificar pago":
-	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
+	    		if (TestBase.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sPagoSimuladoSIT;
 	    		else
 	    			sEndPoint = sPagoSimuladoUAT;
 	    		break;
 	    	case "verificar saldo":
-	    		if (TestBase.urlAmbiente.contains("sit".toUpperCase()))
+	    		if (TestBase.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sVerificarSaldoEnFacturacionSIT;
 	    		else
 	    			sEndPoint = sVerificarSaldoEnFacturacionUAT;
 	    		break;
     	}
+		System.out.println("endo point : " +sEndPoint);
     	try {
         	// Create SOAP Connection
         	SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
