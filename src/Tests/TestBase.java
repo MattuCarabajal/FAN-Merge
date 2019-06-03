@@ -850,7 +850,7 @@ public class TestBase {
 			sDataProviderE2E = "E2ESIT.xlsx";
 		}
 		else {
-			if (urlAmbiente.contains("uat")) {
+			if (urlAmbiente.contains("uat02")) {
 				sDataProviderE2E = "E2EUAT.xlsx";
 			}
 			else {
