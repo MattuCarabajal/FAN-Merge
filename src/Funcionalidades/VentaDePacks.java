@@ -26,6 +26,7 @@ import Pages.PagePerfilTelefonico;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
@@ -34,7 +35,11 @@ public class VentaDePacks extends TestBase {
 	private WebDriver driver;
 	private SalesBase sb;
 	private CustomerCare cc;
+	private CBS cbs;
+	private CBS_Mattu cbsm;
+	private LoginFw log;
 	private Marketing mk;
+	private GestionDeClientes_Fw ges;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	String detalles;
@@ -43,14 +48,14 @@ public class VentaDePacks extends TestBase {
 	@BeforeClass (alwaysRun = true)
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
-		sb = new SalesBase(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.loginOOCC();
+		ges.irAConsolaFAN();
 	}
 		
 	//@BeforeClass (alwaysRun = true)
@@ -88,7 +93,7 @@ public class VentaDePacks extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod(alwaysRun=true)
+	//@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -110,20 +115,12 @@ public class VentaDePacks extends TestBase {
 		imagen = "TS123163";
 		detalles = null;
 		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
-		SalesBase sale = new SalesBase(driver);
-		BasePage cambioFrameByID=new BasePage();
-		CustomerCare cCC = new CustomerCare(driver);
 		PagePerfilTelefonico pagePTelefo = new PagePerfilTelefonico(driver);
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SearchClientDocumentType")));	
-		sleep(8000);
-		sale.BuscarCuenta("DNI", sDNI);
-		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
-		System.out.println("id "+accid);
-		detalles +="-Cuenta:"+accid;
-		pagePTelefo.buscarAssert();
-		cCC.seleccionarCardPornumeroLinea(sLinea, driver);
-		//cCC.closerightpanel();
-		pagePTelefo.comprarPack();
+		ges.BuscarCuenta("DNI", sDNI);
+		//System.out.println("id "+accid);
+		//detalles +="-Cuenta:"+accid;
+		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
+		ges.irAGestionEnCard("Compra de Pack");
 		//String chargeCode = 
 				pagePTelefo.PackCombinado(sVentaPack);
 		pagePTelefo.tipoDePago("en factura de venta");
@@ -143,7 +140,7 @@ public class VentaDePacks extends TestBase {
 		sleep(45000);
 		pagePTelefo.getOrdenSeRealizoConExito().click();// No se puede procesr (Ups, hay problemas para procesar su pago.)
 		sleep(10000);
-		String orden = cCC.obtenerTNyMonto2(driver, sOrden);
+		String orden = cc.obtenerTNyMonto2(driver, sOrden);
 		detalles+="-Monto:"+orden.split("-")[1]+"-Prefactura:"+orden.split("-")[0];
 		CBS_Mattu cCBSM = new CBS_Mattu();
 		cCBSM.PagarTCPorServicio(sOrden);
@@ -159,7 +156,7 @@ public class VentaDePacks extends TestBase {
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
 		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));	
-		System.out.println("Operacion: Compra de Pack "+ "Order: " + sOrden + "Cuenta: "+ accid + "Fin");
+		//System.out.println("Operacion: Compra de Pack "+ "Order: " + sOrden + "Cuenta: "+ accid + "Fin");
 		detalles += "-Charge Code: " ;//+ chargeCode;
 		//Blocked
 	}
