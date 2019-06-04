@@ -2142,7 +2142,6 @@ public class TestBase {
 				sleepFindBy(driver, byForElement, timeAcumulated + 0.100);
 			}
 		}
-		System.out.println(timeAcumulated);
 	}
 	
 	public void sleepFindBy (WebElement element, By byForElement, double timeAcumulated) {
@@ -2169,7 +2168,7 @@ public class TestBase {
 			} catch (InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
-			sleepFindBy(driver, byForElement, timeAcumulated + 0.250);
+			sleepClickBy(driver, byForElement, timeAcumulated + 0.250);
 		}
 	}
 	

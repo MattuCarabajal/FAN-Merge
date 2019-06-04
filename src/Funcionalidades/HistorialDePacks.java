@@ -83,7 +83,6 @@ public class HistorialDePacks extends TestBase {
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
-		sleep(5000);
 	}
 
 	@AfterMethod (alwaysRun = true)
