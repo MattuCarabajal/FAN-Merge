@@ -405,14 +405,14 @@ public class Recargas extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
 		driver.findElement(By.id("RefillAmount")).clear();
 		driver.findElement(By.id("RefillAmount")).sendKeys(maximo+1+"");
-		sleepClickBy(driver, By.id("AmountSelectionStep_nextBtn"), 0);
+		clickBy(driver, By.id("AmountSelectionStep_nextBtn"), 0);
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='alert-container']//p")).getText().equalsIgnoreCase("Error : Por favor corrija los campos con errores"));
 		driver.findElement(By.xpath("//div[@id='alert-container']//button")).click();
 		// Prueba limite inferior permitido
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
 		driver.findElement(By.id("RefillAmount")).clear();
 		driver.findElement(By.id("RefillAmount")).sendKeys(minimo+"");
-		sleepClickBy(driver, By.id("AmountSelectionStep_nextBtn"), 0);
+		clickBy(driver, By.id("AmountSelectionStep_nextBtn"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='slds-form-element__control'] p p")));
 		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-form-element__control'] p p")).getText().contains("Nro. orden"));
 		driver.findElement(By.id("InvoicePreview_prevBtn")).click();
@@ -420,7 +420,7 @@ public class Recargas extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
 		driver.findElement(By.id("RefillAmount")).clear();
 		driver.findElement(By.id("RefillAmount")).sendKeys(maximo+"");
-		sleepClickBy(driver, By.id("AmountSelectionStep_nextBtn"), 0);
+		clickBy(driver, By.id("AmountSelectionStep_nextBtn"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='slds-form-element__control'] p p")));
 		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-form-element__control'] p p")).getText().contains("Nro. orden"));
 		}

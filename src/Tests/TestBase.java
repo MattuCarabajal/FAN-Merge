@@ -5,7 +5,6 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.File;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -49,32 +48,29 @@ import Pages.HomeBase;
 import Pages.Login;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
-//Data provider
 import DataProvider.ExcelUtils;
 
-
 public class TestBase {
+	
 	protected static WebDriver driver;
-		
-		public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
-		//public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com";
-		
-		// viejo public String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";
-		public static String urlSCP = "https://telecomcrm--uat.cs53.my.salesforce.com";
-		
-		//public static String urlComunidad = "https://uat-autogestion-uat.cs53.force.com/clientes/s/";
-		public static String urlCommunity = "https://sit-scrumcella.cs14.force.com/clientes/s/";
-		
-		public static String urlFlow	= "https://webgestionmoviltesting/default.aspx";
-		
-		public static String urlBeFANUAT = "http://snapuat.telecom.com.ar/#/home";
-		
-		public static String urlBeFAN = "https://befantest2.personal.corp/#/signin";
-		
-		//public static String urlBeFAN = "https://befanuat2.personal.corp/#/signin";
-		
-		public static boolean activarFalsos = true;
-		
+
+	public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
+	// public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com";
+
+	// viejo public static String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";
+	public static String urlSCP = "https://telecomcrm--uat.cs53.my.salesforce.com";
+
+	// public static String urlComunidad = "https://uat-autogestion-uat.cs53.force.com/clientes/s/";
+	public static String urlCommunity = "https://sit-scrumcella.cs14.force.com/clientes/s/";
+
+	public static String urlFlow = "https://webgestionmoviltesting/default.aspx";
+
+	public static String urlBeFANUAT = "http://snapuat.telecom.com.ar/#/home";
+
+	public static String urlBeFAN = "https://befantest2.personal.corp/#/signin";
+	// public static String urlBeFAN = "https://befanuat2.personal.corp/#/signin";
+
+	public static boolean activarFalsos = true;
 				
 	public void leftDropdown(WebDriver driver, String selection) {
 		driver.findElement(By.className("x-btn-mc")).click();
@@ -84,8 +80,6 @@ public class TestBase {
 		break; 
 		}
 	}
-	
-
 	
 	public void goToLeftPanel(WebDriver driver, String selection) {
 		WebElement element = driver.findElement(By.className("x-btn-split"));
@@ -99,25 +93,15 @@ public class TestBase {
 			driver.findElement(By.id("nav-tab-1")).click();
 			break;
 		}
-		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		sleepPrivado(5000);
 	}
 	
 	public void goToLeftPanel2(WebDriver driver, String selection) {
-		
 		driver.switchTo().defaultContent();
 		try {
 			driver.findElement(By.className("x-btn-split"));
 		}catch(NoSuchElementException noSuchElemExcept) {
-			List<WebElement> frames = driver.findElements(By.tagName("iframe"));
-			for (WebElement frame : frames) {
-				try {
-					driver.findElement(By.className("x-btn-split"));
-					break;
-				}catch(NoSuchElementException noSuchElemExceptInside) {
-					driver.switchTo().defaultContent();
-					driver.switchTo().frame(frame);
-				}
-			}
+			cambioDeFrame(driver, By.className("x-btn-split"), 0);
 		}
 		WebElement dropDown = driver.findElement(By.className("x-btn-split"));
 		Actions builder = new Actions(driver);   
@@ -133,34 +117,17 @@ public class TestBase {
 	}
 	
 	public void goToLeftPanel3(WebDriver driver, String selection) {
-		
 		driver.switchTo().defaultContent();
 		try {
 			driver.findElement(By.className("x-btn-split"));
 		}catch(NoSuchElementException noSuchElemExcept) {
-			List<WebElement> frames = driver.findElements(By.tagName("iframe"));
-			for (WebElement frame : frames) {
-				try {
-					driver.findElement(By.className("x-btn-split"));
-					break;
-				}catch(NoSuchElementException noSuchElemExceptInside) {
-					driver.switchTo().defaultContent();
-					driver.switchTo().frame(frame);
-				}
-			}
+			cambioDeFrame(driver, By.className("x-btn-split"), 0);
 		}
-		WebElement dropDown = driver.findElement(By.className("x-btn-split"));
-		Actions builder = new Actions(driver);   
-		
-
 		driver.findElement(By.className("x-btn-split")).click();
 		//WebElement wMenu = driver.findElement(By.xpath("//li[contains(@class,'x-menu-list-item')]"));
-		
-		
 		List<WebElement> options = driver.findElements(By.xpath("//li[contains(@class,'x-menu-list-item')]"));
 		for(WebElement option : options) {
 			if(option.findElement(By.tagName("span")).getText().toLowerCase().equals(selection.toLowerCase())) {
-				CustomerCare cc = new CustomerCare(driver);
 				option.findElement(By.tagName("a")).click();
 				//System.out.println("Seleccionado"); //13/09/2017 working.
 				break;
@@ -183,7 +150,7 @@ public class TestBase {
 	
 	public void login(WebDriver driver) {
 		driver.get(urlAmbiente);
-		try {Thread.sleep(4000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		sleepPrivado(4000);
 		//if(driver.findElement(By.id("idcard")).isDisplayed())
 		//{
 	    Login page0 = new Login(driver);
@@ -192,9 +159,10 @@ public class TestBase {
 			//driver.findElement(By.id("chooser")).click();
 	//	}
 	}
+	
 	public void loginDani(WebDriver driver) {
 		driver.get(urlAmbiente);
-		try {Thread.sleep(4000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		sleepPrivado(4000);
 		//if(driver.findElement(By.id("idcard")).isDisplayed())
 		//{
 	    Login page0 = new Login(driver);
@@ -206,50 +174,50 @@ public class TestBase {
 	
 	public void loginMarketing(WebDriver driver) {
 		driver.get(urlAmbiente);
-		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		sleepPrivado(5000);
 	    Login lLogin = new Login(driver);
 	    lLogin.ingresarDani();
 	}
 	
 	public void loginSCPAdmin(WebDriver driver) {
 	     driver.get("https://telecomcrm--uat.cs8.my.salesforce.com");
-	     try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	       Login page0 = new Login(driver);
-	       page0.ingresarAdminSCP();
+	     sleepPrivado(6000);
+	     Login page0 = new Login(driver);
+	     page0.ingresarAdminSCP();
 	   }
 	   
 	public void loginSCPconTodo(WebDriver driver) {
 	     driver.get(urlSCP);
-	     try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	       Login page0 = new Login(driver);
-	       page0.ingresarSCPconTodo();
+	     sleepPrivado(6000);
+	     Login page0 = new Login(driver);
+	     page0.ingresarSCPconTodo();
 	   }
-	   
-	     public void loginSCPUsuario(WebDriver driver) {
-	       driver.get(urlSCP);
-	       try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	         Login page0 = new Login(driver);
-	         page0.ingresarUsuarioSCP();
-	     }
-	     
-	     
-	     public void loginSCPAdminServices(WebDriver driver) {
-		       driver.get(urlSCP);
-		       try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		         Login page0 = new Login(driver);
-		         page0.ingresarSCPAdminServices();
-		     }
-	     public void loginSCPConPermisos(WebDriver driver) {
-		       driver.get(urlSCP);
-		       try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		         Login page0 = new Login(driver);
-		         page0.ingresarSCPConPermisos();
-		     }
+
+	public void loginSCPUsuario(WebDriver driver) {
+		driver.get(urlSCP);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarUsuarioSCP();
+	}
+
+	public void loginSCPAdminServices(WebDriver driver) {
+		driver.get(urlSCP);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarSCPAdminServices();
+	}
+
+	public void loginSCPConPermisos(WebDriver driver) {
+		driver.get(urlSCP);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarSCPConPermisos();
+	}
 	     
 	public void omInternalLoginWithCredentials(WebDriver driver, String userName, String password) {
 		driver.navigate().to(urlAmbiente);
 		driver.findElement(By.xpath("//*[@id=\"idp_hint\"]/button")).click();
-		sleep(3000);
+	    sleepPrivado(3000);
 //		driver.findElement(By.name("Ecom_User_ID")).sendKeys(userName);
 //		driver.findElement(By.name("Ecom_Password")).sendKeys(password);
 //		driver.findElement(By.id("loginButton2")).click();
@@ -257,13 +225,13 @@ public class TestBase {
 	
 	public void omLogout(WebDriver driver) {
 		driver.findElement(By.id("userNav")).click();
-		sleep(2000);
+		sleepPrivado(2000);
 		driver.findElement(By.id("userNav-menuItems")).findElements(By.tagName("a")).get(3).click();
 	}
 	     
 	public void login1(WebDriver driver) {
 		driver.get("https://goo.gl/ETjDYJ");
-		try {Thread.sleep(1000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	    sleepPrivado(1000);
 		//if(driver.findElement(By.id("idcard")).isDisplayed())
 		//{
 	    Login page0 = new Login(driver);
@@ -271,12 +239,11 @@ public class TestBase {
 	    try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 
 	}	
+	
 	public void IngresarCred(WebDriver driver) {
-		
 	    Login page0 = new Login(driver);
 	    page0.ingresar();
-	    try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-
+		sleepPrivado(5000);
 	}
 	    
 	public void waitFor(WebDriver driver, By element) {
@@ -287,7 +254,6 @@ public class TestBase {
 		(new WebDriverWait(driver, 25)).until(ExpectedConditions.elementToBeClickable(element));
 	}
 
-	
 	public void clickLeftPanel(WebDriver driver) {
 		List<WebElement> buttons = driver.findElements(By.tagName("button"));
 		for (WebElement btn : buttons) {
@@ -298,339 +264,348 @@ public class TestBase {
 		}
 	}
 	
-		//}else{
-		//	driver.findElement(By.id("chooser")).click();
-		//}
+	// }else{
+	// driver.findElement(By.id("chooser")).click();
+	// }
 
-	    
-/*public void waitFor(WebDriver driver, By element) {
-		WebElement myDynamicElement = (new WebDriverWait(driver, 10))
+	/*
+	 * public void waitFor(WebDriver driver, By element) { WebElement
+	 * myDynamicElement = (new WebDriverWait(driver, 10))
+	 * 
+	 * .until(ExpectedConditions.presenceOfElementLocated(element));}
+	 * 
+	 * /*public void waitFor2(WebDriver driver, By element) { WebElement
+	 * myDynamicElement = (new WebDriverWait(driver,
+	 * 10)).until(ExpectedConditions.presenceOfElementLocated(element)); } =======
+	 * 
+	 * .until(ExpectedConditions.presenceOfElementLocated(element));
+	 */
 
-				  .until(ExpectedConditions.presenceOfElementLocated(element));}
+	// Sales Fase 3
+	
+	public void loginsales(WebDriver driver, String tipo) {
 
-	/*public void waitFor2(WebDriver driver, By element) {
-		WebElement myDynamicElement = (new WebDriverWait(driver, 10)).until(ExpectedConditions.presenceOfElementLocated(element));
-	}
-=======
-
-				  .until(ExpectedConditions.presenceOfElementLocated(element));
-*/
-	
-	
-
-	
-	//Sales Fase 3
-		
-	
-		public void loginsales(WebDriver driver, String tipo){
-	
 		driver.get(urlAmbiente);
-		try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	    Login page0 = new Login(driver);
-	    switch (tipo){
-	    case "agente":
-	    	page0.ingresarAndres();
-	    	break;
-	    case "callcenter":
-	    	page0.ingresarElena();
-	    	break;
-	    case "vendedor":
-	    	page0.ingresarFrancisco();
-	    	break;
-	    case "logistica":
-	    	page0.ingresarNicolas();
-	    	break;
-	    case "entregas":
-	    	page0.ingresarMarcela();
-	    	break;
-	    }
-	   
-	    
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		switch (tipo) {
+		case "agente":
+			page0.ingresarAndres();
+			break;
+		case "callcenter":
+			page0.ingresarElena();
+			break;
+		case "vendedor":
+			page0.ingresarFrancisco();
+			break;
+		case "logistica":
+			page0.ingresarNicolas();
+			break;
+		case "entregas":
+			page0.ingresarMarcela();
+			break;
+		}
+
 	}
-		/**Ingresa con los datos de la cuenta Andres
-		 * Para el Modulo Sales tiene vinculado el perfil de Agente y Atenci�n a clientes		 */
-//		public void loginAgente(WebDriver driver) {
-//			driver.get(urlAmbiente);
-//			//try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-//			waitForClickeable(driver, By.id("idp_section_buttons"));
-//		    Login page0 = new Login(driver);
-//		    page0.ingresarAndres();
-//		}
-//		
-		public void loginGeneral(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarGeneral();
-		}
-		/**Ingresa con los datos de la cuenta Elena
-		 * Para el Modulo Sales tiene vinculado el perfil de Call center		 */
-//		public void loginTelefonico(WebDriver driver) {
-//			driver.get(urlAmbiente);
-//			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-//		    Login page0 = new Login(driver);
-//		    page0.ingresarElena();
-//		}
+
+	/**
+	 * Ingresa con los datos de la cuenta Andres Para el Modulo Sales tiene
+	 * vinculado el perfil de Agente y Atenci�n a clientes
+	 */
+	// public void loginAgente(WebDriver driver) {
+	// driver.get(urlAmbiente);
+	// //try {Thread.sleep(6000);} catch (InterruptedException ex)
+	// {Thread.currentThread().interrupt();}
+	// waitForClickeable(driver, By.id("idp_section_buttons"));
+	// Login page0 = new Login(driver);
+	// page0.ingresarAndres();
+	// }
+	//
+	public void loginGeneral(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarGeneral();
+	}
+
+	/**
+	 * Ingresa con los datos de la cuenta Elena Para el Modulo Sales tiene vinculado
+	 * el perfil de Call center
+	 */
+	// public void loginTelefonico(WebDriver driver) {
+	// driver.get(urlAmbiente);
+	// try {Thread.sleep(6000);} catch (InterruptedException ex)
+	// {Thread.currentThread().interrupt();}
+	// Login page0 = new Login(driver);
+	// page0.ingresarElena();
+	// }
 	
-		public void loginLogistica(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarLogistica();
-		}
-		public void loginEntrega(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarEntrega();
-		}
-		/**Ingresa con los datos de la cuenta Francisco
-		 * Para el Modulo Sales tiene vinculado el perfil de Vendedor Oficina Comercial		 */
-		public void loginFranciso(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarFrancisco();
-		}
-		
-		public void loginOfCom(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarNominaciones();
-		}
-		
-		public void loginBackOffice(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarBackOffice();
-		}
-		
-		public void loginflow(WebDriver driver){
-			driver.get(urlFlow);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarflow();
-		}
-		
-		public void loginOperativo(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			Login page0 = new Login(driver);
-		    page0.ingresarOperativo();
-		}
-		
-		public void loginAdminFuncional(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarLautaro();
-		}
-		
-		
-		/**Ingresa con los datos de la cuenta Nicolas.
-		 * Para el Modulo Sales tiene vinculado el perfil de Logistica	 */
-		public void loginNicolas(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarNicolas();
-		}
-		
-		/**Ingresa con los datos de la cuenta de Marcela
-		 * Para el Modulo Sales tiene vinculado el perfil de Entregas y Configuraciones	 */
-		public void loginMarcela(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarMarcela();
-		}
-		public void loginFabiana(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarFabiana();
-		}
-		public void loginVictor(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarVictor();
-		}
-		
-		public void loginBeFAN(WebDriver driver) {
-			driver.get(urlBeFAN);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarBeFAN();
-		}
-		
-		public void loginBeFANConfigurador(WebDriver driver) {
-			driver.get(urlBeFAN);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarBeFANConfigurador();
-		}
-		
-		public void loginFraude(WebDriver driver) {
-			driver.get(urlAmbiente);
-			//try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			waitForClickeable(driver, By.id("idp_section_buttons"));
-		    Login page0 = new Login(driver);
-		    page0.ingresarFraude();
-		}
-		
-		//Ingreso a Merge
-		public void loginOOCC(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarOOCC();
-		}
-		
-		public void loginTelefonico(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarTelefonico();
-		}
-		
-		public void loginAgente(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarAgente();
-		}
-		
-		public void loginFANFront(WebDriver driver) {
-			driver.get(urlAmbiente);
-			try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		    Login page0 = new Login(driver);
-		    page0.ingresarFANFront();
-		}
-		
-		public void elegirmodulo(String modulo){
-			try {Thread.sleep(4000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			String a = driver.findElement(By.id("tsidLabel")).getText();
+	public void loginLogistica(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarLogistica();
+	}
+
+	public void loginEntrega(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarEntrega();
+	}
+
+	/**
+	 * Ingresa con los datos de la cuenta Francisco Para el Modulo Sales tiene
+	 * vinculado el perfil de Vendedor Oficina Comercial
+	 */
+
+	public void loginFranciso(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarFrancisco();
+	}
+
+	public void loginOfCom(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarNominaciones();
+	}
+
+	public void loginBackOffice(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarBackOffice();
+	}
+
+	public void loginflow(WebDriver driver) {
+		driver.get(urlFlow);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarflow();
+	}
+
+	public void loginOperativo(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(5000);
+		Login page0 = new Login(driver);
+		page0.ingresarOperativo();
+	}
+
+	public void loginAdminFuncional(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarLautaro();
+	}
+
+	/**
+	 * Ingresa con los datos de la cuenta Nicolas. Para el Modulo Sales tiene
+	 * vinculado el perfil de Logistica
+	 */
+	public void loginNicolas(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarNicolas();
+	}
+
+	/**
+	 * Ingresa con los datos de la cuenta de Marcela Para el Modulo Sales tiene
+	 * vinculado el perfil de Entregas y Configuraciones
+	 */
+	public void loginMarcela(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarMarcela();
+	}
+
+	public void loginFabiana(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarFabiana();
+	}
+
+	public void loginVictor(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarVictor();
+	}
+
+	public void loginBeFAN(WebDriver driver) {
+		driver.get(urlBeFAN);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarBeFAN();
+	}
+
+	public void loginBeFANConfigurador(WebDriver driver) {
+		driver.get(urlBeFAN);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarBeFANConfigurador();
+	}
+
+	public void loginFraude(WebDriver driver) {
+		driver.get(urlAmbiente);
+		waitForClickeable(driver, By.id("idp_section_buttons"));
+		Login page0 = new Login(driver);
+		page0.ingresarFraude();
+	}
+
+	// Ingreso a Merge
+	public void loginOOCC(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarOOCC();
+	}
+
+	public void loginTelefonico(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarTelefonico();
+	}
+
+	public void loginAgente(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarAgente();
+	}
+
+	public void loginFANFront(WebDriver driver) {
+		driver.get(urlAmbiente);
+		sleepPrivado(6000);
+		Login page0 = new Login(driver);
+		page0.ingresarFANFront();
+	}
+
+	public void elegirmodulo(String modulo) {
+		sleepPrivado(4000);
+		String a = driver.findElement(By.id("tsidLabel")).getText();
+		driver.findElement(By.id("tsidLabel")).click();
+		List<WebElement> mdls = driver.findElements(By.cssSelector(".menuButtonMenuLink"));
+		sleepPrivado(8000);
+		if (a.equals("Ventas")) {
+			for (WebElement e : mdls) {
+				if (e.getText().toLowerCase().equals(modulo)) {
+					e.click();
+				}
+				break;
+			}
+		} else {
+			for (WebElement e : mdls) {
+				if (e.getText().toLowerCase().equals("ventas")) {
+					e.click();
+				}
+				break;
+			}
+			sleepPrivado(10000);
 			driver.findElement(By.id("tsidLabel")).click();
-			
-			List <WebElement> mdls = driver.findElements(By.cssSelector(".menuButtonMenuLink"));
-			try {Thread.sleep(4000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-
-			if(a.equals("Ventas"))
-			{			try {Thread.sleep(4000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-
-				for(WebElement e: mdls){
-					if(e.getText().toLowerCase().equals(modulo)){
-						e.click();
-						}break;}
-			}else{
-				for(WebElement e: mdls){
-					if(e.getText().toLowerCase().equals("ventas")){
-						e.click();
-						}break;}
-				try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-				driver.findElement(By.id("tsidLabel")).click();
-				for(WebElement e: mdls){
-					if(e.getText().toLowerCase().equals(modulo)){
-						e.click();
-						}break;}
+			for (WebElement e : mdls) {
+				if (e.getText().toLowerCase().equals(modulo)) {
+					e.click();
+				}
+				break;
 			}
 		}
+	}
 		
-		
-		public boolean verificarContenidoLista(String[] consultar,List <WebElement> Lista) {
-		 
-		     List<String> titleTabla = new ArrayList<String>();
-		     for(WebElement a : Lista) {
-		       titleTabla.add(a.getText().toLowerCase());
-		       System.out.println(a.getText());//Para Verificar que este imprimiendo el texto que buscamos
-		     }     
-		     for(String a:consultar) {
-		      if(!(titleTabla.contains(a))) {
-		    	  System.out.println("fallo en "+a);
-		    	  return false;
-		      }
-		     }
-		     return true;
+	public boolean verificarContenidoLista(String[] consultar, List<WebElement> Lista) {
+
+		List<String> titleTabla = new ArrayList<String>();
+		for (WebElement a : Lista) {
+			titleTabla.add(a.getText().toLowerCase());
+			System.out.println(a.getText());// Para Verificar que este imprimiendo el texto que buscamos
 		}
-		/**
-		 * Desarrollado para ir a consola Fan en F3. (primero va ventas y luego retorna a consola fan)
-		 * @param driver
-		 * @author Almer Fase 3
-		 */
-		public void goInitToConsolaFanF3(WebDriver driver) {
-			try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			HomeBase homePage = new HomeBase(driver);
-		       if(driver.findElement(By.id("tsidLabel")).getText().equals("Consola FAN")) {
-		        homePage.switchAppsMenu();
-		        try {Thread.sleep(2000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		        homePage.selectAppFromMenuByName("Ventas");
-		        try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}    
-		       }
-		       homePage.switchAppsMenu();
-		       try {Thread.sleep(2000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		       homePage.selectAppFromMenuByName("Consola FAN");
-		       try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		       try {
-					driver.switchTo().alert().accept();
-					driver.switchTo().defaultContent();
-				}
-				catch(org.openqa.selenium.NoAlertPresentException e) {}
+		for (String a : consultar) {
+			if (!(titleTabla.contains(a))) {
+				System.out.println("fallo en " + a);
+				return false;
+			}
 		}
-		
-		/**
-		 * Selecciona una Cuenta segun el Nombre
-		 * @param driver
-		 * @author Almer Fase 3
-		 */
-		public void seleccionCuentaPorNombre(WebDriver driver, String nombreCuenta) {
-			try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			goToLeftPanel2(driver, "Cuentas");
-			WebElement frame0 = driver.findElement(By.tagName("iframe"));
-			driver.switchTo().frame(frame0);
-			Select field = new Select(driver.findElement(By.name("fcf")));
-			field.selectByVisibleText("Vista Tech");
-			try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			List<WebElement> accounts = driver.findElements(By.xpath("//*[text() = '"+nombreCuenta+"']"));
-			accounts.get(0).click();
-			try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		return true;
+	}
+
+	/**
+	 * Desarrollado para ir a consola Fan en F3. (primero va ventas y luego retorna
+	 * a consola fan)
+	 * 
+	 * @param driver
+	 * @author Almer Fase 3
+	 */
+	public void goInitToConsolaFanF3(WebDriver driver) {
+		sleepPrivado(3000);
+		HomeBase homePage = new HomeBase(driver);
+		if (driver.findElement(By.id("tsidLabel")).getText().equals("Consola FAN")) {
+			homePage.switchAppsMenu();
+			sleepPrivado(2000);
+			homePage.selectAppFromMenuByName("Ventas");
+			sleepPrivado(5000);
+		}
+		homePage.switchAppsMenu();
+		sleepPrivado(2000);
+		homePage.selectAppFromMenuByName("Consola FAN");
+		sleepPrivado(3000);
+		try {
+			driver.switchTo().alert().accept();
 			driver.switchTo().defaultContent();
+		} catch (org.openqa.selenium.NoAlertPresentException e) {
 		}
+	}
 		
-		/**
-		 * Selecciona una Cuenta segun el Nombre
-		 * @param driver
-		 * @author Almer Fase 3
-		 */
-		public void searchAndClick(WebDriver driver, String busqueda) {
+	/**
+	 * Selecciona una Cuenta segun el Nombre
+	 * 
+	 * @param driver
+	 * @author Almer Fase 3
+	 */
+	public void seleccionCuentaPorNombre(WebDriver driver, String nombreCuenta) {
+		sleepPrivado(3000);
+		goToLeftPanel2(driver, "Cuentas");
+		WebElement frame0 = driver.findElement(By.tagName("iframe"));
+		driver.switchTo().frame(frame0);
+		Select field = new Select(driver.findElement(By.name("fcf")));
+		field.selectByVisibleText("Vista Tech");
+		sleepPrivado(5000);
+		List<WebElement> accounts = driver.findElements(By.xpath("//*[text() = '" + nombreCuenta + "']"));
+		accounts.get(0).click();
+		sleepPrivado(3000);
+		driver.switchTo().defaultContent();
+	}
+
+	/**
+	 * Selecciona una Cuenta segun el Nombre
+	 * 
+	 * @param driver
+	 * @author Almer Fase 3
+	 */
+	public void searchAndClick(WebDriver driver, String busqueda) {
+		Accounts view = new Accounts(driver);
+		sleepPrivado(7000);
+		view.deployEastPanel();
+		BasePage searchImput = new BasePage();
+		List<WebElement> frame1 = driver.findElements(By.tagName("iframe"));
+		int indexFrame = searchImput.getIndexFrame(driver, By.xpath("/html/body/div/div[1]/ng-include/div/div[1]/ng-include/div/div[2]/input"));
+		driver.switchTo().frame(frame1.get(indexFrame));
+		WebElement elemento = driver.findElement(By.xpath("/html/body/div/div[1]/ng-include/div/div[1]/ng-include/div/div[2]/input"));
+		// Escribe en campo de busqueda
+		elemento.sendKeys(busqueda);
+		// Click en el resultado buscado
+		sleepPrivado(3000);
+		WebElement resultado = driver.findElement(By.xpath("//*[text() = '" + busqueda + "']"));
+		resultado.click();
+		driver.switchTo().defaultContent();
+		sleepPrivado(2000);
+	}
 			
-			Accounts view=new Accounts(driver);
-			try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			view.deployEastPanel();
-			
-			BasePage searchImput=new BasePage();
-			List<WebElement> frame1 = driver.findElements(By.tagName("iframe"));
-			int indexFrame = searchImput.getIndexFrame(driver, By.xpath("/html/body/div/div[1]/ng-include/div/div[1]/ng-include/div/div[2]/input"));
-			driver.switchTo().frame(frame1.get(indexFrame));
-			WebElement elemento = driver.findElement(By.xpath("/html/body/div/div[1]/ng-include/div/div[1]/ng-include/div/div[2]/input"));
-			//Escribe en campo de busqueda
-			elemento.sendKeys(busqueda);
-			
-			//Click en el resultado buscado
-			try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			WebElement resultado= driver.findElement(By.xpath("//*[text() = '"+busqueda+"']"));
-			resultado.click();
-			driver.switchTo().defaultContent();
-			try {Thread.sleep(2000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			
-			
-		}
-		
-		
-	/////////////////
-	
 	public static void inicializarDriver() {
 		driver = setConexion.setupEze();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -644,7 +619,6 @@ public class TestBase {
 		//driver.get("https://crm--sit.cs14.my.salesforce.com/");
 		//waitFor(By.xpath("//button[@class='button mb24 secondary wide']"));
 		//driver.findElement(By.xpath("//button[@class='button mb24 secondary wide']")).click();
-		
 		driver.get("https://tuidsrvtest.telecom.com.ar:8443/nidp/app/login?id=IDM_NamePassword&sid=0&option=credential&sid=0&target=https%3A%2F%2Ftuidsrvtest.telecom.com.ar%3A8443%2Fnidp%2Fsaml2%2Fidpsend%3FSAMLRequest%3DjZNtb6owFMe%252FiuE9WB58gAwNiOyyzcEERfbGYCmKSqttgc1PP6Z3y%252B6b5Z6kSU%252FOw%252F%252B0%252FfVu%252FFYeOzWirCDYFGQJCB2EIckKvDWFReSKQ2E8umNpeTwZVsV3eI7OFWK809ZhZlwDplBRbJCUFczAaYmYwaERWrMnQ5GAcaKEE0iOQsdiDFHeCk0IZlWJaIhoXUC0mD%252BZwo7zEzO6XUhLUQy9SIJM1qTyXWLpEbGcUIgkSMoxIyYADgRXUxtZj4SO0w5U4JRfz%252FDViFdFxmjN25jE0RG1xZ8NpJQaQ01Tu7jITt3P%252BZVuu2MIZ%252BMiM8NvtXYGoeM5prBWJlZrsVU4iq%252FOpsMmuVjNzPle4DMMaDZ93CJO5Nw%252FkOfDKZPzHF0WsI%252FtvQfDnftq7zeibfui1uPzZaasEnXpDvk9kQdbSvnpwUly61zF%252BkUnMFELmvW2jyKAzT7FAad59rLcupGLDvpa4d59NfCUd%252F5Sb%252BLFTEtk1d0Dp9gAFTEvOITuLHn0c9H2YxXG6C1YDhprFl1ca1NPFScIavGgNvNYfz739b0zqUMShCt%252FveaYNBSfs2Ja9adsAYKnSmm0OEwUZ%252BW86dZ2kheBdlg95E0SuPtd%252FG7PVziDbvrS3hZjFfIw4ynmpqAAeSDKsgj6kdwzQM9QNElR%252B69CJ%252FiLhF3gG2i%252F8bO5JTHjTxQFYuCH7bMsv4BtE4QbnsZVnP7g8ve26ReMwug%252F0bvr%252FtAZ3bx%252FP8XoAw%253D%253D%26RelayState%3D%252F%26SigAlg%3Dhttp%253A%252F%252Fwww.w3.org%252F2000%252F09%252Fxmldsig%2523rsa-sha1%26Signature%3DTt2v5J4iLGiCWAZy1OvWbgjc93hORZDfCHxkk2WSnVWIXVucRmjzDalrxjE6ND96lDjYxV8nzcuDMAReZKFOf%252B9uS9EOUhC%252FpMRgrdrdz4dMQ5x4Y5XC%252F9W1VWMGDtL%252FwxIXNbSj5UH8T4zGLtCEB6IvDBi6w5dfNxJgtae71L8cJ2wf1b%252BOWJ7yAUZVCN3ZUUkrrYg6UJPCt8CqNo%252FGfwyeN8wtb4T25%252FDhJzhIpmWmjLJFgZTZqcvYpE7NKkwWv6FZ8oO4iRti94O2829xVNV5oXDJ03E9MdoL9JnltlmHSV97WUYb8OKz9mqqnucfZMloUlGmIhp2wGLCEU8%252BZM4lLjt%252F5Z0FD0icF02v9eFvi3gg9lg4%252F7Xu7%252BhnHrw2bH83mCsqNQlJW3eguz8BRYgRFEG8naVRX7MrmiPejZ2146l9GssJxh0naB4YgQDjhb01gYBqiLBliFIWDvrgGF%252BY2heuYVG3dE80MTYsc14zD9G49S5ib0g679P4m5HEx2D2eZEkxRVgGDb58ej5igd%252FWpQ3JAkyq6%252FqU595jyhWa8HlCH9UeyMXSwtgakHABbewF%252Bug%252F6jN%252F61XYhpmb9Wa5fugZNKC5E9jSo2FZUrJnTx0ShCnRwITUcwKM75wLI6ra33eLuMmwv3t6H6%252BFhKiDiGmnMyqBPzhFrwgzVg%253D%26id%3DSalesforceSIT");
 		driver.findElement(By.xpath("//input[@name='Ecom_User_ID']")).sendKeys("u589831");
 		driver.findElement(By.xpath("//input[@name='Ecom_Password']")).sendKeys("Testa10k");
@@ -652,12 +626,13 @@ public class TestBase {
 	}
 		
 	public static class IrA {
+		
 		public static class CajonDeAplicaciones {
+			
 			public static void ConsolaFAN() {
 				driver.switchTo().defaultContent();
 				driver.findElement(By.xpath("//span[@id='tsidLabel']")).click();
 				driver.findElement(By.xpath("//a[contains(.,'Consola FAN')]")).click();
-				
 				try {
 					(new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".x-window.x-window-plain.x-window-dlg")));
 					driver.findElement(By.tagName("button")).click();
@@ -678,9 +653,7 @@ public class TestBase {
 			    	try {Thread.sleep(2000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 			    	homePage.selectAppFromMenuByName("Ventas");
 			    	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}            
-			    }	    
-				
-				
+			    }
 				//driver.switchTo().defaultContent();
 				//driver.findElement(By.xpath("//span[@id='tsidLabel']")).click();
 				//driver.findElement(By.xpath("//a[contains(.,'Ventas')]")).click();
@@ -692,93 +665,94 @@ public class TestBase {
 		WebDriverWait ed = new WebDriverWait(driver, 7);
 		return ed;
 	}
-	
+
 	public static class waitFor {
 		public static void visibilityOfAllElements(List<WebElement> elems) {
 			dynamicWait().until(ExpectedConditions.visibilityOfAllElements(elems));
 		}
-		
+
 		public static void visibilityOfElement(WebElement elem) {
 			dynamicWait().until(ExpectedConditions.visibilityOf(elem));
 		}
-		
+
 		public static void elementToBeSelected(WebElement elem) {
 			dynamicWait().until(ExpectedConditions.elementToBeSelected(elem));
 		}
-		
+
 		public static void attributeContains(WebElement elem, String atrib, String valor) {
 			dynamicWait().until(ExpectedConditions.attributeContains(elem, atrib, valor));
 		}
-		
+
 		public static void elementToBeClickable(WebElement elem) {
 			dynamicWait().until(ExpectedConditions.elementToBeClickable(elem));
 		}
 	}
-		
-	public void sleep(int miliseconds) {
-		if(urlAmbiente.contains("sit"))
-			try {Thread.sleep(miliseconds+5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		else
-			try {Thread.sleep(miliseconds+5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	
+	private void sleepPrivado(int miliseconds) {
+		try {Thread.sleep(miliseconds);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	
+	public void sleep(int miliseconds) {
+		sleepPrivado(miliseconds + 5000);
+	}
+
 	public List<String> obtenerElAtributoDeLosElementos(String atributo, List<WebElement> elementos) {
 		List<String> valores = new ArrayList<String>();
 		for (WebElement elem : elementos) {
 			valores.add(elem.getAttribute(atributo));
 		}
-		
+
 		return valores;
 	}
-	
+
 	public Boolean esObligatorio(WebElement campo) {
 		return campo.getAttribute("class").contains("ng-invalid-required");
 	}
-	
+
 	public Boolean esValido(WebElement campo) {
 		sleep(300);
 		return (!campo.getAttribute("class").contains("invalid"));
 	}
-	
+
 	public String obtenerValorDelCampo(WebElement campo) {
 		return campo.getAttribute("value");
 	}
-	
+
 	public String fechaDeHoy() {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
-		return(dateFormat.format(date));
+		return (dateFormat.format(date));
 	}
-	
-	public void selectByText(WebElement element, String data){
+
+	public void selectByText(WebElement element, String data) {
 		Select select = new Select(element);
 		select.selectByVisibleText(data);
 		sleep(2000);
 	}
 	
-	public int getIndexFrame(WebDriver driver, By byForElement) { //working correctly
-		//TODO: Do the same for a WebElement instead of a By.
+	public int getIndexFrame(WebDriver driver, By byForElement) { // working correctly
+		// TODO: Do the same for a WebElement instead of a By.
 		int index = 0;
 		driver.switchTo().defaultContent();
 		List<WebElement> frames = driver.findElements(By.tagName("iframe"));
-		for(WebElement frame : frames) {
+		for (WebElement frame : frames) {
 			try {
 				driver.switchTo().frame(frame);
 
-				driver.findElement(byForElement).getText(); //each element is in the same iframe.
-				//System.out.println(index); //prints the used index.
+				driver.findElement(byForElement).getText(); // each element is in the same iframe.
+				// System.out.println(index); //prints the used index.
 
-				driver.findElement(byForElement).isDisplayed(); //each element is in the same iframe.
-				//System.out.println(index); //prints the used index.
+				driver.findElement(byForElement).isDisplayed(); // each element is in the same iframe.
+				// System.out.println(index); //prints the used index.
 
 				driver.switchTo().defaultContent();
 				return index;
-			}catch(NoSuchElementException noSuchElemExcept) {
+			} catch (NoSuchElementException noSuchElemExcept) {
 				index++;
 				driver.switchTo().defaultContent();
 			}
 		}
-		return -1; //if this is called, the element wasnt found.
+		return -1; // if this is called, the element wasnt found.
 	}
 	
 	public WebElement cambioFrame(WebDriver driver, By byForElement) {
@@ -791,269 +765,75 @@ public class TestBase {
 		}
 	}
 	
-	//Metodo para obtener el dato deseado del excel indicando la hoja o pesta;a donde se encuentra (se agrupa por modulo)
-	public String buscarCampoExcel(int hoja, String desc, int columna) throws IOException
-	{
+	// Metodo para obtener el dato deseado del excel indicando la hoja o pesta;a donde se encuentra (se agrupa por modulo)
+	public String buscarCampoExcel(int hoja, String desc, int columna) throws IOException {
 		String Campo = null;
-		 File archivo = new File("Cuentas.xlsx");
-		 FileInputStream file = new FileInputStream(archivo);
-	     XSSFWorkbook workbook = new XSSFWorkbook(file); 
-	     XSSFSheet sheet = workbook.getSheetAt(hoja);
-	     Iterator<Row> rows = sheet.rowIterator();
-	    // rows.next();
-	     System.out.println("Aquiiiii");
-	     System.out.println(rows.next().getCell(0).getStringCellValue());
-	     while (rows.hasNext()) {
-	    	 
-		    XSSFRow row = (XSSFRow) rows.next();
-		   // System.out.println(row.getCell(0).getStringCellValue());
-		    if (row.getCell(0).getStringCellValue().toLowerCase().contains(desc.toLowerCase())){
-		    	try {Campo = row.getCell(columna).getStringCellValue();}
-		    	catch (java.lang.IllegalStateException ex1) 
-		    	{  
-		    		Campo = Double.toString(row.getCell(columna).getNumericCellValue());
-		    		if(Campo.contains("E")) 
-		    		{	
-		    			Campo = Double.toString(row.getCell(columna).getNumericCellValue());
-		    			Campo = Campo.substring(0, Campo.indexOf("E")).replace(".","" );
-		    		}
-		    	}
-		    	break;
-		    }
-		 }
+		File archivo = new File("Cuentas.xlsx");
+		FileInputStream file = new FileInputStream(archivo);
+		XSSFWorkbook workbook = new XSSFWorkbook(file);
+		XSSFSheet sheet = workbook.getSheetAt(hoja);
+		Iterator<Row> rows = sheet.rowIterator();
+		// rows.next();
+		System.out.println("Aquiiiii");
+		System.out.println(rows.next().getCell(0).getStringCellValue());
+		while (rows.hasNext()) {
+			XSSFRow row = (XSSFRow) rows.next();
+			// System.out.println(row.getCell(0).getStringCellValue());
+			if (row.getCell(0).getStringCellValue().toLowerCase().contains(desc.toLowerCase())) {
+				try {
+					Campo = row.getCell(columna).getStringCellValue();
+				} catch (java.lang.IllegalStateException ex1) {
+					Campo = Double.toString(row.getCell(columna).getNumericCellValue());
+					if (Campo.contains("E")) {
+						Campo = Double.toString(row.getCell(columna).getNumericCellValue());
+						Campo = Campo.substring(0, Campo.indexOf("E")).replace(".", "");
+					}
+				}
+				break;
+			}
+		}
 		return (Campo);
 	}
 	
 	private String dataProviderCuentas() {
 		String sDataProviderCuentas;
-		
 		if (urlAmbiente.contains("sit".toLowerCase())) {
 			sDataProviderCuentas = "CuentasSIT.xlsx";
-		}
-		else {
+		} else {
 			if (urlAmbiente.contains("uat")) {
 				sDataProviderCuentas = "CuentasUAT.xlsx";
-			}
-			else {
+			} else {
 				System.out.println("Error de URL!");
 				sDataProviderCuentas = null;
 			}
 		}
-		
 		return sDataProviderCuentas;
 	}
 	
 	public String dataProviderE2E() {
 		String sDataProviderE2E;
-		
 		if (urlAmbiente.contains("sit02")) {
 			sDataProviderE2E = "E2ESIT.xlsx";
-		}
-		else {
+		} else {
 			if (urlAmbiente.contains("uat02")) {
 				sDataProviderE2E = "E2EUAT.xlsx";
-			}
-			else {
+			} else {
 				System.out.println("Error de URL!");
 				sDataProviderE2E = null;
 			}
 		}
-		
 		return sDataProviderE2E;
 	}
 	
-	@DataProvider
-	public Object[][] Tech() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Tech",1,1,3);
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] SalesCuentaInactiva() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Sales",1,1,3,"Cuenta Inactiva");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] CustomerCuentaActiva() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Customer",1,1,1);
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] SalesCuentaActiva() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Sales",1,1,3,"Cuenta Activa");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] SalesContactoSinCuenta() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Sales",1,1,2,"Contacto sin cuenta");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] SalesBlacklist() throws Exception{
-
-		 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Sales",1,1,2,"Blacklist");
-		 return (testObjArray);
-
-	}
-	
-	
-	@DataProvider
-	public Object[][] SalesCuentaConGestiones() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Sales",1,1,3,"Cuenta con gestiones");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] SalesCuentaBolsa() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Sales",1,1,3,"Cuenta Bolsa");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] OMAltaLinea() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","OM",1,1,7,"AltaLinea");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] OMAltaCompleta() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","OM",1,1,10,"AltaLineaC");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] OMCambioSim() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","OM",1,1,9,"CambioSim");
-
-	 return (testObjArray);
-
-	}
-	@DataProvider
-	public Object[][] OMCambioDeSimSiniestro() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","OM",1,1,9,"CambioDeSimSiniestro");
-
-	 return (testObjArray);
-
-	}
-	@DataProvider
-	public Object[][] OMCambioDeNumero() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","OM",1,1,7,"CambioDeNumero");
-
-	 return (testObjArray);
-
-	}
-	@DataProvider
-	public Object[][] OMNominacion() throws Exception{
-
-		 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","OM",1,1,3,"Nominacion");
-
-		 return (testObjArray);
-
-		}
-	
-	@DataProvider
-	public Object[][] SalesPasaporteBolsa() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Sales",1,1,3,"Pasaporte Bolsa");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] MarketingCuentaNormal() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Marketing",1,1,1,"Cuenta Normal");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] MarketingCuentaConMora() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Marketing",1,1,1,"Cuenta c/ Mora");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] MarketingCuentaConFraude() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Marketing",1,1,1,"Cuenta c/ Fraude");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] MarketingCuentaSinServicio() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Marketing",1,1,1,"Cuenta sin Servicio");
-
-	 return (testObjArray);
-
-	}
-	/**
-	 * Inicia session en Login interno
-	 * @param driver
-	 * @param Ambiente
-	 * @param User
-	 * @param Password
-	 */
 	public void login(WebDriver driver, String Ambiente, String User, String Password ) {
 		driver.get(Ambiente);
-		sleep(4000);
-	    Login page0 = new Login(driver);
+		sleepPrivado(4000);
+		Login page0 = new Login(driver);
 	    page0.ingresar(User, Password);
 	}
 	
-	@DataProvider
-	public Object[][] MarketingCuentaAtributosYExclusiones() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Marketing",1,1,1,"Cuenta Atributos y Exclusiones");
-
-	 return (testObjArray);
-
-	}
-	
-	public void buscarYClick(List <WebElement> elements, String match, String texto) {
-		sleep(2000);
+	public void buscarYClick(List<WebElement> elements, String match, String texto) {
+		sleepPrivado(2000);
 		switch (match) {
 		case "contains":
 			for (WebElement x : elements) {
@@ -1072,392 +852,31 @@ public class TestBase {
 			}
 			break;
 		}
-		sleep(2000);
+		sleepPrivado(2000);
 	}
 	
 	public void cambiarListaLightningAVistaClasica(WebDriver driver) {
 		try {
-			sleep(2000);
-			driver.findElement(By.cssSelector(".bare.branding-userProfile-button.slds-button.uiButton.forceHeaderButton.oneUserProfileCardTrigger")).click();
-			sleep(1000);
+			clickBy(driver, By.cssSelector(".bare.branding-userProfile-button.slds-button.uiButton.forceHeaderButton.oneUserProfileCardTrigger"), 0);
+			sleepPrivado(1000);
 			WebElement wSalesforceClassic = driver.findElement(By.className("profile-card-footer"));
 			wSalesforceClassic.findElement(By.tagName("a")).click();
-			sleep(2000);
-		}
-		catch(Exception ex) {
-			//Always Empty
+			sleepPrivado(2000);
+		} catch (Exception ex) {
 		}
 	}
-	
-	@DataProvider
-	public Object[][] OMCambioTitularidad() throws Exception{
-
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","OM",1,1,6,"Cambio de Titularidad"); 
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] DatosSalesNominacion() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,12,"Nominacion");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] DatosSalesNominacionNuevoOfCom() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,14,"NominacionNuevoOfCom");
-
-	 return (testObjArray);
-
-	}
-	
-	
-	@DataProvider
-	public Object[][] NominacionExistenteOfCom() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,4,"NominacionExistenteOfCom");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] DatosNoNominacionNuevoAgente() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,7,"NoNominaNuevoAgente");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] DatosSalesNominacionNuevoAgente() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,14,"NominacionNuevoAgente");
-
-	 return (testObjArray);
-
-	}
-	@DataProvider
-	public Object[][] DatosSalesNominacionNuevoPasaporteOfCom() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,15,"NominacionNuevoPasaporteOfCom");
-
-	 return (testObjArray);
-
-	}
-	@DataProvider
-	public Object[][] DatosNoNominaNuevoEdadOfCom() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,4,"NoNominaNuevoEdadOfCom");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] DatosNoNominacionNuevoTelefonico() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,7,"NoNominaNuevoTelefonico");
-
-	 return (testObjArray);
-
-	}
-	//
-	
-	@DataProvider
-	public Object[][] DatosAltaLineaAgente() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,16,"Alta Linea Agente");
-
-	 return (testObjArray);
-
-	}
-
-	@DataProvider
-	public Object[][] DatosSalesAltaLineaEquipo() throws Exception{ //para verificar, por las dudas no se borro.
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","PreparacionDatos",1,1,9,"Alta Linea Equip New AG");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] PerfilCuentaSeiscientos() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","PerfilGestiones",1,1,4,"Cuenta Seiscientos");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] RecargaTC() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,12,"Recargas TC");
-
-	 return (testObjArray);
-
-	}
-	@DataProvider
-	public Object[][] DatosAltaLineaOfCom() throws Exception{//verofocadp
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,15,"Alta Linea OFCOM");
-
-	 return (testObjArray);
-
-	}
-	@DataProvider
-	public Object[][] AltaLineaNuevoAgentePresencial() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,12,"Alta Linea Nuevo Agente Presencial");
-
-	 return (testObjArray);
-
-	}
-	@DataProvider
-	public Object[][] AltaLineaExistenteOfComPresencial() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,4,"Alta Linea Existente OfCom Presencial");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] RenovacionCuotaConSaldo() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,3,"Renovacion Cuota Con Saldo");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] RenovacionCuotaSinSaldo() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,3,"Renovacion Cuota Sin Saldo");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] RenovacionCuotaSinSaldoConTC() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,14,"Renovacion Cuota TC");
-
-	 return (testObjArray);
-
-	}
-	@DataProvider
-	public Object[][] RenovacionCuotaconSaldoConTC() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,14,"Renovacion Cuota Con TC Con Saldo");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] NumerosAmigos() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"Numeros Amigos");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] AltaServicios() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Alta Servicio");
-
-	 return (testObjArray);
-
-	}
-	@DataProvider
-	public Object[][] BajaServicios() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Baja Servicio");
-
-	 return (testObjArray);
-
-	}
-	@DataProvider
-	public Object[][] VentaPacks() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Venta de pack saldo");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] packUruguay() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"packUruguay");
-
-	 return (testObjArray);
-
-	}
-	
-	
-	@DataProvider
-	public Object [][] ventaPack50Tele() throws Exception{
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"Pack 50min Tel");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider // no esta en el data provi
-	public Object [][] ventaPack50ofic() throws Exception{
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack 50 min Oficina");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object [][] ventaX1Dia() throws Exception{
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"packDe1DiaPersonal");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object [][] ventaPackInternacional30SMS() throws Exception{
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"packTelefoInternacional30SMS");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object [][] ventaPack500min() throws Exception{
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack500min");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object [][] ventaPackA40() throws Exception{
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackAdela40");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object [][] ventaPackM2M() throws Exception{
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack M2M 10");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object [][] PackOfCom() throws Exception{
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,7,"packOfCom");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object [][] PackAgente() throws Exception{
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"packAgente");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object[][] CuentaSuspension() throws Exception {
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,5,"SuspensionOficina");
-		
-		return(testObjArray);
-		
-	}
-	
-	
-	@DataProvider
-	public Object [][] CuentaAjustesPRE() throws Exception {
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Ajustes PRE");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object [][] CuentaAjustesREPRO() throws Exception {
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Ajustes REPRO");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object [][] CuentaProblemaRecarga() throws Exception{
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,2,"ProblemaRecargas");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object [][] CuentaProblemaRecargaAYD() throws Exception{
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,4,"ProblemaRecargaAyD");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object [][] CuentaProblemaRecargaQuemada() throws Exception{
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,4,"ProblemaRecargaQuemada");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object [][] ProblemaRecargaPrepaga() throws Exception{
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,4,"ProblemaRecargaPrepaga");
-		
-		return (testObjArray);
-	}
-	
-	@DataProvider
-	public Object [][] CuentaHabilitacion() throws Exception {
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,2,"Habilitacion");
-		
-		return (testObjArray);
-	} 
 	
 	public void guardarListaTxt(List<String> datosOrden) throws IOException {
-		File archivo=new File("DatosOrdenes.txt");
-		/*if (!archivo.exists())
-			FileWriter ArchiSa=new FileWriter(archivo,true);
-			//archivo.delete();*/
-		//Crear objeto FileWriter que sera el que nos ayude a escribir sobre archivo
-		FileWriter ArchiSa=new FileWriter(archivo.getAbsoluteFile(),true);
+		File archivo = new File("DatosOrdenes.txt");
+		// if (!archivo.exists())
+		// FileWriter ArchiSa=new FileWriter(archivo,true);
+		// archivo.delete();
+		// Crear objeto FileWriter que sera el que nos ayude a escribir sobre archivo
+		FileWriter ArchiSa = new FileWriter(archivo.getAbsoluteFile(), true);
 		BufferedWriter bw = new BufferedWriter(ArchiSa);
-		PrintWriter wr = new PrintWriter(bw); 
-		for(String UnD: datosOrden) {
-			wr.append(UnD+"\r\n");
+		PrintWriter wr = new PrintWriter(bw);
+		for (String UnD : datosOrden) {
+			wr.append(UnD + "\r\n");
 		}
 		wr.close();
 		bw.close();
@@ -1466,10 +885,10 @@ public class TestBase {
 	
 	public void loginCBS(WebDriver driver) {
 		driver.get(urlAmbiente);
-		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	    Login lLogin = new Login(driver);
-	    lLogin.ingresarCBS();
-	    driver.get("https://10.75.39.140:8081/main.action?ssLogin=true&BMEWebToken=be935f78-f517-441c-a299-c5a1ba3f1f411b7c8915-7f90-4b1d-bee6-15837afe7b05");
+		sleepPrivado(5000);
+		Login lLogin = new Login(driver);
+		lLogin.ingresarCBS();
+		driver.get("https://10.75.39.140:8081/main.action?ssLogin=true&BMEWebToken=be935f78-f517-441c-a299-c5a1ba3f1f411b7c8915-7f90-4b1d-bee6-15837afe7b05");
 	}
 	
 	public void CambiarPerfil(String perfil, WebDriver driver) {
@@ -1489,7 +908,7 @@ public class TestBase {
 //		sleep(5000);
 		driver.get(urlAmbiente);
 		driver.findElement(By.id("userNav")).click();
-		sleep(2000);
+		sleepPrivado(2000);
 		System.out.println(driver.findElement(By.id("userNav-menuItems")).findElements(By.tagName("a")).get(4).getText());
 		driver.findElement(By.id("userNav-menuItems")).findElements(By.tagName("a")).get(4).click();
 		//driver.findElement(By.id("cancel_idp_hint")).click();
@@ -1524,16 +943,710 @@ public class TestBase {
 		 case "fanfront":
 			 loginFANFront(driver);
 		 }
-		 sleep(10000);
+		 sleepPrivado(10000);
+	}
+	
+	public void tomarCaptura(WebDriver driver, String imageName) {
+	      //Directorio donde quedaran las imagenes guardadas
+		File directory;
+		if(urlAmbiente.contains("sit"))
+	      directory = new File("imagenesSIT");
+		else
+		  directory = new File("imagenesUAT");
+	 
+	      try {
+	         if (directory.isDirectory()) {
+	            //Toma la captura de imagen
+	            File imagen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+	            //Mueve el archivo a la carga especificada con el respectivo nombre
+	            FileUtils.copyFile(imagen, new File(directory.getAbsolutePath()   + "\\" + imageName + ".png"));
+	         } else {
+	            //Se lanza la excepcion cuando no encuentre el directorio
+	            throw new IOException("ERROR : La ruta especificada no es un directorio!");
+	         }
+	      } catch (IOException e) {
+	         //Impresion de Excepciones
+	         e.printStackTrace();
+	      }
+   }
+	
+	public void abrirPestaniaNueva(WebDriver driver) throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_CONTROL);
+		r.keyPress(KeyEvent.VK_T);
+		r.keyRelease(KeyEvent.VK_CONTROL);
+		r.keyRelease(KeyEvent.VK_T);
+	}
+	
+	public void loginCommunity(WebDriver driver) {
+		driver.get(urlCommunity);
+		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	    Login lLogin = new Login(driver);
+	    lLogin.ingresarComunidad();
+	}
+	
+	public void guardarLineasNominadas(String data) throws IOException {
+		File archivo = new File("DatosNominacion.txt");
+		// if (!archivo.exists())
+		// FileWriter ArchiSa=new FileWriter(archivo,true);
+		// archivo.delete();
+		// Crear objeto FileWriter que sera el que nos ayude a escribir sobre archivo
+		FileWriter ArchiSa = new FileWriter(archivo.getAbsoluteFile(), true);
+		BufferedWriter bw = new BufferedWriter(ArchiSa);
+		PrintWriter wr = new PrintWriter(bw);
+		wr.append(data + "\r\n");
+		wr.close();
+		bw.close();
+		ArchiSa.close();
+	}
+	
+	public String obtenerChargeCode() {
+		WebElement box = driver.findElements(By.cssSelector(".slds-button.slds-button_icon-border-filled.cpq-item-actions-dropdown-button")).get(2);
+		box.click();
+		((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", box);
+		WebElement configure = driver.findElements(By.cssSelector(".slds-dropdown.slds-dropdown_right.cpq-item-actions-dropdown")).get(2);
+		buscarYClick(configure.findElements(By.tagName("a")), "contains", "configure");
+		WebElement chargeCode = null;
+		for (WebElement x : driver.findElements(By.className("slds-form-element"))) {
+			if (x.getText().toLowerCase().contains("charge code"))
+				chargeCode = x;
+		}
+		((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", chargeCode);
+		return chargeCode.findElement(By.tagName("input")).getAttribute("value");
+	}
+	
+	public void loginLogisticaYEntrega(WebDriver driver) {
+		driver.get(urlAmbiente);
+		try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	    Login page0 = new Login(driver);
+	    page0.ingresarLogisticaYEntrega();
+	}
+	
+	//================================================== Metodos Jose ========================================================\\
+	
+	private WebElement frameConElElemento (WebDriver driver, By byForElement) {
+		List<WebElement> frames = driver.findElements(By.tagName("iframe"));
+		driver.switchTo().defaultContent();
+		for (WebElement frame : frames) {
+			try {
+				driver.switchTo().frame(frame);
+				driver.findElement(byForElement);
+				driver.switchTo().defaultContent();
+				return frame;
+			} catch (NoSuchElementException e) {
+				driver.switchTo().defaultContent();
+			}
+		}
+		return null;
+	}
+
+	public void cambioDeFrame(WebDriver driver, By byForElement, double timeAcumulated) {
+		if (18 > timeAcumulated) {
+			try {
+				WebElement myFrame = frameConElElemento(driver, byForElement);
+				driver.switchTo().frame(myFrame);
+			} catch (Exception e1) {
+				sleepPrivado(250);
+				cambioDeFrame(driver, byForElement, timeAcumulated + 0.250);
+			}
+		}
+	}
+	
+	public void sleepFindBy (WebDriver driver, By byForElement, double timeAcumulated) {
+		if (10 > timeAcumulated) {
+			try {
+				driver.findElement(byForElement);
+			} catch (Exception e) {
+				sleepPrivado(250);
+				sleepFindBy(driver, byForElement, timeAcumulated + 0.250);
+			}
+		}
+	}
+	
+	public void sleepFindBy (WebElement element, By byForElement, double timeAcumulated) {
+		if (10 > timeAcumulated) {
+			try {
+				element.findElement(byForElement);
+			} catch (Exception e) {
+				sleepPrivado(250);
+				sleepFindBy(element, byForElement, timeAcumulated + 0.250);
+			}
+		}
+		}
+
+	public void sleepClickBy(WebDriver driver, By byForElement, double timeAcumulated) {
+		WebElement element = null;
+		if (10 < timeAcumulated) {
+			element.click();
+		}
+		try {
+			driver.findElement(byForElement).click();
+		} catch (Exception e) {
+			sleepPrivado(250);
+			sleepClickBy(driver, byForElement, timeAcumulated + 0.250);
+		}
+	}
+	
+	public void esperarElemento(WebDriver driver, By byForElement, double timeAcumulated) {
+		if (10 > timeAcumulated) {
+			try {
+				driver.findElement(byForElement);
+			} catch (Exception e) {
+				sleepPrivado(250);
+				esperarElemento(driver, byForElement, timeAcumulated + 0.250);
+			}
+		} else {System.out.println("Elemento No Encontrado! Metodo: esperarElemento.");}
+	}
+	
+	public void esperarElemento(WebElement element, By byForElement, double timeAcumulated) {
+		if (10 > timeAcumulated) {
+			try {
+				element.findElement(byForElement);
+			} catch (Exception e) {
+				sleepPrivado(250);
+				esperarElemento(element, byForElement, timeAcumulated + 0.250);
+			}
+		} else {System.out.println("Elemento No Encontrado! Metodo: esperarElemento.");}
+	}
+
+	public void clickBy(WebDriver driver, By byForElement, double timeAcumulated) {
+		WebElement error = null;
+		if (10 < timeAcumulated) {
+			error.click();
+		}
+		try {
+			driver.findElement(byForElement).click();
+		} catch (Exception e) {
+			sleepPrivado(250);
+			clickBy(driver, byForElement, timeAcumulated + 0.100);
+		}
+	}
+	
+	public void clickBy(WebElement element, By byForElement, double timeAcumulated) {
+		WebElement error = null;
+		if (10 < timeAcumulated) {
+			error.click();
+		}
+		try {
+			element.findElement(byForElement).click();
+		} catch (Exception e) {
+			sleepPrivado(250);
+			clickBy(driver, byForElement, timeAcumulated + 0.100);
+		}
+	}
+
+	public void elementosRequeridos(WebDriver driver, By byForElements, int numberOfElements, double timeAcumulated) {
+		if (10 > timeAcumulated) {
+			if (driver.findElements(byForElements).size() < numberOfElements) {
+				sleepPrivado(250);
+				elementosRequeridos(driver, byForElements, numberOfElements, timeAcumulated + 0.250);
+			}
+		} else {System.out.println("No encontro el numero de elementos minimo indicado para la lista");}
+	}
+	
+	//===================================================== DATA PROVIDER =====================================================\\
+	
+	@DataProvider
+	public Object[][] Tech() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Tech", 1, 1, 3);
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] SalesCuentaInactiva() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Cuenta Inactiva");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] CustomerCuentaActiva() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Customer", 1, 1, 1);
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] SalesCuentaActiva() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Cuenta Activa");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] SalesContactoSinCuenta() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 2, "Contacto sin cuenta");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] SalesBlacklist() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 2, "Blacklist");
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] SalesCuentaConGestiones() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Cuenta con gestiones");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] SalesCuentaBolsa() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Cuenta Bolsa");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] OMAltaLinea() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 7, "AltaLinea");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] OMAltaCompleta() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 10, "AltaLineaC");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] OMCambioSim() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 9, "CambioSim");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] OMCambioDeSimSiniestro() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 9, "CambioDeSimSiniestro");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] OMCambioDeNumero() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 7, "CambioDeNumero");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] OMNominacion() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 3, "Nominacion");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] SalesPasaporteBolsa() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Pasaporte Bolsa");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] MarketingCuentaNormal() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta Normal");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] MarketingCuentaConMora() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta c/ Mora");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] MarketingCuentaConFraude() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta c/ Fraude");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] MarketingCuentaSinServicio() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta sin Servicio");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] MarketingCuentaAtributosYExclusiones() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta Atributos y Exclusiones");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] OMCambioTitularidad() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 6, "Cambio de Titularidad");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] DatosSalesNominacion() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "Altas y Nominacion", 1, 1, 12, "Nominacion");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] DatosSalesNominacionNuevoOfCom() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 14, "NominacionNuevoOfCom");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] NominacionExistenteOfCom() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 4, "NominacionExistenteOfCom");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] DatosNoNominacionNuevoAgente() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 7, "NoNominaNuevoAgente");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] DatosSalesNominacionNuevoAgente() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 14, "NominacionNuevoAgente");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] DatosSalesNominacionNuevoPasaporteOfCom() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 15, "NominacionNuevoPasaporteOfCom");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] DatosNoNominaNuevoEdadOfCom() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 4, "NoNominaNuevoEdadOfCom");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] DatosNoNominacionNuevoTelefonico() throws Exception {
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 7, "NoNominaNuevoTelefonico");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] DatosAltaLineaAgente() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,16,"Alta Linea Agente");
+
+		return (testObjArray);
+	}
+
+	@DataProvider
+	public Object[][] DatosSalesAltaLineaEquipo() throws Exception{ //para verificar, por las dudas no se borro.
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","PreparacionDatos",1,1,9,"Alta Linea Equip New AG");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] PerfilCuentaSeiscientos() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","PerfilGestiones",1,1,4,"Cuenta Seiscientos");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] RecargaTC() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,12,"Recargas TC");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] DatosAltaLineaOfCom() throws Exception{//verofocadp
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,15,"Alta Linea OFCOM");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] AltaLineaNuevoAgentePresencial() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,12,"Alta Linea Nuevo Agente Presencial");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] AltaLineaExistenteOfComPresencial() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,4,"Alta Linea Existente OfCom Presencial");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] RenovacionCuotaConSaldo() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,3,"Renovacion Cuota Con Saldo");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] RenovacionCuotaSinSaldo() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,3,"Renovacion Cuota Sin Saldo");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] RenovacionCuotaSinSaldoConTC() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,14,"Renovacion Cuota TC");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] RenovacionCuotaconSaldoConTC() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,14,"Renovacion Cuota Con TC Con Saldo");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] NumerosAmigos() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"Numeros Amigos");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] AltaServicios() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Alta Servicio");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] BajaServicios() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Baja Servicio");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] VentaPacks() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Venta de pack saldo");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] packUruguay() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"packUruguay");
+
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] ventaPack50Tele() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"Pack 50min Tel");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider // no esta en el data provider
+	public Object[][] ventaPack50ofic() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack 50 min Oficina");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] ventaX1Dia() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"packDe1DiaPersonal");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] ventaPackInternacional30SMS() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"packTelefoInternacional30SMS");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] ventaPack500min() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack500min");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] ventaPackA40() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackAdela40");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] ventaPackM2M() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack M2M 10");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] PackOfCom() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,7,"packOfCom");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] PackAgente() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"packAgente");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] CuentaSuspension() throws Exception {
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,5,"SuspensionOficina");
+		
+		return(testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] CuentaAjustesPRE() throws Exception {
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Ajustes PRE");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] CuentaAjustesREPRO() throws Exception {
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Ajustes REPRO");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] CuentaProblemaRecarga() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,2,"ProblemaRecargas");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] CuentaProblemaRecargaAYD() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,4,"ProblemaRecargaAyD");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] CuentaProblemaRecargaQuemada() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,4,"ProblemaRecargaQuemada");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] ProblemaRecargaPrepaga() throws Exception{
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,4,"ProblemaRecargaPrepaga");
+		
+		return (testObjArray);
+	}
+	
+	@DataProvider
+	public Object[][] CuentaHabilitacion() throws Exception {
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,2,"Habilitacion");
+		
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] RecargaEfectivo() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,3,"Recarga Efectivo");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,3,"Recarga Efectivo");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider
@@ -1544,7 +1657,6 @@ public class TestBase {
 		return (testObjArray);
 	}
 	
-	
 	@DataProvider
 	public Object[][] CambioSimCardAgente() throws Exception{
 		
@@ -1552,6 +1664,7 @@ public class TestBase {
 		
 		return (testObjArray);
 	}
+	
 	@DataProvider
 	public Object[][] CambioSimCardOficina() throws Exception{
 		
@@ -1579,53 +1692,49 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosAltaEquipoExiste() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,5,"Alta Linea Equipo Existe");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,5,"Alta Linea Equipo Existe");
 
-	 return (testObjArray);
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] AltaLineaNuevoEquipoTC() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,22,"Alta Linea Equip New AG Credito");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,22,"Alta Linea Equip New AG Credito");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] VentaNuevoEquipoOfCom() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,12,"Venta Equipo New OfCom");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,12,"Venta Equipo New OfCom");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
+	
 	@DataProvider
 	public Object[][] DatosAltaAgenteCredito() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,17,"Alta Linea AG TC");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,17,"Alta Linea AG TC");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] PerfilCuentaTomRiddleConLinea() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,14,"Recargas TC");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,14,"Recargas TC");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] AltaLineaExistenteOfComTD() throws Exception{//verificado
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,9,"Alta Linea Existe OfCom Debito");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,9,"Alta Linea Existe OfCom Debito");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider
@@ -1679,179 +1788,129 @@ public class TestBase {
 	@DataProvider(name = "SerialInexistente")
 	public Object[][] SerialInexistente() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,10,"SerialInexistente");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,10,"SerialInexistente");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider(name = "SerialConDepositoErroneo")
 	public Object[][] SerialConDepositoErroneo() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,7,"SerialConDepositoErroneo");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,7,"SerialConDepositoErroneo");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider(name = "SerialConFormatoInvalido")
 	public Object[][] SerialConFormatoInvalido() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,7,"SerialConFormatoInvalido");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,7,"SerialConFormatoInvalido");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider(name = "SerialBalido")
 	public Object[][] SerialBalido() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"SerialBalido");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"SerialBalido");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider(name = "DosSerialesValidos")
 	public Object[][] DosSerialesValidos() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,8,"DosSerialesValidos");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,8,"DosSerialesValidos");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider(name = "ArchivoVacio")
 	public Object[][] ArchivoVacio() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,7,"ArchivoVacio");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,7,"ArchivoVacio");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider(name = "SerialNoMCVM")
 	public Object[][] SerialNoMCVM() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,7,"SerialNoMCVM");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,7,"SerialNoMCVM");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider(name = "SerialesNoValidos")
 	public Object[][] SerialesNoValidos() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,7,"SerialesNoValidos");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,7,"SerialesNoValidos");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider(name = "SerialValidoEterno")
 	public Object[][] SerialValidoEterno() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,7,"SerialValidoEterno");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,7,"SerialValidoEterno");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
-	
-	
-	
-	public void tomarCaptura(WebDriver driver, String imageName) {
-	      //Directorio donde quedaran las imagenes guardadas
-		File directory;
-		if(urlAmbiente.contains("sit"))
-	      directory = new File("imagenesSIT");
-		else
-		  directory = new File("imagenesUAT");
-	 
-	      try {
-	         if (directory.isDirectory()) {
-	            //Toma la captura de imagen
-	            File imagen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-	            //Mueve el archivo a la carga especificada con el respectivo nombre
-	            FileUtils.copyFile(imagen, new File(directory.getAbsolutePath()   + "\\" + imageName + ".png"));
-	         } else {
-	            //Se lanza la excepcion cuando no encuentre el directorio
-	            throw new IOException("ERROR : La ruta especificada no es un directorio!");
-	         }
-	      } catch (IOException e) {
-	         //Impresion de Excepciones
-	         e.printStackTrace();
-	      }
-   }
 	
 	@DataProvider
 	public Object[][] AltaLineaNuevoconEquipo() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,13,"Linea Nueva Equipo AG");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,13,"Linea Nueva Equipo AG");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
+	
 	@DataProvider
 	public Object[][] AltaLineaEquipoOfCom() throws Exception{//verofocadp
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,8,"Linea Equipo Nuevo OfCom");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,8,"Linea Equipo Nuevo OfCom");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] NumerosAmigosModificacion() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"Amigos Modificacion");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"Amigos Modificacion");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] NumerosAmigosBaja() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,3,"Amigos Baja");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,3,"Amigos Baja");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] RecargaTD() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,12,"Recargas TD");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,12,"Recargas TD");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] VentaExisteEquipoAgTd() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,9,"Venta Equipo Existe AG Debito");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,9,"Venta Equipo Existe AG Debito");
 
-	 return (testObjArray);
-
-	}
-	
-	public void abrirPestaniaNueva(WebDriver driver) throws AWTException
-	{
-		Robot r = new Robot();       
-		r.keyPress(KeyEvent.VK_CONTROL); 
-		r.keyPress(KeyEvent.VK_T); 
-		r.keyRelease(KeyEvent.VK_CONTROL);
-		r.keyRelease(KeyEvent.VK_T);
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] NumerosAmigosLetras() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,2,"Amigos Letras");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,2,"Amigos Letras");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
 	
 	@DataProvider
@@ -1860,7 +1919,6 @@ public class TestBase {
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,3,"SaldoConsulta");
 		
 		return (testObjArray);
-		
 	}
 	
 	@DataProvider
@@ -1869,14 +1927,6 @@ public class TestBase {
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni",1,1,1,"Productos y Servicios");
 		
 		return (testObjArray);
-		
-	}
-	
-	public void loginCommunity(WebDriver driver) {
-		driver.get(urlCommunity);
-		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	    Login lLogin = new Login(driver);
-	    lLogin.ingresarComunidad();
 	}
 	
 	@DataProvider
@@ -1885,7 +1935,6 @@ public class TestBase {
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,6,"DocumentacionValida");
 		
 		return (testObjArray);
-		
 	}
 	
 	@DataProvider
@@ -1894,7 +1943,6 @@ public class TestBase {
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,6,"DocumentacionInvalida");
 		
 		return (testObjArray);
-		
 	}
 	
 	@DataProvider
@@ -1903,7 +1951,6 @@ public class TestBase {
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,1,"VistaDocumentacion");
 		
 		return (testObjArray);
-		
 	}
 	
 	@DataProvider
@@ -1912,9 +1959,7 @@ public class TestBase {
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,3,"Vista 360");
 		
 		return (testObjArray); 
-		
 	}
-	
 	
 	@DataProvider
 	public Object[][] RecargasHistorias() throws Exception{
@@ -1922,19 +1967,19 @@ public class TestBase {
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"RecargaHistoria");
 		
 		return (testObjArray);
-		
 	}
 	
 	@DataProvider
 	public Object[][] DatosSalesNominacionPyRNuevoOfCom() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,12,"NominacionNuevoPyROfCom");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,12,"NominacionNuevoPyROfCom");
 
-	 return (testObjArray);
+		return (testObjArray);
 	} 
 	
 	@DataProvider
 	public Object[][] NumerosAmigosNoPersonalAlta() throws Exception {
+		
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"No Personal Alta Amigos");
 
 		 return (testObjArray);
@@ -1942,59 +1987,50 @@ public class TestBase {
 	
 	@DataProvider
 	public Object[][] NumerosAmigosNoPersonalModificacion() throws Exception {
+		
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"No Personal Modificacion Amigos");
 
-		 return (testObjArray);
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] NumerosAmigosNoPersonalBaja() throws Exception {
+		
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,3,"No Personal Baja Amigos");
 
-		 return (testObjArray);
+		return (testObjArray);
 	}
-		
+	
+	@DataProvider
 	public Object[][] serviciotecnicoR() throws Exception {
+		
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"servicio tecnico",1,1,7,"Servicio Tecnico Reparacion");
 
-		 return (testObjArray);
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] serviciotecnicoC() throws Exception {
+		
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"servicio tecnico",1,1,7,"Servicio Tecnico Configuracion");
 
-		 return (testObjArray);
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] Diagnostico() throws Exception {
+		
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"DiagnInconveniente");
 
-		 return (testObjArray);
+		return (testObjArray);
 	}
 	
 	@DataProvider
 	public Object[][] BaseDeConocimiento() throws Exception {
+		
 		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"DatosConocimientos");
 
-		 return (testObjArray);
-	}
-	
-	
-	public void guardarLineasNominadas(String data) throws IOException {
-		File archivo=new File("DatosNominacion.txt");
-		/*if (!archivo.exists())
-			FileWriter ArchiSa=new FileWriter(archivo,true);
-			//archivo.delete();*/
-		//Crear objeto FileWriter que sera el que nos ayude a escribir sobre archivo
-		FileWriter ArchiSa=new FileWriter(archivo.getAbsoluteFile(),true);
-		BufferedWriter bw = new BufferedWriter(ArchiSa);
-		PrintWriter wr = new PrintWriter(bw); 
-		wr.append(data+"\r\n");
-		wr.close();
-		bw.close();
-		ArchiSa.close();
+		return (testObjArray);
 	}
 	
 	@DataProvider
@@ -2010,22 +2046,7 @@ public class TestBase {
 		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Modificacion De DNI");
 
 		 return (testObjArray);
-	}
-	
-	public String obtenerChargeCode() {
-		WebElement box = driver.findElements(By.cssSelector(".slds-button.slds-button_icon-border-filled.cpq-item-actions-dropdown-button")).get(2);
-		box.click();
-		((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", box);
-		WebElement configure = driver.findElements(By.cssSelector(".slds-dropdown.slds-dropdown_right.cpq-item-actions-dropdown")).get(2);
-		buscarYClick(configure.findElements(By.tagName("a")), "contains", "configure");
-		WebElement chargeCode = null;
-		for (WebElement x : driver.findElements(By.className("slds-form-element"))) {
-			if (x.getText().toLowerCase().contains("charge code"))
-				chargeCode = x;
-		}
-		((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", chargeCode);
-		return chargeCode.findElement(By.tagName("input")).getAttribute("value");
-	}
+	}	
 	
 	@DataProvider
 	public Object[][] DatosNoNominacionNuevoTelefonicoPasaporte() throws Exception{
@@ -2054,11 +2075,11 @@ public class TestBase {
 	@DataProvider
 	public Object[][] DatosNominacionExistente5Lineas() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,2,"NominacionExistente5Lineas");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,2,"NominacionExistente5Lineas");
 
-	 return (testObjArray);
-
+		return (testObjArray);
 	}
+	
 	@DataProvider
 	public Object[][] DatosNoNominacionNuevoFraudeTelef() throws Exception{
 		
@@ -2066,113 +2087,24 @@ public class TestBase {
 
 		 return (testObjArray);
 	}
+	
 	@DataProvider
 	public Object[][] DatosNoNominacionExistenteFraudeOfcom() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,2,"NoNominacionExistenteFraudeOfcom");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,2,"NoNominacionExistenteFraudeOfcom");
 
-	 return (testObjArray);
-
+	 	return (testObjArray);
 	}
+	
 	@DataProvider
 	public Object[][] DatosNoNominacionExistenteTelefonico() throws Exception{
 
-	 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,3,"NoNominacionExistenteTelefonico");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,3,"NoNominacionExistenteTelefonico");
 
-	 return (testObjArray);
-
+	 	return (testObjArray);
 	}
 	
-	public void loginLogisticaYEntrega(WebDriver driver) {
-		driver.get(urlAmbiente);
-		try {Thread.sleep(6000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	    Login page0 = new Login(driver);
-	    page0.ingresarLogisticaYEntrega();
-	}
-
-	//========================================================= Metodos con Sleep Incluido =========================================================\\
-	
-	public boolean sleepCambioDeFrame (WebDriver driver, String elementSelector, double timeAcumulated) {
-		if (20 < timeAcumulated) {
-			return true;
-		}
-		try {
-			driver.switchTo().frame(cambioFrame(driver, By.id(elementSelector)));
-			return true;
-		} catch (Exception e) {
-			try {Thread.sleep(250);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			return sleepCambioDeFrame(driver, elementSelector, timeAcumulated + 0.250);
-		}
-	}
-	
-	private WebElement frameConElElemento (WebDriver driver, By byForElement) {
-		List<WebElement> frames = driver.findElements(By.tagName("iframe"));
-		driver.switchTo().defaultContent();
-		for (WebElement frame : frames) {
-			try {
-				driver.switchTo().frame(frame);
-				driver.findElement(byForElement);
-				driver.switchTo().defaultContent();
-				return frame;
-			} catch (NoSuchElementException e) {
-				driver.switchTo().defaultContent();
-			}
-		}
-		return null;
-	}
-
-	public void cambioDeFrame(WebDriver driver, By byForElement, double timeAcumulated) {
-		if (18 > timeAcumulated) {
-			try {
-				WebElement myFrame = frameConElElemento(driver, byForElement);
-				driver.switchTo().frame(myFrame);
-			} catch (Exception e1) {
-				try {Thread.sleep(100);} catch (Exception e2) {}
-				cambioDeFrame(driver, byForElement, timeAcumulated + 0.100);
-			}
-		}
-	}
-	
-	public void sleepFindBy (WebDriver driver, By byForElement, double timeAcumulated) {
-		if (10 > timeAcumulated) {
-			try {
-				driver.findElement(byForElement);
-			} catch (Exception e) {
-				try {Thread.sleep(100);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-				sleepFindBy(driver, byForElement, timeAcumulated + 0.100);
-			}
-		}
-	}
-	
-	public void sleepFindBy (WebElement element, By byForElement, double timeAcumulated) {
-		if (10 > timeAcumulated) {
-			try {
-				element.findElement(byForElement);
-			} catch (Exception e) {
-				try {Thread.sleep(250);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-				sleepFindBy(element, byForElement, timeAcumulated + 0.250);
-			}
-		}
-	}
-	
-	public void sleepClickBy(WebDriver driver, By byForElement, double timeAcumulated) {
-		WebElement element = null;
-		if (10 < timeAcumulated) {
-			element.click();
-		}
-		try {
-			driver.findElement(byForElement).click();
-		} catch (Exception e) {
-			try {
-				Thread.sleep(250);
-			} catch (InterruptedException ex) {
-				Thread.currentThread().interrupt();
-			}
-			sleepClickBy(driver, byForElement, timeAcumulated + 0.250);
-		}
-	}
-	
-	//=================================================================================================================================\\
+	//=============================================== Metodos Victor =========================================================\\
 	
 	public void loginBeFANVictor(WebDriver driver, String perfil) {
 		driver.get(urlBeFAN);
@@ -2214,8 +2146,9 @@ public class TestBase {
 		String time = dtf.format(now);
 		return time;
 	}
+	
 	public String teTraigoRandomStrings(String NumeroAleatorio) {
-		
+
 		//Inicializo variables
 		String papito = "";
 		char[] papito3 = {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'};
@@ -2278,4 +2211,5 @@ public class TestBase {
 		}
 		
 	}
+
 }
