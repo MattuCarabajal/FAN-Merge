@@ -1147,6 +1147,11 @@ public class TestBase {
 	public Object[][] Nominacion() throws Exception{
 
 	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Tech",1,1,3);
+	 
+	 return (testObjArray);
+	
+	}
+
 	public void cambioDeFrame(WebDriver driver, By byForElement, double timeAcumulated) {
 		if (18 > timeAcumulated) {
 			try {
