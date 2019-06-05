@@ -69,7 +69,7 @@ public class RenovacionDeCuota extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	@BeforeClass (alwaysRun = true)
+	//@BeforeClass (alwaysRun = true)
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
@@ -82,7 +82,7 @@ public class RenovacionDeCuota extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (alwaysRun = true)
+	//@BeforeClass (alwaysRun = true)
 	public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
@@ -104,7 +104,7 @@ public class RenovacionDeCuota extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod(alwaysRun=true)
+	//@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -112,7 +112,7 @@ public class RenovacionDeCuota extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass(alwaysRun=true)
+	//@AfterClass(alwaysRun=true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -163,7 +163,7 @@ public class RenovacionDeCuota extends TestBase {
 		cbsm.Servicio_NotificarPago(orden.split("-")[0]);
 		driver.navigate().refresh();
 		sleep(5000);
-		String datosFinal = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
+		String datosFinal = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres Adicionales");
 		System.out.println("Datos Inicial "+datosInicial);
 		System.out.println("Datos final "+datosFinal);
 		Assert.assertTrue((Integer.parseInt(datosInicial)+204800)==Integer.parseInt(datosFinal));
@@ -213,7 +213,7 @@ public class RenovacionDeCuota extends TestBase {
 		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		System.out.println("Saldo final:"+uiMainBalance);
-		Assert.assertTrue(iMainBalance > uiMainBalance);
+		Assert.assertTrue(iMainBalance < uiMainBalance);
 		String datosFinal = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		System.out.println("Datos final:"+datosFinal);
 		Assert.assertTrue((Integer.parseInt(datosInicial)+204800)==Integer.parseInt(datosFinal));	
@@ -560,7 +560,15 @@ public class RenovacionDeCuota extends TestBase {
 		detalles +="-Cuenta:"+accid;
 		ges.irAGestionEnCard("Renovacion de Datos");
 		cambioDeFrame(driver, By.id("combosMegas"), 0);
-		driver.findElement(By.id("combosMegas")).findElements(By.className("slds-checkbox")).get(1).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("CombosDeMegas_nextBtn")));
+		List<WebElement> elementos = driver.findElement(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+		for(WebElement elemento : elementos) {
+			if(elemento.getText().contains("200 MB")) {
+				elemento.findElement(By.className("slds-checkbox")).click();
+				break;
+			}
+		}
+		
 		sleep(2000);
 		Assert.assertTrue(driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText().equalsIgnoreCase("saldo insuficiente"));
 	}

@@ -46,7 +46,7 @@ public class Nominacion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);
@@ -57,7 +57,7 @@ public class Nominacion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);
@@ -76,7 +76,7 @@ public class Nominacion extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod (alwaysRun = true)
+	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -84,7 +84,7 @@ public class Nominacion extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass (alwaysRun = true)
+	//@AfterClass (alwaysRun = true)
 	public void quit() {
 		driver.quit();
 		sleep(5000);
@@ -167,6 +167,7 @@ public class Nominacion extends TestBase {
 		File directory2 = new File ("form.pdf"); 
 		contact.subirformulario(new File(directory2.getAbsolutePath()).toString());
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("FinishProcess_nextBtn")));
+		sleep(20000);
 		List <WebElement> element = driver.findElement(By.id("NominacionExitosa")).findElements(By.tagName("p"));
 		boolean a = false;
 		for (WebElement x : element) {
@@ -204,6 +205,7 @@ public class Nominacion extends TestBase {
 		botonNominar.findElement(By.tagName("a")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("DocumentInputSearch")));
 		contact.searchContact2("DNI", sDni, sSexo);
+		driver.findElement(By.id("Birthdate")).clear();
 		driver.findElement(By.id("Birthdate")).sendKeys(sFnac);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".vlc-slds-button--tertiary.ng-binding.ng-scope")));
 		WebElement error = driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope"));
@@ -362,6 +364,91 @@ public class Nominacion extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
+	
+	//liuhgskyjndiulsekabdvkdjshvsbkjxgr bsklugrsnl
+	@Test (groups = "PerfilOficina", dataProvider="DatosSalesNominacionNuevoOfCom") 
+	public void TS_CRM_Movil_REPRO_Nominatividad_Cliente_Nuevo_Presencial_DOC_OfCom(String sLinea, String sDni, String sNombre, String sApellido, String sGenero, String sFnac, String sEmail, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) { 
+		imagen = "TS85094";
+		detalles = imagen + "- Nominacion - DNI:" + sDni;		
+		cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("PhoneNumber")));
+		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
+		driver.findElement(By.id("SearchClientsDummy")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button--icon.slds-m-right--x-small.ng-scope")));
+		driver.findElement(By.cssSelector(".slds-button.slds-button--icon.slds-m-right--x-small.ng-scope")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-hint-parent.ng-scope"), 0));
+		WebElement botonNominar = null;
+		for (WebElement x : driver.findElements(By.cssSelector(".slds-hint-parent.ng-scope"))) {
+			if (x.getText().toLowerCase().contains("plan con tarjeta"))
+				botonNominar = x;
+		}
+		for (WebElement x : botonNominar.findElements(By.tagName("td"))) {
+			if (x.getAttribute("data-label").equals("actions"))
+				botonNominar = x;
+		}
+		botonNominar.findElement(By.tagName("a")).click();
+		cambioDeFrame(driver, By.id("DocumentTypeSearch"),0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("DocumentInputSearch")));
+		contact.crearClienteNominacion("DNI", sDni, sGenero, sNombre, sApellido, sFnac, sEmail);
+		contact.tipoValidacion("documento");
+		File directory = new File("Dni.jpg");
+		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")));
+		contact.completarDomicilio(sProvincia, sLocalidad, sZona, sCalle, sNumCa, sCP, tDomic);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("FinishProcess_nextBtn")));
+		List <WebElement> element = driver.findElement(By.id("NominacionExitosa")).findElements(By.tagName("p"));
+		boolean a = false;
+		for (WebElement x : element) {
+			if (x.getText().toLowerCase().contains("nominaci\u00f3n exitosa!")) {
+				a = true;
+				System.out.println(x.getText());
+			}
+		}
+		driver.findElement(By.id("FinishProcess_nextBtn")).click();
+		cbsm.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
+		Assert.assertTrue(a);
+	}
+	
+	////////////////;oisldjgxilhrjndkzjg.sznhfd .cm
+	@Test (groups = "PerfilOficina", dataProvider = "NominacionExistenteOfCom") 
+	public void TS_CRM_Movil_REPRO_Nominatividad_Cliente_Existente_Presencial_DOC_OfCom(String sLinea, String sDni, String sNombre, String sApellido) {
+//		imagen = "TS85097";
+//		detalles = imagen + " -Nominacion: " + sDni+"- Linea: "+sLinea;
+		boolean nominacion = false;
+		cambioDeFrame(driver,By.id("SearchClientDocumentType"),0);
+		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
+		driver.findElement(By.id("SearchClientsDummy")).click();
+		sleep(10000);
+		WebElement cli = driver.findElement(By.id("tab-scoped-2")); 	
+		cli.findElement(By.tagName("tbody")).findElement(By.tagName("tr")).click();
+		sleep(3000);
+		List<WebElement> Lineas = driver.findElement(By.id("tab-scoped-2")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+		for(WebElement UnaL: Lineas) {
+			if(UnaL.getText().toLowerCase().contains("plan con tarjeta repro")) {
+				UnaL.findElements(By.tagName("td")).get(6).findElement(By.tagName("svg")).click();
+				System.out.println("Linea Encontrada");
+				break;
+			}
+		}
+		sleep(3000);
+		contact.searchContact2("DNI", sDni, "Masculino");
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Contact_nextBtn")));
+		driver.findElement(By.id("Contact_nextBtn")).click();	
+		sleep(10000);
+		contact.tipoValidacion("documento");
+		File directory = new File("Dni.jpg");
+		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
+		sleep(18000);
+		for (WebElement x : driver.findElement(By.id("NominacionExitosa")).findElements(By.tagName("p"))) {
+			if (x.getText().toLowerCase().contains("nominaci\u00f3n exitosa!"))
+				nominacion = true;
+		}
+		Assert.assertTrue(nominacion);
+		driver.findElement(By.id("FinishProcess_nextBtn")).click();
+		sleep(3000);
+		cbsm.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
+	}
+	
 	@Test (groups = "PerfilTelefonico", dataProvider="DatosNoNominacionNuevoTelefonicoPasaporte")
 	public void TS128437_CRM_Movil_REPRO_No_Nominatividad_Telefonico_Pasaporte(String sLinea, String sPasaporte, String sNombre, String sApellido, String sSexo, String sFnac, String sEmail, String sFperm) {
 		imagen = "TS128437";
@@ -386,7 +473,8 @@ public class Nominacion extends TestBase {
 		botonNominar.findElement(By.tagName("a")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("DocumentInputSearch")));
 		contact.searchContact2("Pasaporte", sPasaporte, "Masculino");
-		contact.Llenar_Contacto(sNombre, sApellido, sFnac, "", "");
+		contact.Llenar_Contacto(sNombre, sApellido, sFnac, "", "a@yahoo.com");
+		sleep(3000);
 		driver.findElement(By.id("PermanencyDueDate")).sendKeys(sFperm);
 		System.out.println(driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText());
 		if (driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText().toLowerCase().contains("la permanencia no puede ser mayor a 2 a�os a partir de la fecha o menor a la fecha actual"))
@@ -421,7 +509,7 @@ public class Nominacion extends TestBase {
 		botonNominar.findElement(By.tagName("a")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("DocumentInputSearch")));
 		contact.searchContact2("DNI", "22222035", "Masculino");
-		contact.Llenar_Contacto("Quenico", "Newton", "15/02/1992", "", "");
+		contact.Llenar_Contacto("Quenico", "Newton", "15/02/1992", "", "asd@yahoo.com");
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("MethodSelection_nextBtn")));
 		List<WebElement> valdni = driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding"));
 		for (WebElement x : valdni) {
@@ -579,12 +667,13 @@ public class Nominacion extends TestBase {
 	public void TS_CRM_Nominacion_Cliente_Nuevo_Agente(String sLinea, String sDni, String sNombre, String sApellido, String sGenero, String sFnac, String sEmail, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) { 
 		imagen = "TS_CRM_Nominacion_Argentino_Agente"+sDni;
 		detalles = imagen + "- Nominacion - DNI:" + sDni;
-		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("PhoneNumber")));
+//		sleep(10000);
+//		driver.switchTo().frame(cambioFrame(driver, By.id("PhoneNumber")));
+		cambioDeFrame(driver, By.id("PhoneNumber"), 0);
 		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
-		sleep(1500);
+//		sleep(1500);
 		driver.findElement(By.id("SearchClientsDummy")).click();
-		sleep(10000);
+//		sleep(10000);
 		WebElement cli = driver.findElement(By.id("tab-scoped-2")); 	
 		cli.findElement(By.tagName("tbody")).findElement(By.tagName("tr")).click();
 		sleep(3000);
@@ -596,7 +685,7 @@ public class Nominacion extends TestBase {
 				break;
 			}
 		}
-		sleep(10000);
+//		sleep(10000);
 		cambioDeFrame(driver, By.id("DocumentTypeSearch"),0);
 		contact.crearClienteNominacion("DNI", sDni, sGenero, sNombre, sApellido, sFnac, sEmail);
 		contact.tipoValidacion("documento");
@@ -604,6 +693,7 @@ public class Nominacion extends TestBase {
 		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")));
 		contact.completarDomicilio(sProvincia, sLocalidad, sZona, sCalle, sNumCa, sCP, tDomic);
+		sleep(10000);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("FinishProcess_nextBtn")));
 		cbsm.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
 		List <WebElement> element = driver.findElement(By.id("NominacionExitosa")).findElements(By.tagName("p"));
@@ -691,7 +781,7 @@ public class Nominacion extends TestBase {
 		botonNominar.findElement(By.tagName("a")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("DocumentInputSearch")));
 		contact.searchContact2("DNI", "22222035", "Masculino");
-		contact.Llenar_Contacto("Quenico", "Newton", "15/02/1992", "", "");
+		contact.Llenar_Contacto("Quenico", "Newton", "15/02/1992", "", "a@yahoo.com");
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("MethodSelection_nextBtn")));
 		List<WebElement> valdni = driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding"));
 		for (WebElement x : valdni) {

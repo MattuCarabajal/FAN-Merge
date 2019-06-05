@@ -32,7 +32,6 @@ public class DetalleDeConsumos extends TestBase {
 	//@BeforeClass (groups= "PerfilOficina")
 	public void Sit02() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
@@ -195,8 +194,7 @@ public class DetalleDeConsumos extends TestBase {
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-p-top--medium'] tbody tr"), 0));
 		List<WebElement> filas = driver.findElements(By.cssSelector("[class='slds-p-top--medium'] tbody tr"));
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(filas.get(0)));
-		filas.get(0).click();
+		cc.obligarclick(filas.get(0));
 		filas = driver.findElements(By.cssSelector("[class='slds-p-top--medium'] tbody tr"));
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-p-top--medium'] tbody tr tr"), 3));
 		List<WebElement> detalles = driver.findElements(By.cssSelector("[class='slds-p-top--medium'] tbody tr tr"));

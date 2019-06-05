@@ -45,7 +45,7 @@ public class Recargas extends TestBase {
 		//cc.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -58,7 +58,7 @@ public class Recargas extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -91,7 +91,7 @@ public class Recargas extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod(alwaysRun=true)
+	//@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -99,7 +99,7 @@ public class Recargas extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass (alwaysRun = true)
+	//@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -134,7 +134,7 @@ public class Recargas extends TestBase {
 		cbsm.Servicio_NotificarPago(caso);
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
-		Assert.assertTrue(datosInicial + 10000 == datosFinal);
+		Assert.assertTrue(datosInicial + 1000 == datosFinal);
 		cc.buscarOrdenDiag(caso+"*");
 		cc.verificarPedido(caso, "activada");
 	}
@@ -206,39 +206,39 @@ public class Recargas extends TestBase {
 		cc.verificarPedido(caso, "activada");
 	}
 	
-//	@Test (groups = "PerfilOficina", dataProvider = "RecargaTC")
-//	public void TS134330_CRM_Movil_REPRO_Recargas_Presencial_TC_Ofcom_Financiacion(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) {
-//		imagen = "TS134330";
-//		detalles = imagen + "-Recarga-DNI:" + sDNI;
-//		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-//		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
-//		ges.BuscarCuenta("DNI", sDNI);
-//		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
-//		cambioDeFrame(driver, By.id("RefillAmount"), 0);
-//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
-//		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
-//		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
-//		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
-//		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")));
-//		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
-//		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
-//		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-//		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
-//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "tarjeta de credito");
-//		selectByText(driver.findElement(By.id("BankingEntity-0")), sBanco);
-//		selectByText(driver.findElement(By.id("CardBankingEntity-0")), sTarjeta);
-//		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), sPromo);
-//		selectByText(driver.findElement(By.id("Installment-0")), sCuota);
-//		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
-//		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
-//		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
-//		cbsm.Servicio_NotificarPago(caso);
-//		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-//		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
-//		Assert.assertTrue(datosInicial + 1000 == datosFinal);
-//		cc.buscarOrdenDiag(caso+"*");
-//		cc.verificarPedido(caso, "activada");
-//	}
+	@Test (groups = "PerfilOficina", dataProvider = "RecargaTC")
+	public void TS134330_CRM_Movil_REPRO_Recargas_Presencial_TC_Ofcom_Financiacion(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) {
+		imagen = "TS134330";
+		detalles = imagen + "-Recarga-DNI:" + sDNI;
+		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
+		cambioDeFrame(driver, By.id("RefillAmount"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
+		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
+		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
+		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")));
+		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
+		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
+		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "tarjeta de credito");
+		selectByText(driver.findElement(By.id("BankingEntity-0")), sBanco);
+		selectByText(driver.findElement(By.id("CardBankingEntity-0")), sTarjeta);
+		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), sPromo);
+		selectByText(driver.findElement(By.id("Installment-0")), sCuota);
+		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
+		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
+		cbsm.Servicio_NotificarPago(caso);
+		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
+		Assert.assertTrue(datosInicial + 1000 == datosFinal);
+		cc.buscarOrdenDiag(caso+"*");
+		cc.verificarPedido(caso, "activada");
+	}
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
@@ -318,4 +318,110 @@ public class Recargas extends TestBase {
 		cc.buscarOrdenDiag(caso+"*");
 		cc.verificarPedido(caso, "activada");
 	}
+	
+	@Test (groups = "PerfilAgente", dataProvider="RecargaEfectivo")
+	public void TS_Recarga_de_Cerdito_Efectivo_Agente(String sDNI, String sMonto, String sLinea) {
+//		imagen = "TS134322";
+//		detalles = imagen + "-Recarga-DNI:" + sDNI;
+		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
+		System.out.println(datosInicial);
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
+		cambioDeFrame(driver, By.id("RefillAmount"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
+		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
+		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
+		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")));
+		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
+		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
+		System.out.println("caso numero :"+caso);
+		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "efectivo");
+		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
+		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
+		cbsm.Servicio_NotificarPago(caso);
+		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
+		System.out.println(datosFinal);
+		Assert.assertTrue(datosInicial + Integer.parseInt(sMonto) * 100 == datosFinal);
+		cc.buscarOrdenDiag(caso+"*");
+		cc.verificarPedido(caso, "activada");
+	}
+	
+	@Test (groups = "PerfilAgente", dataProvider="RecargaTD")
+	public void TS_Recarga_de_Credito_TDD_Agente(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) {
+//		imagen = "";
+//		detalles = imagen + "-Recarga-DNI:" + sDNI;
+		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
+		cambioDeFrame(driver, By.id("RefillAmount"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
+		driver.findElement(By.id("RefillAmount")).sendKeys(sMonto);
+		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
+		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")));
+		String caso = driver.findElement(By.cssSelector(".slds-grid.slds-wrap.ng-pristine.ng-valid")).findElement(By.tagName("child")).findElements(By.tagName("p")).get(1).getText();
+		caso = caso.substring(caso.lastIndexOf(" ")+1, caso.length());
+		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "tarjeta de debito");
+		selectByText(driver.findElement(By.id("BankingEntity-0")), sBanco);
+		selectByText(driver.findElement(By.id("CardBankingEntity-0")), sTarjeta);
+		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), sPromo);
+		selectByText(driver.findElement(By.id("Installment-0")), sCuota);
+		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
+		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
+		cbsm.Servicio_NotificarPago(caso);
+		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
+		Assert.assertTrue(datosInicial + 900 == datosFinal);
+		cc.buscarOrdenDiag(caso+"*");
+		cc.verificarPedido(caso, "activada");
+	}
+	
+	@Test (groups = "PerfilAgente", dataProvider="RecargaEfectivo")
+	public void TS_Recarga_Limites_Maximo_y_Minimo(String sDNI, String sMonto, String sLinea) {
+//		imagen = "TS134322";
+//		detalles = imagen + "-Recarga-DNI:" + sDNI;
+		int minimo = 5;
+		int maximo = 500;
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Recarga de cr\u00e9dito");
+		cambioDeFrame(driver, By.id("RefillAmount"), 0);
+		// Prueba limite inferior no permitido
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
+		driver.findElement(By.id("RefillAmount")).sendKeys(minimo-1+"");
+		driver.findElement(By.id("AmountSelectionStep_nextBtn")).click();
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='alert-container']//p")).getText().equalsIgnoreCase("Error : Por favor corrija los campos con errores"));
+		driver.findElement(By.xpath("//div[@id='alert-container']//button")).click();
+		// Prueba limite superior no permitido
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
+		driver.findElement(By.id("RefillAmount")).clear();
+		driver.findElement(By.id("RefillAmount")).sendKeys(maximo+1+"");
+		clickBy(driver, By.id("AmountSelectionStep_nextBtn"), 0);
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='alert-container']//p")).getText().equalsIgnoreCase("Error : Por favor corrija los campos con errores"));
+		driver.findElement(By.xpath("//div[@id='alert-container']//button")).click();
+		// Prueba limite inferior permitido
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
+		driver.findElement(By.id("RefillAmount")).clear();
+		driver.findElement(By.id("RefillAmount")).sendKeys(minimo+"");
+		clickBy(driver, By.id("AmountSelectionStep_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='slds-form-element__control'] p p")));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-form-element__control'] p p")).getText().contains("Nro. orden"));
+		driver.findElement(By.id("InvoicePreview_prevBtn")).click();
+		// Prueba limite superior permitido
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("RefillAmount")));
+		driver.findElement(By.id("RefillAmount")).clear();
+		driver.findElement(By.id("RefillAmount")).sendKeys(maximo+"");
+		clickBy(driver, By.id("AmountSelectionStep_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='slds-form-element__control'] p p")));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-form-element__control'] p p")).getText().contains("Nro. orden"));
+		}
 }

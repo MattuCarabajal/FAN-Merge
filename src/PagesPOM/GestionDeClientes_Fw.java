@@ -184,8 +184,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 				fluentWait.until(ExpectedConditions.elementToBeClickable(cajonDeAplicaciones));
 				driver.findElement(By.cssSelector(ref_CajonDeAplicaciones)).click();
 				fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(ref_aplicaciones), 0));
-				for (WebElement x : driver.findElement(By.cssSelector(ref_aplicaciones))
-						.findElements(By.tagName("a"))) {
+				for (WebElement x : driver.findElement(By.cssSelector(ref_aplicaciones)).findElements(By.tagName("a"))) {
 					if (x.getText().equalsIgnoreCase("Consola FAN")) {
 						x.click();
 					}
