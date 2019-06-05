@@ -474,7 +474,7 @@ public class Login extends BasePage {
 	}
 	
 	public void ingresarBeFANVictor(String perfil, String urlAmbiente) {
-		if (urlAmbiente.contains("snapuat.telecom.com")) {
+		if (urlAmbiente.contains("befantest2.personal.corp")) {
 			switch (perfil) {
 			case "mayorista":
 				driver.findElement(By.name("username")).sendKeys("UAT195528");

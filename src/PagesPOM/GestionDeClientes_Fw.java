@@ -184,8 +184,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 				fluentWait.until(ExpectedConditions.elementToBeClickable(cajonDeAplicaciones));
 				driver.findElement(By.cssSelector(ref_CajonDeAplicaciones)).click();
 				fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(ref_aplicaciones), 0));
-				for (WebElement x : driver.findElement(By.cssSelector(ref_aplicaciones))
-						.findElements(By.tagName("a"))) {
+				for (WebElement x : driver.findElement(By.cssSelector(ref_aplicaciones)).findElements(By.tagName("a"))) {
 					if (x.getText().equalsIgnoreCase("Consola FAN")) {
 						x.click();
 					}
@@ -249,7 +248,8 @@ public class GestionDeClientes_Fw extends BasePageFw {
 //		fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]")));
 		TestBase tb = new TestBase();
 		tb.sleepClickBy(driver, By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]"), 0);
-		driver.findElement(By.xpath("//button[contains(text(),'Gesti')]")).click();
+//		tb.sleepClickBy(driver, By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]"), 0);
+//		driver.findElement(By.xpath("//button[contains(text(),'Gesti')]")).click();
 	}
 	
 	public void BuscarCuenta(String Type, String NDNI){

@@ -44,7 +44,6 @@ public class GestionDeClientes extends TestBase {
 	@BeforeClass (groups= "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
@@ -89,7 +88,7 @@ public class GestionDeClientes extends TestBase {
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "validaDocumentacion")
-	public void TS135496_CRM_Movil_REPRO_Busqueda_DNI_Numero_de_Documento(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	public void TS135496_CRM_Movil_REPRO_Busqueda_DNI_Numero_de_Documento(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS135496";
 		detalles = null;
 		detalles = imagen + "- Gestion de clientes - DNI:" + sDNI;
@@ -100,7 +99,7 @@ public class GestionDeClientes extends TestBase {
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "invalidaDocumentacion")
-	public void TS135497_CRM_Movil_REPRO_Busqueda_DNI_Numero_de_Documento_no_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail){
+	public void TS135497_CRM_Movil_REPRO_Busqueda_DNI_Numero_de_Documento_no_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail){
 		imagen = "TS135497";
 		detalles = null;
 		detalles = imagen + "-Gestion de clientes - DNI:  "+ sDNI;
@@ -144,7 +143,7 @@ public class GestionDeClientes extends TestBase {
 //	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "validaDocumentacion")
-	public void TS135501_CRM_Movil_REPRO_Busqueda_Nombre(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	public void TS135501_CRM_Movil_REPRO_Busqueda_Nombre(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS135501";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Nombre: " + sNombre;
@@ -163,7 +162,7 @@ public class GestionDeClientes extends TestBase {
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "invalidaDocumentacion")
-	public void TS135502_CRM_Movil_REPRO_Busqueda_Nombre_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	public void TS135502_CRM_Movil_REPRO_Busqueda_Nombre_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS135502";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Nombre: " + sNombre;
@@ -175,7 +174,7 @@ public class GestionDeClientes extends TestBase {
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "validaDocumentacion")
-	public void TS135503_CRM_Movil_REPRO_Busqueda_Apellido(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	public void TS135503_CRM_Movil_REPRO_Busqueda_Apellido(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS135503";
 		detalles = null;
 		detalles = imagen + "- Gestion de Clientes - DNI: " + sDNI;
@@ -194,7 +193,7 @@ public class GestionDeClientes extends TestBase {
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "invalidaDocumentacion")
-	public void TS135504_CRM_Movil_REPRO_Busqueda_Apellido_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	public void TS135504_CRM_Movil_REPRO_Busqueda_Apellido_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS135504";
 		detalles = null;
 		detalles = imagen + "- Gestion de clinetes - Apellido: " + sApellido;
@@ -206,7 +205,7 @@ public class GestionDeClientes extends TestBase {
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "validaDocumentacion")
-	public void TS135505_CRM_Movil_REPRO_Busqueda_Razon_Social(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	public void TS135505_CRM_Movil_REPRO_Busqueda_Razon_Social(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS135505";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Razon social: " + sRazon;
@@ -225,7 +224,7 @@ public class GestionDeClientes extends TestBase {
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "invalidaDocumentacion")
-	public void TS135506_CRM_Movil_REPRO_Busqueda_Razon_social_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	public void TS135506_CRM_Movil_REPRO_Busqueda_Razon_social_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS135506";
 		detalles = null;
 		detalles = imagen+" - Gestion de clientes - Razon social: "+sRazon;
@@ -237,7 +236,7 @@ public class GestionDeClientes extends TestBase {
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "validaDocumentacion")
-	public void TS135507_CRM_Movil_REPRO_Busqueda_Email(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	public void TS135507_CRM_Movil_REPRO_Busqueda_Email(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS135507";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Email: " + sEmail;
@@ -256,7 +255,7 @@ public class GestionDeClientes extends TestBase {
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "invalidaDocumentacion")
-	public void TS135508_CRM_Movil_REPRO_Busqueda_Email_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	public void TS135508_CRM_Movil_REPRO_Busqueda_Email_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS135508";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Email: " + sEmail;
@@ -268,7 +267,7 @@ public class GestionDeClientes extends TestBase {
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "validaDocumentacion")
-	public void TS135509_CRM_Movil_REPRO_Busqueda_Numero_de_Cuenta(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	public void TS135509_CRM_Movil_REPRO_Busqueda_Numero_de_Cuenta(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS135509";
 		detalles = null;
 		detalles = imagen + "- Gestion de Clientes - DNI: " + sDNI;
@@ -287,7 +286,7 @@ public class GestionDeClientes extends TestBase {
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "invalidaDocumentacion")
-	public void TS135510_CRM_Movil_REPRO_Busqueda_Numero_de_Cuenta_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+	public void TS135510_CRM_Movil_REPRO_Busqueda_Numero_de_Cuenta_No_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS135510";
 		detalles = null;
 		detalles = imagen + " - Gestion de clientes - Numero de cuenta: " + sNumeroDeCuenta;
