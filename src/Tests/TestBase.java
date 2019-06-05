@@ -859,9 +859,113 @@ public class TestBase {
 		
 		return sDataProviderE2E;
 	}
+/////////////////////////////////////////////////////////////////   DATA PROVIDER PARA REGRESION COMPACTA     //////////////////////////////////////////////////////////////////	
+	public String dataProviderCompact() {
+		String sDataProviderCompact;
+		
+		if (urlAmbiente.contains("sit02")) {
+			sDataProviderCompact = "MicroRegresionSIT.xlsx";
+		}
+		else {
+			if (urlAmbiente.contains("uat")) {
+				sDataProviderCompact = "MicroRegresionUAT.xlsx";
+			}
+			else {
+				System.out.println("Error de URL!");
+				sDataProviderCompact = null;
+			}
+		}
+		
+		return sDataProviderCompact;
+	}
 	
 	@DataProvider
-	public Object[][] Tech() throws Exception{
+	public Object[][] rNuevaNomina() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray("DatosRegresion","NuevaNomina",1,1,14);
+
+	 return (testObjArray);
+
+	}
+	
+	@DataProvider
+	public Object[][] rExistenteNomina() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,4,"ExistenteNomina");
+
+	 return (testObjArray);
+
+	}
+	
+	@DataProvider
+	public Object[][] rRecargasTC() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,12,"RecargasTC");
+
+	 return (testObjArray);
+
+	}
+	
+	@DataProvider
+	public Object[][] rSmsDescuento() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,3,"PackSmsDescuento");
+
+	 return (testObjArray);
+
+	}
+	
+	@DataProvider
+	public Object[][] rDatosEfectivo() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,3,"PackDatosEfectivo");
+
+	 return (testObjArray);
+
+	}
+	
+	@DataProvider
+	public Object[][] rMinutosTC() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,12,"PackMinutosTC");
+
+	 return (testObjArray);
+
+	}
+	
+
+	
+	@DataProvider
+	public Object[][] rDescuentoTelef() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(), "DatosRegresion", 1, 1, 3,"RenovacionDescuentoTelef");
+		
+		return (testObjArray);
+	
+	}
+	
+	@DataProvider
+	public Object[][] rEfectivoOOCC() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,3,"RenovacionEfectivoOOCC");
+
+	 return (testObjArray);
+
+	}
+	
+	@DataProvider
+	public Object[][] rTCAgente() throws Exception{
+
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,12,"RenovacionTCAgente");
+
+	 return (testObjArray);
+
+	}
+
+/////////////////////////////////////////////////////////////////       F I N  DATA PROVIDER REGRESION COMPACTA        //////////////////////////////////////////////////////////////////////////
+	
+	@DataProvider
+	public Object[][] Nominacion() throws Exception{
 
 	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Tech",1,1,3);
 

@@ -24,6 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 		private static XSSFSheet ExcelWSheet;
 
 		private static XSSFWorkbook ExcelWBook;
+		
 
 		private static XSSFCell Cell;
 
@@ -192,6 +193,80 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 	 * @throws Exception
 	 */
 	public static Object[][] getTableArray(String FilePath, String SheetName, int primerRegistro, int PrimeraColumna, int CantidadColumna, String Registro) throws Exception {   
+
+		   String[][] tabArrayFiltrada = null;
+
+		   try {
+
+			   FileInputStream ExcelFile = new FileInputStream(FilePath);
+			   // Lectura de Excel
+			   ExcelWBook = new XSSFWorkbook(ExcelFile);
+			   ExcelWSheet = ExcelWBook.getSheet(SheetName);
+			   
+			   //Seleccion de Matriz a Devolver
+			   int startRow = primerRegistro;
+			   int startCol = PrimeraColumna;
+			   int ci,cj;
+			   int totalRows = ExcelWSheet.getLastRowNum();
+
+			   // Cantidad de Columnas a partir de la primera que se van a retornar
+			   int totalCols = CantidadColumna;
+			   
+			   //Recorro la lista de comparacion para determinar la dimension del arreglo en i
+			   int ndeRegistros=0;
+			   for (int i=startRow;i<=totalRows;i++) {           	   
+				  if(getCellData(i,0).contains(Registro)) {
+					  ndeRegistros++;
+				  }
+			   }
+			   
+			   //Defino el Arreglo a Retornar
+			   tabArrayFiltrada=new String[ndeRegistros][totalCols];
+			   
+			   //Recorro todo el Excel
+			   ci=0;
+			   for (int i=startRow;i<=totalRows;i++) {           	   
+				  cj=0;
+				  
+				  //Guardo en el Arreglo a Retornar los Valores que necesito
+				  if(getCellData(i,0).contains(Registro)) {
+				   for (int j=startCol;j<=totalCols;j++, cj++){
+					   
+						   tabArrayFiltrada[ci][cj]=getCellData(i,j);
+						   System.out.print("["+tabArrayFiltrada[ci][cj]+"]");
+						   }
+				   		ci++;
+				   		System.out.println("\n");
+						}
+					}   
+			}
+			catch (FileNotFoundException e){
+				System.out.println("Could not read the Excel sheet");
+				e.printStackTrace();
+				}
+
+			catch (IOException e){
+				System.out.println("Could not read the Excel sheet");
+				e.printStackTrace();
+				}
+			return(tabArrayFiltrada);
+			}
+	
+
+	/**
+	 * Retorna una matriz de dimensiones especificadas segun el registro que aparezca en el primera columnna
+	 * EJEMPLO: Todos los datos de las Cuentas Inactivas en Sales.
+	 * 
+	 * @param FilePath
+	 * @param SheetName
+	 * @param primerRegistro
+	 * @param PrimeraColumna
+	 * @param CantidadColumna
+	 * @param Registro
+	 * @return
+	 * @throws Exception
+	 */
+	public static Object[][] getTableArray(String FilePath, String SheetName, String Registro, int primerRegistro, int PrimeraColumna, int CantidadColumna ) throws Exception {   
 
 		   String[][] tabArrayFiltrada = null;
 

@@ -65,7 +65,7 @@ public class ProblemasConRecargas extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -87,7 +87,7 @@ public class ProblemasConRecargas extends TestBase {
 		ges.irGestionClientes();	
 	}
 
-	@AfterMethod (alwaysRun = true)
+	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -95,7 +95,7 @@ public class ProblemasConRecargas extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass (alwaysRun = true)
+	//@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -165,7 +165,7 @@ public class ProblemasConRecargas extends TestBase {
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 6));
 		System.out.println(datosFinal);
-		Assert.assertTrue(datosInicial + 1000 == datosFinal);
+		Assert.assertTrue(datosInicial + 100000 == datosFinal);
 		String orden = cc.obtenerOrden(driver, "Problemas con Recargas");
 		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + " - Orden: " + orden;
 	}
@@ -208,7 +208,7 @@ public class ProblemasConRecargas extends TestBase {
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 6));
 		System.out.println(datosFinal);
-		Assert.assertTrue(datosInicial + 1000 == datosFinal);
+		Assert.assertTrue(datosInicial + 10000 == datosFinal);
 		String orden = cc.obtenerOrden(driver, "Problemas con Recargas");
 		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + " - Orden: " + orden;
 	}
@@ -250,7 +250,7 @@ public class ProblemasConRecargas extends TestBase {
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 6));
 		System.out.println(datosFinal);
-		Assert.assertTrue(datosInicial + 1000 == datosFinal);
+		Assert.assertTrue(datosInicial + 10000 == datosFinal);
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecargaQuemada")

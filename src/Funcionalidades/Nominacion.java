@@ -46,7 +46,7 @@ public class Nominacion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);
@@ -57,7 +57,7 @@ public class Nominacion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);
@@ -76,7 +76,7 @@ public class Nominacion extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod (alwaysRun = true)
+	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -84,7 +84,7 @@ public class Nominacion extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass (alwaysRun = true)
+	//@AfterClass (alwaysRun = true)
 	public void quit() {
 		driver.quit();
 		sleep(5000);
@@ -167,6 +167,7 @@ public class Nominacion extends TestBase {
 		File directory2 = new File ("form.pdf"); 
 		contact.subirformulario(new File(directory2.getAbsolutePath()).toString());
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("FinishProcess_nextBtn")));
+		sleep(20000);
 		List <WebElement> element = driver.findElement(By.id("NominacionExitosa")).findElements(By.tagName("p"));
 		boolean a = false;
 		for (WebElement x : element) {
@@ -204,6 +205,7 @@ public class Nominacion extends TestBase {
 		botonNominar.findElement(By.tagName("a")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("DocumentInputSearch")));
 		contact.searchContact2("DNI", sDni, sSexo);
+		driver.findElement(By.id("Birthdate")).clear();
 		driver.findElement(By.id("Birthdate")).sendKeys(sFnac);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".vlc-slds-button--tertiary.ng-binding.ng-scope")));
 		WebElement error = driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope"));
@@ -386,7 +388,8 @@ public class Nominacion extends TestBase {
 		botonNominar.findElement(By.tagName("a")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("DocumentInputSearch")));
 		contact.searchContact2("Pasaporte", sPasaporte, "Masculino");
-		contact.Llenar_Contacto(sNombre, sApellido, sFnac, "", "");
+		contact.Llenar_Contacto(sNombre, sApellido, sFnac, "", "a@yahoo.com");
+		sleep(3000);
 		driver.findElement(By.id("PermanencyDueDate")).sendKeys(sFperm);
 		System.out.println(driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText());
 		if (driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText().toLowerCase().contains("la permanencia no puede ser mayor a 2 a�os a partir de la fecha o menor a la fecha actual"))
@@ -421,7 +424,7 @@ public class Nominacion extends TestBase {
 		botonNominar.findElement(By.tagName("a")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("DocumentInputSearch")));
 		contact.searchContact2("DNI", "22222035", "Masculino");
-		contact.Llenar_Contacto("Quenico", "Newton", "15/02/1992", "", "");
+		contact.Llenar_Contacto("Quenico", "Newton", "15/02/1992", "", "asd@yahoo.com");
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("MethodSelection_nextBtn")));
 		List<WebElement> valdni = driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding"));
 		for (WebElement x : valdni) {
@@ -604,6 +607,7 @@ public class Nominacion extends TestBase {
 		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")));
 		contact.completarDomicilio(sProvincia, sLocalidad, sZona, sCalle, sNumCa, sCP, tDomic);
+		sleep(10000);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("FinishProcess_nextBtn")));
 		cbsm.ValidarInfoCuenta(sLinea, sNombre,sApellido, "Plan con Tarjeta Repro");
 		List <WebElement> element = driver.findElement(By.id("NominacionExitosa")).findElements(By.tagName("p"));
@@ -691,7 +695,7 @@ public class Nominacion extends TestBase {
 		botonNominar.findElement(By.tagName("a")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("DocumentInputSearch")));
 		contact.searchContact2("DNI", "22222035", "Masculino");
-		contact.Llenar_Contacto("Quenico", "Newton", "15/02/1992", "", "");
+		contact.Llenar_Contacto("Quenico", "Newton", "15/02/1992", "", "a@yahoo.com");
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("MethodSelection_nextBtn")));
 		List<WebElement> valdni = driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding"));
 		for (WebElement x : valdni) {
