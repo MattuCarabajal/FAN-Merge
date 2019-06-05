@@ -192,11 +192,11 @@ public class HistorialDePacks extends TestBase {
 		driver.findElement(By.id("text-input-03")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-dropdown slds-dropdown--left resize-dropdowns']")));
 		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
-			if (x.getText().toLowerCase().contains("internet 50 mb dia nacional"))
+			if (x.getText().toLowerCase().contains("internet 50 mb dia"))
 				cc.obligarclick(x);
 		}
 		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
-		Assert.assertTrue(datoTabla.toLowerCase().contains("internet 50 mb dia nacional"));
+		Assert.assertTrue(datoTabla.toLowerCase().contains("internet 50 mb dia"));
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")

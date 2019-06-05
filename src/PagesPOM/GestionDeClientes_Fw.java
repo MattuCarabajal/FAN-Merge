@@ -219,7 +219,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public void selectMenuIzq(String opcionVisible) {
-		try {Thread.sleep(2000);} catch (InterruptedException e1) {}
+		try {Thread.sleep(5000);} catch (InterruptedException e1) {}
 		clickMenuIzq();
 		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(this.locator_listaMenuIzq), 2));
 		try{
@@ -249,7 +249,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 //		fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]")));
 		TestBase tb = new TestBase();
 		tb.sleepClickBy(driver, By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]"), 0);
-		driver.findElement(By.xpath("//button[contains(text(),'Gesti')]")).click();
+		//driver.findElement(By.xpath("//button[contains(text(),'Gesti')]")).click();
 	}
 	
 	public void BuscarCuenta(String Type, String NDNI){

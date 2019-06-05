@@ -1320,7 +1320,7 @@ public class TestBase {
 	@DataProvider // no esta en el data provi
 	public Object [][] ventaPack50ofic() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack 50 min Oficina");
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack 50min Oficina");
 		
 		return (testObjArray);
 	}
@@ -2142,7 +2142,6 @@ public class TestBase {
 				sleepFindBy(driver, byForElement, timeAcumulated + 0.100);
 			}
 		}
-		System.out.println(timeAcumulated);
 	}
 	
 	public void sleepFindBy (WebElement element, By byForElement, double timeAcumulated) {
@@ -2169,7 +2168,7 @@ public class TestBase {
 			} catch (InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
-			sleepFindBy(driver, byForElement, timeAcumulated + 0.250);
+			sleepClickBy(driver, byForElement, timeAcumulated + 0.250);
 		}
 	}
 	
