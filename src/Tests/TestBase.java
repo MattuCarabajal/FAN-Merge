@@ -605,7 +605,7 @@ public class TestBase {
 		driver.switchTo().defaultContent();
 		sleepPrivado(2000);
 	}
-			
+
 	public static void inicializarDriver() {
 		driver = setConexion.setupEze();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -731,7 +731,6 @@ public class TestBase {
 	}
 	
 	public int getIndexFrame(WebDriver driver, By byForElement) { // working correctly
-		// TODO: Do the same for a WebElement instead of a By.
 		int index = 0;
 		driver.switchTo().defaultContent();
 		List<WebElement> frames = driver.findElements(By.tagName("iframe"));
@@ -824,7 +823,9 @@ public class TestBase {
 		}
 		return sDataProviderE2E;
 	}
-/////////////////////////////////////////////////////////////////   DATA PROVIDER PARA REGRESION COMPACTA     //////////////////////////////////////////////////////////////////	
+
+	//========================================== Data Provider - Regresion Compacta ==========================================\\
+
 	public String dataProviderCompact() {
 		String sDataProviderCompact;
 		
@@ -1058,95 +1059,7 @@ public class TestBase {
 		}
 		return null;
 	}
-	@DataProvider
-	public Object[][] rNuevaNomina() throws Exception{
-
-		Object[][] testObjArray = ExcelUtils.getTableArray("DatosRegresion","NuevaNomina",1,1,14);
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] rExistenteNomina() throws Exception{
-
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,4,"ExistenteNomina");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] rRecargasTC() throws Exception{
-
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,12,"RecargasTC");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] rSmsDescuento() throws Exception{
-
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,3,"PackSmsDescuento");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] rDatosEfectivo() throws Exception{
-
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,3,"PackDatosEfectivo");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] rMinutosTC() throws Exception{
-
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,12,"PackMinutosTC");
-
-	 return (testObjArray);
-
-	}
-	
-
-	
-	@DataProvider
-	public Object[][] rDescuentoTelef() throws Exception{
-
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(), "DatosRegresion", 1, 1, 3,"RenovacionDescuentoTelef");
 		
-		return (testObjArray);
-	
-	}
-	
-	@DataProvider
-	public Object[][] rEfectivoOOCC() throws Exception{
-
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,3,"RenovacionEfectivoOOCC");
-
-	 return (testObjArray);
-
-	}
-	
-	@DataProvider
-	public Object[][] rTCAgente() throws Exception{
-
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,12,"RenovacionTCAgente");
-
-	 return (testObjArray);
-
-	}
-
-/////////////////////////////////////////////////////////////////       F I N  DATA PROVIDER REGRESION COMPACTA        //////////////////////////////////////////////////////////////////////////
-	
-	@DataProvider
-	public Object[][] Nominacion() throws Exception{
-
-	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Tech",1,1,3);
 	public void cambioDeFrame(WebDriver driver, By byForElement, double timeAcumulated) {
 		if (18 > timeAcumulated) {
 			try {
@@ -1254,961 +1167,783 @@ public class TestBase {
 	//===================================================== DATA PROVIDER =====================================================\\
 	
 	@DataProvider
+	public Object[][] Nominacion() throws Exception{
+		
+		return ExcelUtils.getTableArray("Cuentas.xlsx","Tech",1,1,3);
+	}
+	
+	@DataProvider
+	public Object[][] rNuevaNomina() throws Exception{
+
+		return ExcelUtils.getTableArray("DatosRegresion","NuevaNomina",1,1,14);
+	}
+	
+	@DataProvider
+	public Object[][] rExistenteNomina() throws Exception{
+
+		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,4,"ExistenteNomina");
+	}
+	
+	@DataProvider
+	public Object[][] rRecargasTC() throws Exception{
+
+		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,12,"RecargasTC");
+	}
+	
+	@DataProvider
+	public Object[][] rSmsDescuento() throws Exception{
+
+		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,3,"PackSmsDescuento");
+	}
+	
+	@DataProvider
+	public Object[][] rDatosEfectivo() throws Exception{
+
+		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,3,"PackDatosEfectivo");
+	}
+	
+	@DataProvider
+	public Object[][] rMinutosTC() throws Exception{
+
+		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,12,"PackMinutosTC");
+	}
+	
+	@DataProvider
+	public Object[][] rDescuentoTelef() throws Exception{
+
+		return ExcelUtils.getTableArray(dataProviderCompact(), "DatosRegresion", 1, 1, 3,"RenovacionDescuentoTelef");
+	}
+	
+	@DataProvider
+	public Object[][] rEfectivoOOCC() throws Exception{
+
+		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,3,"RenovacionEfectivoOOCC");
+	}
+	
+	@DataProvider
+	public Object[][] rTCAgente() throws Exception{
+
+		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,12,"RenovacionTCAgente");
+	}
+
+	@DataProvider
 	public Object[][] Tech() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Tech", 1, 1, 3);
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Tech", 1, 1, 3);
 	}
 
 	@DataProvider
 	public Object[][] SalesCuentaInactiva() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Cuenta Inactiva");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Cuenta Inactiva");
 	}
 
 	@DataProvider
 	public Object[][] CustomerCuentaActiva() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Customer", 1, 1, 1);
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Customer", 1, 1, 1);
 	}
 
 	@DataProvider
 	public Object[][] SalesCuentaActiva() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Cuenta Activa");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Cuenta Activa");
 	}
 
 	@DataProvider
 	public Object[][] SalesContactoSinCuenta() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 2, "Contacto sin cuenta");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 2, "Contacto sin cuenta");
 	}
 
 	@DataProvider
 	public Object[][] SalesBlacklist() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 2, "Blacklist");
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 2, "Blacklist");
 	}
 
 	@DataProvider
 	public Object[][] SalesCuentaConGestiones() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Cuenta con gestiones");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Cuenta con gestiones");
 	}
 
 	@DataProvider
 	public Object[][] SalesCuentaBolsa() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Cuenta Bolsa");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Cuenta Bolsa");
 	}
 
 	@DataProvider
 	public Object[][] OMAltaLinea() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 7, "AltaLinea");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 7, "AltaLinea");
 	}
 
 	@DataProvider
 	public Object[][] OMAltaCompleta() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 10, "AltaLineaC");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 10, "AltaLineaC");
 	}
 
 	@DataProvider
 	public Object[][] OMCambioSim() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 9, "CambioSim");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 9, "CambioSim");
 	}
 
 	@DataProvider
 	public Object[][] OMCambioDeSimSiniestro() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 9, "CambioDeSimSiniestro");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 9, "CambioDeSimSiniestro");
 	}
 
 	@DataProvider
 	public Object[][] OMCambioDeNumero() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 7, "CambioDeNumero");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 7, "CambioDeNumero");
 	}
 
 	@DataProvider
 	public Object[][] OMNominacion() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 3, "Nominacion");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 3, "Nominacion");
 	}
 
 	@DataProvider
 	public Object[][] SalesPasaporteBolsa() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Pasaporte Bolsa");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Sales", 1, 1, 3, "Pasaporte Bolsa");
 	}
 
 	@DataProvider
 	public Object[][] MarketingCuentaNormal() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta Normal");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta Normal");
 	}
 
 	@DataProvider
 	public Object[][] MarketingCuentaConMora() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta c/ Mora");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta c/ Mora");
 	}
 
 	@DataProvider
 	public Object[][] MarketingCuentaConFraude() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta c/ Fraude");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta c/ Fraude");
 	}
 	
 	@DataProvider
 	public Object[][] MarketingCuentaSinServicio() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta sin Servicio");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta sin Servicio");
 	}
 	
 	@DataProvider
 	public Object[][] MarketingCuentaAtributosYExclusiones() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta Atributos y Exclusiones");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "Marketing", 1, 1, 1, "Cuenta Atributos y Exclusiones");
 	}
 	
 	@DataProvider
 	public Object[][] OMCambioTitularidad() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 6, "Cambio de Titularidad");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx", "OM", 1, 1, 6, "Cambio de Titularidad");
 	}
 	
 	@DataProvider
 	public Object[][] DatosSalesNominacion() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "Altas y Nominacion", 1, 1, 12, "Nominacion");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(), "Altas y Nominacion", 1, 1, 12, "Nominacion");
 	}
 
 	@DataProvider
 	public Object[][] DatosSalesNominacionNuevoOfCom() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 14, "NominacionNuevoOfCom");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 14, "NominacionNuevoOfCom");
 	}
 
 	@DataProvider
 	public Object[][] NominacionExistenteOfCom() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 4, "NominacionExistenteOfCom");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 4, "NominacionExistenteOfCom");
 	}
 
 	@DataProvider
 	public Object[][] DatosNoNominacionNuevoAgente() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 7, "NoNominaNuevoAgente");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 7, "NoNominaNuevoAgente");
 	}
 
 	@DataProvider
 	public Object[][] DatosSalesNominacionNuevoAgente() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 14, "NominacionNuevoAgente");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 14, "NominacionNuevoAgente");
 	}
 
 	@DataProvider
 	public Object[][] DatosSalesNominacionNuevoPasaporteOfCom() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 15, "NominacionNuevoPasaporteOfCom");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 15, "NominacionNuevoPasaporteOfCom");
 	}
 
 	@DataProvider
 	public Object[][] DatosNoNominaNuevoEdadOfCom() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 4, "NoNominaNuevoEdadOfCom");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 4, "NoNominaNuevoEdadOfCom");
 	}
 
 	@DataProvider
 	public Object[][] DatosNoNominacionNuevoTelefonico() throws Exception {
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 7, "NoNominaNuevoTelefonico");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 7, "NoNominaNuevoTelefonico");
 	}
 	
 	@DataProvider
 	public Object[][] DatosAltaLineaAgente() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,16,"Alta Linea Agente");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,16,"Alta Linea Agente");
 	}
 
 	@DataProvider
 	public Object[][] DatosSalesAltaLineaEquipo() throws Exception{ //para verificar, por las dudas no se borro.
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","PreparacionDatos",1,1,9,"Alta Linea Equip New AG");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx","PreparacionDatos",1,1,9,"Alta Linea Equip New AG");
 	}
 	
 	@DataProvider
 	public Object[][] PerfilCuentaSeiscientos() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","PerfilGestiones",1,1,4,"Cuenta Seiscientos");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray("Cuentas.xlsx","PerfilGestiones",1,1,4,"Cuenta Seiscientos");
 	}
 	
 	@DataProvider
 	public Object[][] RecargaTC() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,12,"Recargas TC");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,12,"Recargas TC");
 	}
 	
 	@DataProvider
 	public Object[][] DatosAltaLineaOfCom() throws Exception{//verofocadp
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,15,"Alta Linea OFCOM");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,15,"Alta Linea OFCOM");
 	}
 	
 	@DataProvider
 	public Object[][] AltaLineaNuevoAgentePresencial() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,12,"Alta Linea Nuevo Agente Presencial");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,12,"Alta Linea Nuevo Agente Presencial");
 	}
 	
 	@DataProvider
 	public Object[][] AltaLineaExistenteOfComPresencial() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,4,"Alta Linea Existente OfCom Presencial");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,4,"Alta Linea Existente OfCom Presencial");
 	}
 	
 	@DataProvider
 	public Object[][] RenovacionCuotaConSaldo() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,3,"Renovacion Cuota Con Saldo");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,3,"Renovacion Cuota Con Saldo");
 	}
 	
 	@DataProvider
 	public Object[][] RenovacionCuotaSinSaldo() throws Exception{
-
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,3,"Renovacion Cuota Sin Saldo");
-
-		return (testObjArray);
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,3,"Renovacion Cuota Sin Saldo");
 	}
 	
 	@DataProvider
 	public Object[][] RenovacionCuotaSinSaldoConTC() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,14,"Renovacion Cuota TC");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,14,"Renovacion Cuota TC");
 	}
 	
 	@DataProvider
 	public Object[][] RenovacionCuotaconSaldoConTC() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,14,"Renovacion Cuota Con TC Con Saldo");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"renovacion",1,1,14,"Renovacion Cuota Con TC Con Saldo");
 	}
 	
 	@DataProvider
 	public Object[][] NumerosAmigos() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"Numeros Amigos");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"Numeros Amigos");
 	}
 	
 	@DataProvider
 	public Object[][] AltaServicios() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Alta Servicio");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Alta Servicio");
 	}
 	
 	@DataProvider
 	public Object[][] BajaServicios() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Baja Servicio");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Baja Servicio");
 	}
 	
 	@DataProvider
 	public Object[][] VentaPacks() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Venta de pack saldo");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Venta de pack saldo");
 	}
 	
 	@DataProvider
 	public Object[][] packUruguay() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"packUruguay");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"packUruguay");
 	}
 	
 	@DataProvider
 	public Object[][] ventaPack50Tele() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"Pack 50min Tel");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"Pack 50min Tel");
 	}
 	
 	@DataProvider // no esta en el data provider
 	public Object[][] ventaPack50ofic() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack 50 min Oficina");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack 50 min Oficina");
 	}
 	
 	@DataProvider
 	public Object[][] ventaX1Dia() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"packDe1DiaPersonal");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"packDe1DiaPersonal");
 	}
 	
 	@DataProvider
 	public Object[][] ventaPackInternacional30SMS() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"packTelefoInternacional30SMS");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"packTelefoInternacional30SMS");
 	}
 	
 	@DataProvider
 	public Object[][] ventaPack500min() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack500min");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack500min");
 	}
 	
 	@DataProvider
 	public Object[][] ventaPackA40() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackAdela40");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackAdela40");
 	}
 	
 	@DataProvider
 	public Object[][] ventaPackM2M() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack M2M 10");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack M2M 10");
 	}
 	
 	@DataProvider
 	public Object[][] PackOfCom() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,7,"packOfCom");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,7,"packOfCom");
 	}
 	
 	@DataProvider
 	public Object[][] PackAgente() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"packAgente");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"packAgente");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaSuspension() throws Exception {
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,5,"SuspensionOficina");
-		
-		return(testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,5,"SuspensionOficina");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaAjustesPRE() throws Exception {
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Ajustes PRE");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Ajustes PRE");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaAjustesREPRO() throws Exception {
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Ajustes REPRO");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Ajustes REPRO");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaProblemaRecarga() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,2,"ProblemaRecargas");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,2,"ProblemaRecargas");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaProblemaRecargaAYD() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,4,"ProblemaRecargaAyD");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,4,"ProblemaRecargaAyD");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaProblemaRecargaQuemada() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,4,"ProblemaRecargaQuemada");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,4,"ProblemaRecargaQuemada");
 	}
 	
 	@DataProvider
 	public Object[][] ProblemaRecargaPrepaga() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,4,"ProblemaRecargaPrepaga");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,4,"ProblemaRecargaPrepaga");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaHabilitacion() throws Exception {
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,2,"Habilitacion");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,2,"Habilitacion");
 	}
 	
 	@DataProvider
 	public Object[][] RecargaEfectivo() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,3,"Recarga Efectivo");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,3,"Recarga Efectivo");
 	}
 	
 	@DataProvider
 	public Object[][] CambioSimCardTelef() throws Exception{
 		
-		Object[][] testObjArray =  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,6,"SimCard Telef");
-		
-		return (testObjArray);
+		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,6,"SimCard Telef");
 	}
 	
 	@DataProvider
 	public Object[][] CambioSimCardAgente() throws Exception{
 		
-		Object[][] testObjArray =  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,2,"Cambio SimCard Agente");
-		
-		return (testObjArray);
+		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,2,"Cambio SimCard Agente");
 	}
 	
 	@DataProvider
 	public Object[][] CambioSimCardOficina() throws Exception{
 		
-		Object[][] testObjArray =  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,2,"Cambio SimCard Oficina");
-		
-		return (testObjArray);
+		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,2,"Cambio SimCard Oficina");
 	}
 	
 	@DataProvider
 	public Object[][] SimCardSiniestroAG() throws Exception{
 		
-		Object[][] testObjArray =  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,6,"SimCard Siniestro Agente");
-		
-		return (testObjArray);
+		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,6,"SimCard Siniestro Agente");
 	}
 	
 	@DataProvider
 	public Object[][] SimCardSiniestroOfCom() throws Exception{
 		
-		Object[][] testObjArray =  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,2,"SimCard Siniestro OfCom");
-		
-		return (testObjArray);
+		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,2,"SimCard Siniestro OfCom");
 	}
 	
 	@DataProvider
 	public Object[][] DatosAltaEquipoExiste() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,5,"Alta Linea Equipo Existe");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,5,"Alta Linea Equipo Existe");
 	}
 	
 	@DataProvider
 	public Object[][] AltaLineaNuevoEquipoTC() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,22,"Alta Linea Equip New AG Credito");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,22,"Alta Linea Equip New AG Credito");
 	}
 	
 	@DataProvider
 	public Object[][] VentaNuevoEquipoOfCom() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,12,"Venta Equipo New OfCom");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,12,"Venta Equipo New OfCom");
 	}
 	
 	@DataProvider
 	public Object[][] DatosAltaAgenteCredito() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,17,"Alta Linea AG TC");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,17,"Alta Linea AG TC");
 	}
 	
 	@DataProvider
 	public Object[][] PerfilCuentaTomRiddleConLinea() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,14,"Recargas TC");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,14,"Recargas TC");
 	}
 	
 	@DataProvider
 	public Object[][] AltaLineaExistenteOfComTD() throws Exception{//verificado
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,9,"Alta Linea Existe OfCom Debito");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,9,"Alta Linea Existe OfCom Debito");
 	}
 	
 	@DataProvider
 	public Object[][] AltaEquipoExisteSPU() throws Exception{//verificado
 		
-		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,8,"Linea Equipo Existe SPU");
-
-		 return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,8,"Linea Equipo Existe SPU");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaTriviasYSuscripciones() throws Exception{
 		
-		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni",1,1,2,"Trivias Y Suscripciones");
-
-		 return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni",1,1,2,"Trivias Y Suscripciones");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaReintegros() throws Exception{
 		
-		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni",1,1,1,"Reintegros");
-
-		 return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni",1,1,1,"Reintegros");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaModificacionDeDatos() throws Exception{
 		
-		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Modificacion De Datos");
-
-		 return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Modificacion De Datos");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaAnulacionDeVenta() throws Exception{
 		
-		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni",1,1,1,"Anulacion De Venta");
-
-		 return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni",1,1,1,"Anulacion De Venta");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaReseteoClave() throws Exception{
 		
-		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni",1,1,1,"Reseteo De Clave");
-
-		 return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni",1,1,1,"Reseteo De Clave");
 	}
 	
 	@DataProvider(name = "SerialInexistente")
 	public Object[][] SerialInexistente() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,10,"SerialInexistente");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,10,"SerialInexistente");
 	}
 	
 	@DataProvider(name = "SerialConDepositoErroneo")
 	public Object[][] SerialConDepositoErroneo() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,7,"SerialConDepositoErroneo");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,7,"SerialConDepositoErroneo");
 	}
 	
 	@DataProvider(name = "SerialConFormatoInvalido")
 	public Object[][] SerialConFormatoInvalido() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,7,"SerialConFormatoInvalido");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,7,"SerialConFormatoInvalido");
 	}
 	
 	@DataProvider(name = "SerialBalido")
 	public Object[][] SerialBalido() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"SerialBalido");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"SerialBalido");
 	}
 	
 	@DataProvider(name = "DosSerialesValidos")
 	public Object[][] DosSerialesValidos() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,8,"DosSerialesValidos");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,8,"DosSerialesValidos");
 	}
 	
 	@DataProvider(name = "ArchivoVacio")
 	public Object[][] ArchivoVacio() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,7,"ArchivoVacio");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,7,"ArchivoVacio");
 	}
 	
 	@DataProvider(name = "SerialNoMCVM")
 	public Object[][] SerialNoMCVM() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,7,"SerialNoMCVM");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,7,"SerialNoMCVM");
 	}
 	
 	@DataProvider(name = "SerialesNoValidos")
 	public Object[][] SerialesNoValidos() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,7,"SerialesNoValidos");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,7,"SerialesNoValidos");
 	}
 	
 	@DataProvider(name = "SerialValidoEterno")
 	public Object[][] SerialValidoEterno() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,7,"SerialValidoEterno");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"E2EsinPago",1,1,7,"SerialValidoEterno");
 	}
 	
 	@DataProvider
 	public Object[][] AltaLineaNuevoconEquipo() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,13,"Linea Nueva Equipo AG");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,13,"Linea Nueva Equipo AG");
 	}
 	
 	@DataProvider
 	public Object[][] AltaLineaEquipoOfCom() throws Exception{//verofocadp
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,8,"Linea Equipo Nuevo OfCom");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,8,"Linea Equipo Nuevo OfCom");
 	}
 	
 	@DataProvider
 	public Object[][] NumerosAmigosModificacion() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"Amigos Modificacion");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"Amigos Modificacion");
 	}
 	
 	@DataProvider
 	public Object[][] NumerosAmigosBaja() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,3,"Amigos Baja");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,3,"Amigos Baja");
 	}
 	
 	@DataProvider
 	public Object[][] RecargaTD() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,12,"Recargas TD");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"recargas",1,1,12,"Recargas TD");
 	}
 	
 	@DataProvider
 	public Object[][] VentaExisteEquipoAgTd() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,9,"Venta Equipo Existe AG Debito");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"alta de linea",1,1,9,"Venta Equipo Existe AG Debito");
 	}
 	
 	@DataProvider
 	public Object[][] NumerosAmigosLetras() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,2,"Amigos Letras");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,2,"Amigos Letras");
 	}
 	
 	@DataProvider
 	public Object[][] ConsultaSaldo() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,3,"SaldoConsulta");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,3,"SaldoConsulta");
 	}
 	
 	@DataProvider
 	public Object[][] ProductosyServicios() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni",1,1,1,"Productos y Servicios");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni",1,1,1,"Productos y Servicios");
 	}
 	
 	@DataProvider
 	public Object[][] validaDocumentacion() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,6,"DocumentacionValida");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,6,"DocumentacionValida");
 	}
 	
 	@DataProvider
 	public Object[][] invalidaDocumentacion() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,6,"DocumentacionInvalida");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,6,"DocumentacionInvalida");
 	}
 	
 	@DataProvider
 	public Object[][] documentacionVista360() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,1,"VistaDocumentacion");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,1,"VistaDocumentacion");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaVista360() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,3,"Vista 360");
-		
-		return (testObjArray); 
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,3,"Vista 360");
 	}
 	
 	@DataProvider
 	public Object[][] RecargasHistorias() throws Exception{
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"RecargaHistoria");
-		
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"RecargaHistoria");
 	}
 	
 	@DataProvider
 	public Object[][] DatosSalesNominacionPyRNuevoOfCom() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,12,"NominacionNuevoPyROfCom");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,12,"NominacionNuevoPyROfCom");
 	} 
 	
 	@DataProvider
 	public Object[][] NumerosAmigosNoPersonalAlta() throws Exception {
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"No Personal Alta Amigos");
-
-		 return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"No Personal Alta Amigos");
 	}
 	
 	@DataProvider
 	public Object[][] NumerosAmigosNoPersonalModificacion() throws Exception {
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"No Personal Modificacion Amigos");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,4,"No Personal Modificacion Amigos");
 	}
 	
 	@DataProvider
 	public Object[][] NumerosAmigosNoPersonalBaja() throws Exception {
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,3,"No Personal Baja Amigos");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"numeros amigos",1,1,3,"No Personal Baja Amigos");
 	}
 	
 	@DataProvider
 	public Object[][] serviciotecnicoR() throws Exception {
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"servicio tecnico",1,1,7,"Servicio Tecnico Reparacion");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"servicio tecnico",1,1,7,"Servicio Tecnico Reparacion");
 	}
 	
 	@DataProvider
 	public Object[][] serviciotecnicoC() throws Exception {
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"servicio tecnico",1,1,7,"Servicio Tecnico Configuracion");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"servicio tecnico",1,1,7,"Servicio Tecnico Configuracion");
 	}
 	
 	@DataProvider
 	public Object[][] Diagnostico() throws Exception {
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"DiagnInconveniente");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"DiagnInconveniente");
 	}
 	
 	@DataProvider
 	public Object[][] BaseDeConocimiento() throws Exception {
 		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"DatosConocimientos");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"DatosConocimientos");
 	}
 	
 	@DataProvider
 	public Object[][] LineasNominadas() throws Exception {
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"ListaLineas",1,1,1,"LineaNominada");
-
-		 return (testObjArray);
+			
+		return ExcelUtils.getTableArray(dataProviderE2E(),"ListaLineas",1,1,1,"LineaNominada");
 	}
 	
 	@DataProvider
 	public Object[][] CuentaModificacionDeDNI() throws Exception{
 		
-		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Modificacion De DNI");
-
-		 return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Modificacion De DNI");
 	}	
 	
 	@DataProvider
 	public Object[][] DatosNoNominacionNuevoTelefonicoPasaporte() throws Exception{
 		
-		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,8,"NoNominacionNuevoTelefonicoPasaporte");
-
-		 return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,8,"NoNominacionNuevoTelefonicoPasaporte");
 	}
 	
 	@DataProvider
 	public Object[][] DatosNoNominacionExistenteAgente() throws Exception{
 		
-		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,5,"NoNominacionExistenteAgente");
-
-		 return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,5,"NoNominacionExistenteAgente");
 	}
 	
 	@DataProvider
 	public Object[][] GestionRegionesCreacion() throws Exception{
 		
-		Object[][] testObjArray =  ExcelUtils.getTableArray(dataProviderE2E(),"BeFAN",1,1,1,"Creacion Regiones");
-		
-		return (testObjArray);
+		return  ExcelUtils.getTableArray(dataProviderE2E(),"BeFAN",1,1,1,"Creacion Regiones");
 	}
 	
 	@DataProvider
 	public Object[][] DatosNominacionExistente5Lineas() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,2,"NominacionExistente5Lineas");
-
-		return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,2,"NominacionExistente5Lineas");
 	}
 	
 	@DataProvider
 	public Object[][] DatosNoNominacionNuevoFraudeTelef() throws Exception{
 		
-		 Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,2,"NoNominacionNuevoFraudeTelef");
-
-		 return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,2,"NoNominacionNuevoFraudeTelef");
 	}
 	
 	@DataProvider
 	public Object[][] DatosNoNominacionExistenteFraudeOfcom() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,2,"NoNominacionExistenteFraudeOfcom");
-
-	 	return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,2,"NoNominacionExistenteFraudeOfcom");
 	}
 	
 	@DataProvider
 	public Object[][] DatosNoNominacionExistenteTelefonico() throws Exception{
 
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,3,"NoNominacionExistenteTelefonico");
-
-	 	return (testObjArray);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,3,"NoNominacionExistenteTelefonico");
 	}
 	
 	//=============================================== Metodos Victor =========================================================\\
