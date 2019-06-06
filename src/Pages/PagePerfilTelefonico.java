@@ -11,7 +11,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -25,6 +27,7 @@ import Pages.Marketing;
 import Pages.OM;
 import Pages.SalesBase;
 import Pages.setConexion;
+import PagesPOM.GestionDeClientes_Fw;
 import Tests.TestBase;
 
 /**
@@ -40,6 +43,7 @@ public class PagePerfilTelefonico extends TestBase {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
+	
 	@FindBy(id="SetPaymentType_nextBtn")
 	private WebElement Tipodepago;
 	
@@ -111,6 +115,7 @@ public class PagePerfilTelefonico extends TestBase {
 		return wPlanConTarjetaRepro;
 	}
 	
+	
 	public void buscarAssert() {
 	CustomerCare cc= new CustomerCare(driver);
 	sleep(8000);
@@ -174,18 +179,17 @@ public class PagePerfilTelefonico extends TestBase {
 	}
 	
 	public String PackCombinado(String Pack1) {
-		sleep(5000);		
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.cpq-item-has-children")));
+		cambioDeFrame(driver, By.cssSelector(".slds-button.cpq-item-has-children"), 0);		
 		Pack("Packs Opcionales", "Packs Combinados", Pack1);
 		sleep(10000);
 		String chargeCode = "nada";//obtenerChargeCode();
-		driver.findElement(By.cssSelector(".slds-button.slds-m-left--large.slds-button--brand.ta-button-brand")).click();
-		sleep(25000);
-		try{ 
-		      driver.findElements(By.cssSelector(".slds-button.slds-button--neutral.ng-binding.ng-scope")).get(1).click(); 
-		      sleep(8000); 
-		    }catch(Exception ex1){} 
-		sleep(12000);
+		driver.findElement(By.cssSelector("[class = 'slds-button slds-button--brand ta-button-brand']")).click();
+//		sleep(25000);
+//		try{ 
+//		      driver.findElements(By.cssSelector(".slds-button.slds-button--neutral.ng-binding.ng-scope")).get(1).click(); 
+//		      sleep(8000); 
+//		    }catch(Exception ex1){} 
+//		sleep(12000);
 		return chargeCode;
 	}
 	
@@ -222,17 +226,19 @@ public class PagePerfilTelefonico extends TestBase {
 	}
 	
 	public void tipoDePago(String tipodepago) {
-	List<WebElement> tipodePago = driver.findElements(By.cssSelector(".slds-radio.ng-scope"));
-	for (WebElement pago : tipodePago) {
-		//System.out.print(pago.getText().toLowerCase());
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-radio.ng-scope"), 1));
+		List<WebElement> tipodePago = driver.findElements(By.cssSelector(".slds-radio.ng-scope"));
+		for (WebElement pago : tipodePago) {
+			// System.out.print(pago.getText().toLowerCase());
 			if (pago.getText().toLowerCase().contains(tipodepago)) {
 				System.out.println(tipodepago);
-					pago.findElement(By.tagName("span")).click();
-						sleep(8000);
-							break;
-						}
-					}
-				}
+				pago.findElement(By.tagName("span")).click();
+				sleep(8000);
+				break;
+			}
+		}
+	}
 	
 	public void siguiente() {
 	sleep(5000);
@@ -280,53 +286,52 @@ public class PagePerfilTelefonico extends TestBase {
 	
 	public void Pack(String servicio1, String servicio2,String Pack1){
 		CustomerCare cCC = new CustomerCare(driver);
-		sleep(5000);
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.cpq-item-has-children")));
 		driver.findElement(By.cssSelector(".slds-button.cpq-item-has-children")).click();
-		sleep(5000);
-		List<WebElement> NomPack = driver.findElements(By.xpath("//*[@class='cpq-item-product-child-level-1 cpq-item-child-product-name-wrapper']"));
-		for(WebElement a: NomPack) {
-			//System.out.print(a.getText().toLowerCase());
-			//System.out.println(" : "+servicio1.toLowerCase());
-				if (a.getText().toLowerCase().contains(servicio1.toLowerCase())) {
-					System.out.println(servicio1);
-						a.findElement(By.tagName("button")).click();
-							sleep(8000);
-								break;
-							}
-						}
-	
-		List<WebElement> subPack = driver.findElements(By.xpath("//*[@class='cpq-item-product-child-level-2 cpq-item-child-product-name-wrapper']"));
-		List<WebElement> Btnsubpack = driver.findElements(By.xpath("//*[@class='cpq-item-product-child-level-2 cpq-item-child-product-name-wrapper']//*[@class='slds-button slds-button_icon-small']"));			
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class = 'cpq-item-product-child-level-1 cpq-item-child-product-name-wrapper']"), 3));
+		List<WebElement> NomPack = driver.findElements(By.cssSelector("[class = 'cpq-item-product-child-level-1 cpq-item-child-product-name-wrapper']"));
+		for (WebElement a : NomPack) {
+			// System.out.print(a.getText().toLowerCase());
+			// System.out.println(" : "+servicio1.toLowerCase());
+			if (a.getText().toLowerCase().contains(servicio1.toLowerCase())) {
+				System.out.println(servicio1);
+				a.findElement(By.tagName("button")).click();
+				break;
+			}
+		}
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='cpq-item-product-child-level-2 cpq-item-child-product-name-wrapper']"), 3));
+		List<WebElement> subPack = driver.findElements(By.cssSelector("[class='cpq-item-product-child-level-2 cpq-item-child-product-name-wrapper']"));
+		List<WebElement> Btnsubpack = driver.findElements(By.cssSelector("[class='cpq-item-product-child-level-2 cpq-item-child-product-name-wrapper'] button"));
 		if (subPack.size() == Btnsubpack.size()) {
-		for(WebElement b: subPack) {			
-			//System.out.println("+++++"+b.getText().substring(b.getText().indexOf("\n")+1, b.getText().length())+"++++++");
-					if (b.getText().substring(b.getText().indexOf("\n")+1, b.getText().length()).toLowerCase().contains(servicio2.toLowerCase())) {
-						System.out.println(servicio2);
-						  b.findElement(By.tagName("button")).click();
-						   sleep(8000);
-						     break;
-						}
-				    }
-				}
-		boolean estaPack=false;
-		 //subtablas
-		List<String> packs = Arrays.asList(Pack1);
-		 List<WebElement> Pack = driver.findElements( By.xpath("//*[@class='cpq-item-product-child-level-3 ng-not-empty ng-valid']//*[@class='cpq-item-no-children']"));
-		 List<WebElement> Agregar= driver.findElements(By.xpath("//*[@class='cpq-item-product-child-level-3 ng-not-empty ng-valid']//*[@class='slds-button slds-button_neutral']"));
-		 if (Pack.size() == Agregar.size()) {
-			 for (int i = 0; i < Pack.size(); i++) {
-				 for (int j = 0; j < packs.size(); j++) {
-				 if (Pack.get(i).getText().equals(packs.get(j))) {
-					sleep(8000);
-					System.out.println(Pack.get(i).getText());
-					cCC.obligarclick(Agregar.get(i));
-					estaPack=true;
-							break;	
-						}
-					}	
+			for (WebElement b : subPack) {
+				if (b.getText().toLowerCase().contains(servicio2.toLowerCase())) {
+					System.out.println(servicio2);
+					b.findElement(By.tagName("button")).click();
+					break;
 				}
 			}
-		 Assert.assertTrue(estaPack);
+		}
+		boolean estaPack = false;
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class = 'cpq-item-product-child-level-3 ng-not-empty ng-valid'] [class = 'cpq-item-no-children']"), 3));
+		// subtablas
+		List<String> packs = Arrays.asList(Pack1);
+		List<WebElement> Pack = driver.findElements(By.cssSelector("[class = 'cpq-item-product-child-level-3 ng-not-empty ng-valid'] [class = 'cpq-item-no-children']"));
+		List<WebElement> Agregar = driver.findElements(By.cssSelector("[class='cpq-item-product-child-level-3 ng-not-empty ng-valid'] [class='slds-button slds-button_neutral secondary']"));
+		if (Pack.size() == Agregar.size()) {
+			for (int i = 0; i < Pack.size(); i++) {
+				for (int j = 0; j < packs.size(); j++) {
+					if (Pack.get(i).getText().equals(packs.get(j))) {
+						sleep(8000);
+						System.out.println(Pack.get(i).getText());
+						cCC.obligarclick(Agregar.get(i));
+						estaPack = true;
+						break;
+					}
+				}
+			}
+		}
+		Assert.assertTrue(estaPack);
 		}
 	
 	

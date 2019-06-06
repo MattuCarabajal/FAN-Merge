@@ -192,13 +192,13 @@ public class ProblemasConRecargas extends TestBase {
 			ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("ExistingCase_nextBtn")));
 			driver.findElement(By.xpath("//*[@id=\"SessionCase|0\"]/div/div[1]/label[2]/span/div/div")).click();
 			driver.findElement(By.id("ExistingCase_nextBtn")).click();
-			sleep(10000);
 		} catch (Exception e) {}
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("AttachDocuments_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "contains", "si");
 		File directory = new File("Dni.jpg");
 		driver.findElement(By.id("FileAttach")).sendKeys(new File(directory.getAbsolutePath()).toString());
 		driver.findElement(By.id("AttachDocuments_nextBtn")).click();
-		sleep(5000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("Summary_nextBtn")));
 		driver.findElement(By.id("Summary_nextBtn")).click();
 		sleep(5000);
 		boolean gest = false;
@@ -553,25 +553,31 @@ public class ProblemasConRecargas extends TestBase {
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Inconvenientes con Recargas");
 		cambioDeFrame(driver, By.id("RefillMethods_nextBtn"), 0);
-		driver.findElements(By.className("borderOverlay")).get(1).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class = 'imgItemContainer ng-scope']"), 1));
+		List<WebElement> elementos = driver.findElements(By.cssSelector("[class = 'imgItemContainer ng-scope']"));
+		for(WebElement elemento : elementos) {
+			if(elemento.getText().contains("Recarga Online")) {
+				elemento.findElement(By.cssSelector("[class ='borderOverlay']")).click();
+				break;
+			}
+		}
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("OnlineRefillData_nextBtn")));
 		driver.findElement(By.id("RefillDate")).sendKeys("01-12-2018");
 		driver.findElement(By.id("OnlineRefillAmount")).sendKeys("5000");
 		driver.findElement(By.id("ReceiptCode")).sendKeys("123");
 		driver.findElement(By.id("OnlineRefillData_nextBtn")).click();
-		sleep(7000);
 		try {
+			ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("ExistingCase_nextBtn")));
 			driver.findElement(By.xpath("//*[@id=\"SessionCase|0\"]/div/div[1]/label[2]/span/div/div")).click();
 			driver.findElement(By.id("ExistingCase_nextBtn")).click();
-			sleep(10000);
 		} catch (Exception e) {}
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("AttachDocuments_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "no");
 		driver.findElement(By.id("AttachDocuments_nextBtn")).click();
-		sleep(5000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("Summary_nextBtn")));
 		driver.findElement(By.id("Summary_nextBtn")).click();
-		sleep(7000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-icon.slds-icon--large.ta-care-omniscript-pending-icon")));
+		cambioDeFrame(driver, By.cssSelector(".slds-icon.slds-icon--large.ta-care-omniscript-pending-icon"), 0);
 		for (WebElement x : driver.findElements(By.className("ta-care-omniscript-done"))) {
 			if (x.getText().contains("La gesti\u00f3n fue derivada"))
 				gestion = true;
