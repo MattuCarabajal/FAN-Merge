@@ -67,8 +67,8 @@ public class TestBase {
 
 	public static String urlBeFANUAT = "http://snapuat.telecom.com.ar/#/home";
 
-	public static String urlBeFAN = "https://befantest2.personal.corp/#/signin";
-	// public static String urlBeFAN = "https://befanuat2.personal.corp/#/signin";
+	//public static String urlBeFAN = "https://befantest2.personal.corp/#/signin";
+	 public static String urlBeFAN = "https://befanuat2.personal.corp/#/signin";
 
 	public static boolean activarFalsos = true;
 				
@@ -1147,6 +1147,10 @@ public class TestBase {
 	public Object[][] Nominacion() throws Exception{
 
 	 Object[][] testObjArray = ExcelUtils.getTableArray("Cuentas.xlsx","Tech",1,1,3);
+			 
+	return (testObjArray);
+	 
+	}
 	public void cambioDeFrame(WebDriver driver, By byForElement, double timeAcumulated) {
 		if (18 > timeAcumulated) {
 			try {

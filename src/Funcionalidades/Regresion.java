@@ -1,11 +1,15 @@
 package Funcionalidades;
 
 import java.awt.AWTException;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.io.FileNotFoundException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,17 +17,22 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import DataProvider.ExcelUtils;
 import Pages.BasePage;
+import Pages.BeFan;
 import Pages.CBS;
 import Pages.ContactSearch;
 import Pages.CustomerCare;
+import Pages.DPW;
 import Pages.Marketing;
 import Pages.PagePerfilTelefonico;
+import Pages.SCP;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
+import Tests.MDW;
 import Tests.TestBase;
 
 public class Regresion extends TestBase {
@@ -37,6 +46,9 @@ public class Regresion extends TestBase {
 	private ContactSearch contact;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	private BeFan Botones;
+	private MDW mdw;
+	private SCP scp;
 	String detalles;
 	
 	
@@ -54,7 +66,20 @@ public class Regresion extends TestBase {
 		//cc.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilMayorista")
+	public void initMayo() {
+		driver = setConexion.setupEze();
+		loginBeFANVictor(driver, "mayorista");
+		Botones = new BeFan(driver);
+		mdw = new MDW();
+		cbsm = new CBS_Mattu();
+		contact = new ContactSearch(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		
+	//	loginBeFAN(driver);
+	}
+	
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -65,9 +90,10 @@ public class Regresion extends TestBase {
 		log = new LoginFw(driver);
 		log.loginOOCC();
 		ges.irAConsolaFAN();
+		BeFan Botones = new BeFan(driver);
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -78,6 +104,7 @@ public class Regresion extends TestBase {
 		contact = new ContactSearch(driver);
 		log.loginTelefonico();
 		ges.irAConsolaFAN();
+		BeFan Botones = new BeFan(driver);
 	}
 	
 	//@BeforeClass (groups = "PerfilAgente")
@@ -101,7 +128,7 @@ public class Regresion extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod(alwaysRun=true)
+	@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -113,6 +140,77 @@ public class Regresion extends TestBase {
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
+	}
+	
+	 // ESTO FALTA ARREGLARLO 
+	//@Test(groups = { "PreactivacionBeFan", "PerfilMayorista" })
+	public void TS123_ElMetodoQueSopapeaATodosLosMetodos() throws Exception {
+		
+		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"SerialBalido");
+		// Iniciacion de variables
+		ArrayList<String> resultados = new ArrayList<String>();
+		int i = 0;
+		String path = testObjArray[i][0].toString();
+		String nombreArch = testObjArray[i][1].toString();
+		String deposito = testObjArray[i][2].toString();
+		String prefijo = testObjArray[i][3].toString();
+		String serial1 = testObjArray[i][4].toString();
+		String Cantidad = testObjArray[i][7].toString();
+		String mensaje = "";
+		int cant = 0;
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+		LocalDateTime now = LocalDateTime.now();
+		String time = dtf.format(now);
+		File salida = new File("C://BefanArchivos//salida//Resultado" + time + ".txt");
+
+		// Aqui viene lo bueno joven
+		try {
+			// Leo el archivo y cargo las variables para la preparacion de este casito
+			path = testObjArray[i][0].toString();
+			nombreArch = "seriales";
+			cant = Integer.parseInt(Cantidad);
+			
+			Botones.andaAlMenu("sims", "gestion");
+			Botones.andaAlMenu("sims", "importacion");
+			Botones.SISeleccionDeDeposito(deposito);
+			Botones.SISeleccionDePrefijo(prefijo);
+			Botones.SISeleccionCantidadDePrefijo(Cantidad);
+			Botones.SIClickAgregar();
+			Botones.SIImportarArchivo(nombreArch = Botones.SICreacionArchivo(nombreArch, path, serial1, ""));
+			Botones.SIClickImportar();
+			mensaje = Botones.SIMensajeModal();
+			if (mensaje.contentEquals("El archivo se import\u00f3 correctamente.")) {
+				Botones.SIClickAceptarImportar();
+				// Respondo por el caso
+				resultados.add("TS111958," + nombreArch + "," + deposito);
+			} else {
+				Botones.SIClickAceptarImportar();
+			}
+
+		} catch (Exception e) {
+			
+			System.err.println(e);
+
+		}
+
+//		DPW.main();
+		BufferedWriter c = new BufferedWriter(new FileWriter(salida));
+		for (String x : resultados) {
+			c.write(x + System.lineSeparator());
+			String[] Caso = x.split(",");
+			if (Caso[0].equals("TS126672")) {
+				sleep(120000);
+				String serial = Botones.TraemeLosSeriales(Caso[1]);
+				if (serial.equals("No existe el archivo")) {
+				} else {
+					boolean hola = mdw.requestValidadorS105(
+							mdw.callSoapWebService(mdw.s105Request("ARRF", serial, "SG31185001"), "uat105"), serial);
+				}
+
+			}
+		}
+		c.close();
+
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider="rNuevaNomina") 
@@ -223,13 +321,22 @@ public class Regresion extends TestBase {
 		selectByText(driver.findElement(By.id("CardBankingEntity-0")), sTarjeta);
 		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), sPromo);
 		selectByText(driver.findElement(By.id("Installment-0")), sCuota);
+		driver.findElement(By.id("CardNumber-0")).sendKeys(sNumTarjeta);
+		selectByText(driver.findElement(By.id("expirationMonth-0")), sVenceMes);
+		selectByText(driver.findElement(By.id("expirationYear-0")), sVenceAno);
+		driver.findElement(By.id("securityCode-0")).sendKeys(sCodSeg);
+		selectByText(driver.findElement(By.id("documentType-0")), "DNI");
+		driver.findElement(By.id("documentNumber-0")).sendKeys(sDNI);
+		driver.findElement(By.id("cardHolder-0")).sendKeys(sTitular);		
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		cbsm.Servicio_NotificarPago(caso);
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
-		Assert.assertTrue(datosInicial + 1000 == datosFinal);
+		System.out.println("datoinicial: "+ datosInicial);
+		System.out.println("dato final: "+datosFinal);
+		Assert.assertTrue(datosInicial + 900 == datosFinal);
 		cc.buscarOrdenDiag(caso+"*");
 		cc.verificarPedido(caso, "activada");
 	}
