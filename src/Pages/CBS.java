@@ -475,7 +475,7 @@ public class CBS {
 		boolean esta = false;
 		NodeList ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
 		switch(tipo.toLowerCase()) {
-			case "pack 50 min y 50 sms x 7 dias":
+			case "pack 150 min a personal y 150 sms x 7 dias":
 				for (int i=0; i<ofertas.getLength();i++) {
 					if(ofertas.item(i).getTextContent().equals("SO_VOICE_50MIN_50SMS_7D"))
 						esta = true;
@@ -493,7 +493,7 @@ public class CBS {
 						esta = true;
 				}
 			break;
-			case "pack 1 dia de sms y minutos a personal ilimitados":
+			case "pack sms y minutos a personal ilimitados x 1 d\u00eda":
 				System.out.println("estoy en el case");
 				for (int i=0; i<ofertas.getLength();i++) {
 					System.out.println("Oferta: "+ofertas.item(i).getTextContent());
