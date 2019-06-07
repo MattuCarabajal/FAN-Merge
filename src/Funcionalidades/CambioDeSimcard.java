@@ -20,6 +20,7 @@ import Pages.PagePerfilTelefonico;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.GestionFlow;
 import Tests.TestBase;
@@ -29,54 +30,49 @@ public class CambioDeSimcard extends TestBase {
 	private WebDriver driver;
 	private SalesBase sb;
 	private CustomerCare cc;
+	private LoginFw log;
+	private GestionDeClientes_Fw ges;
+	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
-	private String imagen;
+	String imagen;
 	String detalles;
 	
-	
-	@BeforeClass (alwaysRun = true)
-	public void initOOCC() throws IOException, AWTException {
+//	@BeforeClass (groups = "PerfilOficina")
+	public void initOOCC() {
 		driver = setConexion.setupEze();
-		sleep(5000);
-		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		cbsm = new CBS_Mattu();
+		log.loginOOCC();
+		ges.irAConsolaFAN();	
 	}
 		
-	//@BeforeClass (alwaysRun = true)
-	public void initTelefonico() throws IOException, AWTException {
+	@BeforeClass (groups = "PerfilTelefonico")
+	public void initTelefonico() {
 		driver = setConexion.setupEze();
-		sleep(5000);
-		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginTelefonico(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		cbsm = new CBS_Mattu();
+		log.loginTelefonico();
+		ges.irAConsolaFAN();	
 	}
 	
-	//@BeforeClass (alwaysRun = true)
-		public void initAgente() throws IOException, AWTException {
+	//@BeforeClass (groups = "PerfilAgente")
+		public void initAgente() {
 		driver = setConexion.setupEze();
-		sleep(5000);
-		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginAgente(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		log = new LoginFw(driver);
+		ges =  new GestionDeClientes_Fw(driver);
+		cbsm = new CBS_Mattu();
+		log.loginAgente();
+		ges.irAConsolaFAN();
 	}
 	
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
 		detalles = null;
-		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
 		ges.irGestionClientes();
@@ -100,64 +96,47 @@ public class CambioDeSimcard extends TestBase {
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
 	@Test(groups = { "GestionesPerfilOficina","CambioSimcardDer", "E2E","Ciclo3" }, priority = 1, dataProvider = "CambioSimCardOficina")
-	public void TS134381_CRM_Movil_REPRO_Cambio_de_simcard_sin_costo_Voluntario_Ofcom_Presencial_Con_entega_de_pedido(String sDNI, String sLinea) throws AWTException	{
+	public void TS134381_CRM_Movil_REPRO_Cambio_de_simcard_sin_costo_Voluntario_Ofcom_Presencial_Con_entega_de_pedido(String sDNI, String sLinea, String accid) throws AWTException	{
 		imagen = "134381";
-		detalles = null;
-		detalles = imagen + "-DNI:" + sDNI;
-		SalesBase sale = new SalesBase(driver);
-		BasePage cambioFrameByID = new BasePage();
-		CustomerCare cCC = new CustomerCare(driver);
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SearchClientDocumentType")));
-		sleep(8000);
-		sale.BuscarCuenta("DNI", sDNI);
-		sleep(8000);
-		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
-		System.out.println("id "+accid);
-		detalles +="-Cuenta:"+accid;
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
-		sleep(30000);
-		cCC.seleccionarCardPornumeroLinea(sLinea, driver);
-		sleep(3000);
-		cCC.irAGestion("Cambio de Simcard");
-		sleep(10000);
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SelectAsset0")));
+		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:"+accid;
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Cambio de Simcard");
+		cambioDeFrame(driver, By.id("SelectAsset0"), 0);
 		driver.findElement(By.id("SelectAsset0")).findElement(By.cssSelector(".slds-radio.ng-scope")).click();
 		driver.findElement(By.id("AssetSelection_nextBtn")).click();
-		sleep(5000);
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("DeliveryMethodSelection")));
-		sleep(15000);
+		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);
+//		sleep(15000);
 		Select metodoEntrega = new Select (driver.findElement(By.id("DeliveryMethodSelection")));
 		metodoEntrega.selectByVisibleText("Presencial");
-		cCC.obligarclick(driver.findElement(By.id("DeliveryMethodConfiguration_nextBtn")));
-		sleep(16000);
-		cCC.obligarclick(driver.findElement(By.id("InvoicePreview_nextBtn")));
-		sleep(16000);
+		cc.obligarclick(driver.findElement(By.id("DeliveryMethodConfiguration_nextBtn")));
+//		sleep(16000);
+		cc.obligarclick(driver.findElement(By.id("InvoicePreview_nextBtn")));
+//		sleep(16000);
 		String orden = driver.findElement(By.className("top-data")).findElement(By.className("ng-binding")).getText();
 		detalles += "-Orden:" + orden;
 		System.out.println("Orden " + orden);
 		orden = orden.substring(orden.length()-8);
-		cCC.obligarclick(driver.findElement(By.id("OrderSumary_nextBtn")));
-		sleep(15000);
+		cc.obligarclick(driver.findElement(By.id("OrderSumary_nextBtn")));
+//		sleep(15000);
 		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
 		Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
-		String invoice = cCC.obtenerMontoyTNparaAlta(driver, orden);
+		String invoice = cc.obtenerMontoyTNparaAlta(driver, orden);
 		System.out.println(invoice);
 		detalles+="-Monto:"+invoice.split("-")[1]+"-Prefactura:"+invoice.split("-")[0];
-		CBS_Mattu invoSer = new CBS_Mattu();
+//		CBS_Mattu invoSer = new CBS_Mattu();
 		if(activarFalsos==true)
-		invoSer.Servicio_NotificarEmisionFactura(orden);
+		cbsm.Servicio_NotificarEmisionFactura(orden);
 		sleep(10000);
 		driver.navigate().refresh();
-		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
+		cambioDeFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
 		if(activarFalsos==true) {
 			boolean esta = false;
 			List<WebElement> campos = tabla.findElements(By.tagName("tr"));
-			for(WebElement UnC: campos) {
-				if(UnC.getText().toLowerCase().contains("tracking status")) {
-					Assert.assertTrue(UnC.getText().toLowerCase().contains("preparar pedido"));
+			for(WebElement campo: campos) {
+				if(campo.getText().toLowerCase().contains("tracking status")) {
+					Assert.assertTrue(campo.getText().toLowerCase().contains("preparar pedido"));
 					esta = true;
 					break;
 				}
@@ -168,50 +147,34 @@ public class CambioDeSimcard extends TestBase {
 	}
 	
 	@Test(groups = { "GestionesPerfilOficina","CambioDeSimcard", "E2E","Ciclo3" }, priority = 1, dataProvider = "SimCardSiniestroOfCom")
-	public void TS134382_CRM_Movil_REPRO_Cambio_de_simcard_sin_costo_Siniestro_Ofcom_Presencial_Con_entega_de_pedido(String sDNI, String sLinea) throws AWTException {
+	public void TS134382_CRM_Movil_REPRO_Cambio_de_simcard_sin_costo_Siniestro_Ofcom_Presencial_Con_entega_de_pedido(String sDNI, String sLinea, String accid) throws AWTException {
 		imagen = "134382";
-		detalles = null;
-		detalles = imagen + "-DNI:" + sDNI;
-		SalesBase sale = new SalesBase(driver);
-		BasePage cambioFrameByID = new BasePage();
-		CustomerCare cCC = new CustomerCare(driver);
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SearchClientDocumentType")));
-		sleep(8000);
-		sale.BuscarCuenta("DNI", sDNI);
-		sleep(8000);
-		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
-		System.out.println("id "+accid);
-		detalles +="-Cuenta:"+accid;
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
-		sleep(25000);
-		cCC.seleccionarCardPornumeroLinea(sLinea, driver);
-		sleep(3000);
-		cCC.irAGestion("Cambio de Simcard");
-		sleep(10000);
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("SelectAsset0")));
+		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:" + accid;
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Cambio de Simcard");
+		cambioDeFrame(driver, By.id("SelectAsset0"), 0);
 		driver.findElement(By.id("SelectAsset0")).findElement(By.cssSelector(".slds-radio.ng-scope")).click();
 		driver.findElement(By.id("AssetSelection_nextBtn")).click();
-		sleep(5000);
-		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("DeliveryMethodSelection")));
+		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);
 		sleep(15000);
 		Select metodoEntrega = new Select (driver.findElement(By.id("DeliveryMethodSelection")));
 		metodoEntrega.selectByVisibleText("Presencial");
-		cCC.obligarclick(driver.findElement(By.id("DeliveryMethodConfiguration_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("DeliveryMethodConfiguration_nextBtn")));
 		sleep(16000);
-		cCC.obligarclick(driver.findElement(By.id("InvoicePreview_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("InvoicePreview_nextBtn")));
 		sleep(16000);
 		String orden = driver.findElement(By.className("top-data")).findElement(By.className("ng-binding")).getText();
 		detalles += "-Orden:" + orden;
 		System.out.println("Orden " + orden);
 		orden = orden.substring(orden.length()-8);
-		cCC.obligarclick(driver.findElement(By.id("OrderSumary_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("OrderSumary_nextBtn")));
 		sleep(15000);
 		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
 		Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		sleep(5000);
 		driver.navigate().refresh();
 		sleep(10000);
-		String invoice = cCC.obtenerMontoyTNparaAlta(driver, orden);
+		String invoice = cc.obtenerMontoyTNparaAlta(driver, orden);
 		System.out.println(invoice);
 		detalles+="-Monto:"+invoice.split("-")[1]+"-Prefactura:"+invoice.split("-")[0];
 		CBS_Mattu invoSer = new CBS_Mattu();
@@ -219,8 +182,7 @@ public class CambioDeSimcard extends TestBase {
 			invoSer.Servicio_NotificarEmisionFactura(orden);
 		sleep(10000);
 		driver.navigate().refresh();
-		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
+		cambioDeFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
 		if(activarFalsos==true) {
@@ -240,17 +202,16 @@ public class CambioDeSimcard extends TestBase {
 		sb.completarLogistica(orden, driver);
 		sb.completarEntrega(orden, driver);
 		CambiarPerfil("ofcom",driver);
-		try {
-			cc.cajonDeAplicaciones("Consola FAN");
-		} catch(Exception e) {
-			waitForClickeable(driver,By.id("tabBar"));
-			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
-			sleep(6000);
-		}
-		
+//		try {
+//			cc.cajonDeAplicaciones("Consola FAN");
+//		} catch(Exception e) {
+//			waitForClickeable(driver,By.id("tabBar"));
+//			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
+//			sleep(6000);
+//		}
 		driver.switchTo().defaultContent();
 		sleep(6000);
-		cCC.obtenerMontoyTNparaAlta(driver, orden);
+		cc.obtenerMontoyTNparaAlta(driver, orden);
 		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
 	}
 	
@@ -467,7 +428,7 @@ public class CambioDeSimcard extends TestBase {
 		sb.completarEntrega(orden, driver);
 		CambiarPerfil("ofcom",driver);
 		try {
-			cc.cajonDeAplicaciones("Consola FAN");
+//			cc.cajonDeAplicaciones("Consola FAN");
 		} catch(Exception e) {
 			waitForClickeable(driver,By.id("tabBar"));
 			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
@@ -554,7 +515,7 @@ public class CambioDeSimcard extends TestBase {
 		sb.completarEntrega(orden, driver);
 		CambiarPerfil("ofcom",driver);
 		try {
-			cc.cajonDeAplicaciones("Consola FAN");
+//			cc.cajonDeAplicaciones("Consola FAN");
 		} catch(Exception e) {
 			//sleep(3000);
 			waitForClickeable(driver,By.id("tabBar"));
@@ -566,6 +527,60 @@ public class CambioDeSimcard extends TestBase {
 		sleep(6000);
 		cCC.obtenerMontoyTNparaAlta(driver, orden);
 		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
+	}
+	
+	@Test(groups = { "GestionesPerfilTelefonico","CambioSimCard", "E2E" }, priority = 1, dataProvider = "CambioSimCardOficina")
+	public void TS158806_CRM_Movil_PRE_Cambio_de_Simcard_suspension_siniestro_OOCC_presencial(String sDNI, String sLinea, String accid) {
+		imagen = "134381";
+		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:"+accid;
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Cambio SimCard");
+		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);
+		esperarElemento(driver, By.cssSelector("select[id='DeliveryMethodSelection']"), 0);
+		selectByText(driver.findElement(By.cssSelector("select[id='DeliveryMethodSelection']")), "Presencial");
+		clickBy(driver, By.id("DeliveryMethodConfiguration_nextBtn"), 0);
+		cambioDeFrame(driver, By.id("InvoicePreview"), 0);
+		esperarElemento(driver, By.xpath("//p[contains(text(),'Nro. orden')]"), 0);
+		String orden = driver.findElement(By.xpath("//p[contains(text(),'Nro. orden')]")).getText();
+		orden = orden.substring(orden.length()-8, orden.length());
+		System.out.println("Orden: " + orden);
+		clickBy(driver, By.id("InvoicePreview_nextBtn"), 0);
+		cambioDeFrame(driver, By.id("OrderSumary"), 0);
+		esperarElemento(driver, By.xpath("//div[contains(text(),'Order')]"), 0);
+		String confirmacionNroDeOrden = driver.findElement(By.xpath("//div[contains(text(),'Order')]")).getText();
+		System.out.println(confirmacionNroDeOrden);
+		clickBy(driver, By.id("OrderSumary_nextBtn"), 0);
+		detalles += "-Orden:" + orden;
+		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
+		Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
+//		FALTA TERMINARLO / FLUJO INCOMPLETO
+	}
+	
+	@Test(groups = { "GestionesPerfilTelefonico","CambioSimCard", "E2E" }, priority = 1, dataProvider = "CambioSimCardOficina")
+	public void TS159155_CRM_Movil_PRE_Cambio_de_Simcard_voluntario_OOCC_presencial(String sDNI, String sLinea, String accid) {
+		imagen = "134381";
+		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:"+accid;
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Cambio SimCard");
+		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);
+		esperarElemento(driver, By.cssSelector("select[id='DeliveryMethodSelection']"), 0);
+		selectByText(driver.findElement(By.cssSelector("select[id='DeliveryMethodSelection']")), "Presencial");
+		clickBy(driver, By.id("DeliveryMethodConfiguration_nextBtn"), 0);
+		cambioDeFrame(driver, By.id("InvoicePreview"), 0);
+		esperarElemento(driver, By.xpath("//p[contains(text(),'Nro. orden')]"), 0);
+		String orden = driver.findElement(By.xpath("//p[contains(text(),'Nro. orden')]")).getText();
+		orden = orden.substring(orden.length()-8, orden.length());
+		System.out.println("Orden: " + orden);
+		clickBy(driver, By.id("InvoicePreview_nextBtn"), 0);
+		cambioDeFrame(driver, By.id("OrderSumary"), 0);
+		esperarElemento(driver, By.xpath("//div[contains(text(),'Order')]"), 0);
+		String confirmacionNroDeOrden = driver.findElement(By.xpath("//div[contains(text(),'Order')]")).getText();
+		System.out.println(confirmacionNroDeOrden);
+		clickBy(driver, By.id("OrderSumary_nextBtn"), 0);
+		detalles += "-Orden:" + orden;
+		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
+		Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
+//		FALTA TERMINARLO / FLUJO INCOMPLETO
 	}
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
@@ -757,7 +772,7 @@ public class CambioDeSimcard extends TestBase {
 		sb.completarEntrega(orden, driver);
 		CambiarPerfil("ofcom",driver);
 		try {
-			cc.cajonDeAplicaciones("Consola FAN");
+//			cc.cajonDeAplicaciones("Consola FAN");
 		} catch(Exception e) {
 			waitForClickeable(driver,By.id("tabBar"));
 			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
@@ -768,6 +783,15 @@ public class CambioDeSimcard extends TestBase {
 		sleep(6000);
 		cCC.obtenerMontoyTNparaAlta(driver, orden);
 		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));	
+	}
+	
+	@Test(groups = { "GestionesPerfilTelefonico","CambioSimCard","Ciclo 3", "E2E" }, priority = 1, dataProvider = "CambioSimCardTelef")
+	public void TS159157_CRM_Movil_PRE_Cambio_de_Simcard_voluntario_Telefonico_store_pick_up(String sDNI, String sLinea, String accid, String sEntrega, String sProvincia, String sLocalidad, String sPuntodeVenta) throws AWTException {
+		imagen = "134381";
+		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:" + accid;
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Cambio SimCard");
+		Assert.assertTrue(true);
 	}
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
@@ -825,13 +849,13 @@ public class CambioDeSimcard extends TestBase {
 		sb.completarLogistica(sOrden, driver);
 		sb.completarEntrega(sOrden, driver);
 		CambiarPerfil("ofcom",driver);
-		try {
-			cc.cajonDeAplicaciones("Consola FAN");
-		} catch(Exception e) {
-			waitForClickeable(driver,By.id("tabBar"));
-			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
-			sleep(6000);
-		}
+//		try {
+//			cc.cajonDeAplicaciones("Consola FAN");
+//		} catch(Exception e) {
+//			waitForClickeable(driver,By.id("tabBar"));
+//			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
+//			sleep(6000);
+//		}
 		
 		driver.switchTo().defaultContent();
 		sleep(6000);
@@ -919,7 +943,7 @@ public class CambioDeSimcard extends TestBase {
 		sb.completarEntrega(orden, driver);
 		CambiarPerfil("ofcom",driver);
 		try {
-			cc.cajonDeAplicaciones("Consola FAN");
+//			cc.cajonDeAplicaciones("Consola FAN");
 		} catch(Exception e) {
 			waitForClickeable(driver,By.id("tabBar"));
 			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();

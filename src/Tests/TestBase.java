@@ -1607,7 +1607,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] CambioSimCardTelef() throws Exception{
 		
-		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,6,"SimCard Telef");
+		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,7,"SimCard Telef");
 	}
 	
 	@DataProvider
@@ -1619,7 +1619,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] CambioSimCardOficina() throws Exception{
 		
-		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,2,"Cambio SimCard Oficina");
+		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,3,"Cambio SimCard Oficina");
 	}
 	
 	@DataProvider
