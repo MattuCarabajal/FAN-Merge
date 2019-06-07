@@ -263,7 +263,7 @@ public class Regresion extends TestBase {
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "rExistenteNomina") 
-	public void TS85097_CRM_Movil_REPRO_Nominatividad_Cliente_Existente_Presencial_DOC_OfCom(String sLinea, String sDni, String sNombre, String sApellido) {
+//	public void TS85097_CRM_Movil_REPRO_Nominatividad_Cliente_Existente_Presencial_DOC_OfCom(String sLinea, String sDni, String sNombre, String sApellido) {
 		imagen = "TS85097";
 		detalles = null;
 		detalles = imagen + " -Nominacion: " + sDni+"- Linea: "+sLinea;
