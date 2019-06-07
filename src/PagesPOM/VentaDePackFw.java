@@ -134,6 +134,22 @@ public class VentaDePackFw extends BasePageFw {
 			getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class = 'slds-button slds-button--brand ta-button-brand']")));
 			driver.findElement(By.cssSelector("[class = 'slds-button slds-button--brand ta-button-brand']")).click();
 		}
+		
+		public void packSMS(String Pack1) {
+			tb.cambioDeFrame(driver, By.cssSelector(".slds-button.cpq-item-has-children"), 0);
+			Pack("Packs Opcionales", "Packs de SMS", Pack1);
+			try {Thread.sleep(8000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+			getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class = 'slds-button slds-button--brand ta-button-brand']")));
+			driver.findElement(By.cssSelector("[class = 'slds-button slds-button--brand ta-button-brand']")).click();
+		}
+		
+		public void packMinutos(String Pack1) {
+			tb.cambioDeFrame(driver, By.cssSelector(".slds-button.cpq-item-has-children"), 0);
+			Pack("Packs Opcionales", "Packs de Minutos", Pack1);
+			try {Thread.sleep(8000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+			getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class = 'slds-button slds-button--brand ta-button-brand']")));
+			driver.findElement(By.cssSelector("[class = 'slds-button slds-button--brand ta-button-brand']")).click();
+		}
 	//--------------------------------------------------------------------------------------------------------------------------------------------------//
 	//------------------------------------------------------Ir--a--Seleccion--De--Packs-----------------------------------------------------------------// 
 		//En el Servicio1(Corresponde a las opciones Packs Opcionales y Servicios Internet por Dia)
