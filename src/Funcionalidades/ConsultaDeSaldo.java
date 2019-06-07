@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -150,12 +151,13 @@ public class ConsultaDeSaldo extends TestBase {
 	
 	@Test (groups = {"PerfilTelefonico", "ConsultaDeSaldo", "Ciclo1"}, dataProvider = "ConsultaSaldo")
 	public void TS134813_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_saldo_del_cliente_FAN_Front_Telefonico(String sDNI, String sLinea, String sAccountKey) {
-		imagen = "TS134813";		
+		imagen = "TS134813";
 		detalles = imagen + " -Consulta de saldo - DNI: " + sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
-		mk.closeActiveTab();
-		cc.irAFacturacion();
 		cambioDeFrame(driver, By.className("card-top"), 0);
+		cc.irAFacturacion();
+		cambioDeFrame(driver, By.className("header-right"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.className("header-right")));
 		String saldo = driver.findElement(By.className("header-right")).getText();
 		saldo = saldo.replaceAll("[^\\d]", "");
 		Integer saldoEnCard = Integer.parseInt(saldo);

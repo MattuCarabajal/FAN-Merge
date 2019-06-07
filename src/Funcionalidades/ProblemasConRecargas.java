@@ -67,7 +67,7 @@ public class ProblemasConRecargas extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	//@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
