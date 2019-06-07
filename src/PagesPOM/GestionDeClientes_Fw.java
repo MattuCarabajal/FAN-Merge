@@ -247,7 +247,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		}
 //		fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]")));
 		TestBase tb = new TestBase();
-		tb.sleepClickBy(driver, By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]"), 0);
+		tb.clickBy(driver, By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]"), 0);
 		//driver.findElement(By.xpath("//button[contains(text(),'Gesti')]")).click();
 	}
 	

@@ -1230,7 +1230,7 @@ public class TestBase {
 			driver.findElement(byForElement).click();
 		} catch (Exception e) {
 			sleepPrivado(250);
-			clickBy(driver, byForElement, timeAcumulated + 0.100);
+			clickBy(driver, byForElement, timeAcumulated + 0.250);
 		}
 	}
 	
