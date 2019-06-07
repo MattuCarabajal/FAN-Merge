@@ -67,8 +67,8 @@ public class TestBase {
 
 	public static String urlBeFANUAT = "http://snapuat.telecom.com.ar/#/home";
 
-	public static String urlBeFAN = "https://befantest2.personal.corp/#/signin";
-	// public static String urlBeFAN = "https://befanuat2.personal.corp/#/signin";
+	//public static String urlBeFAN = "https://befantest2.personal.corp/#/signin";
+	 public static String urlBeFAN = "https://befanuat2.personal.corp/#/signin";
 
 	public static boolean activarFalsos = true;
 				
@@ -1060,6 +1060,10 @@ public class TestBase {
 		return null;
 	}
 		
+
+/////////////////////////////////////////////////////////////////       F I N  DATA PROVIDER REGRESION COMPACTA        //////////////////////////////////////////////////////////////////////////
+	
+	
 	public void cambioDeFrame(WebDriver driver, By byForElement, double timeAcumulated) {
 		if (18 > timeAcumulated) {
 			try {
@@ -1175,55 +1179,55 @@ public class TestBase {
 	@DataProvider
 	public Object[][] rNuevaNomina() throws Exception{
 
-		return ExcelUtils.getTableArray("DatosRegresion","NuevaNomina",1,1,14);
+		return ExcelUtils.getTableArray(dataProviderE2E(),"DatosRegresion",1,1,14,"NuevaNomina");
+		
 	}
-	
 	@DataProvider
 	public Object[][] rExistenteNomina() throws Exception{
 
-		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,4,"ExistenteNomina");
+		return ExcelUtils.getTableArray(dataProviderE2E(),"DatosRegresion",1,1,4,"ExistenteNomina");
 	}
 	
 	@DataProvider
 	public Object[][] rRecargasTC() throws Exception{
 
-		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,12,"RecargasTC");
+		return ExcelUtils.getTableArray(dataProviderE2E(),"DatosRegresion",1,1,12,"RecargasTC");
 	}
 	
 	@DataProvider
 	public Object[][] rSmsDescuento() throws Exception{
 
-		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,3,"PackSmsDescuento");
+		return ExcelUtils.getTableArray(dataProviderE2E(),"DatosRegresion",1,1,3,"PackSmsDescuento");
 	}
 	
 	@DataProvider
 	public Object[][] rDatosEfectivo() throws Exception{
 
-		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,3,"PackDatosEfectivo");
+		return ExcelUtils.getTableArray(dataProviderE2E(),"DatosRegresion",1,1,3,"PackDatosEfectivo");
 	}
 	
 	@DataProvider
 	public Object[][] rMinutosTC() throws Exception{
 
-		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,12,"PackMinutosTC");
+		return ExcelUtils.getTableArray(dataProviderE2E(),"DatosRegresion",1,1,12,"PackMinutosTC");
 	}
 	
 	@DataProvider
 	public Object[][] rDescuentoTelef() throws Exception{
 
-		return ExcelUtils.getTableArray(dataProviderCompact(), "DatosRegresion", 1, 1, 3,"RenovacionDescuentoTelef");
+		return ExcelUtils.getTableArray(dataProviderE2E(), "DatosRegresion", 1, 1, 3,"RenovacionDescuentoTelef");
 	}
 	
 	@DataProvider
 	public Object[][] rEfectivoOOCC() throws Exception{
 
-		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,3,"RenovacionEfectivoOOCC");
+		return ExcelUtils.getTableArray(dataProviderE2E(),"DatosRegresion",1,1,3,"RenovacionEfectivoOOCC");
 	}
 	
 	@DataProvider
 	public Object[][] rTCAgente() throws Exception{
 
-		return ExcelUtils.getTableArray(dataProviderCompact(),"DatosRegresion",1,1,12,"RenovacionTCAgente");
+		return ExcelUtils.getTableArray(dataProviderE2E(),"DatosRegresion",1,1,12,"RenovacionTCAgente");
 	}
 
 	@DataProvider
@@ -1831,13 +1835,7 @@ public class TestBase {
 		
 		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,1,"VistaDocumentacion");
 	}
-	
-	@DataProvider
-	public Object[][] CuentaVista360() throws Exception{
 		
-		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,3,"Vista 360");
-	}
-	
 	@DataProvider
 	public Object[][] RecargasHistorias() throws Exception{
 		
@@ -1945,7 +1943,13 @@ public class TestBase {
 
 		return ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,3,"NoNominacionExistenteTelefonico");
 	}
+	/////////////////////////////////////////////////////////////////////       Impro     ////////////////////////////////////////////////
 	
+	@DataProvider
+	public Object[][] CuentaVista360() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,3,"Vista 360");
+	}
 	//=============================================== Metodos Victor =========================================================\\
 	
 	public void loginBeFANVictor(WebDriver driver, String perfil) {
