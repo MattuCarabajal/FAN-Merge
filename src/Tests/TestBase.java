@@ -2216,6 +2216,12 @@ public class TestBase {
 	 	return (testObjArray);
 	}
 	
+	@DataProvider
+	public Object[][] PackAgente30minAPersonal() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackAgente300min");
+	}
+	
 	//=============================================== Metodos Victor =========================================================\\
 	
 	public void loginBeFANVictor(WebDriver driver, String perfil) {

@@ -477,13 +477,13 @@ public class CBS {
 		switch(tipo.toLowerCase()) {
 			case "pack 150 min a personal y 150 sms x 7 dias":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_VOICE_50MIN_50SMS_7D"))
+					if(ofertas.item(i).getTextContent().equals("SO_VOICE_150MIN_150SMS_7D"))
 						esta = true;
 				}
 			break;
-			case  "pack internacional 30 sms al resto del mundo":
+			case  "pack internacional 30 minutos ldi y 15 sms int":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_LDI_30MIN_REST_MUNDO"))
+					if(ofertas.item(i).getTextContent().equals("SO_LDI_30MIN_15SMS"))
 						esta = true;
 				}
 			break;

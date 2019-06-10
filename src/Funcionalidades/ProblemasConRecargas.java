@@ -167,7 +167,7 @@ public class ProblemasConRecargas extends TestBase {
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 6));
 		System.out.println(datosFinal);
-		Assert.assertTrue(datosInicial + 100000 == datosFinal);
+		Assert.assertTrue(datosInicial + 1000 == datosFinal);
 		String orden = cc.obtenerOrden(driver, "Problemas con Recargas");
 		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + " - Orden: " + orden;
 	}
@@ -210,7 +210,7 @@ public class ProblemasConRecargas extends TestBase {
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 6));
 		System.out.println(datosFinal);
-		Assert.assertTrue(datosInicial + 100000 == datosFinal);
+		Assert.assertTrue(datosInicial + 1000 == datosFinal);
 		String orden = cc.obtenerOrden(driver, "Problemas con Recargas");
 		detalles = imagen + "-Problema Con Recargas-DNI: "+ sDNI + " - Orden: " + orden;
 	}
