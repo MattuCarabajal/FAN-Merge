@@ -1943,6 +1943,12 @@ public class TestBase {
 
 		return ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,3,"NoNominacionExistenteTelefonico");
 	}
+	
+	@DataProvider
+	public Object[][] PackAgente30minAPersonal() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackAgente300min");
+	}
 	/////////////////////////////////////////////////////////////////////       Impro     ////////////////////////////////////////////////
 	
 	@DataProvider
@@ -1950,17 +1956,7 @@ public class TestBase {
 		
 		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,3,"Vista 360");
 	}
-	@DataProvider
-	public Object[][] PackAgente30minAPersonal() throws Exception{
-		
-		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackAgente300min");
-	}
 	
-	@DataProvider
-	public Object[][] CuentaVista360() throws Exception{
-		
-		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,3,"Vista 360");
-	}
 	//=============================================== Metodos Victor =========================================================\\
 	
 	public void loginBeFANVictor(WebDriver driver, String perfil) {
