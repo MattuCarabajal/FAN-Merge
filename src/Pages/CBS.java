@@ -507,6 +507,18 @@ public class CBS {
 						esta = true;
 				}
 			break;
+			case "pack 300 min a personal x 7 dias":
+				for (int i=0; i<ofertas.getLength();i++) {
+					if(ofertas.item(i).getTextContent().equals("SO_VOICE_300MIN_7D"))
+						esta = true;
+				}
+			break;
+			case "pack 7 dias de sms ilimitados":
+				for (int i=0; i<ofertas.getLength();i++) {
+					if(ofertas.item(i).getTextContent().equals("SO_SMS_ILIMITADO_7D"))
+						esta = true;
+				}
+			break;
 		}		
 		return esta;
 	}
