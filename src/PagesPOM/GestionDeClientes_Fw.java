@@ -247,7 +247,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		}
 //		fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]")));
 		TestBase tb = new TestBase();
-		tb.sleepClickBy(driver, By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]"), 0);
+		tb.clickBy(driver, By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]"), 0);
 		//driver.findElement(By.xpath("//button[contains(text(),'Gesti')]")).click();
 	}
 	
@@ -327,8 +327,8 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	
 	public void irAGestionEnCard(String sGestion) {
 		driver.switchTo().defaultContent();
-		TestBase cc = new TestBase();
-		cc.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		TestBase tb = new TestBase();
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='card-top']")));
 		WebElement card = driver.findElement(By.cssSelector("[class='card-top']"));
 		card.click();

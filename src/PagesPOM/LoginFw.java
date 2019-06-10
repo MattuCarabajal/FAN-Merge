@@ -18,11 +18,11 @@ import Pages.Login;
 public class LoginFw extends BasePageFw {
 	//URLS 
 	//public static String urlMerge = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
-	
-	
+		
 	public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
 	//public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com";
 	
+	public static String urlSit02 = "https://telecomcrm--sit02.cs91.my.salesforce.com";
 	// viejo public String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";
 	public static String urlSCP = "https://telecomcrm--uat.cs53.my.salesforce.com";
 	
@@ -69,12 +69,12 @@ public class LoginFw extends BasePageFw {
 	}
 	//METODOS
 	public void LoginSit02() {
-		  driver.get(urlAmbiente);
+		  driver.get(urlSit02);
 		  fluentWait.until(ExpectedConditions.elementToBeClickable(loginMerge));
-		  username.sendKeys("florangel.rojas@xappia.com.fan.sit02");
-		  password.sendKeys("Testa10k");
-		  //username.sendKeys("u577822@telecom.com.ar.sit02");
-		  //password.sendKeys("Atos.001");
+		  //username.sendKeys("florangel.rojas@xappia.com.fan.sit02");
+		  //password.sendKeys("Testa10k");
+		  username.sendKeys("ezequiel-matias.girola@atos.net.sit02");
+		  password.sendKeys("Atos.002");
 		  System.out.println("Log Sit02");	
 		  fluentWait.until(ExpectedConditions.elementToBeClickable(loginMerge)).click();
 	}
