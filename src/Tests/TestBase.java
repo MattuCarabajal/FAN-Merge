@@ -1956,6 +1956,11 @@ public class TestBase {
 		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackAgente300min");
 	}
 	
+	@DataProvider
+	public Object[][] CuentaVista360() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,3,"Vista 360");
+	}
 	//=============================================== Metodos Victor =========================================================\\
 	
 	public void loginBeFANVictor(WebDriver driver, String perfil) {
