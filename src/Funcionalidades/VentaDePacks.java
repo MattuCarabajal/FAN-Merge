@@ -113,7 +113,7 @@ public class VentaDePacks extends TestBase {
 	
 	@Test (groups = "PerfilOficina", dataProvider = "ventaX1Dia" )
 	public void TS123163_CRM_Movil_REPRO_Venta_de_pack_1000_min_a_Personal_y_1000_SMS_x_1_dia_Factura_de_Venta_TC_Presencial(String sDNI, String sLinea, String sVentaPack, String sBanco, String sTarjeta, String sPromo, String sCuotas, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTipoDNI, String sDNITarjeta, String sTitular) throws KeyManagementException, NoSuchAlgorithmException{
-		// Pack modificado Pack SMS y Minutos a Personal Ilimitados x 1 dï¿½a
+		// Pack modificado Pack SMS y Minutos a Personal Ilimitados x 1 día
 		imagen = "TS123163";
 		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
 		ges.BuscarCuenta("DNI", sDNI);
@@ -135,14 +135,10 @@ public class VentaDePacks extends TestBase {
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
-		sleep(10000);
-		String orden = cc.obtenerTNyMonto2(driver, sOrden);
-		detalles+="-Monto:"+orden.split("-")[1]+"-Prefactura:"+orden.split("-")[0];
 		//cbsm.PagarTCPorServicio(sOrden);
 		sleep(10000);
-		if(activarFalsos == true) {
-			cbsm.Servicio_NotificarPago(sOrden);
-		}
+		cbsm.Servicio_NotificarPago(sOrden);
+		cc.buscarCaso(sOrden);
 		sleep(30000);
 		boolean verificacion = false;
 		for(int i= 0; i < 10 ; i++) {
@@ -185,10 +181,9 @@ public class VentaDePacks extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(10000);
-		String orden = cc.obtenerTNyMonto2(driver, sOrden);
-		detalles+="-Monto:"+orden.split("-")[1]+"-Prefactura:"+orden.split("-")[0];
 		cbsm.Servicio_NotificarPago(sOrden);
 		//Assert.assertTrue(invoSer.PagoEnCaja("1006", accid, "1001", orden.split("-")[1], orden.split("-")[0],driver));
+		cc.buscarCaso(sOrden);
 		sleep(35000);
 		boolean a = false;
 		for(int i= 0; i <= 10 ; i++) {
@@ -233,14 +228,10 @@ public class VentaDePacks extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(10000);
-		String orden = cc.obtenerTNyMonto2(driver, sOrden);
-		System.out.println("orden = "+orden);
-		detalles+="-Monto:"+orden.split("-")[2]+"-Prefactura:"+orden.split("-")[1];
 		//cbsm.PagarTCPorServicio(sOrden);
-		if(activarFalsos == true) {
-			cbsm.Servicio_NotificarPago(sOrden);
-			sleep(30000);
-		}
+		cbsm.Servicio_NotificarPago(sOrden);
+		cc.buscarCaso(sOrden);
+		sleep(30000);
 		boolean a = false;
 		for (int i = 0; i < 10; i++) {
 			cambioDeFrame(driver,By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"),0);
@@ -388,8 +379,7 @@ public class VentaDePacks extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(10000);
-		String orden = cc.obtenerTNyMonto2(driver, sOrden);
-		detalles+="-Monto:"+orden.split("-")[1]+"-Prefactura:"+orden.split("-")[0];
+		cc.buscarCaso(sOrden);
 		sleep(15000);
 		boolean a = false;
 		for(int i= 0; i < 10 ; i++) {
@@ -463,8 +453,7 @@ public class VentaDePacks extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(10000);
-		String orden = cc.obtenerTNyMonto2(driver, sOrden);
-		detalles+="-Monto:"+orden.split("-")[1]+"-Prefactura:"+orden.split("-")[0];
+		cc.buscarCaso(sOrden);
 		cbsm.Servicio_NotificarPago(sOrden);
 		//Assert.assertTrue(invoSer.PagoEnCaja("1006", accid, "1001", orden.split("-")[1], orden.split("-")[0],driver));
 		sleep(30000);
