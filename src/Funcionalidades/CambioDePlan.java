@@ -42,7 +42,7 @@ public class CambioDePlan extends TestBase {
 	String detalles;
 	
 	//@BeforeClass (alwaysRun = true)
-	public void Sit02() throws IOException, AWTException {
+	public void Sit02() {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		cc = new CustomerCare(driver);
@@ -51,51 +51,52 @@ public class CambioDePlan extends TestBase {
 		contact = new ContactSearch(driver);
 		log.LoginSit02();
 		cbs = new CBS();
-		cbsm = new CBS_Mattu();
-				
+		cbsm = new CBS_Mattu();				
 	}
+	
 	@BeforeClass (groups = "PerfilOficina")
-		public void initOOCC() throws IOException, AWTException {
-			driver = setConexion.setupEze();
-			ges = new GestionDeClientes_Fw(driver);
-			cc = new CustomerCare(driver);
-			contact = new ContactSearch(driver);
-			cbs = new CBS();
-			cbsm = new CBS_Mattu();
-			log = new LoginFw(driver);
-			log.loginOOCC();
-			ges.irAConsolaFAN();
-			BeFan Botones = new BeFan(driver);
-		}
+	public void initOOCC() {
+		driver = setConexion.setupEze();
+		ges = new GestionDeClientes_Fw(driver);
+		cc = new CustomerCare(driver);
+		contact = new ContactSearch(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		log.loginOOCC();
+		ges.irAConsolaFAN();
+		BeFan Botones = new BeFan(driver);
+	}
 			
-		//@BeforeClass (groups = "PerfilTelefonico")
-		public void initTelefonico() throws IOException, AWTException {
-			driver = setConexion.setupEze();
-			ges = new GestionDeClientes_Fw(driver);
-			cc = new CustomerCare(driver);
-			cbs = new CBS();
-			cbsm = new CBS_Mattu();
-			log = new LoginFw(driver);
-			contact = new ContactSearch(driver);
-			log.loginTelefonico();
-			ges.irAConsolaFAN();
-			BeFan Botones = new BeFan(driver);
-		}
+	//@BeforeClass (groups = "PerfilTelefonico")
+	public void initTelefonico() {
+		driver = setConexion.setupEze();
+		ges = new GestionDeClientes_Fw(driver);
+		cc = new CustomerCare(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		contact = new ContactSearch(driver);
+		log.loginTelefonico();
+		ges.irAConsolaFAN();
+		BeFan Botones = new BeFan(driver);
+	}
 		
-		//@BeforeClass (groups = "PerfilAgente")
-		public void initAgente() throws IOException, AWTException {
-			driver = setConexion.setupEze();
-			ges = new GestionDeClientes_Fw(driver);
-			cc = new CustomerCare(driver);
-			cbs = new CBS();
-			cbsm = new CBS_Mattu();
-			log = new LoginFw(driver);
-			contact = new ContactSearch(driver);
-			log.loginAgente();
-			ges.irAConsolaFAN();
-		}
+	//@BeforeClass (groups = "PerfilAgente")
+	public void initAgente() {
+		driver = setConexion.setupEze();
+		ges = new GestionDeClientes_Fw(driver);
+		cc = new CustomerCare(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		contact = new ContactSearch(driver);
+		log.loginAgente();
+		ges.irAConsolaFAN();
+	}
+	
 	@BeforeMethod (alwaysRun = true)
-	public void setup(){
+	public void setup() {
 		detalles = null;
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
@@ -103,7 +104,7 @@ public class CambioDePlan extends TestBase {
 	}
 	
 	//@AfterMethod (alwaysRun=true)
-	public void after() throws IOException{
+	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
 		tomarCaptura(driver,imagen);
@@ -111,30 +112,17 @@ public class CambioDePlan extends TestBase {
 	}
 	
 	//@AfterClass(alwaysRun = true)
-	public void quit(){
+	public void quit() {
 		driver.quit();
 		sleep(5000);
 	}
 	
-	@Test()
-	public void asd(){
+	@Test
+	public void TS143263_CRM_Pospago_SalesCPQ_Cambio_de_plan_con_Falla_S069() {
 		imagen = "TS_CambioDePlan";
 		detalles = imagen + "- TS_CambioDePlan - DNI: " + "";
-		boolean enc = false;
-		String fecha = "12/06/2019";
 		ges.BuscarCuenta("DNI", "77586423");
 		ges.irAGestionEnCard("Cambio de Plan");
-		sleep(7000);
-		cambioDeFrame(driver, By.id("OrderRequestDate"),0);
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderRequestDate")));
-		driver.findElement(By.id("OrderRequestDate")).sendKeys(fecha);
-		driver.findElement(By.id("Request date_nextBtn")).click();
-		//ERROR CREAR ORDEN
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Failed_FDO_nextBtn")));
-		driver.findElement(By.id("Failed_FDO_nextBtn")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("alert-ok-button")));
-		driver.findElement(By.id("alert-ok-button")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Failed_FDO_nextBtn")));
-		driver.findElement(By.id("Failed_FDO_nextBtn")).click();
+		
 	}
 }
