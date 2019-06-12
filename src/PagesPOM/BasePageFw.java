@@ -81,14 +81,13 @@ public class BasePageFw {
 	
 	public boolean clickElementoPorText(List<WebElement> listado, String parametroBusqueda){
 
-		//System.out.println(listado.size());
+		System.out.println(listado.size());
 		boolean aux = false;
 		for (WebElement x : listado) {
 			
-			//System.out.println(x.getText()+"<--------------->"+parametroBusqueda);
+			System.out.println(x.getText()+"<--------------->"+parametroBusqueda);
 			if(x.getText().contains(parametroBusqueda)) {
 				aux=true;
-				getFluentWait().until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(x));
 				getFluentWait().until(ExpectedConditions.elementToBeClickable(x));
 				
 				x.click();
