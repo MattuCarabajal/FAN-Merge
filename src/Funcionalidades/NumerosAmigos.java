@@ -41,17 +41,19 @@ public class NumerosAmigos extends TestBase {
 	private CBS_Mattu cbsm;
 	private Marketing mk;
 	private LoginFw log;
+	private BasePage bp;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	String detalles;
 	
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
+		bp = new BasePage();
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
@@ -59,7 +61,7 @@ public class NumerosAmigos extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	@BeforeClass (alwaysRun = true)
+	//@BeforeClass (alwaysRun = true)
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -81,14 +83,14 @@ public class NumerosAmigos extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
-		log.loginOOCC();
+		log.loginAgente();
 		ges.irAConsolaFAN();
 	}
 	
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
 		detalles = null;
-		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
+		//GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
@@ -130,28 +132,24 @@ public class NumerosAmigos extends TestBase {
 			default:
 				Assert.assertTrue(false);
 		}
-		sleep(5000);
-		driver.findElement(By.cssSelector(".OSradioButton.ng-scope.only-buttom")).click();
-		sleep(15000);
-		List <WebElement> wMessage = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).findElement(By.className("ng-binding")).findElements(By.tagName("p"));
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class = 'OSradioButton ng-scope only-buttom'] span")));
+		driver.findElement(By.cssSelector("[class = 'OSradioButton ng-scope only-buttom'] span")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector("[class = 'slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope'] [class = 'ng-binding'] p")));
+		List <WebElement> wMessage = driver.findElements(By.cssSelector("[class = 'slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope'] [class = 'ng-binding'] p"));
 		boolean bAssert = wMessage.get(1).getText().contains("La orden se realiz\u00f3 con \u00e9xito!");
 		Assert.assertTrue(bAssert);
 		sleep(5000);
-		CBS cCBS = new CBS();
-		CBS_Mattu cCBSM = new CBS_Mattu();
 		if (iIndice == 0)
-			Assert.assertTrue(cCBS.validarNumeroAmigos(cCBSM.Servicio_QueryCustomerInfo(sLinea), "voz", sNumeroVOZ));
+			Assert.assertTrue(cbs.validarNumeroAmigos(cbsm.Servicio_QueryCustomerInfo(sLinea), "voz", sNumeroVOZ));
 		else
-			Assert.assertTrue(cCBS.validarNumeroAmigos(cCBSM.Servicio_QueryCustomerInfo(sLinea), "sms", sNumeroSMS));
+			Assert.assertTrue(cbs.validarNumeroAmigos(cbsm.Servicio_QueryCustomerInfo(sLinea), "sms", sNumeroSMS));
 		sOrders.add(cc.obtenerOrden(driver, "N\u00fameros Gratis"));
 		String orden = cc.obtenerOrden(driver, "Numero Gratis");
 		detalles +="-Orden:"+orden;
 		sOrders.add("Numeros amigos, orden numero: " + orden + " con numero de DNI: " + sDNI);
 		sleep(10000);
-		BasePage bBP = new BasePage();
-		bBP.closeTabByName(driver, "N\u00fameros Gratis");
-		cc.seleccionarCardPornumeroLinea(sLinea, driver);
-		cc.irAGestionEnCard("N\u00fameros Gratis");
+		bp.closeTabByName(driver, "N\u00fameros Gratis");
+		ges.irAGestionEnCard("N\u00fameros Gratis");
 		Assert.assertTrue(mk.verificarNumerosAmigos(driver, sNumeroVOZ, sNumeroSMS));
 		Assert.assertTrue(cc.corroborarEstadoCaso(orden, "Activated"));
 		//Verify when the page works
@@ -162,29 +160,14 @@ public class NumerosAmigos extends TestBase {
 		imagen = "TS100604";
 		detalles = null;
 		detalles = imagen+"-Numeros Amigos-DNI:"+sDNI;
-		BasePage cambioFrame=new BasePage();
-		CBS cCBS = new CBS();
-		CBS_Mattu cCBSM = new CBS_Mattu();
-		String sMainBalance = cCBS.ObtenerValorResponse(cCBSM.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
-		driver.switchTo().frame(cambioFrame.getFrameForElement(driver, By.id("SearchClientDocumentType")));
-		sleep(1000);
-		SalesBase sSB = new SalesBase(driver);
-		sSB.BuscarCuenta("DNI", sDNI);
-		String accid = driver.findElement(By.cssSelector(".searchClient-body.slds-hint-parent.ng-scope")).findElements(By.tagName("td")).get(5).getText();
-		System.out.println("id "+accid);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
-		sleep(15000);		
-		CustomerCare cCC = new CustomerCare(driver);
-		cCC.seleccionarCardPornumeroLinea(sLinea, driver);
-		sleep(3000);
-		cCC.irAGestionEnCard("N\u00fameros Gratis");		
-		sleep(5000);
-		driver.switchTo().defaultContent();
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-col--padded.slds-size--1-of-2")));
+		System.out.println(iMainBalance);
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("N\u00fameros Gratis");		
+		cambioDeFrame(driver, By.cssSelector("[class = 'slds-col--padded slds-size--1-of-2']"), 0);
 		List<WebElement> wNumerosAmigos = driver.findElements(By.cssSelector(".slds-col--padded.slds-size--1-of-2"));
-		Marketing mMarketing = new Marketing(driver);
-		int iIndice = mMarketing.numerosAmigos(sNumeroVOZ, sNumeroSMS);
+		int iIndice = mk.numerosAmigos(sNumeroVOZ, sNumeroSMS);
 		switch (iIndice) {
 			case 0:
 				wNumerosAmigos.get(0).findElement(By.tagName("input")).clear();
@@ -207,28 +190,27 @@ public class NumerosAmigos extends TestBase {
 				break;
 			}
 		}
-		cCC.obligarclick(driver.findElement(By.id("ChargeConfirmation_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("ChargeConfirmation_nextBtn")));
 		sleep(20000);
 		List <WebElement> wMessage = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).findElement(By.className("ng-binding")).findElements(By.tagName("p"));
 		boolean bAssert = wMessage.get(1).getText().contains("La orden se realiz\u00f3 con \u00e9xito!");
 		if (iIndice == 0)
-			Assert.assertTrue(cCBS.validarNumeroAmigos(cCBSM.Servicio_QueryCustomerInfo(sLinea), "voz",sNumeroVOZ));
+			Assert.assertTrue(cbs.validarNumeroAmigos(cbsm.Servicio_QueryCustomerInfo(sLinea), "voz",sNumeroVOZ));
 		else
-			Assert.assertTrue(cCBS.validarNumeroAmigos(cCBSM.Servicio_QueryCustomerInfo(sLinea), "sms",sNumeroSMS));
-		sOrders.add(cCC.obtenerOrden(driver, "N\u00fameros Gratis"));
+			Assert.assertTrue(cbs.validarNumeroAmigos(cbsm.Servicio_QueryCustomerInfo(sLinea), "sms",sNumeroSMS));
+		sOrders.add(cc.obtenerOrden(driver, "N\u00fameros Gratis"));
 		Assert.assertTrue(bAssert);
 		sleep(5000);
 		String orden = cc.obtenerOrden(driver, "Numero Gratis");
 		sOrders.add("Numeros amigos, orden numero: " + orden + " con numero de DNI: " + sDNI);
 		sleep(10000);
-		BasePage bBP = new BasePage();
-		bBP.closeTabByName(driver, "N\u00fameros Gratis");
-		cCC.seleccionarCardPornumeroLinea(sLinea, driver);
-		cCC.irAGestionEnCard("N\u00fameros Gratis");
-		String uMainBalance = cCBS.ObtenerValorResponse(cCBSM.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		bp.closeTabByName(driver, "N\u00fameros Gratis");
+		cc.seleccionarCardPornumeroLinea(sLinea, driver);
+		cc.irAGestionEnCard("N\u00fameros Gratis");
+		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		Assert.assertTrue(iMainBalance-2050000 >= uiMainBalance);
-		Assert.assertTrue(mMarketing.verificarNumerosAmigos(driver, sNumeroVOZ, sNumeroSMS));
+		Assert.assertTrue(mk.verificarNumerosAmigos(driver, sNumeroVOZ, sNumeroSMS));
 		//Verify when the page works
 	}
 	

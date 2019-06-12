@@ -34,7 +34,7 @@ public class ABMdeServicios extends TestBase {
 	String detalles;
 	
 	
-//	@BeforeClass (alwaysRun = true)
+	@BeforeClass (alwaysRun = true)
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
@@ -46,7 +46,7 @@ public class ABMdeServicios extends TestBase {
 
 	}
 		
-	@BeforeClass (alwaysRun = true)
+//	@BeforeClass (alwaysRun = true)
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -86,7 +86,7 @@ public class ABMdeServicios extends TestBase {
 		sleep(2000);
 	}
 
-	//@AfterClass(alwaysRun=true)
+//	@AfterClass(alwaysRun=true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -108,37 +108,40 @@ public class ABMdeServicios extends TestBase {
 		System.out.println("id "+accid);
 		detalles +="-Cuenta:"+accid;
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
-		sleep(25000);
-		cc.seleccionarCardPornumeroLinea(sLinea, driver);
-		sleep(5000);
-		cc.irAGestionEnCard("Alta/Baja de Servicios");
-		sleep(35000);
+//		sleep(25000);
+//		cc.seleccionarCardPornumeroLinea(sLinea, driver);
+//		sleep(5000);
+		ges.irAGestionEnCardPorNumeroDeLinea("Alta/Baja de Servicios", sLinea);
+
 		//cc.openrightpanel();
 		//cc.closerightpanel();
 		//cc.openleftpanel();
 		//cc.closeleftpanel();
 		driver.switchTo().defaultContent();
 		cambioDeFrame(driver, By.cssSelector("[class='slds-button cpq-item-has-children'] svg"),0);
-		String sOrder = driver.findElement(By.cssSelector(".slds-text-body--small.slds-page-header__info.taDevider")).getText();
-		sOrder = sOrder.replace("Nro. Orden:", "");
-		sOrder = sOrder.replace(" ", "");
-		detalles +="-Orden:"+sOrder;
-		detalles +="-Servicio:VoiceMailConClave";
-		try {cc.closeleftpanel();}catch (Exception x) {}
-		try {driver.findElement(By.id("ext-comp-1039__scc-st-10")).click();}catch (Exception x) {}
-		cambioDeFrame(driver, By.id("tab-default-1"),0);
-		ppt = new PagePerfilTelefonico(driver);
-		ppt.altaBajaServicio("Baja", "servicios basicos general movil", "CONTESTADOR", "Voice Mail con Clave", driver);
-		driver.findElement(By.cssSelector(".slds-button.slds-m-left--large.slds-button--brand.ta-button-brand")).click();//Continuar
-		//ppt.getwAltaBajaContinuar().click();//Continuar
+//		String sOrder = driver.findElement(By.cssSelector(".slds-text-body--small.slds-page-header__info.taDevider")).getText();
+//		sOrder = sOrder.replace("Nro. Orden:", "");
+//		sOrder = sOrder.replace(" ", "");
+//		detalles +="-Orden:"+sOrder;
+//		detalles +="-Servicio:VoiceMailConClave";
+//		try {cc.closeleftpanel();}catch (Exception x) {}
+//		try {driver.findElement(By.id("ext-comp-1039__scc-st-10")).click();}catch (Exception x) {}
+//		cambioDeFrame(driver, By.id("tab-default-1"),0);
+//		ppt = new PagePerfilTelefonico(driver);
+		ges.altaBajaServicio("baja", "Voice Mail con Clave");
+		
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-col slds-align-middle cart-action slds-no-flex'] button")));
+		driver.findElement(By.cssSelector("[class='slds-col slds-align-middle cart-action slds-no-flex'] button")).click();;
+//		driver.findElement(By.cssSelector(".slds-button.slds-m-left--large.slds-button--brand.ta-button-brand")).click();//Continuar
+//		ppt.getwAltaBajaContinuar().click();//Continuar
 		sleep(20000);
 		WebElement wMessageBox = driver.findElement(By.xpath("//*[@id='TextBlock1']/div/p/p[2]"));
 		System.out.println("wMessage.getText: " + wMessageBox.getText().toLowerCase());
-		Assert.assertTrue(wMessageBox.getText().toLowerCase().contains("la orden " + sOrder + " se realiz\u00f3 con \u00e9xito!".toLowerCase()));
-		sleep(15000);
-		sOrders.add("Baja de Servicio, orden numero: " + sOrder + ", DNI: " + sDNI);
-		driver.navigate().refresh();
-		Assert.assertTrue(cc.corroborarEstadoCaso(sOrder, "Activada"));
+//		Assert.assertTrue(wMessageBox.getText().toLowerCase().contains("la orden " + sOrder + " se realiz\u00f3 con \u00e9xito!".toLowerCase()));
+//		sleep(15000);
+//		sOrders.add("Baja de Servicio, orden numero: " + sOrder + ", DNI: " + sDNI);
+//		driver.navigate().refresh();
+//		Assert.assertTrue(cc.corroborarEstadoCaso(sOrder, "Activada"));
 		sleep(20000);
 		Assert.assertTrue(gf.FlowConsultaServicioInactivo(driver, sLinea, "Voice Mail con Clave"));
 	}
