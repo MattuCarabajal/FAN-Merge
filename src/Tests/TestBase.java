@@ -719,11 +719,17 @@ public class TestBase {
 	}
 
 	public String fechaDeHoy() {
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		Date date = new Date();
 		return (dateFormat.format(date));
 	}
-
+	
+	public String fechaDeHoyGuion() {
+		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+		Date date = new Date();
+		return (dateFormat.format(date));
+	}
+	
 	public void selectByText(WebElement element, String data) {
 		Select select = new Select(element);
 		select.selectByVisibleText(data);
@@ -1949,6 +1955,23 @@ public class TestBase {
 	public Object[][] CuentaVista360() throws Exception{
 		
 		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,3,"Vista 360");
+		
+		
+	}
+	
+
+	@DataProvider
+	public Object[][] NominaDomicilioSimple() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,16,"NominaDomicilioSimple");
+		
+	}
+	
+	@DataProvider
+	public Object[][] NominaDomicilioDetalle() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,19,"NominaDomicilioDetalle");
+		
 	}
 	//=============================================== Metodos Victor =========================================================\\
 	
