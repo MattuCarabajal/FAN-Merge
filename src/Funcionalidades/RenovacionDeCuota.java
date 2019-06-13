@@ -213,7 +213,7 @@ public class RenovacionDeCuota extends TestBase {
 		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		System.out.println("Saldo final:"+uiMainBalance);
-		Assert.assertTrue(iMainBalance < uiMainBalance);
+		Assert.assertTrue(iMainBalance > uiMainBalance);
 		String datosFinal = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		System.out.println("Datos final:"+datosFinal);
 		Assert.assertTrue((Integer.parseInt(datosInicial)+204800)==Integer.parseInt(datosFinal));	
@@ -461,7 +461,8 @@ public class RenovacionDeCuota extends TestBase {
 		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		Assert.assertTrue(iMainBalance > uiMainBalance);
-		cc.obligarclick(driver.findElement(By.id("AltaHuawei_nextBtn")));
+		cambioDeFrame(driver,By.id("AltaHuawei_nextBtn"),0);
+		clickBy(driver,By.id("AltaHuawei_nextBtn"),0);
 		sleep(12000);
 		String sOrder = cc.obtenerOrden(driver, "Reseteo de Cuota");
 		System.out.println("Orden"+sOrder);

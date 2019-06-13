@@ -47,7 +47,7 @@ public class VentaDePacks extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (alwaysRun = true)
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -60,7 +60,7 @@ public class VentaDePacks extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	//@BeforeClass (alwaysRun = true)
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -73,8 +73,8 @@ public class VentaDePacks extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (alwaysRun = true)
-		public void initAgente() throws IOException, AWTException {
+	//@BeforeClass (groups = "PerfilAgente")
+	public void initAgente() throws IOException, AWTException {
 			driver = setConexion.setupEze();
 			ges = new GestionDeClientes_Fw(driver);
 			cc = new CustomerCare(driver);
@@ -89,8 +89,8 @@ public class VentaDePacks extends TestBase {
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
 		detalles = null;
-		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
+		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 	}
 
@@ -111,14 +111,12 @@ public class VentaDePacks extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"GestionPerfilOficina", "VentaDePacks", "Ciclo1"}, dataProvider = "ventaX1Dia" )
+	@Test (groups = "PerfilOficina", dataProvider = "ventaX1Dia" )
 	public void TS123163_CRM_Movil_REPRO_Venta_de_pack_1000_min_a_Personal_y_1000_SMS_x_1_dia_Factura_de_Venta_TC_Presencial(String sDNI, String sLinea, String sVentaPack, String sBanco, String sTarjeta, String sPromo, String sCuotas, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTipoDNI, String sDNITarjeta, String sTitular) throws KeyManagementException, NoSuchAlgorithmException{
 		// Pack modificado Pack SMS y Minutos a Personal Ilimitados x 1 día
 		imagen = "TS123163";
 		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
 		ges.BuscarCuenta("DNI", sDNI);
-		//System.out.println("id "+accid);
-		//detalles +="-Cuenta:"+accid;
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Minutos");
 		vt.packCombinado(sVentaPack);
@@ -137,14 +135,10 @@ public class VentaDePacks extends TestBase {
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
-		sleep(10000);
-		String orden = cc.obtenerTNyMonto2(driver, sOrden);
-		detalles+="-Monto:"+orden.split("-")[1]+"-Prefactura:"+orden.split("-")[0];
 		//cbsm.PagarTCPorServicio(sOrden);
 		sleep(10000);
-		if(activarFalsos == true) {
-			cbsm.Servicio_NotificarPago(sOrden);
-		}
+		cbsm.Servicio_NotificarPago(sOrden);
+		cc.buscarCaso(sOrden);
 		sleep(30000);
 		boolean verificacion = false;
 		for(int i= 0; i < 10 ; i++) {
@@ -155,19 +149,19 @@ public class VentaDePacks extends TestBase {
 			if(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated")) {
 				verificacion = true;
 			}else {
+				sleep(15000);
 				driver.navigate().refresh();
 				i++;
 			}
 		}
 		Assert.assertTrue(verificacion);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));	
-		//System.out.println("Operacion: Compra de Pack "+ "Order: " + sOrden + "Cuenta: "+ accid + "Fin");
-		detalles += "-Charge Code: " ;//+ chargeCode;
-		//Blocked
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));
+
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "VentaDePacks", "Ciclo1"},priority=1, dataProvider = "ventaPack50ofic")
+	@Test (groups = "PerfilOficina",priority=1, dataProvider = "ventaPack50ofic")
 	public void TS139727_CRM_Movil_REPRO_Venta_de_pack_50_min_y_50_SMS_x_7_dias_Factura_de_Venta_Efectivo_OOCC(String sDNI, String sLinea, String sventaPack) throws AWTException {
+		// Nombre nuevo = TS139727_CRM_Movil_REPRO_Venta_de_Pack_150_min_a_Personal_y_150_SMS_x_7_dias_OOCC
 		//Pack modificado Pack 150 min a Personal y 150 SMS x 7 dias
 		imagen = "TS139727";
 		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
@@ -187,13 +181,11 @@ public class VentaDePacks extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(10000);
-		String orden = cc.obtenerTNyMonto2(driver, sOrden);
-		detalles+="-Monto:"+orden.split("-")[1]+"-Prefactura:"+orden.split("-")[0];
 		cbsm.Servicio_NotificarPago(sOrden);
-		//Assert.assertTrue(invoSer.PagoEnCaja("1006", accid, "1001", orden.split("-")[1], orden.split("-")[0],driver));
-		sleep(30000);
+		cc.buscarCaso(sOrden);
+		sleep(35000);
 		boolean a = false;
-		for(int i= 0; i < 10 ; i++) {
+		for(int i= 0; i <= 10 ; i++) {
 			cambioDeFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
 			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
 			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
@@ -201,6 +193,7 @@ public class VentaDePacks extends TestBase {
 			if(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated")) {
 				a = true;
 			}else {
+				sleep(15000);
 				driver.navigate().refresh();
 				i++;
 			}
@@ -209,7 +202,7 @@ public class VentaDePacks extends TestBase {
 		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sventaPack));
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina","VentaDePacks","E2E","Ciclo1"}, dataProvider="PackOfCom")
+	@Test (groups = "PerfilOficina", dataProvider="PackOfCom")
 	public void Venta_de_Pack_1_GB_x_1_dia_whatsapp_gratis_Factura_de_Venta_TC_OffCom(String sDNI, String sLinea, String sPackOfCom, String cBanco, String cTarjeta, String cPromo, String cCuotas) throws AWTException, KeyManagementException, NoSuchAlgorithmException{
 		//Pack modificado = Pack 1 GB x 1 dia + whatsapp gratis
 		imagen = "Venta De Pack Oficina";
@@ -234,25 +227,19 @@ public class VentaDePacks extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(10000);
-		String orden = cc.obtenerTNyMonto2(driver, sOrden);
-		System.out.println("orden = "+orden);
-		detalles+="-Monto:"+orden.split("-")[2]+"-Prefactura:"+orden.split("-")[1];
-		//cbsm.PagarTCPorServicio(sOrden);
-		if(activarFalsos == true) {
-			cbsm.Servicio_NotificarPago(sOrden);
-			sleep(30000);
-		}
+		cbsm.Servicio_NotificarPago(sOrden);
+		cc.buscarCaso(sOrden);
+		sleep(30000);
 		boolean a = false;
 		for (int i = 0; i < 10; i++) {
 			cambioDeFrame(driver,By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"),0);
 			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
 			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 			String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-			// ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id
-			// = 'ep'] table tr "), 10));
 			if (datos.equalsIgnoreCase("activada") || datos.equalsIgnoreCase("activated")) {
 				a = true;
 			} else {
+				sleep(15000);
 				driver.navigate().refresh();
 				i++;
 			}
@@ -261,9 +248,28 @@ public class VentaDePacks extends TestBase {
 		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackOfCom));
 	}
 	
+	@Test (groups = "PerfilOficina", dataProvider="PackOfCom")
+	public void TS123132_CRM_Movil_REPRO_Venta_de_pack_1000_SMS_x1_Dia_Factura_de_Venta_TD_Presencial_OOCC(String sDNI, String sLinea) {
+		imagen = "TS123132";
+		detalles = imagen + "- DNI: "+sDNI+" - Linea: "+sLinea;
+		ges.BuscarCuenta("DNI", sDNI);
+		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
+		ges.irAGestionEnCard("Comprar SMS");
+		//No exite el pack que se debe utilizar
+	}
+	
+	@Test(groups = "PerfilOficina", dataProvider = "")
+	public void TS135662_CRM_Movil_PRE_Venta_de_Pack_1_GB_x_7_dias_whatsapp_gratis_Presencial_OOCC(String sDNI, String sLinea){
+		imagen = "TS123132";
+		detalles = imagen + "- DNI: "+sDNI+" - Linea: "+sLinea;
+		ges.BuscarCuenta("DNI", sDNI);
+		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
+		ges.irAGestionEnCard("Comprar Internet");
+		//No se visualiza el medio de pago que se debe utilizar
+	}
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
-	@Test (groups= {"GestionesPerfilTelefonico","VentaDePacks","E2E","Ciclo1"},priority=1, dataProvider="ventaPackInternacional30SMS")
+	@Test (groups = "PerfilTelefonico",priority=1, dataProvider="ventaPackInternacional30SMS")
 	public void TS123133_CRM_Movil_REPRO_Venta_De_Pack_internacional_30_SMS_al_Resto_del_Mundo_Factura_De_Venta_TC_Telefonico(String sDNI, String sLinea, String sVentaPack, String sBanco, String sTarjeta, String sPromo, String sCuotas, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTipoDNI, String sDNITarjeta, String sTitular) throws InterruptedException, AWTException{
 		//Pack modificado = Pack internacional 30 minutos LDI y 15 SMS int
 		imagen = "TS123133";
@@ -292,6 +298,7 @@ public class VentaDePacks extends TestBase {
 		driver.findElement(By.id("documentNumber-0")).sendKeys(sDNITarjeta);
 		driver.findElement(By.id("cardHolder-0")).sendKeys(sTitular);
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		sleep(5000);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(20000);
@@ -302,20 +309,19 @@ public class VentaDePacks extends TestBase {
 			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
 			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 			String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-			// ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 10));
 			if (datos.equalsIgnoreCase("activada") || datos.equalsIgnoreCase("activated")) {
 				a = true;
 			} else {
+				sleep(15000);
 				driver.navigate().refresh();
 				i++;
 			}
 		}
 		Assert.assertTrue(a);
 		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));
-		//Blocked
 	}
 	
-	@Test (groups= {"GestionesPerfilTelefonico","E2E", "VentaDePacks", "Ciclo1"},priority=1, dataProvider="packUruguay")
+	@Test (groups = "PerfilTelefonico",priority=1, dataProvider="packUruguay")
 	public void TS123143_CRM_Movil_REPRO_Venta_de_pack_100MB_Uruguay_Descuento_de_saldo_Telefonico(String sDNI, String sLinea, String packUruguay) throws InterruptedException, AWTException{
 		//Pack Modificado = Pack Roaming 300MB Lim y USA
 		imagen = "TS123143";
@@ -333,16 +339,13 @@ public class VentaDePacks extends TestBase {
 		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
 		Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
-//		List <WebElement> wMessage = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).findElement(By.className("ng-binding")).findElements(By.tagName("p"));
-//		boolean bAssert = wMessage.get(1).getText().contains("La orden se realiz\u00f3 con \u00e9xito!");
-//		Assert.assertTrue(bAssert);
 		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		Assert.assertTrue(iMainBalance > uiMainBalance);
 		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), packUruguay));
 	}
 	
-	@Test (groups= {"GestionesPerfilTelefonico","E2E","VentaDePacks","Ciclo1"},priority=1, dataProvider="ventaPack50Tele")
+	@Test (groups = "PerfilTelefonico",priority=1, dataProvider="ventaPack50Tele")
 	public void TS123157_CRM_Movil_REPRO_Venta_De_Pack_50_Min_Y_50_SMS_X_7_Dias_Factura_De_Venta_TC_Telefonico(String sDNI, String sLinea, String sVentaPack, String cBanco, String cTarjeta, String cPromo, String cCuotas, String cNumTarjeta, String cVenceMes, String cVenceAno, String cCodSeg, String cTipoDNI, String cDNITarjeta, String cTitular) throws InterruptedException, AWTException{
 		//Pack modificado Pack 150 min a Personal y 150 SMS x 7 dias
 		imagen = "TS123157";
@@ -374,8 +377,7 @@ public class VentaDePacks extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(10000);
-		String orden = cc.obtenerTNyMonto2(driver, sOrden);
-		detalles+="-Monto:"+orden.split("-")[1]+"-Prefactura:"+orden.split("-")[0];
+		cc.buscarCaso(sOrden);
 		sleep(15000);
 		boolean a = false;
 		for(int i= 0; i < 10 ; i++) {
@@ -386,6 +388,7 @@ public class VentaDePacks extends TestBase {
 			if(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated")) {
 				a = true;
 			}else {
+				sleep(15000);
 				driver.navigate().refresh();
 				i++;
 			}
@@ -396,7 +399,7 @@ public class VentaDePacks extends TestBase {
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
-	@Test (groups= {"GestionesPerfilAgente","VentadePacks","E2E","Ciclo1"},priority=1, dataProvider="ventaPack500min")
+	@Test (groups = "PerfilAgente",priority=1, dataProvider="ventaPack500min")
 	public void TS123148_CRM_Movil_REPRO_Venta_de_pack_500_Min_todo_destino_Factura_de_Venta_TD_Presencial(String sDNI, String sLinea, String sVentaPack) throws InterruptedException, AWTException{
 		imagen = "TS123148";
 		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
@@ -406,7 +409,7 @@ public class VentaDePacks extends TestBase {
 		vt.packRoaming(sVentaPack);
 	}
 	
-	@Test (groups= {"GestionesPerfilAgente","VentadePacks","E2E","Ciclo1"},priority=1, dataProvider="ventaPackA40")
+	@Test (groups = "PerfilAgente",priority=1, dataProvider="ventaPackA40")
 	public void TS123166_CRM_Movil_REPRO_Venta_de_pack_Adelanto_Personal_40_Descuento_de_saldo_Presencial(String sDNI, String sLinea, String sVentaPack) throws InterruptedException, AWTException{
 		imagen = "TS123166";
 		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
@@ -417,7 +420,7 @@ public class VentaDePacks extends TestBase {
 		//pagePTelefo.PacksRoaming(sVentaPack);
 	}
 	
-	@Test (groups= {"GestionesPerfilAgente","VentadePacks","E2E","Ciclo1"},priority=1, dataProvider="ventaPackM2M")
+	@Test (groups = "PerfilAgente",priority=1, dataProvider="ventaPackM2M")
 	public void TS135801_CRM_Movil_PREVenta_de_pack_Paquete_M2M_10_MB_Factura_de_Venta_Efectivo_Presencial_PuntMa_Alta_Agente(String sDNI, String sLinea, String sVentaPack) throws InterruptedException, AWTException{
 		imagen = "TS135801";
 		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
@@ -428,10 +431,9 @@ public class VentaDePacks extends TestBase {
 		//pagePTelefo.PacksRoaming(sVentaPack);
 	}
 	
-	@Test (groups = {"GestionesPerfilAgente","VentaDePacks","E2E","Ciclo1"}, dataProvider="PackAgente")
+	@Test (groups = "PerfilAgente", dataProvider="PackAgente")
 	public void Venta_de_Pack_1_GB_x_1_dia_whatsapp_gratis_Factura_de_Venta_efectivo_Agente(String sDNI, String sLinea, String sPackAgente) throws AWTException{
 		imagen = "Venta_de_Pack";
-		detalles = null;
 		detalles = imagen + "-Venta de pack-DNI:" + sDNI+ "-Linea: "+sLinea;
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
@@ -449,8 +451,7 @@ public class VentaDePacks extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(10000);
-		String orden = cc.obtenerTNyMonto2(driver, sOrden);
-		detalles+="-Monto:"+orden.split("-")[1]+"-Prefactura:"+orden.split("-")[0];
+		cc.buscarCaso(sOrden);
 		cbsm.Servicio_NotificarPago(sOrden);
 		//Assert.assertTrue(invoSer.PagoEnCaja("1006", accid, "1001", orden.split("-")[1], orden.split("-")[0],driver));
 		sleep(30000);
@@ -464,10 +465,23 @@ public class VentaDePacks extends TestBase {
 				a = true;
 			}else {
 				driver.navigate().refresh();
+				sleep(15000);
 				i++;
 			}
 		}
 		Assert.assertTrue(a);
 		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackAgente));
 	}
+	
+	@Test (groups = "PerfilAgente", dataProvider="PackAgente30minAPersonal")
+	public void TS123155_CRM_Movil_REPRO_Venta_de_Pack_300_min_a_Personal_x_7_dias_Agente(String sDNI, String sLinea , String sPackAgente){
+		imagen = "Venta_de_Pack";
+		detalles = imagen + "-Venta de pack-DNI:" + sDNI+ "-Linea: "+sLinea;
+		ges.BuscarCuenta("DNI", sDNI);
+		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
+		ges.irAGestionEnCard("Comprar Minutos");
+		vt.packDatos(sPackAgente);
+		//No se visualiza que medio de pago se debe utilizar
+	}
+	
 }
