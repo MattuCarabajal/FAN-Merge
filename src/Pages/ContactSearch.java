@@ -95,6 +95,21 @@ public class ContactSearch extends BasePage {
 	@FindBy(how = How.ID, using = "addresssType-LegalAddress")
 	private WebElement TipoDomicilio;
 	
+	@FindBy(how = How.ID, using = "neighborhood-LegalAddress")
+	private WebElement Barrio;
+	
+	@FindBy(how = How.ID, using = "floor-LegalAddress")
+	private WebElement Piso;
+	
+	@FindBy(how = How.ID, using = "department-LegalAddress")
+	private WebElement Departamento;
+	
+	@FindBy(how = How.ID, using = "buildingType-LegalAddress")
+	private WebElement TipoEdificio;
+	
+	@FindBy(how = How.ID, using = "buildingNumber-LegalAddress")
+	private WebElement NumeroEdificio;
+	
 	@FindBy(how = How.ID, using = "btnSameAsLegalAddress")
 	private WebElement BotonDireccionLegal;
 	
@@ -251,7 +266,7 @@ public class ContactSearch extends BasePage {
 		tb.cambioDeFrame(driver,(By.id("UploadSignedForm")),0);
 //		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("UploadSignedForm")));
 		driver.findElement(By.id("UploadSignedForm")).sendKeys(uploadPath);
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("PDFForm_nextBtn")));
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(botonSiguienteFormulario));
 //		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		/*switch (Siguiente) {
 		case "si":
@@ -363,13 +378,63 @@ public class ContactSearch extends BasePage {
 		tb.cambioDeFrame(driver,(By.id("state-LegalAddress")),0);
 		selectByText(CondicionImpositiva, "IVA Consumidor final");
 		selectByText(Provincia, cProvincia);
+		sleep(750);
 		Localidad.sendKeys(cLocalidad);
 		Localidad.sendKeys(Keys.ENTER);
+		sleep(1750);
 		Zona.sendKeys(cZona);
 		Calle.sendKeys(cCalle);
 		NumeroCalle.sendKeys(cNumCalle);
 		CodigoPostal.sendKeys(cCodPostal);
 		selectByText(TipoDomicilio, cTipoDomicilio);
+		BotonDireccionLegal.click();
+		sleep(3000);
+		BotonCrearCliente.click();
+	}
+	
+	public void completarDomicilioSimple(String sProvincia, String sLocalidad, String sZona, String sCalle, String sNumCalle, String sCodPostal, String sTipoDomicilio, String sPiso, String sDepartamento){
+	
+		TestBase tb = new TestBase();
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
+		tb.cambioDeFrame(driver,(By.id("state-LegalAddress")),0);
+		//selectByText(CondicionImpositiva, "IVA Consumidor final");
+		selectByText(Provincia, sProvincia);
+		sleep(750);
+		Localidad.sendKeys(sLocalidad);
+		Localidad.sendKeys(Keys.ENTER);
+		sleep(1750);
+		Zona.sendKeys(sZona);
+		Calle.sendKeys(sCalle);
+		NumeroCalle.sendKeys(sNumCalle);
+		CodigoPostal.sendKeys(sCodPostal);
+		selectByText(TipoDomicilio, sTipoDomicilio);
+		Piso.sendKeys(sPiso);
+		Departamento.sendKeys(sDepartamento);
+		BotonDireccionLegal.click();
+		sleep(3000);
+		BotonCrearCliente.click();
+	}
+	
+	public void completarDomicilioDetallado(String cProvincia, String cLocalidad, String cZona, String cCalle, String cNumCalle, String cCodPostal, String cTipoDomicilio, String cBarrio, String cPiso, String cDepartamento, String cTipoEdificio, String cNumEdificio){
+		TestBase tb = new TestBase();
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
+		tb.cambioDeFrame(driver,(By.id("state-LegalAddress")),0);
+		//selectByText(CondicionImpositiva, "IVA Consumidor final");
+		selectByText(Provincia, cProvincia);
+		sleep(750);
+		Localidad.sendKeys(cLocalidad);
+		Localidad.sendKeys(Keys.ENTER);
+		sleep(1750);
+		Zona.sendKeys(cZona);
+		Calle.sendKeys(cCalle);
+		NumeroCalle.sendKeys(cNumCalle);
+		CodigoPostal.sendKeys(cCodPostal);
+		selectByText(TipoDomicilio, cTipoDomicilio);
+		Barrio.sendKeys(cBarrio);
+		Piso.sendKeys(cPiso);
+		Departamento.sendKeys(cDepartamento);
+		selectByText(TipoEdificio, cTipoEdificio);
+		NumeroEdificio.sendKeys(cNumEdificio);
 		BotonDireccionLegal.click();
 		sleep(3000);
 		BotonCrearCliente.click();
@@ -426,9 +491,13 @@ public class ContactSearch extends BasePage {
 		}
 		BotonCrearNuevoCliente.click();
 		tb.waitFor(driver,By.id("FirstName"));
+		nombre.clear();
 		nombre.sendKeys(sNom);
+		apellido.clear();
 		apellido.sendKeys(sAp);
+		fNac.clear();
 		fNac.sendKeys(sFN);
+		Email.findElement(By.tagName("input")).clear();
 		Email.findElement(By.tagName("input")).sendKeys(mail);
 		next.click();
 	}
@@ -449,10 +518,15 @@ public class ContactSearch extends BasePage {
 		}
 		BotonCrearNuevoCliente.click();
 		tb.waitFor(driver,By.id("FirstName"));
+		nombre.clear();
 		nombre.sendKeys(sNom);
+		apellido.clear();
 		apellido.sendKeys(sAp);
+		fNac.clear();
 		fNac.sendKeys(sFN);
+		Email.findElement(By.tagName("input")).clear();
 		Email.findElement(By.tagName("input")).sendKeys(mail);
+		FechaDePermanencia.clear();
 		FechaDePermanencia.sendKeys(fPemanencia);
 		next.click();
 	}

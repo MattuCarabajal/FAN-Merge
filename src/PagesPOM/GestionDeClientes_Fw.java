@@ -34,6 +34,8 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	
 //------------------------------------------------------------ELEMENTOS---------------------------------------------
 	
+	private TestBase tb;
+	
 	final String locator_cerrarPanelDerecho= "[class='x-layout-split x-layout-split-east x-splitbar-h']";
 	@FindBy (css= locator_cerrarPanelDerecho)
 	private WebElement cerrarPanelDerecho;
@@ -125,6 +127,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	public GestionDeClientes_Fw(WebDriver driver) {
 		super(driver);
 		super.setDriver(driver);
+		tb = new TestBase();
 		wait = new WebDriverWait(driver,30);
 		//PageFactory.initElements(driver, this);
 		PageFactory.initElements(getDriver(), this);
@@ -344,9 +347,82 @@ public class GestionDeClientes_Fw extends BasePageFw {
 
 	}
 	
+	public void irAGestionEnCardPorNumeroDeLinea(String sGestion, String sLinea) {
+		driver.switchTo().defaultContent();
+		TestBase tb = new TestBase();
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='card-top']")));
+		WebElement card = driver.findElement(By.cssSelector("[class='card-top']"));
+		card.click();
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='community-flyout-actions-card'] ul li"), 0));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='card-info'] [class='actions'] li"), 0));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class*='slds-grid slds-grid--vertical slds-align-middle'] [class='items-card ng-not-empty ng-valid'] [class='slds-col'] button"), 0));
+		List<WebElement> elementos = driver.findElements(By.cssSelector("[class='card-info'] [class='actions'] li"));
+		elementos.addAll(driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li")));
+		elementos.addAll(driver.findElements(By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class*='slds-grid slds-grid--vertical slds-align-middle'] [class='items-card ng-not-empty ng-valid'] [class='slds-col'] button")));
+		System.out.println(clickElementoPorTextExacto(elementos, sGestion));		
+		try {Thread.sleep(8000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		driver.switchTo().defaultContent();
+
+	}
+	
+	
 	public WebDriverWait getWait() {
 		return  wait;
 		
 	}
 	
+	public void altaBajaServicio(String altaBaja, String servicio) {
+		WebElement servicioEncontrado=null;
+		tb.cambioDeFrame(driver, By.cssSelector( "[class='cpq-product-name']"),0);
+		clickElementoPorText(driver.findElements(By.cssSelector( "[class='cpq-product-name']")), "Plan con Tarjeta Repro");
+		this.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector( "[class='slds-tabs--default'] [class*='slds-tabs--default__content slds-show'] [class='cpq-item-product-child-level-1 cpq-item-child-product-name-wrapper'] button"), 2)); 
+		List<WebElement>primerosBotones= driver.findElements(By.cssSelector( "[class='slds-tabs--default'] [class*='slds-tabs--default__content slds-show'] [class='cpq-item-product-child-level-1 cpq-item-child-product-name-wrapper'] button"));
+		
+		for(WebElement x : primerosBotones) {
+			try{x.click();}catch(Exception e) {};
+			
+		}
+		this.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector( "[class='cpq-item-base-product'] [class='cpq-item-product-child-level-2 cpq-item-child-product-name-wrapper'] button"), 0) );
+		List<WebElement>segundosBotones= driver.findElements(By.cssSelector( "[class='cpq-item-base-product'] [class='cpq-item-product-child-level-2 cpq-item-child-product-name-wrapper'] button"));
+		for(WebElement x : segundosBotones) {
+			try{x.click();}catch(Exception e) {};
+			
+		}
+		this.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector( "[class='cpq-item-base-product']"), 19) );
+		List<WebElement> listaServicios= driver.findElements(By.cssSelector( "[class='cpq-item-base-product']"));
+		for(WebElement x : listaServicios) {
+			System.out.println(x.getText());
+			if(x.getText().contains(servicio)) {
+				System.out.println(true+" ");
+				servicioEncontrado=x;
+				break;
+			}			
+		}
+		switch(altaBaja) {
+		
+		case "baja":
+			try {
+				servicioEncontrado.findElement(By.cssSelector("[class='cpq-item-base-product-actions slds-text-align_right'] [class='icon-outline-delete']")).click();
+				tb.cambioDeFrame(driver, By.cssSelector("[class='slds-button slds-button--destructive']"), 0);
+				this.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-button slds-button--destructive']")));
+				driver.findElement(By.cssSelector("[class='slds-button slds-button--destructive']")).click();
+			} catch (Exception e) {
+				System.out.println("el estado del servicio es INACTIVO");
+			}
+			;
+			break;
+			
+		case "alta":
+			try{servicioEncontrado.findElement(By.cssSelector( "[class='cpq-item-base-product-actions slds-text-align_right'] [class='slds-button slds-button_neutral secondary']")).click();
+			}catch(Exception e) {
+				System.out.println("el estado del servicio es ACTIVO");
+			};
+			break;
+		default:
+			System.out.println("no se encuentra el servicio - verifique si existe o este bien escrito ");
+			break;
+		}
+		
+	}
 }
