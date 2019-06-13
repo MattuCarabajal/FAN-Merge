@@ -1682,13 +1682,17 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public String obtenerOrden(WebDriver driver, String gestion) {
+		TestBase tb = new TestBase(); 
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		driver.navigate().refresh();
-		sleep(18000);
+		sleep(15000);
+		tb.cambioDeFrame(driver, By.cssSelector("[class = 'slds-p-around--small slds-col']"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-p-around--small slds-col']")));
 		//panelIzquierdo();
-		List<WebElement> wStoryContainer = driver.findElements(By.className("story-container"));
+		List<WebElement> wStoryContainer = driver.findElements(By.cssSelector("[class = 'story-container']"));
 		for (WebElement wAux : wStoryContainer) {
 			if (wAux.findElement(By.cssSelector(".slds-text-body_regular.story-title")).getText().equalsIgnoreCase(gestion)) {
-				List<WebElement> wStoryField = wAux.findElements(By.cssSelector(".slds-text-body_regular.story-field"));
+				List<WebElement> wStoryField = wAux.findElements(By.cssSelector("[class = 'slds-m-right--large'] [class = 'slds-text-body_regular story-field']"));
 				return( wStoryField.get(0).getText());
 			}
 		}

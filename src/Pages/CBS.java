@@ -373,7 +373,7 @@ public class CBS {
 				if (ofertas.item(i).getTextContent().equals("SO_FYF029")) {
 					ofertas = (NodeList) Response.getElementsByTagName("bcc:Value");
 					for (int j=0; j<ofertas.getLength(); j++) {
-						if (ofertas.item(i).getTextContent().equals("54"+numero)) {
+						if (ofertas.item(j).getTextContent().equals("54"+numero)) {
 							esta = true;
 							break;
 						}
@@ -386,7 +386,7 @@ public class CBS {
 				if (ofertas.item(i).getTextContent().equals("SO_FYF032")) {
 					ofertas = (NodeList) Response.getElementsByTagName("bcc:Value");
 					for (int j=0; j<ofertas.getLength(); j++) {
-						if (ofertas.item(i).getTextContent().equals("54"+numero)) {
+						if (ofertas.item(j).getTextContent().equals("54"+numero)) {
 							esta = true;
 							break;
 						}

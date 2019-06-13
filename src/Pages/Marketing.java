@@ -555,22 +555,22 @@ public class Marketing extends CustomerCare {
 	
 	public boolean verificarNumerosAmigos(WebDriver driver, String sNumeroVOZ, String sNumeroSMS) {
 		boolean aAssert = false;
-		
-		sleep(5000);
-		TestBase tTb = new TestBase();
-		driver.switchTo().defaultContent();
-		driver.switchTo().frame(tTb.cambioFrame(driver, By.cssSelector(".slds-col--padded.slds-size--1-of-2")));
-		List<WebElement> wNumerosAmigos = driver.findElements(By.cssSelector(".slds-col--padded.slds-size--1-of-2"));
+		TestBase tb = new TestBase();
+		Marketing mk = new Marketing(driver);
+		tb.cambioDeFrame(driver, By.cssSelector("[class = 'slds-col--padded slds-size--1-of-2']"), 0);
+		List<WebElement> wNumerosAmigos = driver.findElements(By.cssSelector("[class = 'slds-col--padded slds-size--1-of-2']"));
 		int iIndice = numerosAmigos(sNumeroVOZ, sNumeroSMS);
 		switch (iIndice) {
 			case 0:
-				aAssert = wNumerosAmigos.get(0).findElement(By.tagName("input")).getText().equals(sNumeroVOZ);
+				wNumerosAmigos.get(0).findElement(By.tagName("input")).getText().equals(sNumeroVOZ);
+				aAssert = true;
 				break;
 			case 1:
-				aAssert = wNumerosAmigos.get(1).findElement(By.tagName("input")).getText().equals(sNumeroSMS);
+				wNumerosAmigos.get(1).findElement(By.tagName("input")).getText().equals(sNumeroSMS);
+				aAssert = true;
 				break;
 		}
-		
+		System.out.println("Resultado del boolean:" + aAssert);
 		return aAssert;
 	}
 	
