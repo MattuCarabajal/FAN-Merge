@@ -1148,7 +1148,7 @@ public class TestBase {
 			driver.findElement(byForElement).click();
 		} catch (Exception e) {
 			sleepPrivado(250);
-			clickBy(driver, byForElement, timeAcumulated + 0.100);
+			clickBy(driver, byForElement, timeAcumulated + 0.250);
 		}
 	}
 	
@@ -1617,7 +1617,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] CambioSimCardTelef() throws Exception{
 		
-		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,6,"SimCard Telef");
+		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,7,"SimCard Telef");
 	}
 	
 	@DataProvider
@@ -1629,7 +1629,7 @@ public class TestBase {
 	@DataProvider
 	public Object[][] CambioSimCardOficina() throws Exception{
 		
-		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,2,"Cambio SimCard Oficina");
+		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,3,"Cambio SimCard Oficina");
 	}
 	
 	@DataProvider
@@ -1949,6 +1949,12 @@ public class TestBase {
 
 		return ExcelUtils.getTableArray(dataProviderE2E(),"Altas y Nominacion",1,1,3,"NoNominacionExistenteTelefonico");
 	}
+	
+	@DataProvider
+	public Object[][] PackAgente30minAPersonal() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackAgente300min");
+	}
 	/////////////////////////////////////////////////////////////////////       Impro     ////////////////////////////////////////////////
 	
 	@DataProvider
@@ -1973,6 +1979,7 @@ public class TestBase {
 		return ExcelUtils.getTableArray(dataProviderE2E(),"nominacion",1,1,19,"NominaDomicilioDetalle");
 		
 	}
+	
 	//=============================================== Metodos Victor =========================================================\\
 	
 	public void loginBeFANVictor(WebDriver driver, String perfil) {

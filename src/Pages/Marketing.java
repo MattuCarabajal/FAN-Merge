@@ -540,11 +540,11 @@ public class Marketing extends CustomerCare {
 	public int numerosAmigos(String sVOZ, String sSMS) {
 		int iIndice = 2;
 		System.out.println("sVOZ = " + sVOZ);
-		if (!sVOZ.isEmpty() && !sVOZ.equalsIgnoreCase("**")) {
+		if (!sVOZ.isEmpty() && !sVOZ.contains("**")) {
 			iIndice = 0;
 		}
 		else {
-			if (!sSMS.isEmpty() && !sSMS.equalsIgnoreCase("**")) {
+			if (!sSMS.isEmpty() && !sSMS.contains("**")) {
 				iIndice = 1;
 			}
 			else {

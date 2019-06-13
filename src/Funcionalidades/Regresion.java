@@ -262,7 +262,7 @@ public class Regresion extends TestBase {
 		Assert.assertTrue(a);
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "rExistenteNomina") 
+//	@Test (groups = "PerfilOficina", dataProvider = "rExistenteNomina") 
 	public void TS85097_CRM_Movil_REPRO_Nominatividad_Cliente_Existente_Presencial_DOC_OfCom(String sLinea, String sDni, String sNombre, String sApellido) {
 		imagen = "TS85097";
 		detalles = null;
@@ -363,9 +363,6 @@ public class Regresion extends TestBase {
 		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
 		Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
-//		List <WebElement> wMessage = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).findElement(By.className("ng-binding")).findElements(By.tagName("p"));
-//		boolean bAssert = wMessage.get(1).getText().contains("La orden se realiz\u00f3 con \u00e9xito!");
-//		Assert.assertTrue(bAssert);
 		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		Assert.assertTrue(iMainBalance > uiMainBalance);
@@ -417,7 +414,7 @@ public class Regresion extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider="rMinutosTC")
-	public void TS_003_Compra_De_Pack_Minutos_TC_Telefonico(String sDni, String sPack, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular){
+	public void TS_003_Compra_De_Pack_Minutos_TC_Telefonico(String sDni, String sLinea, String sPack, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular){
 		imagen = "TS_003";
 		detalles = null;
 		detalles = "Compra de pack "+imagen+"-DNI:"+sDni;
@@ -448,17 +445,19 @@ public class Regresion extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(20000);
-		cc.buscarCaso(sOrden);
+		String orden = cc.obtenerTNyMonto2(driver, sOrden);
+		detalles+="-Monto:"+orden.split("-")[1]+"-Prefactura:"+orden.split("-")[0];
+		sleep(15000);
 		boolean a = false;
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i <= 10; i++) {
 			cambioDeFrame(driver,By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"),0);
 			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
 			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 			String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-			// ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 10));
 			if (datos.equalsIgnoreCase("activada") || datos.equalsIgnoreCase("activated")) {
 				a = true;
 			} else {
+				sleep(10000);
 				driver.navigate().refresh();
 				i++;
 			}
