@@ -29,6 +29,7 @@ import Pages.PagePerfilTelefonico;
 import Pages.SCP;
 import Pages.SalesBase;
 import Pages.setConexion;
+import PagesPOM.BeFanPom;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
 import PagesPOM.VentaDePackFw;
@@ -53,7 +54,6 @@ public class Regresion extends TestBase {
 	private SCP scp;
 	String detalles;
 	
-	
 	//@BeforeClass (alwaysRun = true)
 	public void Sit02() throws IOException, AWTException {
 		driver = setConexion.setupEze();
@@ -68,7 +68,7 @@ public class Regresion extends TestBase {
 		//cc.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups = "PerfilMayorista")
+	@BeforeClass (groups = "PerfilMayorista")
 	public void initMayo() {
 		driver = setConexion.setupEze();
 		loginBeFANVictor(driver, "mayorista");
@@ -91,12 +91,12 @@ public class Regresion extends TestBase {
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
 		vt = new VentaDePackFw(driver);
+		Botones = new BeFan(driver);
 		log.loginOOCC();
 		ges.irAConsolaFAN();
-		BeFan Botones = new BeFan(driver);
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+//	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -106,9 +106,9 @@ public class Regresion extends TestBase {
 		log = new LoginFw(driver);
 		contact = new ContactSearch(driver);
 		vt = new VentaDePackFw(driver);
+		Botones = new BeFan(driver);
 		log.loginTelefonico();
 		ges.irAConsolaFAN();
-		BeFan Botones = new BeFan(driver);
 	}
 	
 	//@BeforeClass (groups = "PerfilAgente")
@@ -120,14 +120,14 @@ public class Regresion extends TestBase {
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
 		contact = new ContactSearch(driver);
-		vt = new VentaDePackFw(driver);
+		vt = new VentaDePackFw(driver);		
+		Botones = new BeFan(driver);
 		log.loginAgente();
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeMethod (alwaysRun = true)
+//	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
-		detalles = null;
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
@@ -147,81 +147,45 @@ public class Regresion extends TestBase {
 		sleep(5000);
 	}
 	
-	 // ESTO FALTA ARREGLARLO 
-	//@Test(groups = { "PreactivacionBeFan", "PerfilMayorista" })
-	public void TS123_ElMetodoQueSopapeaATodosLosMetodos() throws Exception {
-		
-		Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"SerialBalido");
-		// Iniciacion de variables
-		ArrayList<String> resultados = new ArrayList<String>();
-		int i = 0;
-		String path = testObjArray[i][0].toString();
-		String nombreArch = testObjArray[i][1].toString();
-		String deposito = testObjArray[i][2].toString();
-		String prefijo = testObjArray[i][3].toString();
-		String serial1 = testObjArray[i][4].toString();
-		String Cantidad = testObjArray[i][7].toString();
-		String mensaje = "";
-		int cant = 0;
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-		LocalDateTime now = LocalDateTime.now();
-		String time = dtf.format(now);
-		File salida = new File("C://BefanArchivos//salida//Resultado" + time + ".txt");
-
-		// Aqui viene lo bueno joven
-		try {
-			// Leo el archivo y cargo las variables para la preparacion de este casito
-			path = testObjArray[i][0].toString();
-			nombreArch = "seriales";
-			cant = Integer.parseInt(Cantidad);
-			
-			Botones.andaAlMenu("sims", "gestion");
-			Botones.andaAlMenu("sims", "importacion");
-			Botones.SISeleccionDeDeposito(deposito);
-			Botones.SISeleccionDePrefijo(prefijo);
-			Botones.SISeleccionCantidadDePrefijo(Cantidad);
-			Botones.SIClickAgregar();
-			Botones.SIImportarArchivo(nombreArch = Botones.SICreacionArchivo(nombreArch, path, serial1, ""));
-			Botones.SIClickImportar();
-			mensaje = Botones.SIMensajeModal();
-			if (mensaje.contentEquals("El archivo se import\u00f3 correctamente.")) {
-				Botones.SIClickAceptarImportar();
-				// Respondo por el caso
-				resultados.add("TS111958," + nombreArch + "," + deposito);
-			} else {
-				Botones.SIClickAceptarImportar();
-			}
-
-		} catch (Exception e) {
-			
-			System.err.println(e);
-
-		}
-
-//		DPW.main();
-		BufferedWriter c = new BufferedWriter(new FileWriter(salida));
-		for (String x : resultados) {
-			c.write(x + System.lineSeparator());
-			String[] Caso = x.split(",");
-			if (Caso[0].equals("TS126672")) {
-				sleep(120000);
-				String serial = Botones.TraemeLosSeriales(Caso[1]);
-				if (serial.equals("No existe el archivo")) {
-				} else {
-					boolean hola = mdw.requestValidadorS105(
-							mdw.callSoapWebService(mdw.s105Request("ARRF", serial, "SG31185001"), "uat105"), serial);
-				}
-
-			}
-		}
-		c.close();
-
+	@Test(groups = { "PreactivacionBeFan", "PerfilMayorista" })
+    public void preactivacion() throws Exception {
+    	BeFan Botones = new BeFan(driver);
+        Object[][] testObjArray;
+        testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"Preactivacion");
+        String nombreArchivo = "SerialBalido";
+        int filaExcel = 0;
+        for (int i = 0; i < testObjArray.length; i++) {
+            if (testObjArray[i][1].toString().equalsIgnoreCase(nombreArchivo)) {
+                filaExcel = i;
+                break;
+            }
+        }
+        String path = testObjArray[filaExcel][0].toString();
+        String deposito = testObjArray[filaExcel][2].toString();
+        String prefijo1 = testObjArray[filaExcel][3].toString();
+        String cantidad = testObjArray[filaExcel][7].toString();
+        int numeroDeLineas = Integer.parseInt(cantidad);
+        Botones.andaAlMenu("sims", "importacion");
+        Botones.SISeleccionDeDeposito(deposito);
+        Botones.SISeleccionDePrefijo(prefijo1);
+        Botones.SISeleccionCantidadDePrefijo(cantidad);
+        Botones.SIClickAgregar();
+        Botones.SIImportarArchivo(nombreArchivo = Botones.LecturaDeDatosTxt(path + "\\seriales.txt", numeroDeLineas));
+        Botones.SIClickImportar();
+        String mensaje = Botones.SIMensajeModal();
+        Assert.assertTrue(mensaje.contentEquals("El archivo se import\u00f3 correctamente."));
+        Botones.SIClickAceptarImportar();
+        nombreArchivo = "seriales" + nombreArchivo.substring(nombreArchivo.length()-18, nombreArchivo.length()-4);
+        File informacion = new File(path + "\\resultados\\informacion" + nombreArchivo + ".txt");
+        System.out.println("ESTE ES EL NOMBRE DEL ARCHIVO QUE SE IMPORTO: " + nombreArchivo);
+        BufferedWriter info = new BufferedWriter(new FileWriter(informacion));
+        info.write("Nombre del archivo: " + nombreArchivo);
+        info.close();
 	}
 	
 	//@Test (groups = "PerfilTelefonico", dataProvider="rNuevaNomina") 
 	public void TS_001_Nominacion_Cliente_Nuevo_Telefonico(String sLinea, String sDni, String sNombre, String sApellido, String sGenero, String sFnac, String sEmail, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) { 
 		imagen = "TS_001";
-		detalles = null;
 		detalles = imagen + "- Nominacion - DNI:" + sDni;		
 		cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("PhoneNumber")));
@@ -262,10 +226,9 @@ public class Regresion extends TestBase {
 		Assert.assertTrue(a);
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "rExistenteNomina") 
-//	public void TS85097_CRM_Movil_REPRO_Nominatividad_Cliente_Existente_Presencial_DOC_OfCom(String sLinea, String sDni, String sNombre, String sApellido) {
+	//@Test (groups = "PerfilOficina", dataProvider = "rExistenteNomina") 
+	public void TS85097_CRM_Movil_REPRO_Nominatividad_Cliente_Existente_Presencial_DOC_OfCom(String sLinea, String sDni, String sNombre, String sApellido) {
 		imagen = "TS85097";
-		detalles = null;
 		detalles = imagen + " -Nominacion: " + sDni+"- Linea: "+sLinea;
 		boolean nominacion = false;
 		cambioDeFrame(driver,By.id("SearchClientDocumentType"),0);
@@ -305,7 +268,6 @@ public class Regresion extends TestBase {
 	@Test (groups = "PerfilTelefonico", dataProvider="rRecargasTC")
 	public void TS134332_CRM_Movil_REPRO_Recargas_Telefonico_TC(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) {
 		imagen = "TS134332";
-		detalles = null;
 		detalles = imagen + "-Recarga-DNI:" + sDNI;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, (datoViejo.length()) - 4));
@@ -349,16 +311,14 @@ public class Regresion extends TestBase {
 	@Test (groups = "PerfilOficina", dataProvider="rSmsDescuento")
 	public void TS_002_Compra_De_Pack_SMS_Descuento_De_Saldo_OOCC(String sDni, String sLinea, String sVentaPack){
 		imagen ="TS_002";
-		detalles = null;
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
 		ges.BuscarCuenta("DNI", sDni);
-		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
+		try {ges.cerrarPanelDerecho();} catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar SMS");
 		vt.packSMS(sVentaPack);	
 		vt.tipoDePago("descuento de saldo");
 		driver.findElement(By.id("SetPaymentType_nextBtn")).click();
-		sleep(45000);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
 		Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
@@ -372,11 +332,9 @@ public class Regresion extends TestBase {
 		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));
 	}
 	
-	
 	//@Test (groups = "PerfilAgente", dataProvider="rDatosEfectivo")
 	public void TS135801_CRM_Movil_PREVenta_de_pack_Paquete_M2M_10_MB_Factura_de_Venta_Efectivo_Presencial_PuntMa_Alta_Agente(String sDni, String sLinea, String sPack){
 		imagen = "TS135801";
-		detalles = null;
 		detalles = "Venta de Pack "+imagen+"-DNI:"+sDni;
 		ges.BuscarCuenta("DNI", sDni);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
@@ -412,17 +370,15 @@ public class Regresion extends TestBase {
 				i++;
 			}
 		}
-		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack) && a);
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider="rMinutosTC")
 	public void TS_003_Compra_De_Pack_Minutos_TC_Telefonico(String sDni, String sPack, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular){
 		imagen = "TS_003";
-		detalles = null;
 		detalles = "Compra de pack "+imagen+"-DNI:"+sDni;
 		ges.BuscarCuenta("DNI", sDni);
-		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
+		try {ges.cerrarPanelDerecho();} catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Internet");
 		vt.packMinutos(sPack);		
 		vt.tipoDePago("en factura de venta");
@@ -463,66 +419,53 @@ public class Regresion extends TestBase {
 				i++;
 			}
 		}
-		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack));
-		//Blocked
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack) && a);
 	}
-	
-	@Test (groups = "PerfilTelefonico", dataProvider="rDescuentoTelef")
-	public void TS_CRM_Movil_REPRO_Renovacion_De_Cuota_Telefonico_Descuento_De_Saldo_Con_Credito(String sDni, String sLinea, String accid){
+
+	@Test(groups = { "GestionesPerfilTelefonico", "RenovacionDeCuota","E2E" }, dataProvider = "RenovacionCuotaConSaldo")
+	public void TS_CRM_Movil_REPRO_Renovacion_De_Cuota_Telefonico_Descuento_De_Saldo_Con_Credito(String sDNI, String sLinea, String accid) {
 		imagen = "TS_CRM_Movil_REPRO_Renovacion_De_Cuota_Telefonico_Descuento_De_Saldo_Con_Credito";
-		detalles = null;
-		detalles = "Renovacion de cuota "+imagen+"-DNI:"+sDni;
+		detalles = "Renovacion de cuota " + imagen + "-DNI:" + sDNI;
 		String datosInicial = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
 		cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
-		ges.BuscarCuenta("DNI", sDni);
-		detalles +="-Cuenta:"+accid;
+		ges.BuscarCuenta("DNI", sDNI);
+		detalles += "-Cuenta:" + accid;
 		ges.irAGestionEnCard("Renovacion de Datos");
 		cambioDeFrame(driver, By.id("combosMegas"), 0);
 		sleep(5000);
 		List<WebElement> elementos = driver.findElement(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-		for(WebElement elemento : elementos) {
-			if(elemento.getText().contains("50 MB")) {
+		for (WebElement elemento : elementos) {
+			if (elemento.getText().contains("50 MB")) {
 				elemento.findElement(By.className("slds-checkbox")).click();
 				break;
 			}
 		}
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("CombosDeMegas_nextBtn")));
-		cc.obligarclick(driver.findElement(By.id("CombosDeMegas_nextBtn")));	
+		cc.obligarclick(driver.findElement(By.id("CombosDeMegas_nextBtn")));
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-radio ng-scope']")));
 		buscarYClick(driver.findElements(By.cssSelector("[class='slds-radio ng-scope']")), "contains", "Saldo");
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SetPaymentType_nextBtn")));
 		cc.obligarclick(driver.findElement(By.id("SetPaymentType_nextBtn")));
 		sleep(10000);
 		String datosFinal = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
-		Assert.assertTrue((Integer.parseInt(datosInicial)+51200)==Integer.parseInt(datosFinal));
-		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
-		Assert.assertTrue(iMainBalance > uiMainBalance);
-		sleep(12000);
-		String sOrder = cc.obtenerOrden(driver, "Reseteo de Cuota");
-		System.out.println("Orden"+sOrder);
-		detalles += "-Orden:"+sOrder+"- Linea"+sLinea;
-		System.out.println("Order: " + sOrder + " Fin");
 	}
-	
-	@Test (groups = "PerfilOficina", dataProvider="rEfectivoOOCC")
-	public void TS130056_CRM_Movil_REPRO_Renovacion_de_cuota_Presencial_Reseteo_200_MB_por_Dia_Efectivo_con_Credito(String sDni, String sLinea, String accid){
+
+	@Test(groups = { "GestionesPerfilOficina", "RenovacionDeCuota", "E2E" }, dataProvider = "RenovacionCuotaConSaldo")
+	public void TS130056_CRM_Movil_REPRO_Renovacion_de_cuota_Presencial_Reseteo_200_MB_por_Dia_Efectivo_con_Credito(String sDNI, String sLinea, String accid) throws AWTException {
 		imagen = "TS130056";
-		detalles = null;
-		detalles = "Renocavion de cuota: "+imagen+" - DNI: "+sDni+" - Linea: "+sLinea;
-		String datosInicial = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
+		detalles = "Renocavion de cuota: " + imagen + " - DNI: " + sDNI + " - Linea: " + sLinea;
+//		String datosInicial = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
-		ges.BuscarCuenta("DNI", sDni);
-		detalles+="-Cuenta: "+accid;
+		ges.BuscarCuenta("DNI", sDNI);
+		detalles += "-Cuenta: " + accid;
 		ges.irAGestionEnCard("Renovacion de Datos");
 		cambioDeFrame(driver, By.id("combosMegas"), 0);
-		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-wrap ng-invalid ng-invalid-vlc-val-error ng-dirty'] tbody tr"), 2));
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-wrap ng-invalid ng-invalid-vlc-val-error ng-dirty'] tbody tr"),2));
 		List<WebElement> elementos = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap ng-invalid ng-invalid-vlc-val-error ng-dirty'] tbody tr"));
-		for(WebElement elemento : elementos) {
-			if(elemento.getText().contains("200 MB")) {
+		for (WebElement elemento : elementos) {
+			if (elemento.getText().contains("200 MB")) {
 				elemento.findElement(By.className("slds-checkbox")).click();
 				break;
 			}
@@ -633,5 +576,5 @@ public class Regresion extends TestBase {
 		}
 		Assert.assertTrue(condition);	
 	}
-	
+
 }
