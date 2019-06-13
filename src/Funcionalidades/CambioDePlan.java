@@ -215,4 +215,67 @@ public class CambioDePlan extends TestBase {
 	public void TS_168782_CRM_Pospago_SalesCPQ_Cambio_de_plan_Telefonico_P_8_R_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
 
 	}
+	
+	
+	//----------------------------------------------- OOCC -------------------------------------------------------\\
+	@Test (groups = {"PerfilOficina"} )
+	public void TS_143263_CRM_Pospago_SalesCPQ_Cambio_de_plan_con_Falla_S069() throws AWTException{
+
+	}
+	
+	@Test (groups = {"PerfilOficina"} )
+	public void TS_143262_CRM_Pospago_SalesCPQ_Cambio_de_plan_con_Falla_S131( ) throws AWTException{
+
+	}
+
+	@Test (groups = {"PerfilOficina"} )
+	public void TS_144313_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
+
+	}
+	
+	@Test (groups = {"PerfilOficina"} )
+	public void TS_159158_CRM_Pospago_SalesCPQ_Cambio_de_plan_Actualizar_Ciclo_de_Facturacion_Solo_en_la_Primera_Gestion( ) throws AWTException{
+
+	}
+	
+	@Test (groups = {"PerfilOficina"} )
+	public void TS_156600_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_RedList_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
+
+	}
+	
+	@Test (groups = {"PerfilOficina"} )
+	public void TS_144340_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_Repro_a_APRO4( ) throws AWTException{
+
+	}
+	
+	@Test (groups = {"PerfilOficina"} )
+	public void TS_156667_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_con_Gestion_en_Curso( ) throws AWTException{
+
+	}
+	
+	@Test (groups = {"PerfilOficina"} )
+	public void TS_143266_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_Inactiva( ) throws AWTException{
+
+	}
+	
+	@Test (groups = {"PerfilOficina"} )
+	public void TS_143269_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_suspendida_Fraude( ) throws AWTException{
+
+	}
+	
+	@Test (groups = {"PerfilOficina"} )
+	public void TS_143265_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_Suspendida_Siniestro( ) throws AWTException{
+
+	}
+	
+	//----------------------------------------------- Agente -------------------------------------------------------\\
+	@Test (groups = {"PerfilAgente"} )
+	public void TS_168774_CRM_Pospago_SalesCPQ_Cambio_de_plan_Agente_DNI_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
+
+	}
+	
+	@Test (groups = {"PerfilAgente"} )
+	public void TS_168782_CRM_Pospago_SalesCPQ_Cambio_de_plan_Telefonico_P_8_R_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
+
+	}
 }
