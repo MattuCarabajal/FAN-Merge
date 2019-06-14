@@ -1529,25 +1529,7 @@ public class TestBase {
 		
 		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"packTelefoInternacional30SMS");
 	}
-	
-	@DataProvider
-	public Object[][] ventaPack500min() throws Exception{
-		
-		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack500min");
-	}
-	
-	@DataProvider
-	public Object[][] ventaPackA40() throws Exception{
-		
-		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackAdela40");
-	}
-	
-	@DataProvider
-	public Object[][] ventaPackM2M() throws Exception{
-		
-		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack M2M 10");
-	}
-	
+
 	@DataProvider
 	public Object[][] PackOfCom() throws Exception{
 		
@@ -1954,6 +1936,36 @@ public class TestBase {
 	public Object[][] PackAgente30minAPersonal() throws Exception{
 		
 		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackAgente300min");
+	}
+	
+	@DataProvider
+	public Object[][] PackOOCC1GBx7Dias() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,7,"Pack 1GB x 7Dias");
+	}
+	
+	@DataProvider
+	public Object[][] PackOOCCInternetx7Dias() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackInternet7Dias");
+	}
+	
+	@DataProvider
+	public Object[][] PackOOCC1GBYSMSYVOZ() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,7,"Pack 1GB SMS y VOZ");
+	}
+	
+	@DataProvider
+	public Object[][] PackTel200MB() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"Pack200MB");
+	}
+	
+	@DataProvider
+	public Object[][] PackAgenteRoaming1GB() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,7,"PackAgenteRoaming1GB");
 	}
 	/////////////////////////////////////////////////////////////////////       Impro     ////////////////////////////////////////////////
 	

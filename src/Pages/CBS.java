@@ -519,6 +519,36 @@ public class CBS {
 						esta = true;
 				}
 			break;
+			case "pack 1 gb x 7 dias + whatsapp gratis":
+				for (int i=0; i<ofertas.getLength();i++) {
+					if(ofertas.item(i).getTextContent().equals("SO_DATA_INET7D"))
+						esta = true;
+				}
+			break;
+			case "pack internet x 7 dias":
+				for (int i=0; i<ofertas.getLength();i++) {
+					if(ofertas.item(i).getTextContent().equals("SO_DATA_BLUE7"))
+						esta = true;
+				}
+			break;
+			case "pack 1 gb + sms + voz y whatsapp gratis x 7 d\u00edas":
+				for (int i=0; i<ofertas.getLength();i++) {
+					if(ofertas.item(i).getTextContent().equals("SO_DATA_FULL7D"))
+						esta = true;
+				}
+			break;
+			case "pack 200 mb x 1 dia + whatsapp gratis":
+				for (int i=0; i<ofertas.getLength();i++) {
+					if(ofertas.item(i).getTextContent().equals("SO_DATA_INET1D"))
+						esta = true;
+				}
+			break;
+			case "pack roaming 1gb lim y usa":
+				for (int i=0; i<ofertas.getLength();i++) {
+					if(ofertas.item(i).getTextContent().equals("SO_ROI_P_1GB_LIMUSA"))
+						esta = true;
+				}
+			break;
 		}		
 		return esta;
 	}
