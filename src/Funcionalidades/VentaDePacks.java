@@ -182,7 +182,6 @@ public class VentaDePacks extends TestBase {
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(10000);
 		cbsm.Servicio_NotificarPago(sOrden);
-		//Assert.assertTrue(invoSer.PagoEnCaja("1006", accid, "1001", orden.split("-")[1], orden.split("-")[0],driver));
 		cc.buscarCaso(sOrden);
 		sleep(35000);
 		boolean a = false;
@@ -228,7 +227,6 @@ public class VentaDePacks extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(10000);
-		//cbsm.PagarTCPorServicio(sOrden);
 		cbsm.Servicio_NotificarPago(sOrden);
 		cc.buscarCaso(sOrden);
 		sleep(30000);

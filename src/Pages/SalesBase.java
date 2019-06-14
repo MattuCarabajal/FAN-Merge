@@ -34,10 +34,7 @@ import PagesPOM.GestionDeClientes_Fw;
 import Tests.TestBase;
 import javafx.scene.control.Accordion;
 
-
 public class SalesBase extends BasePage {
-
-
 
 	final WebDriver driver;
 	
@@ -180,218 +177,220 @@ public class SalesBase extends BasePage {
 	
 	@FindBy(css = ".x-plain-header.sd_primary_tabstrip.x-unselectable .x-tab-strip-closable")
 	private List<WebElement> pestaniasPrimarias;
-	
-public SalesBase(WebDriver driver){
+
+	public SalesBase(WebDriver driver) {
 		this.driver = driver;
-        PageFactory.initElements(driver, this);
-}
+		PageFactory.initElements(driver, this);
+	}
 
-public void BusquedaAvanzada(){
-	List<WebElement> busqueda = driver.findElements(By.className("slds-form-element__control"));	
-	for(WebElement e: busqueda){
-		
-		if(e.getText().equals("B\u00fasqueda avanzada")){
-			e.click();
-			e.click();
-			break;}}
-	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-}
+	public void BusquedaAvanzada() {
+		List<WebElement> busqueda = driver.findElements(By.className("slds-form-element__control"));
+		for (WebElement e : busqueda) {
+			if (e.getText().equals("B\u00fasqueda avanzada")) {
+				e.click();
+				e.click();
+				break;
+			}
+		}
+		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	}
 
-public void BuscarAvanzada(String nombre, String apellido, String razon, String cuenta, String email){
-	TestBase TB = new TestBase();
-	try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	TB.cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
-	BusquedaAvanzada();
-	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	firstname.sendKeys(nombre);
-	lastname.sendKeys(apellido);
-	razonsocial.sendKeys(razon);
-	numerodecuenta.sendKeys(cuenta);
-	Email.sendKeys(email);
-	TB.sleepFindBy(driver, By.id("SearchClientsDummy"), 0);
-	driver.findElement(By.id("SearchClientsDummy")).click();
-}
-public void validarespacio(){
-	try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	List<WebElement> resultado = driver.findElements(By.cssSelector(".slds-truncate.ng-binding"));
-	String dato= resultado.get(1).getText();
-	System.out.println(dato);
-	dato=dato.replaceAll(" ", "ESTOESUNESPACIO");
-	System.out.println(dato);
+	public void BuscarAvanzada(String nombre, String apellido, String razon, String cuenta, String email) {
+		TestBase tb = new TestBase();
+		tb.cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
+		tb.clickBy(driver, By.xpath("//div[contains(text(), 'squeda avanzada')]"), 0);
+		firstname.sendKeys(nombre);
+		lastname.sendKeys(apellido);
+		razonsocial.sendKeys(razon);
+		numerodecuenta.sendKeys(cuenta);
+		Email.sendKeys(email);
+		tb.clickBy(driver, By.id("SearchClientsDummy"), 0);
+	}
+	public void validarespacio(){
+		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		List<WebElement> resultado = driver.findElements(By.cssSelector(".slds-truncate.ng-binding"));
+		String dato = resultado.get(1).getText();
+		System.out.println(dato);
+		dato = dato.replaceAll(" ", "ESTOESUNESPACIO");
+		System.out.println(dato);
+		Assert.assertTrue(dato.contains("ESTOESUNESPACIO"));
+	}
 
-	Assert.assertTrue(dato.contains("ESTOESUNESPACIO"));
-}
+	public void validarcamposbusqueda() {
+		firstname.isDisplayed();
+		lastname.isDisplayed();
+		razonsocial.isDisplayed();
+		numerodecuenta.isDisplayed();
+		Email.isDisplayed();
+	}
 
-public void validarcamposbusqueda(){
-	firstname.isDisplayed();
-	lastname.isDisplayed();
-	razonsocial.isDisplayed();
-	numerodecuenta.isDisplayed();
-	Email.isDisplayed();
-}
-
-public void BuscarCuenta(String Type, String NDNI){
-	try {Thread.sleep(4000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	TestBase TB = new TestBase();
-	TB.cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
-	setSimpleDropdown(DNIbuscador, Type);
-	DNI.sendKeys(NDNI);
-	TB.waitForClickeable(driver, By.id("SearchClientsDummy"));
-	btnbuscar.click();
-	try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-}
+	public void BuscarCuenta(String Type, String NDNI){
+		TestBase TB = new TestBase();
+		try {Thread.sleep(4000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		TB.cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
+		setSimpleDropdown(DNIbuscador, Type);
+		DNI.sendKeys(NDNI);
+		TB.waitForClickeable(driver, By.id("SearchClientsDummy"));
+		btnbuscar.click();
+		try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	}
 
 
-public boolean btnnoexiste(String boton){
-	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	public boolean btnnoexiste(String boton){
+		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		List<WebElement> creusr = driver.findElements(By.cssSelector(".slds-button.slds-button.slds-button--icon"));
+		boolean e = false;
+		for (WebElement c : creusr) {
+			if (c.getText().toLowerCase().equals(boton)) {
+				e = true;
+			}
+		}
+		return e;
+	}
 
 
-	   List<WebElement> creusr = driver.findElements(By.cssSelector(".slds-button.slds-button.slds-button--icon")); 
-	   boolean e= false;
-	     for(WebElement c : creusr) {
-	    	if(c.getText().toLowerCase().equals(boton)){
-	       e= true;}}
-	  return e;}
-
-
-
- public void gestiondeusuarios(){
-	// driver.navigate().back();
+	public void gestiondeusuarios(){
+//	 	driver.navigate().back();
 		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		driver.findElement(By.className("zen-selectArrow")).click();
 		driver.findElement(By.xpath("//a[@href=\"/ui/setup/Setup\"]")).click();
 		driver.findElement(By.id("setupSearch")).sendKeys("gestion");
 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		driver.findElement(By.xpath("//a[@href=\"/005?isUserEntityOverride=1&retURL=%2Fui%2Fsetup%2FSetup%3Fsetupid%3DUsers&setupid=ManageUsers\"]")).click();
-//buscar cuenta
 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		setSimpleDropdown(driver.findElement(By.id("fcf")), "Usuarios activos");	
- }
+	}
 
- public void validarperfil(String nombre, String perfil){
-	 boolean a= false;
-	 int rep = 0;
-	 List<WebElement> filas = driver.findElements(By.cssSelector(".dataCell"));
-	 for(int i=0; i<filas.size();i++){
-		 if (filas.get(i).getText().equals(nombre)){
-			 a = true;
-			 System.out.println(filas.get(i+5).getText());
-			 if (nombre.contains("Nicolas")) {
-				 if(rep == 1) {
-					 Assert.assertTrue(filas.get(i+5).getText().contains(perfil));
-					 break;}
-				 rep++;
-			 }else {
-				 Assert.assertTrue(filas.get(i+5).getText().contains(perfil));
-				 break;
-			 }
-			}} 
-	 Assert.assertTrue(a);}
+	public void validarperfil(String nombre, String perfil) {
+		boolean a = false;
+		int rep = 0;
+		List<WebElement> filas = driver.findElements(By.cssSelector(".dataCell"));
+		for (int i = 0; i < filas.size(); i++) {
+			if (filas.get(i).getText().equals(nombre)) {
+				a = true;
+				System.out.println(filas.get(i + 5).getText());
+				if (nombre.contains("Nicolas")) {
+					if (rep == 1) {
+						Assert.assertTrue(filas.get(i + 5).getText().contains(perfil));
+						break;
+					}
+					rep++;
+				} else {
+					Assert.assertTrue(filas.get(i + 5).getText().contains(perfil));
+					break;
+				}
+			}
+		}
+		Assert.assertTrue(a);
+	}
  
- public boolean validartxtbtn(String txt){
+	public boolean validartxtbtn(String txt){
 		try {Thread.sleep(30000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	 boolean a=false;
-		if(driver.findElement(By.cssSelector(".slds-button.slds-m-left--large.slds-button--brand.ta-button-brand")).getText().equals(txt)){
-			a= true;}
-			return a; }
+		boolean a = false;
+		if (driver.findElement(By.cssSelector(".slds-button.slds-m-left--large.slds-button--brand.ta-button-brand"))
+				.getText().equals(txt)) {
+			a = true;
+		}
+		return a;
+	}
  
- public void agregarproductos(){
+	public void agregarproductos(){
 		try {Thread.sleep(30000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		List<WebElement> asl = driver.findElements(By.cssSelector(".slds-button.slds-button_neutral.cpq-add-button"));
 		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-
 		System.out.println(asl.size());
-		for (WebElement e: asl){									
-			if(e.getText().equals("Agregar")){
+		for (WebElement e : asl) {
+			if (e.getText().equals("Agregar")) {
 				e.click();
 			}
-		}}
+		}
+	}
 
- 
- 
- public void continuar(){
+	public void continuar(){
 		try {Thread.sleep(30000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		List<WebElement> cont = driver.findElements(By.cssSelector(".slds-button.slds-m-left--large.slds-button--brand.ta-button-brand"));
-		for(WebElement c : cont){
+		for (WebElement c : cont) {
 			c.getText().equals("Continuar");
-				c.click();
+			c.click();
 		}
- }
+	}
  
- public void validarpasos(){
-	try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	 ArrayList<String> txt1 = new ArrayList<String>();
-	 ArrayList<String> txt2 = new ArrayList<String>();
-	 txt2.add("ASIGNACI\u00d3N DE L\u00cdNEA");
-	 txt2.add("DATOS DE LA CUENTA");
-	 txt2.add("RESUMEN DE LA ORDEN DE VENTA");
-	 txt2.add("INFORMACI\u00d3N");
-
-	 List<WebElement> pasos = driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding"));
-	 System.out.println(pasos.size());
-	 for(WebElement e: pasos){
-		 txt1.add(e.getText());
-		 }
-		 Assert.assertTrue(txt1.containsAll(txt2));
+	public void validarpasos(){
+	 	try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		ArrayList<String> txt1 = new ArrayList<String>();
+		ArrayList<String> txt2 = new ArrayList<String>();
+		txt2.add("ASIGNACI\u00d3N DE L\u00cdNEA");
+		txt2.add("DATOS DE LA CUENTA");
+		txt2.add("RESUMEN DE LA ORDEN DE VENTA");
+		txt2.add("INFORMACI\u00d3N");
+		List<WebElement> pasos = driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding"));
+		System.out.println(pasos.size());
+		for (WebElement e : pasos) {
+			txt1.add(e.getText());
+		}
+		Assert.assertTrue(txt1.containsAll(txt2));
+	}
+ 
+	public void nuevocliente(){
+		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		driver.findElement(By.id("dataInput_nextBtn")).click();
+		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+	}
 	
-  }
- 
- public void nuevocliente(){
-		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	 driver.findElement(By.id("dataInput_nextBtn")).click();
-		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-
- }
- public void validarnuevocliente(String DNIType, String DNINumber){
+	public void validarnuevocliente(String DNIType, String DNINumber){
 		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		Select DNI = new Select( driver.findElement(By.id("DocumentType")));
-		
-		
-	WebElement NDNI = driver.findElement(By.id("DNI"));
-	String Type =DNI.getFirstSelectedOption().getText();
-	String numero=NDNI.getAttribute("value");
-	System.out.println(Type);
-	System.out.println(numero);
-	Assert.assertTrue(Type.equals(DNIType));
-	Assert.assertTrue(numero.equals(DNINumber));
+		WebElement NDNI = driver.findElement(By.id("DNI"));
+		String Type = DNI.getFirstSelectedOption().getText();
+		String numero = NDNI.getAttribute("value");
+		System.out.println(Type);
+		System.out.println(numero);
+		Assert.assertTrue(Type.equals(DNIType));
+		Assert.assertTrue(numero.equals(DNINumber));
+	}
 	
- }
- public void validarentrarcatalogo(){
+	public void validarentrarcatalogo(){
 		try {Thread.sleep(50000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	 Assert.assertTrue(driver.findElement(By.cssSelector(".slds-col.cpq-product-cart-items.js-cpq-cart-scroll-container.scroll")).isDisplayed());
- }
- public void validaragrupados(){
-	List<WebElement> lista = driver.findElements(By.className("ng-binding"));
-	
-	for(WebElement e: lista){
-		if(e.getText().equals("Flavia Sales")){
-			e.click();
-			 Assert.assertTrue(driver.findElement(By.cssSelector(".slds-hint-parent.ng-scope")).isDisplayed());
-			break;}}}
+		Assert.assertTrue(driver.findElement(By.cssSelector(".slds-col.cpq-product-cart-items.js-cpq-cart-scroll-container.scroll")).isDisplayed());
+	}
+
+	public void validaragrupados() {
+		List<WebElement> lista = driver.findElements(By.className("ng-binding"));
+		for (WebElement e : lista) {
+			if (e.getText().equals("Flavia Sales")) {
+				e.click();
+				Assert.assertTrue(driver.findElement(By.cssSelector(".slds-hint-parent.ng-scope")).isDisplayed());
+				break;
+			}
+		}
+	}
+
+	public void validarcrearcuenta() {
+		acciondecontacto("nueva cuenta");
+		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		for (String winHandle : driver.getWindowHandles()) {
+			driver.switchTo().window(winHandle);
+		}
+		driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL +"\t");
+		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		Assert.assertTrue(driver.findElement(By.cssSelector(".slds-page-header__title.vlc-slds-page-header__title.slds-truncate.ng-binding")).getText().equals("Crear Nuevo Cliente"));
+	}
  
- public void validarcrearcuenta(){
-acciondecontacto("nueva cuenta");
-try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-for(String winHandle:driver.getWindowHandles()){
-    driver.switchTo().window(winHandle);}
-driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL +"\t");
-try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-Assert.assertTrue(driver.findElement(By.cssSelector(".slds-page-header__title.vlc-slds-page-header__title.slds-truncate.ng-binding")).getText().equals("Crear Nuevo Cliente"));
- }
  
- 
- public void acciondecontacto(String accion){
+	public void acciondecontacto(String accion){
 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		 driver.findElement(By.id("tab-scoped-3__item")).click();
-		    sleep(3000);
-	List<WebElement> btns = driver.findElements(By.cssSelector(".slds-button.slds-button.slds-button--icon"));
-for(WebElement e: btns){
-	if(e.getText().toLowerCase().equals(accion)){ 
-		e.click();
-		break;}}
- } 
+		driver.findElement(By.id("tab-scoped-3__item")).click();
+		sleep(3000);
+		List<WebElement> btns = driver.findElements(By.cssSelector(".slds-button.slds-button.slds-button--icon"));
+		for (WebElement e : btns) {
+			if (e.getText().toLowerCase().equals(accion)) {
+				e.click();
+				break;
+			}
+		}
+	}
  
- public void crearnuevocliente(String nombre, String apellido, String nacimiento){
+	public void crearnuevocliente(String nombre, String apellido, String nacimiento){
 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		driver.findElement(By.id("dataInput_nextBtn")).click();
 		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
@@ -404,9 +403,9 @@ for(WebElement e: btns){
 		driver.findElement(By.id("Birthdate")).sendKeys(nacimiento);
 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		driver.findElement(By.id("Contact_nextBtn")).click();
- }
- 
- public void elegirplan(String plan){
+	}
+	
+	public void elegirplan(String plan){
 		try {Thread.sleep(9500);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		/*driver.findElement(By.cssSelector(".slds-button.custom-view-dropdown-button.slds-button_neutral.slds-p-right_small.slds-picklist__label.cpq-base-header-picklist-label")).click();
 		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
@@ -436,62 +435,66 @@ for(WebElement e: btns){
 		//for(WebElement UnP : agregar) {
 			agregar.get(1).click();
 		//}*/
-	
 		driver.findElement(By.cssSelector(".slds-input.input-icon.ng-pristine.ng-untouched.ng-valid.ng-empty")).sendKeys(plan);
 		sleep(7500);
 		List<WebElement> productos = driver.findElements(By.cssSelector(".slds-media.cpq-product-item-container"));
-		List<WebElement> botones = driver.findElements(By.cssSelector(".slds-button.slds-button_neutral.icon-add_shopping_cart.icon-only.cpq-add-button"));
-		for (int i = 0; i <= productos.size()-1; i++) {
+		List<WebElement> botones = driver.findElements(
+				By.cssSelector(".slds-button.slds-button_neutral.icon-add_shopping_cart.icon-only.cpq-add-button"));
+		for (int i = 0; i <= productos.size() - 1; i++) {
 			System.out.println(i + ". " + productos.get(i).getText());
-			if (productos.get(i).getText().substring(0, productos.get(i).getText().indexOf("\n")).equalsIgnoreCase(plan)) {
+			if (productos.get(i).getText().substring(0, productos.get(i).getText().indexOf("\n"))
+					.equalsIgnoreCase(plan)) {
 				botones.get(i).click();
 				break;
 			}
 		}
 		sleep(15000);
-}
- public void agregarplan(String plan){
+	}
+	
+	public void agregarplan(String plan){
 		try {Thread.sleep(30000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		/*driver.findElement(By.cssSelector(".slds-button.custom-view-dropdown-button.slds-button_neutral.slds-p-right_small.slds-picklist__label.cpq-base-header-picklist-label")).click();
-		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		List<WebElement> list = driver.findElements(By.className("slds-dropdown__item"));
-		System.out.println(list.size());
-		for(WebElement e: list){
-			if(e.getText().equals("Telecom Price List")){
-				System.out.println(e.getText());
-				e.click();
-				break;}}
-		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}*/
+//		driver.findElement(By.cssSelector(".slds-button.custom-view-dropdown-button.slds-button_neutral.slds-p-right_small.slds-picklist__label.cpq-base-header-picklist-label")).click();
+//		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+//		List<WebElement> list = driver.findElements(By.className("slds-dropdown__item"));
+//		System.out.println(list.size());
+//		for(WebElement e: list){
+//			if(e.getText().equals("Telecom Price List")){
+//				System.out.println(e.getText());
+//				e.click();
+//				break;}}
+//		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-valid")).sendKeys(plan);		
 		try {Thread.sleep(20000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		List<WebElement> agregar = driver.findElements(By.cssSelector(".slds-button.slds-button_neutral.add-button"));
 		agregar.get(1).click();
- }
+	}
  
- public void borrarcuenta(String nombre, String apellido){
+	public void borrarcuenta(String nombre, String apellido){
 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	 driver.get("https://crm--sit.cs14.my.salesforce.com/home/home.jsp");
+		driver.get("https://crm--sit.cs14.my.salesforce.com/home/home.jsp");
 		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		driver.findElement(By.id("Account_Tab")).click();
 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		List<WebElement> cuentas = driver.findElements(By.cssSelector(".dataCell"));
 		for(WebElement e: cuentas){
-
 			if(e.getText().equals(nombre+" "+apellido)){
 				e.findElement(By.tagName("a")).click();
 				try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 				WebElement btns = driver.findElement(By.className("pbButton"));
 				btns.findElement(By.name("delete")).click();
 				try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-				 Alert alert = driver.switchTo().alert();
-				   alert.accept();
-					try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-				break;}}}
+				Alert alert = driver.switchTo().alert();
+				alert.accept();
+				try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+				break;
+			}
+		}
+	}
  
  
- public void borrarcontacto(String apellido, String nombre){
+	public void borrarcontacto(String apellido, String nombre) {
 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	 driver.get("https://crm--sit.cs14.my.salesforce.com/home/home.jsp");
+		driver.get("https://crm--sit.cs14.my.salesforce.com/home/home.jsp");
 		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		driver.findElement(By.id("Contact_Tab")).click();
 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
@@ -503,174 +506,176 @@ for(WebElement e: btns){
 				WebElement btns = driver.findElement(By.className("pbButton"));
 				btns.findElement(By.name("del")).click();
 				try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-				 Alert alert = driver.switchTo().alert();
-				   alert.accept();
-					try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-				break;}}}
+				Alert alert = driver.switchTo().alert();
+				alert.accept();
+				try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+				break;
+			}
+		}
+	}
  
  
- public void elegirvalidacion(String validacion){
-	 //DOC SMS o QA
-	 CustomerCare cc = new CustomerCare(driver);
-	 CustomerCare page = new CustomerCare(driver);
-	 boolean enc = false;
-	try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	List<WebElement> valid =driver.findElements(By.id("ValidationMethodInValidContact"));
-	List<WebElement> radio =driver.findElements(By.cssSelector(".ta-radioBtnContainer.taBorderOverlay.slds-grid.slds-grid--align-center.slds-grid--vertical-align-center.ng-scope"));
-	for(int i=0; i<valid.size();i++){
-		String value=valid.get(i).getAttribute("value");
-		if(value.equals(validacion)){
-			cc.obligarclick(radio.get(i));
-			enc = true;
-			break;}}
-	try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	if(enc == false)
-		System.out.println("No esta el metodo de validacion");
-	 driver.findElement(By.id("MethodSelection_nextBtn")).click();
- }
- 
- public void seleccionarMetodoValidacion(String validacion){
-	try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	List<WebElement> valid =driver.findElements(By.id("MethodSelection"));
-	List<WebElement> radio = driver.findElement(By.id("MethodSelection|0")).findElements(By.cssSelector(".slds-radio--faux.ng-scope"));
-	int i = -1;
-	for(WebElement UnV: valid){
-		System.out.println(UnV.getAttribute("value"));
-		i++;
-		if(UnV.getAttribute("value").equals(validacion)){
-			((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+radio.get(i).getLocation().y+")");
-			radio.get(i).click();
-			break;}}
-	try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	 driver.findElement(By.id("ValidationMethod_nextBtn")).click();
- }
- 
- public void validacionProcesoVenta(String validacion){
-	try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	List<WebElement> valid =driver.findElements(By.id("ValidationMethodValidContact"));
-	List<WebElement> radio = driver.findElement(By.id("ValidationMethodValidContact|0")).findElements(By.cssSelector(".slds-radio--faux.ng-scope"));
-	int i = -1;
-	for(WebElement UnV: valid){
-		System.out.println(UnV.getAttribute("value"));
-		i++;
-		if(UnV.getAttribute("value").toLowerCase().contains(validacion)){
-			((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+radio.get(i).getLocation().y+")");
-			radio.get(i).click();
-			break;}}
-	try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	 driver.findElement(By.id("MethodSelection_nextBtn")).click();
-	 sleep(8000);
- }
- 
- public void praguntasRespuestasLino(String resp1, String resp2){
+	public void elegirvalidacion(String validacion) {
+		CustomerCare cc = new CustomerCare(driver);
+		boolean enc = false;
 		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		WebElement valid =driver.findElement(By.id("tree0-node1"));
+		List<WebElement> valid = driver.findElements(By.id("ValidationMethodInValidContact"));
+		List<WebElement> radio = driver.findElements(By.cssSelector(".ta-radioBtnContainer.taBorderOverlay.slds-grid.slds-grid--align-center.slds-grid--vertical-align-center.ng-scope"));
+		for (int i = 0; i < valid.size(); i++) {
+			String value = valid.get(i).getAttribute("value");
+			if (value.equals(validacion)) {
+				cc.obligarclick(radio.get(i));
+				enc = true;
+				break;
+			}
+		}
+		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		if (!enc) System.out.println("No esta el metodo de validacion");
+		driver.findElement(By.id("MethodSelection_nextBtn")).click();
+	}
+ 
+	public void seleccionarMetodoValidacion(String validacion){
+		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		List<WebElement> valid = driver.findElements(By.id("MethodSelection"));
+		List<WebElement> radio = driver.findElement(By.id("MethodSelection|0")).findElements(By.cssSelector(".slds-radio--faux.ng-scope"));
+		int i = -1;
+		for (WebElement UnV : valid) {
+			System.out.println(UnV.getAttribute("value"));
+			i++;
+			if (UnV.getAttribute("value").equals(validacion)) {
+				((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + radio.get(i).getLocation().y + ")");
+				radio.get(i).click();
+				break;
+			}
+		}
+		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		driver.findElement(By.id("ValidationMethod_nextBtn")).click();
+	}
+ 
+	public void validacionProcesoVenta(String validacion){
+		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		List<WebElement> valid = driver.findElements(By.id("ValidationMethodValidContact"));
+		List<WebElement> radio = driver.findElement(By.id("ValidationMethodValidContact|0")).findElements(By.cssSelector(".slds-radio--faux.ng-scope"));
+		int i = -1;
+		for (WebElement UnV : valid) {
+			System.out.println(UnV.getAttribute("value"));
+			i++;
+			if (UnV.getAttribute("value").toLowerCase().contains(validacion)) {
+				((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + radio.get(i).getLocation().y + ")");
+				radio.get(i).click();
+				break;
+			}
+		}
+		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		driver.findElement(By.id("MethodSelection_nextBtn")).click();
+		sleep(8000);
+	}
+ 
+ 	public void praguntasRespuestasLino(String resp1, String resp2){
+ 		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		WebElement valid = driver.findElement(By.id("tree0-node1"));
 		List<WebElement> radio = valid.findElements(By.className("slds-radio"));
-		for(WebElement UnV: radio){
+		for (WebElement UnV : radio) {
 			System.out.println(UnV.findElement(By.cssSelector(".slds-form-element__label.ng-binding")).getText());
-			if(UnV.findElement(By.cssSelector(".slds-form-element__label.ng-binding")).getText().equalsIgnoreCase(resp1)){	
+			if (UnV.findElement(By.cssSelector(".slds-form-element__label.ng-binding")).getText().equalsIgnoreCase(resp1)) {
 				UnV.findElement(By.className("slds-radio--faux")).click();
-				break;}
+				break;
+			}
 		}
-		
-		valid =driver.findElements(By.id("tree0-node1")).get(1);
+		valid = driver.findElements(By.id("tree0-node1")).get(1);
 		radio = valid.findElements(By.className("slds-radio"));
-		for(WebElement UnV: radio){
+		for (WebElement UnV : radio) {
 			System.out.println(UnV.findElement(By.cssSelector(".slds-form-element__label.ng-binding")).getText());
-			if(UnV.findElement(By.cssSelector(".slds-form-element__label.ng-binding")).getText().equalsIgnoreCase(resp2)){	
+			if (UnV.findElement(By.cssSelector(".slds-form-element__label.ng-binding")).getText().equalsIgnoreCase(resp2)) {
 				UnV.findElement(By.className("slds-radio--faux")).click();
-				break;}
+				break;
+			}
 		}
-		
 		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		 driver.findElement(By.id("QAQuestions_nextBtn")).click();
-		 sleep(6000);
+		driver.findElement(By.id("QAQuestions_nextBtn")).click();
+		sleep(6000);
 	 }
- 
 
- public void subirdoc(){
-		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	//driver.findElement(By.id("FileDocumentImage")).click();
-	try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElementException e) {};
-	try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	driver.findElement(By.id("FileDocumentImage")).click();
-
-
-	try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	 driver.switchTo().activeElement().sendKeys("C:\\Users\\Sofia Chardin\\Desktop\\DNI.png");
+ 	public void subirdoc(){
+ 		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+ 		//driver.findElement(By.id("FileDocumentImage")).click();
+ 		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		try {driver.findElement(By.id("alert-ok-button")).click();} catch (NoSuchElementException e) {}
 		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-
-
+		driver.findElement(By.id("FileDocumentImage")).click();
+		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		driver.switchTo().activeElement().sendKeys("C:\\Users\\Sofia Chardin\\Desktop\\DNI.png");
+		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	 driver.findElement(By.id("DocumentMethod_nextBtn")).click();
+		driver.findElement(By.id("DocumentMethod_nextBtn")).click();
 		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}	    
-		    
-	 driver.findElement(By.id("ValidationResult_nextBtn")).click();
-	
- }
+		driver.findElement(By.id("ValidationResult_nextBtn")).click();
+	}
  
- public void Crear_DatosDelCliente(String impositiva){
-		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	 setSimpleDropdown(driver.findElement(By.id("ImpositiveCondition")), impositiva);
-	// driver.findElement(By.id("IdPhone")).sendKeys(telefono);;
-	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-
- }
- public void Crear_DomicilioLegal(String sProvincia, String sLocalidad, String sZona, String sCalle, String sNumCa, String sCP, String tDomic){
-	BasePage bp = new BasePage(driver);
-	waitForVisibilityOf(driver.findElement(By.id("state-LegalAddress")));
-	bp.setSimpleDropdown(driver.findElement(By.id("ImpositiveCondition")), "IVA Consumidor final");
-	bp.setSimpleDropdown(driver.findElement(By.id("state-LegalAddress")), sProvincia);
-	WebElement localidad = driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required"));
-	localidad.sendKeys(sLocalidad);
-	localidad.sendKeys(Keys.ENTER);
-	driver.findElement(By.id("zoneType-LegalAddress")).sendKeys(sZona);
-	driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")).sendKeys(sCalle);
-	driver.findElement(By.id("streetNumber-LegalAddress")).sendKeys(sNumCa);
-	driver.findElement(By.id("postalCode-LegalAddress")).sendKeys(sCP);
-	bp.setSimpleDropdown(driver.findElement(By.id("addresssType-LegalAddress")), tDomic);
-	driver.findElement(By.id("btnSameAsLegalAddress")).click();
-	sleep(5000);
-	driver.findElement(By.id("AccountData_nextBtn")).click();
- }
+ 	public void Crear_DatosDelCliente(String impositiva){
+ 		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+ 		setSimpleDropdown(driver.findElement(By.id("ImpositiveCondition")), impositiva);
+//	driver.findElement(By.id("IdPhone")).sendKeys(telefono);;
+ 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+ 	}
+ 	
+	public void Crear_DomicilioLegal(String sProvincia, String sLocalidad, String sZona, String sCalle, String sNumCa, String sCP, String tDomic) {
+		BasePage bp = new BasePage(driver);
+		waitForVisibilityOf(driver.findElement(By.id("state-LegalAddress")));
+		bp.setSimpleDropdown(driver.findElement(By.id("ImpositiveCondition")), "IVA Consumidor final");
+		bp.setSimpleDropdown(driver.findElement(By.id("state-LegalAddress")), sProvincia);
+		WebElement localidad = driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required"));
+		localidad.sendKeys(sLocalidad);
+		localidad.sendKeys(Keys.ENTER);
+		driver.findElement(By.id("zoneType-LegalAddress")).sendKeys(sZona);
+		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")).sendKeys(sCalle);
+		driver.findElement(By.id("streetNumber-LegalAddress")).sendKeys(sNumCa);
+		driver.findElement(By.id("postalCode-LegalAddress")).sendKeys(sCP);
+		bp.setSimpleDropdown(driver.findElement(By.id("addresssType-LegalAddress")), tDomic);
+		driver.findElement(By.id("btnSameAsLegalAddress")).click();
+		sleep(5000);
+		driver.findElement(By.id("AccountData_nextBtn")).click();
+	}
  
- public void Crear_DomicilioLegalNuevo(String sProvincia, String sLocalidad, String sZona, String local, String altura, String piso, String dpto, String CP){
-	
-	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	List<WebElement> check = driver.findElements(By.cssSelector(".slds-checkbox--faux"));
-	setSimpleDropdown(driver.findElement(By.id("ShippingProvince")), sProvincia);
-	driver.findElement(By.id("ShippingLocalidad")).sendKeys(sLocalidad);
-	setSimpleDropdown(driver.findElement(By.id("ShippingTipoDeZona")), "Urbana");
-	driver.findElement(By.id("ShippingCalle")).sendKeys(sZona); 
-	driver.findElement(By.id("ShippingAltitude")).sendKeys(altura);
-	driver.findElement(By.id("ShippingCodigoPostal")).sendKeys(CP);
-	try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	driver.findElement(By.id("btnSameAsLegalAddress")).click();
-	try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-	driver.findElement(By.id("AccountData_nextBtn")).click();
- }
+	public void Crear_DomicilioLegalNuevo(String sProvincia, String sLocalidad, String sZona, String local, String altura, String piso, String dpto, String CP) {
+	 	try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		setSimpleDropdown(driver.findElement(By.id("ShippingProvince")), sProvincia);
+		driver.findElement(By.id("ShippingLocalidad")).sendKeys(sLocalidad);
+		setSimpleDropdown(driver.findElement(By.id("ShippingTipoDeZona")), "Urbana");
+		driver.findElement(By.id("ShippingCalle")).sendKeys(sZona);
+		driver.findElement(By.id("ShippingAltitude")).sendKeys(altura);
+		driver.findElement(By.id("ShippingCodigoPostal")).sendKeys(CP);
+		try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		driver.findElement(By.id("btnSameAsLegalAddress")).click();
+		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		driver.findElement(By.id("AccountData_nextBtn")).click();
+	}
  
  
  	public void Crear_CopiarDatosLegal(){
 		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-
  		List<WebElement> check = driver.findElements(By.cssSelector(".slds-checkbox--faux"));
- 		
  		if(!driver.findElement(By.id("CopyLegalAddress")).isSelected()){
  			((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+check.get(3).getLocation().y+")");
-			check.get(3).click();}
+			check.get(3).click();
+			}
  	}
  	
  	public void error(){
 		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
- 	try{	if(driver.findElement(By.id("SaveContactValidationDOC")).isDisplayed()){
+		try{	
+			if(driver.findElement(By.id("SaveContactValidationDOC")).isDisplayed()) {
  			List<WebElement> btn = driver.findElements(By.cssSelector(".slds-button.slds-button--neutral.ng-binding.ng-scope"));
- 			for(WebElement e:btn){
- 				if(e.getText().equals("Continue")){
- 					e.click();
- 				}}}	} catch (NoSuchElementException e) {}}
- 	public void error2(){
+ 			for(WebElement e:btn) {
+ 				if(e.getText().equals("Continue")) {
+						e.click();
+					}
+				}
+			}
+		} catch (NoSuchElementException e) {}
+	}
+
+	public void error2() {
 		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
  	try{	if(driver.findElement(By.id("CheckAndSaveDecisiveLine")).isDisplayed()){
  			List<WebElement> btn = driver.findElements(By.cssSelector(".slds-button.slds-button--neutral.ng-binding.ng-scope"));
@@ -679,11 +684,8 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
  					e.click();
  				}}}	} catch (NoSuchElementException e) {}}
  	
-	public void Crear_DomicilioFacturacion(String provincia, String localidad, 
-			 String calle, String local, String altura, String piso, String dpto,
-			 String CP){
+	public void Crear_DomicilioFacturacion(String provincia, String localidad, String calle, String local, String altura, String piso, String dpto, String CP){
 		try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-
 		List<WebElement> check = driver.findElements(By.cssSelector(".slds-checkbox--faux"));
 		 setSimpleDropdown(driver.findElement(By.id("BillingState")), provincia);
 
@@ -696,17 +698,13 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 				break;
 			case "no":
 				if(driver.findElement(By.id("BillingLocal")).isSelected()){
-					check.get(2).click();}
+				check.get(2).click();}
 				break;}
 			driver.findElement(By.id("BillingStreetNumber")).sendKeys(altura);
 			driver.findElement(By.id("BillingFloor")).sendKeys(piso);
 			driver.findElement(By.id("BillingDepartment")).sendKeys(dpto);
-			driver.findElement(By.id("BillingPostalCodeTypeAhead")).sendKeys(CP);}
-		
-	
-	public void Crear_InfoAdicional(){
-			
-		}
+			driver.findElement(By.id("BillingPostalCodeTypeAhead")).sendKeys(CP);
+			}
 	
 	public void BtnCrearNuevoCliente(){
 		boolean existe = false;
@@ -728,7 +726,6 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 		}
 		try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
-	
 	
 		public void AsignarLinea(){
 			try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
@@ -753,16 +750,12 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 		
 		public void verificarOrdenICCID(){
 			try {Thread.sleep(10000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-
 			String orden;
 			WebElement NdOrden= driver.findElement(By.xpath("//*[@id='OrderStatus']/div/p/p[1]"));
 			System.out.println("text "+NdOrden.getText());
 			System.out.println("value "+NdOrden.getAttribute("value"));
-
 			orden = NdOrden.getText();
 			System.out.println(orden);
-			
-			
 		}
 		
 		public void selectMatrix(String letra, String matrix) {
@@ -847,7 +840,6 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 				sleep(6000);
 				driver.findElement(By.id("userNav-menuItems")).findElements(By.tagName("a")).get(num-2).click();
 				sleep(4000);
-				
 			}
 			sleep(2000);
 			driver.findElement(By.id("userDropdown")).click();
@@ -891,12 +883,8 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 			 sleep(10000);
 		}
 		
-		public void Crear_DireccionEnvio(String provincia, String localidad, 
-				 String calle, String local, String altura, String piso, String dpto,
-				 String CP, String Celu, String Alternativo){
-			
+		public void Crear_DireccionEnvio(String provincia, String localidad, String calle, String local, String altura, String piso, String dpto, String CP, String Celu, String Alternativo){
 				try {Thread.sleep(5000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-		
 			 setSimpleDropdown(driver.findElements(By.id("State")).get(1), provincia);
 			 sleep(4000);
 				setSimpleDropdown(driver.findElement(By.id("City")), localidad);
@@ -909,14 +897,12 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 			driver.findElement(By.id("Street")).sendKeys(Keys.ARROW_DOWN);
 			driver.findElement(By.id("Street")).sendKeys(Keys.ENTER);
 			driver.findElement(By.id("NewStreetName")).sendKeys(calle);*/
-			
 			driver.findElement(By.id("StreetNumber")).sendKeys(altura);
 			driver.findElement(By.id("FloorNumber")).sendKeys(piso);
 			driver.findElement(By.id("Department")).sendKeys(dpto);
 			driver.findElement(By.id("PostalCode")).sendKeys(CP);
 			driver.findElement(By.id("ContactMobilePhone")).sendKeys(Celu);
 			driver.findElement(By.id("AlternativeTelephone")).sendKeys(Alternativo);
-		
 			try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 			driver.findElement(By.id("ShippingAddressData_nextBtn")).click();
 		 }
@@ -933,6 +919,7 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 				}catch(Exception ex1) {} 
 			}
 		}
+		
 		public void Crear_Cliente(String DNI){
 			try {Thread.sleep(1000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 			boolean existe = false;
@@ -954,20 +941,16 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 		
 		public int frameDeSales(WebDriver driver) {
 			List<WebElement> frames = driver.findElements(By.tagName("iframe"));
-			boolean enc = false;
 			int index = 0;
 			Accounts accountPage = new Accounts(driver);
 			for(WebElement frame : frames) {
 				try {
 					System.out.println("aca");
 					driver.switchTo().frame(frame);
-
 					driver.findElement(By.cssSelector(".slds-grid.slds-m-bottom_small.slds-wrap.cards-container")).getText(); //each element is in the same iframe.
 					//System.out.println(index); //prints the used index.
-
 					driver.findElement(By.cssSelector(".slds-grid.slds-m-bottom_small.slds-wrap.cards-container")).isDisplayed(); //each element is in the same iframe.
 					//System.out.println(index); //prints the used index.
-
 					driver.switchTo().frame(accountPage.getFrameForElement(driver, By.cssSelector(".hasMotif.homeTab.homepage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
 					return index;
 				}catch(NoSuchElementException noSuchElemExcept) {
@@ -979,9 +962,8 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 		}
 		
 		public void configuracion(String Linea, String ICCID, String IMSI, String KI) {
-			sleep(10000);
+			sleep(20000);
 			driver.switchTo().defaultContent();
-			sleep(10000);
 			driver.findElement(By.cssSelector(".slds-button.slds-button_icon-border-filled.cpq-item-actions-dropdown-button")).click();
 			sleep(2000);
 			List<WebElement> list = driver.findElements(By.cssSelector(".slds-dropdown_item.cpq-item-actions-dropdown_item")); 
@@ -989,9 +971,7 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 			list.get(3).click();
 			agregarNumerodeLinea(Linea);  
 			SimCard(ICCID, IMSI, KI);
-			sleep(5000);
-				
-							
+			sleep(5000);				
 		}
 		
 		public void SimCard(String ICCID, String IMSI, String KI) {
@@ -1025,7 +1005,6 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 				 }
 				 
 			 }
-			
 			sleep(5000);
 			//driver.switchTo().defaultContent();
 			List<WebElement> cerrar = driver.findElements(By.cssSelector(".slds-button_icon.slds-button_icon--large"));
@@ -1039,11 +1018,9 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 				}catch(Exception ex1) {continue;}
 			}
 			sleep(5000);
-			 
-			
 		}
-		
-			public void agregarNumerodeLinea(String Linea) { 
+
+		public void agregarNumerodeLinea(String Linea) { 
 			sleep(3000);
 			WebElement NumerodeLinea = driver.findElement(By.xpath("//*[@id=\"js-cpq-product-cart-config-form\"]/div[1]/div/form/div[2]/div[1]/input"));
 			driver.switchTo().defaultContent();
@@ -1074,7 +1051,6 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 			sleep(5000);
 			List<WebElement> NomPest = driver.findElements(
 					By.xpath("//*[@class='cpq-item-product-child-level-1 cpq-item-child-product-name-wrapper']"));
-
 			for (WebElement a : NomPest) {
 				System.out.print(a.getText().toLowerCase());
 				if (a.getText().toLowerCase().contains("friends&family")) {
@@ -1083,7 +1059,6 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 					break;
 				}
 			}
-
 			List<WebElement> subPack = driver
 					.findElement(By.cssSelector(".cpq-item-product-child-level-2.ng-not-empty.ng-valid"))
 					.findElements(By.cssSelector(".slds-button.cpq-item-has-children"));
@@ -1111,9 +1086,7 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 					i = 1;
 				}
 				sleep(5000);
-				servAmigos.get(i).findElement(
-						By.cssSelector(".slds-button.slds-button_icon-border-filled.cpq-item-actions-dropdown-button"))
-						.click();
+				servAmigos.get(i).findElement(By.cssSelector(".slds-button.slds-button_icon-border-filled.cpq-item-actions-dropdown-button").click();
 				sleep(2000);
 				List<WebElement> opc = servAmigos.get(i)
 						.findElement(By.cssSelector(".slds-dropdown.slds-dropdown_right.cpq-item-actions-dropdown"))
@@ -1213,8 +1186,6 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 			driver.findElement(By.id("ContactMobilePhone")).sendKeys(TCelular);
 			driver.findElement(By.id("AlternativeTelephone")).sendKeys(TAlternativo);
 			cc.obligarclick(driver.findElement(By.id("ShippingAddressData_nextBtn")));
-			
-			
 		}
 		
 		public boolean completarLogistica(String sOrder, WebDriver driver) {
@@ -1224,13 +1195,12 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 				driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
 				sleep(12000);
 			}catch(Exception ex1) {}
-			SalesBase SB = new SalesBase(driver);
 			driver.switchTo().defaultContent();
 			sleep(3000);
 			TB.goToLeftPanel3(driver, "Logistica");
 			sleep(12000);
 			try{
-				SB.cerrarPestaniaGestion(driver);}
+				cerrarPestaniaGestion(driver);}
 			catch(Exception ex2) {}
 			driver.switchTo().frame(TB.cambioFrame(driver, By.className("taNotificactionPanel")));
 			WebElement wBody = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-no-row-hover.slds-table--cell-buffer.slds-max-medium-table--stacked-horizontal"));
@@ -1244,7 +1214,6 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 			}
 			sleep(12000);
 			driver.switchTo().frame(TB.cambioFrame(driver, By.cssSelector(".slds-truncate.ng-binding")));
-			
 			String serial = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--cell-buffer.vlc-slds-table")).findElements(By.cssSelector(".slds-truncate.ng-binding")).get(1).getText();
 			System.out.println("S="+serial);
 			wBody = driver.findElement(By.xpath("//*[@class='slds-table slds-table--bordered slds-table--cell-buffer vlc-slds-table']"));
@@ -1260,32 +1229,21 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 			}
 			driver.findElement(By.id("Confirmation_nextBtn")).click();
 			sleep(5000);
-
 			return bAssert;
 		}
 		
 		public boolean completarEntrega(String sOrder,WebDriver driver) {
 			TestBase TB = new TestBase();
-			/*try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			try {
-				driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
-				sleep(12000);
-			}catch(Exception ex1) {}*/
-			SalesBase SB = new SalesBase(driver);
 			driver.switchTo().defaultContent();
 			sleep(3000);
 			TB.goToLeftPanel3(driver, "Entregas");
-			
 			if(!driver.findElement(By.xpath("//*[@class='x-btn-small x-btn-icon-small-left'] //tr[2] //td[2] //button //span")).getText().equalsIgnoreCase("Entregas") ) {
 				TB.goToLeftPanel3(driver, "Casos");
 			}
 			System.out.println("I've click on Entregas");
-			sleep(10000);
-			
-			
-			sleep(8000);
+			sleep(18000);
 			try{
-				SB.cerrarPestaniaGestion(driver);}
+				cerrarPestaniaGestion(driver);}
 			catch(Exception ex2) {}
 			driver.switchTo().frame(TB.cambioFrame(driver, By.className("taNotificactionPanel")));
 			WebElement wBody = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-no-row-hover.slds-table--cell-buffer.slds-max-medium-table--stacked-horizontal"));
@@ -1304,7 +1262,6 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 			}catch(Exception ex1) {}
 			driver.findElement(By.id("OrderItemVerification_nextBtn")).click();
 			sleep(8000);
-			
 			boolean bAssert = false;
 			//Check Verification - There's no message shown by now
 			try {
@@ -1317,49 +1274,46 @@ try{	driver.findElement(By.id("alert-ok-button")).click();	} catch (NoSuchElemen
 			}catch(Exception ex1) {}
 			sleep(5000);
 			return bAssert;
-			
 		}
 		
-		public boolean CompletarLogisticaEquipo(String sOrder, WebDriver driver) {
-			TestBase TB = new TestBase();
-			try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
-			sleep(12000);
-			SalesBase SB = new SalesBase(driver);
-			driver.switchTo().defaultContent();
-			sleep(3000);
-			TB.goToLeftPanel2(driver, "Logistica");
-			sleep(12000);
-			try{
-				SB.cerrarPestaniaGestion(driver);}
-			catch(Exception ex2) {}
-			driver.switchTo().frame(TB.cambioFrame(driver, By.className("taNotificactionPanel")));
-			WebElement wBody = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-no-row-hover.slds-table--cell-buffer.slds-max-medium-table--stacked-horizontal"));
-			List<WebElement> wOrders = wBody.findElements(By.tagName("tbody"));
-			for (WebElement wAux : wOrders) {
-				List<WebElement> wItems = wAux.findElements(By.cssSelector(".slds-truncate.slds-text-align--center"));
-				if (wItems.get(0).getText().equals(sOrder)) {
-					wAux.findElement(By.cssSelector(".slds-button.slds-button--neutral")).click();
-					break;
-				}
-			}
-			sleep(12000);
-			
-			String serial = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--cell-buffer.vlc-slds-table")).findElements(By.tagName("td")).get(2).getText();
-			System.out.println("S="+serial);
-			driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern")).sendKeys(serial);
-			driver.findElement(By.id("SerialNumberValidation_nextBtn")).click();
-			sleep(8000);
-			boolean bAssert = false;
-			List<WebElement> wMessage = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).findElement(By.className("slds-form-element__control")).findElement(By.className("ng-binding")).findElements(By.tagName("p"));
-			if (wMessage.get(1).getText().equals("�La orden se realiz� con \u00e9xito!")) {
-				bAssert = true;
-			}
-			driver.findElement(By.id("Confirmation_nextBtn")).click();
-			sleep(5000);
-
-			return bAssert;
+	public boolean CompletarLogisticaEquipo(String sOrder, WebDriver driver) {
+		TestBase tb = new TestBase();
+		try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+		driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
+		sleep(12000);
+		driver.switchTo().defaultContent();
+		sleep(3000);
+		tb.goToLeftPanel2(driver, "Logistica");
+		sleep(12000);
+		try {
+			cerrarPestaniaGestion(driver);
+		} catch (Exception ex2) {
 		}
+		driver.switchTo().frame(tb.cambioFrame(driver, By.className("taNotificactionPanel")));
+		WebElement wBody = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-no-row-hover.slds-table--cell-buffer.slds-max-medium-table--stacked-horizontal"));
+		List<WebElement> wOrders = wBody.findElements(By.tagName("tbody"));
+		for (WebElement wAux : wOrders) {
+			List<WebElement> wItems = wAux.findElements(By.cssSelector(".slds-truncate.slds-text-align--center"));
+			if (wItems.get(0).getText().equals(sOrder)) {
+				wAux.findElement(By.cssSelector(".slds-button.slds-button--neutral")).click();
+				break;
+			}
+		}
+		sleep(12000);
+		String serial = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--cell-buffer.vlc-slds-table")).findElements(By.tagName("td")).get(2).getText();
+		System.out.println("S=" + serial);
+		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern")).sendKeys(serial);
+		driver.findElement(By.id("SerialNumberValidation_nextBtn")).click();
+		sleep(8000);
+		boolean bAssert = false;
+		List<WebElement> wMessage = driver.findElement(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope")).findElement(By.className("slds-form-element__control")).findElement(By.className("ng-binding")).findElements(By.tagName("p"));
+		if (wMessage.get(1).getText().equals("�La orden se realiz� con \u00e9xito!")) {
+			bAssert = true;
+		}
+		driver.findElement(By.id("Confirmation_nextBtn")).click();
+		sleep(5000);
+		return bAssert;
+	}
 	
 	public void BuscarCuenta(String sLinea) {
 		driver.findElement(By.id("PhoneNumber")).sendKeys(sLinea);
