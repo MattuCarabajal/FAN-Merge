@@ -117,7 +117,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	private WebElement razonSocial ;
 	
 	private WebDriverWait wait;
-	private TestBase tb;
+	
 			
 //-------------------------------------------------------------------CONTRUCTOR
 	
@@ -245,7 +245,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		TestBase tb = new TestBase();
 		tb.clickBy(driver, By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]"), 0);
 		//driver.findElement(By.xpath("//button[contains(text(),'Gesti')]")).click();
-		tb.clickBy(driver, By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]"), 0);
+		//tb.clickBy(driver, By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]"), 0);
 	}
 	
 	public void BuscarCuenta(String Type, String NDNI){

@@ -1198,7 +1198,7 @@ public class ABMdeServicios extends TestBase {
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "ABMDeServicios", "E2E", "Ciclo3"}, dataProvider = "BajaServicios")
 	public void TS169650_CRM_Movil_REPRO_Baja_de_Servicio_sin_costo_Llamadas_WiFi_Telefonico(String sDNI, String sLinea) throws AWTException{
-		imagen = "TS169651";
+		imagen = "TS169650";
 		detalles = null;
 		detalles = imagen+"-AltaServicio-DNI:"+sDNI;		
 		//Assert.assertTrue(gf.FlowConsultaServicioInactivo(driver, sLinea, "Discado Directo Internacional con Roaming Int."));
