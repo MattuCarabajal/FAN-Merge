@@ -1,11 +1,13 @@
 package Funcionalidades;
 
 import java.awt.AWTException;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -29,6 +31,7 @@ import PagesPOM.VentaDePackFw;
 import Tests.CBS_Mattu;
 import Tests.MDW;
 import Tests.TestBase;
+import Pages.Marketing;
 
 public class CambioDePlan extends TestBase {
 
@@ -39,6 +42,7 @@ public class CambioDePlan extends TestBase {
 	private CBS cbs;
 	private CBS_Mattu cbsm;
 	private ContactSearch contact;
+	private Marketing mk;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	private SCP scp;
@@ -55,6 +59,7 @@ public class CambioDePlan extends TestBase {
 		log.LoginSit02();
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
+		mk = new Marketing(driver);
 
 	}
 
@@ -69,6 +74,7 @@ public class CambioDePlan extends TestBase {
 		log = new LoginFw(driver);
 		log.loginOOCC();
 		ges.irAConsolaFAN();
+		mk = new Marketing(driver);
 		BeFan Botones = new BeFan(driver);
 	}
 
@@ -83,6 +89,7 @@ public class CambioDePlan extends TestBase {
 		contact = new ContactSearch(driver);
 		log.loginTelefonico();
 		ges.irAConsolaFAN();
+		mk = new Marketing(driver);
 		BeFan Botones = new BeFan(driver);
 	}
 
@@ -96,6 +103,7 @@ public class CambioDePlan extends TestBase {
 		log = new LoginFw(driver);
 		contact = new ContactSearch(driver);
 		log.loginAgente();
+		mk = new Marketing(driver);
 		ges.irAConsolaFAN();
 	}
 
@@ -126,34 +134,93 @@ public class CambioDePlan extends TestBase {
 		imagen = "TS_CambioDePlan";
 		detalles = imagen + "- TS_CambioDePlan - DNI: " + "";
 		boolean enc = false;
-		String fecha = "06-29-2019";
-		ges.BuscarCuenta("DNI", "91020601");
+		String fecha = "06-30-2019";
+		ges.BuscarCuenta("Pasaporte", "925475893");
+		sleep(3000);
+		mk.closeActiveTab();
+		cc.irAFacturacion();
+		cambioDeFrame(driver, By.cssSelector(".console-card.active.expired"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".console-card.active.expired")));
+		WebElement cicloFacturacion = null;
+		for (WebElement x : driver.findElement(By.cssSelector(".console-card.active.expired")).findElements(By.tagName("li"))) {
+			if (x.getText().toLowerCase().contains("ciclo de facturaci\u00f3n"))
+			cicloFacturacion = x;
+		}
+		String cicloAnterior = cicloFacturacion.findElements(By.tagName("span")).get(2).getText();
+		System.out.println("Cliclo Repro: "+cicloAnterior);
+		mk.closeActiveTab();
+		driver.navigate().refresh();
 		ges.irAGestionEnCard("Cambio de Plan");
 		sleep(7000);
 		cambioDeFrame(driver, By.id("OrderRequestDate"),0);
+		sleep(10000);
+		cambioDeFrame(driver, By.id("Request date_nextBtn"),0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderRequestDate")));
 		driver.findElement(By.id("OrderRequestDate")).sendKeys(fecha);
 		driver.findElement(By.id("Request date_nextBtn")).click();
-		//ERROR CREAR ORDEN
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Failed_FDO_nextBtn")));
-		driver.findElement(By.id("Failed_FDO_nextBtn")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("alert-ok-button")));
-		driver.findElement(By.id("alert-ok-button")).click();
-		sleep(2500);
-		driver.findElement(By.id("Failed_FDO_nextBtn")).click();
+		sleep(30000);
+		cambioDeFrame(driver,By.id("TargetOffer_nextBtn"),0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.className("ScrollWindow")));
-		List<WebElement> planes = driver.findElement(By.className("ScrollWindow")).findElements(By.tagName("div"));
+		sleep(3000);
+		List<WebElement> planes = driver.findElements(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup"));
 		for(WebElement p : planes){
-			if(p.getText().toLowerCase().contains("Plan Abono Fijo 3GB")){
+			if(p.getText().toLowerCase().contains("plan abono fijo 3gb")){
 				p.click();
 			}
 		}
 		driver.findElement(By.id("TargetOffer_nextBtn")).click();
+		sleep(35000);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Comparision_nextBtn")));
+		driver.findElement(By.id("Comparision_nextBtn")).click();
+		sleep(25000);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Summary_nextBtn")));
+		driver.findElement(By.id("Summary_nextBtn")).click();
+//		selectByText(driver.findElement(By.id("state-BillingAddress")), "BUENOS AIRES");
+//		driver.findElement(By.cssSelector(".slds-input.ng-not-empty.ng-dirty.ng-valid-parse.ng-valid.ng-valid-required.ng-touched")).clear();
+//		driver.findElement(By.cssSelector(".slds-input.ng-not-empty.ng-dirty.ng-valid-parse.ng-valid.ng-valid-required.ng-touched")).sendKeys("PUNTA ALTA ALTA SOLIER");
+//		driver.findElement(By.cssSelector(".slds-input.ng-not-empty.ng-dirty.ng-valid-parse.ng-valid.ng-valid-required.ng-touched")).sendKeys(Keys.ENTER);
+//		selectByText(driver.findElement(By.id("zoneType-BillingAddress")), "URBANA");
+//		driver.findElements(By.cssSelector(".slds-input.ng-not-empty.ng-dirty.ng-valid-parse.ng-valid.ng-valid-required.ng-touched")).get(1).clear();
+//		driver.findElements(By.cssSelector(".slds-input.ng-not-empty.ng-dirty.ng-valid-parse.ng-valid.ng-valid-required.ng-touched")).get(1).sendKeys("Falsa");
+//		driver.findElement(By.id("streetNumber-BillingAddress")).clear();
+//		driver.findElement(By.id("streetNumber-BillingAddress")).sendKeys("1234");
+//		driver.findElement(By.id("postalCode-BillingAddress")).clear();
+//		driver.findElement(By.id("postalCode-BillingAddress")).sendKeys("4321");
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("AccountData_nextBtn")));
+		driver.findElement(By.id("AccountData_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn")));
+		contact.tipoValidacion("documento");
+		File directory = new File("Dni.jpg");
+		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("nextBtn-label")));
+		driver.findElement(By.id("nextBtn-label")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button_brand")));
+		sleep(8500);
+		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		sleep(15000);
+		driver.navigate().refresh();
+		sleep(5000);
+		mk.closeActiveTab();
+		cc.irAFacturacion();
+		cambioDeFrame(driver, By.cssSelector(".console-card.active.expired"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".console-card.active.expired")));
+		WebElement cicloFacturacionPost = null;
+			for (WebElement x : driver.findElement(By.cssSelector(".console-card.active.expired")).findElements(By.tagName("li"))) {
+			if (x.getText().toLowerCase().contains("ciclo de facturaci\u00f3n"))
+			cicloFacturacionPost = x;
+			}
+		String cicloPosterior = cicloFacturacionPost.findElements(By.tagName("span")).get(2).getText();
+		System.out.println("Cliclo Repro: "+cicloPosterior);
+		Assert.assertTrue(cicloPosterior!=cicloAnterior);
+		
+		
+
+		
+		
 		
 	}
 	
-	
+	/*
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	@Test (groups = {"PerfilOficina"} )
 	public void TS_143263_CRM_Pospago_SalesCPQ_Cambio_de_plan_con_Falla_S069() throws AWTException{
@@ -167,7 +234,7 @@ public class CambioDePlan extends TestBase {
 
 	@Test (groups = {"PerfilOficina"} )
 	public void TS_144313_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
-
+ACA
 	}
 	
 	@Test (groups = {"PerfilOficina"} )
@@ -278,4 +345,6 @@ public class CambioDePlan extends TestBase {
 	public void TS_168782_CRM_Pospago_SalesCPQ_Cambio_de_plan_Telefonico_P_8_R_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
 
 	}
+	
+	*/
 }
