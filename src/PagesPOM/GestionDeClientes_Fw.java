@@ -28,19 +28,17 @@ import Tests.TestBase;
 
 public class GestionDeClientes_Fw extends BasePageFw {
 
-//------------------------------------------------------------Listado Ambientes---------------------------------------------------------------------------
+	//------------------------------------------------------------Listado Ambientes---------------------------------------------------------------------------
 	
 	String[] listaAmbientes = {"sit02","uat02"};
 	
-//------------------------------------------------------------ELEMENTOS---------------------------------------------
+	//------------------------------------------------------------ELEMENTOS---------------------------------------------
 	
 	private TestBase tb;
 	
 	final String locator_cerrarPanelDerecho= "[class='x-layout-split x-layout-split-east x-splitbar-h']";
 	@FindBy (css= locator_cerrarPanelDerecho)
 	private WebElement cerrarPanelDerecho;
-
-	
 	
 	final String locator_menuAplicaciones= "tsidLabel";
 	@FindBy (id= locator_menuAplicaciones)
@@ -106,12 +104,9 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	@FindBy (how = How.TAG_NAME, using = locator_iframes)
 	private List<WebElement> iframes ;
 	
-
 	final String locator_Bodys="[class='hasMotif homeTab homepage  ext-webkit ext-chrome net-withGlobalHeader sfdcBody brandQuaternaryBgr']";
 	@FindBy (how = How.CSS, using = locator_Bodys)
 	private List<WebElement> bodys;
-
-	
 	
 	final String locator_BotonesInf = "[class='slds-grid slds-m-bottom_small slds-wrap cards-container']";
 	@FindBy (how = How.CSS, using = locator_BotonesInf)
@@ -122,8 +117,10 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	private WebElement razonSocial ;
 	
 	private WebDriverWait wait;
+	private TestBase tb;
 			
 //-------------------------------------------------------------------CONTRUCTOR
+	
 	public GestionDeClientes_Fw(WebDriver driver) {
 		super(driver);
 		super.setDriver(driver);
@@ -138,7 +135,6 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		.ignoring(NullPointerException.class)
 //		.ignoring(TimeoutException.class)
 		.ignoring(ElementNotVisibleException.class);
-
 	}
 	
 //--------------------------------------------------------------------METODOS
@@ -146,7 +142,6 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	public WebElement getTipoDoc() {
 		driver.switchTo().frame(cambioFrame(By.id(locator_TipoDoc)));
 		fluentWait.until(ExpectedConditions.elementToBeClickable(tipoDoc));
-		
 		return tipoDoc;
 	}	
 
@@ -155,7 +150,6 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 
 	public WebElement getCajon() {
-
 		fluentWait.until(ExpectedConditions.elementToBeClickable(cajonDeAplicaciones));
 		return cajonDeAplicaciones;
 	}
@@ -167,12 +161,12 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	
 	public void irConsolaFanSit02() {
 		driver.switchTo().defaultContent();
-		 getCajon().click();
+		getCajon().click();
 		if(!super.matchText(this.getElementosCajon(), "Consola FAN" )) {
 			System.out.println("no hace  falta  cambiar");
 		}else{
 			super.getBuscarElementoPorText(this.getElementosCajon(), "Consola FAN").click();
-		};
+		}
 	}
 	
 	public void irConsolaFanUat02(){
@@ -180,36 +174,36 @@ public class GestionDeClientes_Fw extends BasePageFw {
 //			if (driver.findElement(By.id("tsidLabel")).getText().equalsIgnoreCase("Consola FAN")) {
 //				fluentWait.until(ExpectedConditions.elementToBeClickable(volverFan));
 //				driver.findElement(By.id("BackToServiceDesk_Tab")).click();
-		 	fluentWait.until(ExpectedConditions.elementToBeClickable(By.id("BackToServiceDesk_Tab")));
-			if (driver.findElement(By.id("BackToServiceDesk_Tab")).getText().toLowerCase().contains("consola fan")) {
-				driver.findElement(By.id("BackToServiceDesk_Tab")).click();
-			} else {
-				fluentWait.until(ExpectedConditions.elementToBeClickable(cajonDeAplicaciones));
-				driver.findElement(By.cssSelector(ref_CajonDeAplicaciones)).click();
-				fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(ref_aplicaciones), 0));
-				for (WebElement x : driver.findElement(By.cssSelector(ref_aplicaciones)).findElements(By.tagName("a"))) {
-					if (x.getText().equalsIgnoreCase("Consola FAN")) {
-						x.click();
-					}
-				}
-			}
+//		 	fluentWait.until(ExpectedConditions.elementToBeClickable(By.id("BackToServiceDesk_Tab")));
+//			if (driver.findElement(By.id("BackToServiceDesk_Tab")).getText().toLowerCase().contains("consola fan")) {
+//				driver.findElement(By.id("BackToServiceDesk_Tab")).click();
+//			} else {
+//				fluentWait.until(ExpectedConditions.elementToBeClickable(cajonDeAplicaciones));
+//				driver.findElement(By.cssSelector(ref_CajonDeAplicaciones)).click();
+//				fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(ref_aplicaciones), 0));
+//				for (WebElement x : driver.findElement(By.cssSelector(ref_aplicaciones)).findElements(By.tagName("a"))) {
+//					if (x.getText().equalsIgnoreCase("Consola FAN")) {
+//						x.click();
+//					}
+//				}
+//			}
+		tb = new TestBase();
+		tb.clickBy(driver, By.xpath("//*[contains(text(),'Consola FAN')]"), 0);
 	 }
 	
 	public void cerrarPestaniaGestion(WebDriver driver) {//copiado de SalesBase Cierra todas las pesta�as de gestion
 		driver.switchTo().defaultContent();
 		try{
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(locator_Pestanas), 0));
-			
-			for (WebElement UnB : pestanas) {
+			for (WebElement pestana : pestanas) {
 				try {
-					//System.out.println(UnB.getText());
-					((JavascriptExecutor) driver).executeScript("arguments[0].click();", UnB.findElement(By.className("x-tab-strip-close")));	
+					//System.out.println(pestana.getText());
+					((JavascriptExecutor) driver).executeScript("arguments[0].click();", pestana.findElement(By.className("x-tab-strip-close")));	
 				}catch(Exception ex1) {} 
 			}
 		}catch(Exception e){
 		//	System.out.println("pestanas cerradas");
 		}
-		
 	}
 	
 	public void clickMenuIzq() {
@@ -217,24 +211,24 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		fluentWait.until(ExpectedConditions.elementToBeClickable(MenuIzq));
 		super.getAction().moveToElement(MenuIzq).moveByOffset(MenuIzq.getLocation().getX()+110, MenuIzq.getLocation().getY()-90).click().build().perform();
 		super.getEjecutorJavaScipt().executeScript("arguments[0].click();", this.MenuIzq);
-		
 	}
 	
 	public void selectMenuIzq(String opcionVisible) {
+		tb = new TestBase();
 		try {Thread.sleep(5000);} catch (InterruptedException e1) {}
 		clickMenuIzq();
-		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(this.locator_listaMenuIzq), 2));
+//		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(this.locator_listaMenuIzq), 2));
 		try{
-			fluentWait.until(ExpectedConditions.elementToBeClickable(listaMenuIzq.get(0)));
-			
-			super.getBuscarElementoPorText(listaMenuIzq, opcionVisible).click();
+//			fluentWait.until(ExpectedConditions.elementToBeClickable(listaMenuIzq.get(0)));
+//			super.getBuscarElementoPorText(listaMenuIzq, opcionVisible).click();
+			tb.clickBy(driver, By.xpath("//li//span[contains(text(),'Inicio')]"), 0);
 		}catch(Exception e) {
 			System.out.println("no se encuentra elemento verificar que coincida con el texto visible");
 		}
 	}
 	
 	public void irGestionClientes() {
-
+		tb = new TestBase();
 		driver.switchTo().defaultContent();
 		switchToFrameBySrc("/home/home.jsp?i");
 		switch (this.getIndexAmbienteForList()) {
@@ -246,16 +240,15 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			switchToFrameBySrc("https://telecomcrm--uat02-");
 			System.out.println("Gestion cliente Uat");
 			break;
-
 		}
 //		fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]")));
 		TestBase tb = new TestBase();
 		tb.clickBy(driver, By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]"), 0);
 		//driver.findElement(By.xpath("//button[contains(text(),'Gesti')]")).click();
+		tb.clickBy(driver, By.xpath("//button[contains(text(),'Gesti\u00f3n de Clientes')]"), 0);
 	}
 	
 	public void BuscarCuenta(String Type, String NDNI){
-		driver.switchTo().defaultContent();
 		TestBase tb = new TestBase();
 		tb.cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
@@ -274,20 +267,18 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		DNI.sendKeys(NDNI);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_BtnBuscar)));
 		BtnBuscar.click();
-
 	}
 
 	public void cerrarPanelDerecho() throws AWTException {		
+		Robot robot = getRobot();																								
 		driver.switchTo().defaultContent();
 		fluentWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(locator_cerrarPanelDerecho)));
-		Robot robot = getRobot();																									
 		WebElement boton  = this.cerrarPanelDerecho;	//SELECCIONA LA BARRA PARA HACERLA VISIBLE
 		robot.mouseMove((int) (boton.getLocation().getX()*1.01),(int) (boton.getLocation().getY()*4));					// SE MUEVE A LA POSICION 
 		if(boton.getAttribute("class").compareTo("x-layout-split x-layout-split-east x-splitbar-h x-layout-split-over")==0) {//VERIFICA QUE ESTE SELECCIONADO Y VISIBLE
 			robot.mousePress(InputEvent.BUTTON1_MASK);
 			robot.mouseRelease(InputEvent.BUTTON1_MASK);																	//HACE CLICK PARA COLAPSAR EL PANEL
 			System.out.println("hace click la concha de tu hermana");
-
 		}
 	}
 	
@@ -306,7 +297,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		int resp =0;
 		for(String ambiente : listaAmbientes ) {
 			if(url.contains(ambiente)) {
-				resp= index;
+				resp = index;
 			}else {
 				index ++;
 			}
@@ -324,12 +315,10 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			irConsolaFanUat02();
 			//System.out.println("consola Uat");
 			break;
-
-		}		
+		}
 	}
 	
 	public void irAGestionEnCard(String sGestion) {
-		driver.switchTo().defaultContent();
 		TestBase tb = new TestBase();
 		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='card-top']")));
@@ -344,7 +333,6 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		System.out.println(clickElementoPorTextExacto(elementos, sGestion));		
 		try {Thread.sleep(8000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		driver.switchTo().defaultContent();
-
 	}
 	
 	public void irAGestionEnCardPorNumeroDeLinea(String sGestion, String sLinea) {
@@ -369,7 +357,19 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	
 	public WebDriverWait getWait() {
 		return  wait;
-		
+	}
+	
+	public boolean estaEnClientes(String sDNI) {
+		tb = new TestBase();
+		tb.esperarElemento(driver, By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"), 0);
+		List<WebElement> clientes = driver.findElements(By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"));
+		for (WebElement cliente : clientes) {
+			String dni = cliente.findElements(By.tagName("td")).get(3).getText();
+			if (sDNI.equals(dni)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void altaBajaServicio(String altaBaja, String servicio) {

@@ -34,8 +34,6 @@ public class CustomerCare extends BasePage {
         PageFactory.initElements(driver, this); 
 	}
 		
-	//Case information
-
 	@FindBy (how = How.CSS, using = ".x-layout-collapsed.x-layout-collapsed-east.x-layout-cmini-east")
 	private WebElement panelder;
 	
@@ -149,7 +147,10 @@ public class CustomerCare extends BasePage {
 
 	@FindBy(xpath = "//button[@class='slds-button slds-button--neutral slds-truncate']")
 	public List<WebElement> gestionesEncontradas;
-
+	
+	private TestBase tb;
+	
+	//========================================== Metodos ==========================================\\
 
 	public void elegirCuenta(String nombreCuenta) {		
 		driver.switchTo().defaultContent();
@@ -165,7 +166,7 @@ public class CustomerCare extends BasePage {
 				}
 			}
 		}	
-		if (flag == false) {
+		if (!flag) {
 			if  (!selector.getText().equalsIgnoreCase("Cuentas")) {
 				WebElement btnSplit = selector.findElement(By.className("x-btn-split"));
 				Actions builder = new Actions(driver);   
@@ -355,11 +356,10 @@ public class CustomerCare extends BasePage {
 		if (gest.equals("D\u00e9bito autom\u00e1tico")) sleep(6500);
 		else sleep(3000);
 		if (gest.equals("Historial de Packs")) sleep(1500);
-		//cambiarAFrameActivo();
 	}
 	
 	public void irAGestiones() {
-		TestBase tb = new TestBase();
+		tb = new TestBase();
 		driver.switchTo().frame(tb.cambioFrame(driver, By.className("card-top")));
 		List<WebElement> accionesFlyout = driver.findElements(By.className("slds-text-body_regular"));
 		for (WebElement accion : accionesFlyout) {
@@ -373,7 +373,7 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public void irADetalleDeConsumos() {
-		TestBase tb = new TestBase();
+		tb = new TestBase();
 		tb.cambioDeFrame(driver, By.className("card-top"), 0);
 		driver.findElement(By.className("card-top")).click();
 		WebElement card = driver.findElement(By.cssSelector(".console-card.active")).findElement(By.className("actions"));
@@ -385,7 +385,7 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public void irAResumenDeCuentaCorriente() {
-		TestBase tb = new TestBase();
+		tb = new TestBase();
 		driver.switchTo().frame(tb.cambioFrame(driver, By.className("card-top")));
 		List<WebElement> card = driver.findElement(By.cssSelector(".console-card.active")).findElement(By.className("actions")).findElements(By.tagName("li"));
 		for(WebElement x:card) {
@@ -400,7 +400,7 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public void irAHistoriales() {
-		TestBase tb = new TestBase();
+		tb = new TestBase();
 		
 		driver.switchTo().frame(tb.cambioFrame(driver, By.className("card-top")));
 		WebElement card = driver.findElement(By.cssSelector(".console-card.active")).findElement(By.className("actions"));
@@ -410,8 +410,6 @@ public class CustomerCare extends BasePage {
 		}
 		sleep(10000);
 	}
-	
-	
 	
 	public void irAAhorra() {
 		obtenerAccionLineaPrepago("Ahorr\u00e1").click();
@@ -479,10 +477,6 @@ public class CustomerCare extends BasePage {
 		sleep(3000);
 		return driver.findElement(By.cssSelector(".sd_secondary_tabstrip .x-tab-strip-closable.x-tab-strip-active"));
 	}
-	
-	// -----------------------------------------------------------------------------------------------------
-	// 											METODOS PRIVADOS
-	// -----------------------------------------------------------------------------------------------------
 
 	public void cambiarAFrameActivo() {
 		driver.switchTo().defaultContent();
@@ -587,9 +581,9 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public void openleftpanel() {	
-		TestBase tb = new TestBase();
+		tb = new TestBase();
 		driver.switchTo().defaultContent();
-		tb.sleepFindBy(driver, By.cssSelector(".x-layout-collapsed.x-layout-collapsed-west.x-layout-cmini-west"), 0);
+		tb.esperarElemento(driver, By.cssSelector(".x-layout-collapsed.x-layout-collapsed-west.x-layout-cmini-west"), 0);
 		if(driver.findElements(By.cssSelector(".x-layout-collapsed.x-layout-collapsed-west.x-layout-cmini-west")).size() != 0) {
 			panelizq.click();
 		}
@@ -1358,7 +1352,7 @@ public class CustomerCare extends BasePage {
 	public void irAFacturacion() {
 //		BasePage cambioFrameByID = new BasePage(driver);
 //		driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.className("profile-edit")));
-		TestBase tb = new TestBase();
+		tb = new TestBase();
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		tb.cambioDeFrame(driver, By.className("profile-edit"), 0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Facturaci\u00f3n']")));
@@ -1407,7 +1401,7 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public void flujoInconvenientes() {
-		TestBase tb = new TestBase();
+		tb = new TestBase();
 		sleep(5000);
 		driver.switchTo().frame(tb.cambioFrame(driver, By.id("Step-TipodeAjuste_nextBtn")));
 		driver.findElement(By.id("CboConcepto")).click();
@@ -1459,9 +1453,9 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public void buscarCaso(String nCaso) {
-		driver.switchTo().defaultContent();
-		sleep(1000);
-		WebElement Buscador = driver.findElement(By.id("phSearchInput"));
+		tb = new TestBase();
+		WebElement Buscador = tb.esperarElemento(driver, By.id("phSearchInput"), 0);
+//		WebElement Buscador = driver.findElement(By.id("phSearchInput"));
 		Buscador.sendKeys(nCaso);
 		sleep(2000);
 		try {
@@ -1474,11 +1468,10 @@ public class CustomerCare extends BasePage {
 			sleep(1000);
 			Buscador.clear();
 			sleep(2000);
-			BasePage cambioFrameByID = new BasePage();
 			int i = 0;
 			while (i < 3) {
 				try {
-					driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("searchResultsWarningMessageBox")));
+					tb.cambioDeFrame(driver, By.id("searchResultsWarningMessageBox"), 0);
 					if (driver.findElement(By.id("searchResultsWarningMessageBox")).isDisplayed()) {
 						driver.navigate().refresh();
 						sleep(2000);
@@ -1486,7 +1479,7 @@ public class CustomerCare extends BasePage {
 					}
 				} catch (java.lang.NullPointerException a) {
 					sleep(3000);
-					driver.switchTo().frame(cambioFrameByID.getFrameForElement(driver, By.id("searchPageHolderDiv")));
+					tb.cambioDeFrame(driver, By.id("searchPageHolderDiv"), 0);
 					i = 4;
 				}
 			}
@@ -1494,7 +1487,6 @@ public class CustomerCare extends BasePage {
 			WebElement Caso = driver.findElement(By.cssSelector(".listRelatedObject.caseBlock")).findElement(By.cssSelector(".bPageBlock.brandSecondaryBrd.secondaryPalette")).findElement(By.className("pbBody")).findElement(By.className("list")).findElements(By.tagName("tr")).get(1).findElement(By.tagName("th")).findElement(By.tagName("a"));
 			Caso.click();
 		}
-//		sleep(10000);
 	}
 	
 	public WebElement botonConsultar() {
@@ -1506,11 +1498,10 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public void tarjetaPrepaga() {
-		TestBase tb = new TestBase();
-		driver.switchTo().frame(tb.cambioFrame(driver, By.className("card-top")));
+		tb = new TestBase();
+		tb.cambioDeFrame(driver, By.className("card-top"), 0);
 	    driver.findElement(By.className("card-top")).click();
-	    sleep(5000);
-	    driver.switchTo().frame(tb.cambioFrame(driver, By.cssSelector(".slds-small-size--3-of-12.slds-medium-size--3-of-12.slds-large-size--3-of-12.flyout-actions")));
+	    tb.cambioDeFrame(driver, By.cssSelector(".slds-small-size--3-of-12.slds-medium-size--3-of-12.slds-large-size--3-of-12.flyout-actions"), 0);
 	    ((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+driver.findElement(By.cssSelector(".console-flyout.active.flyout")).getLocation().y+")");
 	    sleep(3000);
 	    driver.findElement(By.className("community-flyout-actions-card")).findElements(By.tagName("li")).get(4).click();
@@ -1521,8 +1512,7 @@ public class CustomerCare extends BasePage {
 	    		x.click();
 	    	}
 	    }
-	    sleep(8000);
-	    driver.switchTo().frame(tb.cambioFrame(driver, By.id("RefillMethods_nextBtn")));
+	    tb.cambioDeFrame(driver, By.id("RefillMethods_nextBtn"), 0);
 	    ((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+driver.findElement(By.cssSelector(".vlc-slds-button--tertiary.ng-binding.ng-scope")).getLocation().y+")");
 	    List <WebElement> wX = driver.findElements(By.className("slds-form-element__control"));
 	    for (WebElement x : wX) {
@@ -1564,7 +1554,7 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public void seleccionarCardPornumeroLinea(String sLinea, WebDriver driver) {
-		TestBase tb = new TestBase();
+		tb = new TestBase();
 		boolean esta = false;
 		tb.cambioDeFrame(driver, By.className("card-top"), 0);
 		List<WebElement> wCard = driver.findElements(By.className("card-top"));		
@@ -1591,12 +1581,11 @@ public class CustomerCare extends BasePage {
 	
 	public String obtenerTNyMonto(WebDriver driver, WebElement orden) {
 		String datos = null;
-		TestBase TB = new TestBase();
+		tb = new TestBase();
 		boolean esta = false;
 		String texto = null;
 		orden.click();
-		sleep(8000);
-		driver.switchTo().frame(TB.cambioFrame(driver, By.id("OrderNumber_ilecell")));
+		tb.cambioDeFrame(driver, By.id("OrderNumber_ilecell"), 0);
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		datos = tabla.findElement(By.tagName("tr")).findElements(By.tagName("td")).get(3).getText();
 		List<WebElement> todo = tabla.findElements(By.tagName("td"));
@@ -1618,18 +1607,18 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public String obtenerMontoyTNparaAlta(WebDriver driver, String orden) {
-		TestBase TB = new TestBase();
+		tb = new TestBase();
 		String datos = null;
 		boolean esta = false;
 		String texto = null;
 		driver.switchTo().defaultContent();
 		usarbuscadorsalesforce(orden);
 		sleep(5000);
-		driver.switchTo().frame(TB.cambioFrame(driver, By.id("Order_body")));
+		tb.cambioDeFrame(driver, By.id("Order_body"), 0);
 		System.out.println("orden " + driver.findElement(By.id("Order_body")).findElement(By.cssSelector(".dataRow.even.last.first")).findElement(By.tagName("th")).getText());
 		obligarclick(driver.findElement(By.id("Order_body")).findElement(By.cssSelector(".dataRow.even.last.first")).findElement(By.tagName("th")).findElement(By.tagName("a")));
 		sleep(5000);
-		driver.switchTo().frame(TB.cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
+		tb.cambioDeFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		datos = tabla.findElement(By.tagName("tr")).findElements(By.tagName("td")).get(3).getText();
 		List<WebElement> todo = tabla.findElements(By.tagName("td"));
@@ -1701,7 +1690,7 @@ public class CustomerCare extends BasePage {
 	
 	public boolean verificarOrdenYGestion(String gestion) {
 		boolean verif = false;
-		TestBase tb = new TestBase();
+		tb = new TestBase();
 		try {
 			String nroCaso = driver.findElement(By.xpath("//*[@id=\"txtSuccessConfirmation\"]/div/p/p")).findElement(By.tagName("strong")).getText();
 			buscarCaso(nroCaso);
@@ -1755,7 +1744,7 @@ public class CustomerCare extends BasePage {
 	public String obtenerTNyMonto2(WebDriver driver, String sOrder) {
 		buscarCaso(sOrder);
 		String datos = null;
-		TestBase tb = new TestBase();
+		tb = new TestBase();
 		boolean esta = false;
 		String texto = null;
 		tb.cambioDeFrame(driver,  By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
@@ -1789,27 +1778,26 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public boolean corroborarEstadoCaso(String sCaso, String Status) {
-		BasePage cambioFrame=new BasePage();
+		tb = new TestBase();
 		driver.switchTo().defaultContent();
 		sleep(5000);
 		driver.findElement(By.id("phSearchInput")).clear();
 		driver.findElement(By.id("phSearchInput")).sendKeys(sCaso + "\n");
-		sleep(5000);
-		driver.switchTo().defaultContent();
-		driver.switchTo().frame(cambioFrame.getFrameForElement(driver, By.id("searchResultsHolderDiv")));
+		tb.cambioDeFrame(driver, By.id("searchResultsHolderDiv"), 0);
 		WebElement wBody = driver.findElement(By.id("Order_body")).findElement(By.tagName("table"));
 		Marketing mMarketing = new Marketing(driver);
 		List <WebElement> wEstado = mMarketing.traerColumnaElement(wBody, 6, 5);
 		Boolean bAssert = wEstado.get(0).getText().toLowerCase().equalsIgnoreCase(Status);
 		return bAssert;
 	}
+	
 	//================================================================================Metodos=====Angel=============================================================================
+	
 	public void seleccionDeHistorial(String sRecarga) {
-		TestBase TB = new TestBase();
-		//GestionDeClientes_Fw ges  = new GestionDeClientes_Fw(driver);
+		tb = new TestBase();
 		WebElement historial = null;
-		TB.sleepFindBy(driver, By.cssSelector("[class = 'slds-button slds-button_brand']"), 0);
-		TB.cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button_brand"), 0);
+		tb.esperarElemento(driver, By.cssSelector("[class = 'slds-button slds-button_brand']"), 0);
+		tb.cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button_brand"), 0);
 		//ges.getWait().until(ExpectedConditions.numberOfElementsToBe(By.cssSelector(".slds-button.slds-button_brand"),3));
 		for (WebElement x : driver.findElements(By.className("slds-card"))) {
 			String titulo = x.findElement(By.tagName("header")).findElement(By.tagName("h2")).getText().toLowerCase();
@@ -1818,15 +1806,14 @@ public class CustomerCare extends BasePage {
 				((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+ x.getLocation().y+" )");
 			}
 		}
-		
 		historial.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
 	}
 	
 	public void verificacionDeHistorial(String sHistorial) {
-		TestBase TB = new TestBase();
+		tb = new TestBase();
 		boolean enc = false;
-		TB.sleepFindBy(driver, By.cssSelector("[class = 'slds-button slds-button_brand']"), 0);
-		TB.cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button_brand"), 0);
+		tb.esperarElemento(driver, By.cssSelector("[class = 'slds-button slds-button_brand']"), 0);
+		tb.cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button_brand"), 0);
 		for (WebElement UnH: driver.findElements(By.className("slds-card"))) {
 			if(UnH.findElement(By.cssSelector(".slds-card__header.slds-grid")).getText().equals(sHistorial)) {
 				enc = true;
@@ -1849,7 +1836,7 @@ public class CustomerCare extends BasePage {
 	}
 	public void verificarPedido(String orden, String estado){
 		Boolean ord = false;
-		TestBase tb = new TestBase();
+		tb = new TestBase();
 		driver.switchTo().frame(tb.cambioFrame(driver, By.id("Order_body")));
 		List<WebElement> status = driver.findElement(By.id("Order_body")).findElement(By.tagName("tbody")).findElements(By.tagName("td"));
 		for(WebElement s : status){

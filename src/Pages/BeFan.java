@@ -332,12 +332,8 @@ public class BeFan extends BasePage{
 		return finalmente;		
 	}
 	
-
-	//Log in
-	
 	public void andaAlMenu(String opcion, String subopcion) {
 		WebElement menu2 = null;
-		
 		tst.waitForClickeable(driver, By.xpath("/html/body/div[1]/div[1]/div/div[3]/div[2]/div/div/ul/li[3]/a"));
 		List <WebElement> menu = driver.findElements(By.className("dropdown-toggle"));
 		for (WebElement x : menu) {
@@ -346,14 +342,11 @@ public class BeFan extends BasePage{
 					break;
 				}
 		}
-		
-		
 		tst.waitForVisible(driver, By.className("tpt-bg-subMenu"), 5);
 		for (WebElement y : driver.findElements(By.className("col-sm-4"))) {
 			if (y.getAttribute("ng-show").equals("headerCtrl.container.hasAccess(['sims_importacion', 'sims_gestion'])"))
 				menu2 = y;
-		}
-		
+		}		
 		switch(subopcion) {
 		case "importacion":
 			try {
@@ -426,9 +419,11 @@ public class BeFan extends BasePage{
 	}
 	
 	public void SIImportarArchivo(String path) {
-	tst.waitForClickeable(driver, By.id("fileinput"));
-	WebElement uploadElement = driver.findElement(By.id("fileinput"));
-	uploadElement.sendKeys(path);
+//	tst.waitForClickeable(driver, By.name("btnAgregar"));
+	TestBase tb = new TestBase();
+	tb.clickBy(driver, By.id("fileinput"), 0);
+	sleep(5000);
+	driver.findElement(By.id("fileinput")).sendKeys(path);
 	}
 	
 	public void SIClickImportar() {
