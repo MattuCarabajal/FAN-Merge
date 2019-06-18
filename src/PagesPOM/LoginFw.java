@@ -2,6 +2,7 @@ package PagesPOM;
 
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -16,6 +17,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import Pages.Login;
 
 public class LoginFw extends BasePageFw {
+	
 	//URLS 
 	//public static String urlMerge = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
 		
@@ -55,7 +57,6 @@ public class LoginFw extends BasePageFw {
 	@FindBy (how = How.ID, using = "loginButton2")
 	private WebElement loginButton2;
 
-
 	//CONTRUCTOR
 	public LoginFw(WebDriver driver) {
 		super.setDriver(driver);
@@ -84,10 +85,9 @@ public class LoginFw extends BasePageFw {
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
-		//Ecom_User_ID.sendKeys("Ua2544674"); // UAT
-		Ecom_User_ID.sendKeys("Ua2187979"); //UAT02
+		Ecom_User_ID.sendKeys("Ua2544674"); // UAT
+		//Ecom_User_ID.sendKeys("Ua2187979"); //UAT02
 		Ecom_Password.sendKeys("Testa10k");
-		
 		loginButton2.click();
 	}
 	
@@ -130,6 +130,7 @@ public class LoginFw extends BasePageFw {
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
 	}
+	
 	public void loginAdminFuncional() {
 		driver.get(urlAmbiente);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));

@@ -182,7 +182,6 @@ public class VentaDePacks extends TestBase {
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(10000);
 		cbsm.Servicio_NotificarPago(sOrden);
-		//Assert.assertTrue(invoSer.PagoEnCaja("1006", accid, "1001", orden.split("-")[1], orden.split("-")[0],driver));
 		cc.buscarCaso(sOrden);
 		sleep(35000);
 		boolean a = false;
@@ -228,7 +227,6 @@ public class VentaDePacks extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(10000);
-		//cbsm.PagarTCPorServicio(sOrden);
 		cbsm.Servicio_NotificarPago(sOrden);
 		cc.buscarCaso(sOrden);
 		sleep(30000);
@@ -249,26 +247,162 @@ public class VentaDePacks extends TestBase {
 		Assert.assertTrue(a);
 		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackOfCom));
 	}
-	
-	@Test (groups = "PerfilOficina", dataProvider="PackOfCom")
-	public void TS123132_CRM_Movil_REPRO_Venta_de_pack_1000_SMS_x1_Dia_Factura_de_Venta_TD_Presencial_OOCC(String sDNI, String sLinea) {
-		imagen = "TS123132";
-		detalles = imagen + "- DNI: "+sDNI+" - Linea: "+sLinea;
-		ges.BuscarCuenta("DNI", sDNI);
-		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
-		ges.irAGestionEnCard("Comprar SMS");
-		//No exite el pack que se debe utilizar
-	}
-	
-	@Test(groups = "PerfilOficina", dataProvider = "")
-	public void TS135662_CRM_Movil_PRE_Venta_de_Pack_1_GB_x_7_dias_whatsapp_gratis_Presencial_OOCC(String sDNI, String sLinea){
-		imagen = "TS123132";
+
+	@Test(groups = "PerfilOficina", dataProvider = "PackOOCC1GBx7Dias")
+	public void TS135662_CRM_Movil_PRE_Venta_de_Pack_1_GB_x_7_dias_whatsapp_gratis_Presencial_OOCC_TD(String sDNI, String sLinea, String sPack1GBx7Dias, String cBanco, String cTarjeta, String cPromo, String cCuotas){
+		imagen = "TS135662";
 		detalles = imagen + "- DNI: "+sDNI+" - Linea: "+sLinea;
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Internet");
-		//No se visualiza el medio de pago que se debe utilizar
+		vt.packDatos(sPack1GBx7Dias);		
+		vt.tipoDePago("en factura de venta");
+		driver.findElement(By.id("SetPaymentType_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("InvoicePreview_nextBtn")));
+		String sOrden = cc.obtenerOrden2(driver);
+		detalles+="-Orden:"+sOrden;
+		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "tarjeta de debito");
+		selectByText(driver.findElement(By.id("BankingEntity-0")), cBanco);
+		selectByText(driver.findElement(By.id("CardBankingEntity-0")), cTarjeta);
+		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), cPromo);
+		selectByText(driver.findElement(By.id("Installment-0")), cCuotas);
+		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
+		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
+		sleep(10000);
+		cbsm.Servicio_NotificarPago(sOrden);
+		cc.buscarCaso(sOrden);
+		sleep(30000);
+		boolean a = false;
+		for (int i = 0; i < 10; i++) {
+			cambioDeFrame(driver,By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"),0);
+			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
+			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
+			String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
+			if (datos.equalsIgnoreCase("activada") || datos.equalsIgnoreCase("activated")) {
+				a = true;
+			} else {
+				sleep(15000);
+				driver.navigate().refresh();
+				i++;
+			}
+		}
+		Assert.assertTrue(a);
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack1GBx7Dias));
 	}
+	
+	@Test(groups = "PerfilOficina", dataProvider = "PackOOCCInternetx7Dias")
+	public void TS135703_CRM_Movil_REPRO_Venta_de_Pack_Pack_internet_x_7_dias_OOCC_EFE(String sDNI, String sLinea, String sPackInternetx7Dias) {
+		imagen = "TS135703";
+		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
+		ges.BuscarCuenta("DNI", sDNI);
+		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
+		ges.irAGestionEnCard("Comprar Internet");
+		vt.packDatos(sPackInternetx7Dias);
+		vt.tipoDePago("en factura de venta");
+		driver.findElement(By.id("SetPaymentType_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("InvoicePreview_nextBtn")));
+		String sOrden = cc.obtenerOrden2(driver);
+		detalles+="-Orden:"+sOrden;
+		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "efectivo");
+		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
+		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
+		sleep(10000);
+		cbsm.Servicio_NotificarPago(sOrden);
+		cc.buscarCaso(sOrden);
+		sleep(35000);
+		boolean a = false;
+		for(int i= 0; i <= 10 ; i++) {
+			cambioDeFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
+			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
+			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
+			String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
+			if(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated")) {
+				a = true;
+			}else {
+				sleep(15000);
+				driver.navigate().refresh();
+				i++;
+			}
+		}
+		Assert.assertTrue(a);
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackInternetx7Dias));
+	}
+	
+	@Test(groups = "PerfilOficina", dataProvider = "PackOOCC1GBYSMSYVOZ")
+	public void TS135656_CRM_Movil_REPRO_Venta_de_Pack_1_GB_sms_voz_y_whatsapp_gratis_x_7_dias_Presencial_OOCC_TC_(String sDNI, String sLinea, String sPack1GBsmsYvoz, String cBanco, String cTarjeta, String cPromo, String cCuotas) {
+		imagen = "TS135656";
+		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
+		ges.BuscarCuenta("DNI", sDNI);
+		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
+		ges.irAGestionEnCard("Comprar SMS");
+		vt.packCombinado(sPack1GBsmsYvoz);
+		vt.tipoDePago("en factura de venta");
+		driver.findElement(By.id("SetPaymentType_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("InvoicePreview_nextBtn")));
+		String sOrden = cc.obtenerOrden2(driver);
+		detalles+="-Orden:"+sOrden;
+		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "tarjeta de credito");
+		selectByText(driver.findElement(By.id("BankingEntity-0")), cBanco);
+		selectByText(driver.findElement(By.id("CardBankingEntity-0")), cTarjeta);
+		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), cPromo);
+		selectByText(driver.findElement(By.id("Installment-0")), cCuotas);
+		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
+		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
+		sleep(10000);
+		cbsm.Servicio_NotificarPago(sOrden);
+		cc.buscarCaso(sOrden);
+		sleep(10000);
+		boolean a = false;
+		for (int i = 0; i < 10; i++) {
+			cambioDeFrame(driver,By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"),0);
+			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
+			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
+			String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
+			if (datos.equalsIgnoreCase("activada") || datos.equalsIgnoreCase("activated")) {
+				a = true;
+			} else {
+				sleep(15000);
+				driver.navigate().refresh();
+				i++;
+			}
+		}
+		Assert.assertTrue(a);
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack1GBsmsYvoz));
+	}
+	
+	@Test (groups = "PerfilOficina", dataProvider = "ventaPack50ofic")
+	public void TS135657_CRM_Movil_REPRO_Venta_de_Pack_150_min_a_Personal_y_150_SMS_x_7_dias_Presencial_OOCC_Descuento_de_Saldo(String sDNI, String sLinea, String sventaPack) {
+		imagen = "TS135657";
+		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
+		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
+		ges.BuscarCuenta("DNI", sDNI);
+		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
+		ges.irAGestionEnCard("Comprar Internet");
+		vt.packCombinado(sventaPack);
+		vt.tipoDePago("descuento de saldo");
+		driver.findElement(By.id("SetPaymentType_nextBtn")).click();
+		sleep(45000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
+		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
+		Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
+		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
+		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
+		Assert.assertTrue(iMainBalance > uiMainBalance);
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sventaPack));
+	}
+
+
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
 	@Test (groups = "PerfilTelefonico",priority=1, dataProvider="ventaPackInternacional30SMS")
@@ -327,7 +461,7 @@ public class VentaDePacks extends TestBase {
 	public void TS123143_CRM_Movil_REPRO_Venta_de_pack_100MB_Uruguay_Descuento_de_saldo_Telefonico(String sDNI, String sLinea, String packUruguay) throws InterruptedException, AWTException{
 		//Pack Modificado = Pack Roaming 300MB Lim y USA
 		imagen = "TS123143";
-		detalles = null;
+		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
 		ges.BuscarCuenta("DNI", sDNI);
@@ -348,8 +482,7 @@ public class VentaDePacks extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico",priority=1, dataProvider="ventaPack50Tele")
-	public void TS123157_CRM_Movil_REPRO_Venta_De_Pack_50_Min_Y_50_SMS_X_7_Dias_Factura_De_Venta_TC_Telefonico(String sDNI, String sLinea, String sVentaPack, String cBanco, String cTarjeta, String cPromo, String cCuotas, String cNumTarjeta, String cVenceMes, String cVenceAno, String cCodSeg, String cTipoDNI, String cDNITarjeta, String cTitular) throws InterruptedException, AWTException{
-		//Pack modificado Pack 150 min a Personal y 150 SMS x 7 dias
+	public void TS135671_CRM_Movil_REPRO_Venta_de_Pack_150_min_a_Personal_y_150_SMS_x_7_dias_Telefonico_TC(String sDNI, String sLinea, String sVentaPack, String cBanco, String cTarjeta, String cPromo, String cCuotas, String cNumTarjeta, String cVenceMes, String cVenceAno, String cCodSeg, String cTipoDNI, String cDNITarjeta, String cTitular) throws InterruptedException, AWTException{
 		imagen = "TS123157";
 		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
@@ -399,43 +532,34 @@ public class VentaDePacks extends TestBase {
 		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));
 	}
 	
+	@Test (groups = "PerfilTelefonico", dataProvider="PackTel200MB")
+	public void TS135669_CRM_Movil_REPRO_Venta_de_Pack_200_Mb_x_1_dia_whatsapp_gratis_Telefonico_Descuento_de_Saldo(String sDNI, String sLinea, String sPack200MB) {
+		imagen = "TS135669";
+		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
+		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
+		ges.BuscarCuenta("DNI", sDNI);
+		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
+		ges.irAGestionEnCard("Comprar Internet");
+		vt.packDatos(sPack200MB);
+		vt.tipoDePago("descuento de saldo");
+		driver.findElement(By.id("SetPaymentType_nextBtn")).click();
+		sleep(45000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
+		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
+		Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
+		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
+		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
+		Assert.assertTrue(iMainBalance > uiMainBalance);
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack200MB));
+	}
+	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
-	
-	@Test (groups = "PerfilAgente",priority=1, dataProvider="ventaPack500min")
-	public void TS123148_CRM_Movil_REPRO_Venta_de_pack_500_Min_todo_destino_Factura_de_Venta_TD_Presencial(String sDNI, String sLinea, String sVentaPack) throws InterruptedException, AWTException{
-		imagen = "TS123148";
-		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
-		ges.BuscarCuenta("DNI", sDNI);
-		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
-		ges.irAGestionEnCard("Comprar SMS");
-		vt.packRoaming(sVentaPack);
-	}
-	
-	@Test (groups = "PerfilAgente",priority=1, dataProvider="ventaPackA40")
-	public void TS123166_CRM_Movil_REPRO_Venta_de_pack_Adelanto_Personal_40_Descuento_de_saldo_Presencial(String sDNI, String sLinea, String sVentaPack) throws InterruptedException, AWTException{
-		imagen = "TS123166";
-		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
-		ges.BuscarCuenta("DNI", sDNI);
-		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
-		ges.irAGestionEnCard("Comprar SMS");
-		vt.packRoaming(sVentaPack);
-		//pagePTelefo.PacksRoaming(sVentaPack);
-	}
-	
-	@Test (groups = "PerfilAgente",priority=1, dataProvider="ventaPackM2M")
-	public void TS135801_CRM_Movil_PREVenta_de_pack_Paquete_M2M_10_MB_Factura_de_Venta_Efectivo_Presencial_PuntMa_Alta_Agente(String sDNI, String sLinea, String sVentaPack) throws InterruptedException, AWTException{
-		imagen = "TS135801";
-		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
-		ges.BuscarCuenta("DNI", sDNI);
-		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
-		ges.irAGestionEnCard("Comprar SMS");
-		vt.packRoaming(sVentaPack);
-		//pagePTelefo.PacksRoaming(sVentaPack);
-	}
 	
 	@Test (groups = "PerfilAgente", dataProvider="PackAgente")
 	public void Venta_de_Pack_1_GB_x_1_dia_whatsapp_gratis_Factura_de_Venta_efectivo_Agente(String sDNI, String sLinea, String sPackAgente) throws AWTException{
-		imagen = "Venta_de_Pack";
+		imagen = "Venta_de_Pack_1_GB_x_1_dia_whatsapp_gratis";
 		detalles = imagen + "-Venta de pack-DNI:" + sDNI+ "-Linea: "+sLinea;
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
@@ -476,14 +600,87 @@ public class VentaDePacks extends TestBase {
 	}
 	
 	@Test (groups = "PerfilAgente", dataProvider="PackAgente30minAPersonal")
-	public void TS123155_CRM_Movil_REPRO_Venta_de_Pack_300_min_a_Personal_x_7_dias_Agente(String sDNI, String sLinea , String sPackAgente){
-		imagen = "Venta_de_Pack";
+	public void TS123155_CRM_Movil_REPRO_Venta_de_Pack_300_min_a_Personal_x_7_dias_Agente_Efectivo(String sDNI, String sLinea , String sPackAgente30MinPersonal){
+		imagen = "TS123155";
 		detalles = imagen + "-Venta de pack-DNI:" + sDNI+ "-Linea: "+sLinea;
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Minutos");
-		vt.packDatos(sPackAgente);
-		//No se visualiza que medio de pago se debe utilizar
+		vt.packMinutos(sPackAgente30MinPersonal);
+		vt.tipoDePago("en factura de venta");driver.findElement(By.id("SetPaymentType_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("InvoicePreview_nextBtn")));
+		String sOrden = cc.obtenerOrden2(driver);
+		detalles+="-Orden:"+sOrden;
+		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "efectivo");
+		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
+		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
+		sleep(10000);
+		cc.buscarCaso(sOrden);
+		cbsm.Servicio_NotificarPago(sOrden);
+		sleep(30000);
+		boolean a = false;
+		for(int i= 0; i < 10 ; i++) {
+			cambioDeFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
+			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
+			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
+			String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
+			if(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated")) {
+				a = true;
+			}else {
+				driver.navigate().refresh();
+				sleep(15000);
+				i++;
+			}
+		}
+		Assert.assertTrue(a);
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackAgente30MinPersonal));
 	}
 	
+	@Test (groups = "PerfilAgente", dataProvider="PackAgenteRoaming1GB")
+	public void TS135672_CRM_Movil_REPRO_Venta_de_Pack_Roaming_1GB_Lim_y_USA_Agente_TC(String sDNI, String sLinea, String sPackAgenteRoaming, String cBanco, String cTarjeta, String cPromo, String cCuotas){
+		imagen = "TS123155";
+		detalles = imagen + "-Venta de pack-DNI:" + sDNI+ "-Linea: "+sLinea;
+		ges.BuscarCuenta("DNI", sDNI);
+		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
+		ges.irAGestionEnCard("Comprar Internet");
+		vt.packRoaming(sPackAgenteRoaming);
+		vt.tipoDePago("en factura de venta");
+		driver.findElement(By.id("SetPaymentType_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("InvoicePreview_nextBtn")));
+		String sOrden = cc.obtenerOrden2(driver);
+		detalles+="-Orden:"+sOrden;
+		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "tarjeta de credito");
+		selectByText(driver.findElement(By.id("BankingEntity-0")), cBanco);
+		selectByText(driver.findElement(By.id("CardBankingEntity-0")), cTarjeta);
+		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), cPromo);
+		selectByText(driver.findElement(By.id("Installment-0")), cCuotas);
+		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
+		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
+		sleep(10000);
+		cbsm.Servicio_NotificarPago(sOrden);
+		cc.buscarCaso(sOrden);
+		sleep(10000);
+		boolean a = false;
+		for (int i = 0; i < 10; i++) {
+			cambioDeFrame(driver,By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"),0);
+			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
+			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
+			String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
+			if (datos.equalsIgnoreCase("activada") || datos.equalsIgnoreCase("activated")) {
+				a = true;
+			} else {
+				sleep(15000);
+				driver.navigate().refresh();
+				i++;
+			}
+		}
+		Assert.assertTrue(a);
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackAgenteRoaming));
+	}
 }

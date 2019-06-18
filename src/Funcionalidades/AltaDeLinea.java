@@ -105,51 +105,52 @@ public class AltaDeLinea extends TestBase {
 	
 	
 	@Test (groups={"PerfilOficina","AltaDeLinea"}, dataProvider="DatosAltaLineaOfCom")
-	public void TS_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_OfCom_Efectivo_Presencial_DNI(String sDni, String sNombre, String sApellido, String sSexo, String sFnac,String sEmail, String sPlan, String sEntrega, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) throws IOException {
+	public void TS_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_OfCom_Efectivo_Presencial_DNI(String sDni, String sNombre, String sApellido, String sSexo, String sFnac,String sEmail, String sPlan, String sEntrega, String sProvincia, String sLocalidad,String  sZona,String  sCalle,String  sNumCalle,String  sCodPostal,String  sTipoDomicilio,String  sBarrio,String  sPiso,String  sDepartamento,String  sTipoEdificio,String  sNumEdificio) throws IOException {
 		imagen = "TS_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_OfCom_Efectivo_Presencial_DNI";
 		sDni = contact.crearCliente("DNI");
 		contact.Llenar_Contacto(sNombre, sApellido, sFnac, sSexo, sEmail);
 		contact.elegirPlan(sPlan);
 		contact.continuar();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")));
-		contact.completarDomicilio(sProvincia, sLocalidad, sZona, sCalle, sNumCa, sCP, tDomic);
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("LineAssignment_nextBtn")));
-		driver.findElement(By.id("SearchBlock")).clear();
-		driver.findElement(By.id("SearchBlock")).sendKeys(sLocalidad);
+		//contact.completarDomicilio(sProvincia, sLocalidad, sZona, sCalle, sNumCa, sCP, tDomic);
+		contact.completarDomicilioDetallado(sProvincia, sLocalidad, sZona, sCalle, sNumCalle, sCodPostal, sTipoDomicilio, sBarrio, sPiso, sDepartamento, sTipoEdificio, sNumEdificio);
+		//ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("LineAssignment_nextBtn")));
+		//driver.findElement(By.id("SearchBlock")).clear();
+		//driver.findElement(By.id("SearchBlock")).sendKeys(sLocalidad);
 		//sleep(1875);
 		//driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ENTER);
 		sleep(9000);
 		//driver.findElement(By.id("ChangeNumber")).click();
-		driver.findElement(By.id("LineAssignment_nextBtn")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("InvoicePreview_nextBtn")));
-		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("ValidationMethods")));
-		File directory = new File("Dni.jpg");
-		contact.tipoValidacion("documento");
-		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
-		cc.obligarclick(driver.findElement(By.id("DocumentMethod_nextBtn")));
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderSumary_nextBtn")));
-		String orden = driver.findElement(By.className("top-data")).findElement(By.className("ng-binding")).getText();
-		String NCuenta = driver.findElements(By.className("top-data")).get(1).findElements(By.className("ng-binding")).get(3).getText();
-		String Linea = driver.findElement(By.cssSelector(".top-data.ng-scope")).findElements(By.className("ng-binding")).get(1).getText();
-		System.out.println("Orden "+orden);
-		System.out.println("cuenta "+NCuenta);
-		System.out.println("Linea "+Linea);
-		orden = orden.substring(orden.length()-8);
-		NCuenta = NCuenta.substring(NCuenta.length()-16);
-		Linea = Linea.substring(Linea.length()-10);
-		cc.obligarclick(driver.findElement(By.id("OrderSumary_nextBtn")));
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SaleOrderMessages_nextBtn")));
-		cc.obligarclick(driver.findElement(By.id("SaleOrderMessages_nextBtn")));
-		sOrders.add("Orden:"+orden+"-DNI:"+sDni+"-Cuenta:"+NCuenta+"-Linea"+Linea);
-		sleep(15000);
-		System.out.println(cc.obtenerMontoyTNparaAlta(driver, orden));
-		CBS_Mattu invoSer = new CBS_Mattu();
-		invoSer.Servicio_NotificarPago(orden);
-		driver.navigate().refresh();
-		ges.selectMenuIzq("Logistica");
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.className("ta-logistic-control-panel--prepareOrder")));
-		
+//		driver.findElement(By.id("LineAssignment_nextBtn")).click();
+//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("InvoicePreview_nextBtn")));
+//		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
+//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("ValidationMethods")));
+//		File directory = new File("Dni.jpg");
+//		contact.tipoValidacion("documento");
+//		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
+//		cc.obligarclick(driver.findElement(By.id("DocumentMethod_nextBtn")));
+//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderSumary_nextBtn")));
+//		String orden = driver.findElement(By.className("top-data")).findElement(By.className("ng-binding")).getText();
+//		String NCuenta = driver.findElements(By.className("top-data")).get(1).findElements(By.className("ng-binding")).get(3).getText();
+//		String Linea = driver.findElement(By.cssSelector(".top-data.ng-scope")).findElements(By.className("ng-binding")).get(1).getText();
+//		System.out.println("Orden "+orden);
+//		System.out.println("cuenta "+NCuenta);
+//		System.out.println("Linea "+Linea);
+//		orden = orden.substring(orden.length()-8);
+//		NCuenta = NCuenta.substring(NCuenta.length()-16);
+//		Linea = Linea.substring(Linea.length()-10);
+//		cc.obligarclick(driver.findElement(By.id("OrderSumary_nextBtn")));
+//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SaleOrderMessages_nextBtn")));
+//		cc.obligarclick(driver.findElement(By.id("SaleOrderMessages_nextBtn")));
+//		sOrders.add("Orden:"+orden+"-DNI:"+sDni+"-Cuenta:"+NCuenta+"-Linea"+Linea);
+//		sleep(15000);
+//		System.out.println(cc.obtenerMontoyTNparaAlta(driver, orden));
+//		CBS_Mattu invoSer = new CBS_Mattu();
+//		invoSer.Servicio_NotificarPago(orden);
+//		driver.navigate().refresh();
+//		ges.selectMenuIzq("Logistica");
+//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.className("ta-logistic-control-panel--prepareOrder")));
+//		
 		
 		
 	/*	
