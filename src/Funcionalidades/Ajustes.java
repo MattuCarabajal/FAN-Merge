@@ -617,102 +617,102 @@ public class Ajustes extends TestBase {
 		Assert.assertTrue(monto.getText().equalsIgnoreCase("Monto: 78.00"));
 	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "CuentaAjustesPRE")
-	public void TS135706_CRM_Movil_PRE_Ajuste_Nota_de_Credito_FAN_Front_OOCC_Punta_Alta(String sDNI, String sLinea) {
-		imagen = "TS135706";
-		boolean gest = false;
-		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		cc.irAGestion("inconvenientes con cargos tasados");
-		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("Step-TipodeAjuste_nextBtn")));
-		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO POSPAGO");
-		selectByText(driver.findElement(By.id("CboItem")), "Minutos/SMS");
-		selectByText(driver.findElement(By.id("CboMotivo")), "Error/omisi\u00f3n/demora gesti\u00f3n");
-		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si");
-		driver.findElement(By.id("Step-TipodeAjuste_nextBtn")).click();
-		sleep(7000);
-		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "contains", "cuenta:");
-		driver.findElement(By.id("Step1-SelectBillingAccount_nextBtn")).click();
-		sleep(7000);
-		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si, ajustar");
-		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
-		sleep(7000);
-		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "nota de cr\u00e9dito");
-		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "no");
-		driver.findElement(By.id("MontoLibre")).sendKeys("1000");
-		selectByText(driver.findElement(By.id("SelectItemAjusteLibre")), "Abono b\u00e1sico movil");
-		driver.findElement(By.id("Step-AjusteNivelCuenta_nextBtn")).click();
-		sleep(7000);
-		driver.findElement(By.id("Step-Summary_nextBtn")).click();
-		sleep(7000);
-		List <WebElement> element = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
-		for (WebElement x : element) {
-			if (x.getText().toLowerCase().contains("tu gesti\u00f3n se realiz\u00f3 con \u00e9xito"))
-				gest = true;
-		}
-		Assert.assertTrue(gest);
-		if (TestBase.urlAmbiente.contains("sit")) {
-			String orden = cc.obtenerOrden(driver, "Inconvenientes con cargos tasados y facturados");
-			detalles = imagen + " -Ajustes - DNI: " + sDNI + " - Orden: " + orden;
-			sOrders.add("Inconvenientes con cargos tasados y facturados, orden numero: " + orden + " con numero de DNI: " + sDNI);
-			Assert.assertTrue(cc.verificarOrden(orden));		
-		} else {
-			String orden = driver.findElement(By.xpath("//*[@id=\"txtSuccessConfirmation\"]/div")).findElement(By.tagName("strong")).getText();
-			detalles = imagen + " -Ajustes - DNI: " + sDNI + " - Orden: " + orden;
-			Assert.assertTrue(cc.verificarOrdenYGestion("Inconvenientes con cargos tasados y facturados"));
-		}
-	}
+//	@Test (groups = "PerfilOficina", dataProvider = "CuentaAjustesPRE")        ******************    DIFERIDO    *********************
+//	public void TS135706_CRM_Movil_PRE_Ajuste_Nota_de_Credito_FAN_Front_OOCC_Punta_Alta(String sDNI, String sLinea) {
+//		imagen = "TS135706";
+//		boolean gest = false;
+//		ges.BuscarCuenta("DNI", sDNI);
+//		sleep(15000);
+//		cc.irAGestion("inconvenientes con cargos tasados");
+//		sleep(10000);
+//		driver.switchTo().frame(cambioFrame(driver, By.id("Step-TipodeAjuste_nextBtn")));
+//		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO POSPAGO");
+//		selectByText(driver.findElement(By.id("CboItem")), "Minutos/SMS");
+//		selectByText(driver.findElement(By.id("CboMotivo")), "Error/omisi\u00f3n/demora gesti\u00f3n");
+//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si");
+//		driver.findElement(By.id("Step-TipodeAjuste_nextBtn")).click();
+//		sleep(7000);
+//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "contains", "cuenta:");
+//		driver.findElement(By.id("Step1-SelectBillingAccount_nextBtn")).click();
+//		sleep(7000);
+//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si, ajustar");
+//		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
+//		sleep(7000);
+//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "nota de cr\u00e9dito");
+//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "no");
+//		driver.findElement(By.id("MontoLibre")).sendKeys("1000");
+//		selectByText(driver.findElement(By.id("SelectItemAjusteLibre")), "Abono b\u00e1sico movil");
+//		driver.findElement(By.id("Step-AjusteNivelCuenta_nextBtn")).click();
+//		sleep(7000);
+//		driver.findElement(By.id("Step-Summary_nextBtn")).click();
+//		sleep(7000);
+//		List <WebElement> element = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
+//		for (WebElement x : element) {
+//			if (x.getText().toLowerCase().contains("tu gesti\u00f3n se realiz\u00f3 con \u00e9xito"))
+//				gest = true;
+//		}
+//		Assert.assertTrue(gest);
+//		if (TestBase.urlAmbiente.contains("sit")) {
+//			String orden = cc.obtenerOrden(driver, "Inconvenientes con cargos tasados y facturados");
+//			detalles = imagen + " -Ajustes - DNI: " + sDNI + " - Orden: " + orden;
+//			sOrders.add("Inconvenientes con cargos tasados y facturados, orden numero: " + orden + " con numero de DNI: " + sDNI);
+//			Assert.assertTrue(cc.verificarOrden(orden));		
+//		} else {
+//			String orden = driver.findElement(By.xpath("//*[@id=\"txtSuccessConfirmation\"]/div")).findElement(By.tagName("strong")).getText();
+//			detalles = imagen + " -Ajustes - DNI: " + sDNI + " - Orden: " + orden;
+//			Assert.assertTrue(cc.verificarOrdenYGestion("Inconvenientes con cargos tasados y facturados"));
+//		}
+//	}
 	
-	@Test (groups = "PerfilOficina", dataProvider = "CuentaAjustesPRE")
-	public void TS135707_CRM_Movil_PRE_Ajuste_Nota_de_Debito_FAN_Front_OOCC_Bariloche(String sDNI, String sLinea) {
-		imagen = "TS135707";
-		boolean gest = false;
-		ges.BuscarCuenta("DNI", sDNI);
-		sleep(15000);
-		cc.irAGestion("inconvenientes con cargos tasados");
-		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("Step-TipodeAjuste_nextBtn")));
-		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO POSPAGO");
-		selectByText(driver.findElement(By.id("CboItem")), "Minutos/SMS");
-		selectByText(driver.findElement(By.id("CboMotivo")), "Error/omisi\u00f3n/demora gesti\u00f3n");
-		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si");
-		driver.findElement(By.id("Step-TipodeAjuste_nextBtn")).click();
-		sleep(7000);
-		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "contains", "cuenta:");
-		driver.findElement(By.id("Step1-SelectBillingAccount_nextBtn")).click();
-		sleep(7000);
-		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si, ajustar");
-		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
-		sleep(7000);
-		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "nota de d\u00e9bito");
-		sleep(2000);
-		driver.findElement(By.id("MontoLibre")).sendKeys("123");
-		selectByText(driver.findElement(By.id("SelectItemAjusteLibre")), "Abono b\u00e1sico movil");
-		driver.findElement(By.id("Step-AjusteNivelCuenta_nextBtn")).click();
-		sleep(7000);
-		driver.findElement(By.id("Step-Summary_nextBtn")).click();
-		sleep(10000);
-		String nroCaso = driver.findElement(By.xpath("//*[@id=\"txtSuccessConfirmation\"]/div")).findElement(By.tagName("strong")).getText();
-		detalles+=" - Caso: "+nroCaso;
-		System.out.println(nroCaso);
-		List <WebElement> element = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
-		for (WebElement x : element) {
-			if (x.getText().toLowerCase().contains("tu gesti\u00f3n se realiz\u00f3 con \u00e9xito"))
-				gest = true;
-		}
-		Assert.assertTrue(gest);
-		if (TestBase.urlAmbiente.contains("sit")) {
-			String orden = cc.obtenerOrden(driver, "Inconvenientes con cargos tasados y facturados");
-			detalles = imagen + " -Ajustes - DNI: " + sDNI + " - Orden: " + orden;
-			sOrders.add("Inconvenientes con cargos tasados y facturados, orden numero: " + orden + " con numero de DNI: " + sDNI);
-			Assert.assertTrue(cc.verificarOrden(orden));		
-		} else {
-			String orden = driver.findElement(By.xpath("//*[@id=\"txtSuccessConfirmation\"]/div")).findElement(By.tagName("strong")).getText();
-			detalles = imagen + " -Ajustes - DNI: " + sDNI + " - Orden: " + orden;
-			Assert.assertTrue(cc.verificarOrdenYGestion("Inconvenientes con cargos tasados y facturados"));
-		}
-	}
+//	@Test (groups = "PerfilOficina", dataProvider = "CuentaAjustesPRE")   ****************      DIFERIDO      ****************
+//	public void TS135707_CRM_Movil_PRE_Ajuste_Nota_de_Debito_FAN_Front_OOCC_Bariloche(String sDNI, String sLinea) {
+//		imagen = "TS135707";
+//		boolean gest = false;
+//		ges.BuscarCuenta("DNI", sDNI);
+//		sleep(15000);
+//		cc.irAGestion("inconvenientes con cargos tasados");
+//		sleep(10000);
+//		driver.switchTo().frame(cambioFrame(driver, By.id("Step-TipodeAjuste_nextBtn")));
+//		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO POSPAGO");
+//		selectByText(driver.findElement(By.id("CboItem")), "Minutos/SMS");
+//		selectByText(driver.findElement(By.id("CboMotivo")), "Error/omisi\u00f3n/demora gesti\u00f3n");
+//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si");
+//		driver.findElement(By.id("Step-TipodeAjuste_nextBtn")).click();
+//		sleep(7000);
+//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "contains", "cuenta:");
+//		driver.findElement(By.id("Step1-SelectBillingAccount_nextBtn")).click();
+//		sleep(7000);
+//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si, ajustar");
+//		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
+//		sleep(7000);
+//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "nota de d\u00e9bito");
+//		sleep(2000);
+//		driver.findElement(By.id("MontoLibre")).sendKeys("123");
+//		selectByText(driver.findElement(By.id("SelectItemAjusteLibre")), "Abono b\u00e1sico movil");
+//		driver.findElement(By.id("Step-AjusteNivelCuenta_nextBtn")).click();
+//		sleep(7000);
+//		driver.findElement(By.id("Step-Summary_nextBtn")).click();
+//		sleep(10000);
+//		String nroCaso = driver.findElement(By.xpath("//*[@id=\"txtSuccessConfirmation\"]/div")).findElement(By.tagName("strong")).getText();
+//		detalles+=" - Caso: "+nroCaso;
+//		System.out.println(nroCaso);
+//		List <WebElement> element = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
+//		for (WebElement x : element) {
+//			if (x.getText().toLowerCase().contains("tu gesti\u00f3n se realiz\u00f3 con \u00e9xito"))
+//				gest = true;
+//		}
+//		Assert.assertTrue(gest);
+//		if (TestBase.urlAmbiente.contains("sit")) {
+//			String orden = cc.obtenerOrden(driver, "Inconvenientes con cargos tasados y facturados");
+//			detalles = imagen + " -Ajustes - DNI: " + sDNI + " - Orden: " + orden;
+//			sOrders.add("Inconvenientes con cargos tasados y facturados, orden numero: " + orden + " con numero de DNI: " + sDNI);
+//			Assert.assertTrue(cc.verificarOrden(orden));		
+//		} else {
+//			String orden = driver.findElement(By.xpath("//*[@id=\"txtSuccessConfirmation\"]/div")).findElement(By.tagName("strong")).getText();
+//			detalles = imagen + " -Ajustes - DNI: " + sDNI + " - Orden: " + orden;
+//			Assert.assertTrue(cc.verificarOrdenYGestion("Inconvenientes con cargos tasados y facturados"));
+//		}
+//	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaAjustesPRE")
 	public void TS135708_CRM_Movil_REPRO_Ajuste_Credito_Minutos_FAN_Front_OOCC(String sDNI, String sLinea) {

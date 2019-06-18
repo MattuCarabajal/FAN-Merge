@@ -117,6 +117,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	private WebElement razonSocial ;
 	
 	private WebDriverWait wait;
+	
 			
 //-------------------------------------------------------------------CONTRUCTOR
 	
