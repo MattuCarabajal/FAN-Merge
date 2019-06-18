@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -676,14 +677,22 @@ public class TestBase {
 		return (dateFormat.format(date));
 	}
 	
-	public String fechaDeHoyGuion() {
-		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-		Date date = new Date();
-		return (dateFormat.format(date));
+	public String fechaCapro(int dias) {
+		Date fecha = new Date();
+		Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(fecha); 
+	    calendar.add(Calendar.DAY_OF_YEAR, dias);
+	    SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
+	    String date1 = format1.format(calendar.getTime()); 
+	    return date1;
+//		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+//		Date date = new Date();
+//		return (dateFormat.format(date));
 	}
 	
 	public void selectByText(WebElement element, String data) {
 		Select select = new Select(element);
+		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		select.selectByVisibleText(data);
 	}
 	
@@ -1755,6 +1764,18 @@ public class TestBase {
 	public Object[][] PackAgenteRoaming1GB() throws Exception{
 		
 		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,7,"PackAgenteRoaming1GB");
+	}
+	
+	@DataProvider
+	public Object[][] PackAgenteSmsYMinutosIlimitados() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackAgenteSMSyMinutos");
+	}
+	
+	@DataProvider
+	public Object[][] PackAgente40MinutosX3Dias() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,7,"PackAgente40Minutos");
 	}
 	/////////////////////////////////////////////////////////////////////       Impro     ////////////////////////////////////////////////
 	

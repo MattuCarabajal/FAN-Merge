@@ -553,10 +553,6 @@ public class Regresion extends TestBase {
 		detalles+=", Monto:"+orden.split("-")[2]+"Prefactura: "+orden.split("-")[1];
 		cbsm.Servicio_NotificarPago(sOrden);
 		sleep(5000);
-		//if(activarFalsos == true) {
-			cbsm.Servicio_NotificarPago(sOrden);
-			sleep(20000);
-	//}
 		driver.navigate().refresh();
 		String datosFinal = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		System.out.println("Inicial: "+datosInicial);
