@@ -684,6 +684,7 @@ public class TestBase {
 	
 	public void selectByText(WebElement element, String data) {
 		Select select = new Select(element);
+		try {Thread.sleep(3000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 		select.selectByVisibleText(data);
 	}
 	
@@ -1755,6 +1756,18 @@ public class TestBase {
 	public Object[][] PackAgenteRoaming1GB() throws Exception{
 		
 		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,7,"PackAgenteRoaming1GB");
+	}
+	
+	@DataProvider
+	public Object[][] PackAgenteSmsYMinutosIlimitados() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,3,"PackAgenteSMSyMinutos");
+	}
+	
+	@DataProvider
+	public Object[][] PackAgente40MinutosX3Dias() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,7,"PackAgente40Minutos");
 	}
 	/////////////////////////////////////////////////////////////////////       Impro     ////////////////////////////////////////////////
 	

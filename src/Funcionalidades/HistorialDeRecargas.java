@@ -185,7 +185,6 @@ public class HistorialDeRecargas extends TestBase {
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Historiales");
 		cc.seleccionDeHistorial("historial de recargas s.o.s");
-		sleepFindBy(driver, By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small']"), 0);
 		cambioDeFrame(driver,By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small']"),0);
 		driver.findElement(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small']")).click();
 		cambioDeFrame(driver,By.cssSelector("[class='slds-p-bottom--small slds-p-left--medium slds-p-right--medium']"),0);

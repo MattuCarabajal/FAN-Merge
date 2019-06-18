@@ -549,6 +549,12 @@ public class CBS {
 						esta = true;
 				}
 			break;
+			case "pack 40 minutos a cualquier compa\u00f1\u00eda x 3 d\u00edas":
+				for (int i=0; i<ofertas.getLength();i++) {
+					if(ofertas.item(i).getTextContent().equals("SO_VOICE_40MIN_3D"))
+						esta = true;
+				}
+			break;
 		}		
 		return esta;
 	}

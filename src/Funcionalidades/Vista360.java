@@ -285,9 +285,9 @@ public class Vista360 extends TestBase {
 		cambioDeFrame(driver, By.id("text-input-03"), 0);
 		driver.findElement(By.id("text-input-03")).click();
 		driver.findElement(By.xpath("//*[text() = 'Ordenes']")).click();
-		sleepFindBy(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont"), 0);
+		esperarElemento(driver, By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont"), 0);
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small.secondaryFont")).click();
-		sleepFindBy(driver, By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header"), 0);
+		esperarElemento(driver, By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header"), 0);
 		WebElement nroCaso = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.slds-table--fixed-layout.via-slds-table-pinned-header")).findElement(By.tagName("tbody")).findElement(By.tagName("tr"));
 		String estado = nroCaso.findElements(By.tagName("td")).get(4).getText();
 		Assert.assertTrue(estado.toLowerCase().contains("activada") || (estado.toLowerCase().contains("iniciada")));
@@ -322,7 +322,7 @@ public class Vista360 extends TestBase {
 		try {
 			cc.openleftpanel();
 		} catch (Exception eE) {}
-		sleepFindBy(driver, By.className("profile-box-details"), 0);
+		esperarElemento(driver, By.className("profile-box-details"), 0);
 		WebElement wProfileBoxDetails = driver.findElement(By.className("profile-box-details"));
 		Assert.assertTrue(wProfileBoxDetails.findElement(By.tagName("h1")).getText().toLowerCase().contains(sNombre.toLowerCase()));
 		String sWebDNI = wProfileBoxDetails.findElement(By.className("detail-card")).findElement(By.tagName("tbody")).findElements(By.tagName("tr")).get(1).findElements(By.tagName("td")).get(1).getText();
@@ -418,7 +418,7 @@ public class Vista360 extends TestBase {
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
 		cc.seleccionarCardPornumeroLinea(sLinea, driver);
 		ArrayList<String> gestiones = new ArrayList<String>(Arrays.asList("Historial de Suspensiones", "Recarga de cr\u00e9dito", "Renovacion de Datos", "Alta/Baja de Servicios", "Suscripciones", "Inconvenientes con Recargas" , "Diagn\u00f3stico", "Cambio SimCard" ,"Cambio de Plan"));
-		sleepFindBy(driver, By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class = 'slds-grid community-flyout-content'] [class = 'community-flyout-actions-card'] ul"), 0);
+		esperarElemento(driver, By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class = 'slds-grid community-flyout-content'] [class = 'community-flyout-actions-card'] ul"), 0);
 		WebElement wFlyoutCard = driver.findElement(By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class = 'slds-grid community-flyout-content'] [class = 'community-flyout-actions-card'] ul"));
 		List<WebElement> wWebList = wFlyoutCard.findElements(By.tagName("li"));
 		for (WebElement gest : wWebList) {

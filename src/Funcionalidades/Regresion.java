@@ -455,7 +455,7 @@ public class Regresion extends TestBase {
 	public void TS130056_CRM_Movil_REPRO_Renovacion_de_cuota_Presencial_Reseteo_200_MB_por_Dia_Efectivo_con_Credito(String sDNI, String sLinea, String accid) throws AWTException {
 		imagen = "TS130056";
 		detalles = "Renocavion de cuota: " + imagen + " - DNI: " + sDNI + " - Linea: " + sLinea;
-//		String datosInicial = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
+		String datosInicial = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
 		ges.BuscarCuenta("DNI", sDNI);
 		detalles += "-Cuenta: " + accid;
@@ -488,7 +488,7 @@ public class Regresion extends TestBase {
 		String orden = cc.obtenerTNyMonto2(driver, sOrden);
 		System.out.println("orden = "+orden);
 		detalles +="-Monto: "+orden.split("-")[2]+"-Prefactura: "+orden.split("-")[1];
-		sOrders.add("Recargas" + orden + ", cuenta:"+accid+", DNI: " + sDni +", Monto:"+orden.split("-")[2]);
+		sOrders.add("Recargas" + orden + ", cuenta:"+accid+", DNI: " + sDNI +", Monto:"+orden.split("-")[2]);
 		cbsm.Servicio_NotificarPago(orden.split("-")[0]);
 		driver.navigate().refresh();
 		sleep(5000);
@@ -553,10 +553,6 @@ public class Regresion extends TestBase {
 		detalles+=", Monto:"+orden.split("-")[2]+"Prefactura: "+orden.split("-")[1];
 		cbsm.Servicio_NotificarPago(sOrden);
 		sleep(5000);
-		if(activarFalsos == true) {
-			cbsm.Servicio_NotificarPago(sOrden);
-			sleep(20000);
-		}
 		driver.navigate().refresh();
 		String datosFinal = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		System.out.println("Inicial: "+datosInicial);
