@@ -47,9 +47,9 @@ public class CambioDePlan extends TestBase {
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	private SCP scp;
-	private Marketing mk;
 	String detalles;
 	private String fecha = "12-20-2020";
+	
 	
 //	 @BeforeClass (alwaysRun = true)
 	public void Sit02() throws IOException, AWTException {
@@ -133,11 +133,7 @@ public class CambioDePlan extends TestBase {
 		sleep(5000);
 	}
 	
-	@Test()
-	public void asd(){
-		imagen = "TS_CambioDePlan";
-		detalles = imagen + "- TS_CambioDePlan - DNI: " + "";
-		boolean enc = false;
+	private void cambioDePlan() {
 		String fecha = "06-30-2019";
 		ges.BuscarCuenta("Pasaporte", "925475893");
 		sleep(3000);
@@ -209,86 +205,18 @@ public class CambioDePlan extends TestBase {
 		cambioDeFrame(driver, By.cssSelector(".console-card.active.expired"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".console-card.active.expired")));
 		WebElement cicloFacturacionPost = null;
-			for (WebElement x : driver.findElement(By.cssSelector(".console-card.active.expired")).findElements(By.tagName("li"))) {
+		for (WebElement x : driver.findElement(By.cssSelector(".console-card.active.expired")).findElements(By.tagName("li"))) {
 			if (x.getText().toLowerCase().contains("ciclo de facturaci\u00f3n"))
-			cicloFacturacionPost = x;
-			}
+				cicloFacturacionPost = x;
+		}
 		String cicloPosterior = cicloFacturacionPost.findElements(By.tagName("span")).get(2).getText();
 		System.out.println("Cliclo Repro: "+cicloPosterior);
-		Assert.assertTrue(cicloPosterior!=cicloAnterior);
-		
-		
-
-		
-		
-		
-	}
-	
-	/*
-	//----------------------------------------------- OOCC -------------------------------------------------------\\
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_143263_CRM_Pospago_SalesCPQ_Cambio_de_plan_con_Falla_S069() throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_143262_CRM_Pospago_SalesCPQ_Cambio_de_plan_con_Falla_S131( ) throws AWTException{
-
-	}
-
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_144313_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
-ACA
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_159158_CRM_Pospago_SalesCPQ_Cambio_de_plan_Actualizar_Ciclo_de_Facturacion_Solo_en_la_Primera_Gestion( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_156600_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_RedList_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_144340_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_Repro_a_APRO4( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_156667_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_con_Gestion_en_Curso( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_143266_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_Inactiva( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_143269_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_suspendida_Fraude( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_143265_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_Suspendida_Siniestro( ) throws AWTException{
-
-	}
-	
-	//----------------------------------------------- Agente -------------------------------------------------------\\
-	@Test (groups = {"PerfilAgente"} )
-	public void TS_168774_CRM_Pospago_SalesCPQ_Cambio_de_plan_Agente_DNI_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilAgente"} )
-	public void TS_168782_CRM_Pospago_SalesCPQ_Cambio_de_plan_Telefonico_P_8_R_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
-
+		Assert.assertTrue(cicloPosterior!=cicloAnterior);	
 	}
 	
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
+	
 	@Test (groups = {"PerfilOficina"} )
 	public void TS_143263_CRM_Pospago_SalesCPQ_Cambio_de_plan_con_Falla_S069() throws AWTException{
 
@@ -397,5 +325,5 @@ ACA
 
 	}
 	
-	*/
+	
 }
