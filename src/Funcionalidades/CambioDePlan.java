@@ -134,7 +134,7 @@ public class CambioDePlan extends TestBase {
 	}
 	
 	private void cambioDePlan() {
-		String fecha = "06-30-2019";
+		String fecha = fechaCapro(10);
 		ges.BuscarCuenta("Pasaporte", "925475893");
 		sleep(3000);
 		mk.closeActiveTab();
@@ -229,7 +229,7 @@ public class CambioDePlan extends TestBase {
 
 	@Test (groups = {"PerfilOficina"} )
 	public void TS_144313_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO4() throws AWTException{
-
+		
 	}
 	
 	@Test (groups = {"PerfilOficina"} )
