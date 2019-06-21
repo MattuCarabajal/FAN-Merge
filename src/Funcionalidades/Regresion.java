@@ -70,7 +70,7 @@ public class Regresion extends TestBase {
 		//cc.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilMayorista")
+	//@BeforeClass (groups = "PerfilMayorista")
 	public void initMayo() {
 		driver = setConexion.setupEze();
 		loginBeFANVictor(driver, "mayorista");
@@ -82,7 +82,7 @@ public class Regresion extends TestBase {
 	//	loginBeFAN(driver);
 	}
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -97,7 +97,7 @@ public class Regresion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-//	@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -112,7 +112,7 @@ public class Regresion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups = "PerfilAgente")
+	@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -127,14 +127,14 @@ public class Regresion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-//	@BeforeMethod (alwaysRun = true)
+	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod(alwaysRun=true)
+	@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -228,7 +228,7 @@ public class Regresion extends TestBase {
 		escribir.close();
 	}
 	
-	//@Test (groups = "PerfilTelefonico", dataProvider="rNuevaNomina") 
+	@Test (groups = "PerfilTelefonico", dataProvider="rNuevaNomina") 
 	public void TS_001_Nominacion_Cliente_Nuevo_Telefonico(String sLinea, String sDni, String sNombre, String sApellido, String sGenero, String sFnac, String sEmail, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) { 
 		imagen = "TS_001";
 		detalles = imagen + "- Nominacion - DNI:" + sDni;		
@@ -500,7 +500,7 @@ public class Regresion extends TestBase {
 	public void TS130056_CRM_Movil_REPRO_Renovacion_de_cuota_Presencial_Reseteo_200_MB_por_Dia_Efectivo_con_Credito(String sDNI, String sLinea, String accid) throws AWTException {
 		imagen = "TS130056";
 		detalles = "Renocavion de cuota: " + imagen + " - DNI: " + sDNI + " - Linea: " + sLinea;
-//		String datosInicial = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
+		String datosInicial = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
 		ges.BuscarCuenta("DNI", sDNI);
 		detalles += "-Cuenta: " + accid;
@@ -533,7 +533,7 @@ public class Regresion extends TestBase {
 		String orden = cc.obtenerTNyMonto2(driver, sOrden);
 		System.out.println("orden = "+orden);
 		detalles +="-Monto: "+orden.split("-")[2]+"-Prefactura: "+orden.split("-")[1];
-		sOrders.add("Recargas" + orden + ", cuenta:"+accid+", DNI: " + sDni +", Monto:"+orden.split("-")[2]);
+		sOrders.add("Recargas" + orden + ", cuenta:"+accid+", DNI: " + sDNI +", Monto:"+orden.split("-")[2]);
 		cbsm.Servicio_NotificarPago(orden.split("-")[0]);
 		driver.navigate().refresh();
 		sleep(5000);
@@ -598,10 +598,6 @@ public class Regresion extends TestBase {
 		detalles+=", Monto:"+orden.split("-")[2]+"Prefactura: "+orden.split("-")[1];
 		cbsm.Servicio_NotificarPago(sOrden);
 		sleep(5000);
-		if(activarFalsos == true) {
-			cbsm.Servicio_NotificarPago(sOrden);
-			sleep(20000);
-		}
 		driver.navigate().refresh();
 		String datosFinal = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		System.out.println("Inicial: "+datosInicial);

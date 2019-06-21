@@ -23,6 +23,7 @@ import Pages.BeFan;
 import Pages.CBS;
 import Pages.ContactSearch;
 import Pages.CustomerCare;
+import Pages.Marketing;
 import Pages.SCP;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
@@ -47,6 +48,8 @@ public class CambioDePlan extends TestBase {
 	private String imagen;
 	private SCP scp;
 	String detalles;
+	private String fecha = "12-20-2020";
+	
 	
 //	 @BeforeClass (alwaysRun = true)
 	public void Sit02() throws IOException, AWTException {
@@ -72,6 +75,7 @@ public class CambioDePlan extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
+		mk = new Marketing(driver);
 		log.loginOOCC();
 		ges.irAConsolaFAN();
 		mk = new Marketing(driver);
@@ -115,7 +119,7 @@ public class CambioDePlan extends TestBase {
 		ges.irGestionClientes();
 	}
 	
-	@AfterMethod (alwaysRun=true)
+	//@AfterMethod (alwaysRun=true)
 	public void after() throws IOException{
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -129,12 +133,8 @@ public class CambioDePlan extends TestBase {
 		sleep(5000);
 	}
 	
-	@Test()
-	public void asd(){
-		imagen = "TS_CambioDePlan";
-		detalles = imagen + "- TS_CambioDePlan - DNI: " + "";
-		boolean enc = false;
-		String fecha = "06-30-2019";
+	private void cambioDePlan() {
+		String fecha = fechaCapro(10);
 		ges.BuscarCuenta("Pasaporte", "925475893");
 		sleep(3000);
 		mk.closeActiveTab();
@@ -205,146 +205,127 @@ public class CambioDePlan extends TestBase {
 		cambioDeFrame(driver, By.cssSelector(".console-card.active.expired"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".console-card.active.expired")));
 		WebElement cicloFacturacionPost = null;
-			for (WebElement x : driver.findElement(By.cssSelector(".console-card.active.expired")).findElements(By.tagName("li"))) {
+		for (WebElement x : driver.findElement(By.cssSelector(".console-card.active.expired")).findElements(By.tagName("li"))) {
 			if (x.getText().toLowerCase().contains("ciclo de facturaci\u00f3n"))
-			cicloFacturacionPost = x;
-			}
+				cicloFacturacionPost = x;
+		}
 		String cicloPosterior = cicloFacturacionPost.findElements(By.tagName("span")).get(2).getText();
 		System.out.println("Cliclo Repro: "+cicloPosterior);
-		Assert.assertTrue(cicloPosterior!=cicloAnterior);
-		
-		
-
-		
-		
-		
+		Assert.assertTrue(cicloPosterior!=cicloAnterior);	
 	}
 	
-	/*
+	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
+	
 	@Test (groups = {"PerfilOficina"} )
 	public void TS_143263_CRM_Pospago_SalesCPQ_Cambio_de_plan_con_Falla_S069() throws AWTException{
 
 	}
 	
 	@Test (groups = {"PerfilOficina"} )
-	public void TS_143262_CRM_Pospago_SalesCPQ_Cambio_de_plan_con_Falla_S131( ) throws AWTException{
+	public void TS_143262_CRM_Pospago_SalesCPQ_Cambio_de_plan_con_Falla_S131() throws AWTException{
 
 	}
 
 	@Test (groups = {"PerfilOficina"} )
-	public void TS_144313_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
-ACA
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_159158_CRM_Pospago_SalesCPQ_Cambio_de_plan_Actualizar_Ciclo_de_Facturacion_Solo_en_la_Primera_Gestion( ) throws AWTException{
-
+	public void TS_144313_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO4() throws AWTException{
+		
 	}
 	
 	@Test (groups = {"PerfilOficina"} )
-	public void TS_156600_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_RedList_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
+	public void TS159158_CRM_Pospago_SalesCPQ_Cambio_de_plan_Actualizar_Ciclo_de_Facturacion_Solo_en_la_Primera_Gestion() throws AWTException{
+		imagen = "TS159158";
+//		ges.BuscarCuenta("DNI", "5115412");
+//		ges.irAGestionEnCardPorNumeroDeLinea("Cambio de Plan", "2932598531");
+//		Calendar fechaFut = Calendar.getInstance(); 
+//		fechaFut.add(Calendar.DATE, +1); 
+//		int fechaFutura= fechaFut.get(Calendar.YEAR); 
+//		 
+//		 
+		 
+		ges.BuscarCuenta("DNI", "95850890"); 
+		ges.irAGestionEnCardPorNumeroDeLinea("Suscripciones", "2932598342"); 
+		cambioDeFrame(driver, By.id("OrderRequestDate"),0); 
+		cambioDeFrame(driver, By.id("Request date_nextBtn"),0); 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Request date_nextBtn"))); 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderRequestDate"))); 
+		driver.findElement(By.id("OrderRequestDate")).sendKeys(fechaCapro(30)); 
+		driver.findElement(By.id("Request date_nextBtn")).click(); 
+		sleep(30000); 
+		cambioDeFrame(driver,By.id("TargetOffer_nextBtn"),0); 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.className("ScrollWindow"))); 
+		sleep(3000); 
+		List<WebElement> planes = driver.findElements(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup")); 
+		for(WebElement p : planes){ 
+		if(p.getText().toLowerCase().contains("plan abono fijo 3gb")){ 
+		p.click(); 
+		} 
+		} 
+		driver.findElement(By.id("TargetOffer_nextBtn")).click(); 
+		sleep(10000); 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Comparision_nextBtn"))); 
+		driver.findElement(By.id("Comparision_nextBtn")).click(); 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Summary_nextBtn"))); 
+		driver.findElement(By.id("Summary_nextBtn")).click(); 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("AccountData_nextBtn"))); 
+		driver.findElement(By.id("AccountData_nextBtn")).click(); 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn"))); 
+		contact.tipoValidacion("documento"); 
+		File directory = new File("Dni.jpg"); 
+		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si"); 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("nextBtn-label"))); 
+		driver.findElement(By.id("nextBtn-label")).click(); 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button_brand"))); 
+		sleep(8500); 
+		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click(); 
+		
+	}
+	
+	@Test (groups = {"PerfilOficina"} )
+	public void TS_156600_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_RedList_de_Plan_con_Tarjeta_a_APRO4() throws AWTException{
 
 	}
 	
 	@Test (groups = {"PerfilOficina"} )
-	public void TS_144340_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_Repro_a_APRO4( ) throws AWTException{
+	public void TS_144340_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_Repro_a_APRO4() throws AWTException{
 
 	}
 	
 	@Test (groups = {"PerfilOficina"} )
-	public void TS_156667_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_con_Gestion_en_Curso( ) throws AWTException{
+	public void TS156667_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_con_Gestion_en_Curso() throws AWTException{
+		imagen = "TS156667";
+		ges.BuscarCuenta("DNI", "15647523");
+		ges.irAGestionEnCardPorNumeroDeLinea("Cambio de Plan", "2932598510");
+		cambioDeFrame(driver, By.cssSelector(".message.description.ng-binding.ng-scope"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".message.description.ng-binding.ng-scope")));
+		Assert.assertTrue(driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText().toLowerCase().contains("asset cannot be modified because a request has already been made to disconnect it"));
+	}
+	
+	@Test (groups = {"PerfilOficina"} )
+	public void TS_143266_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_Inactiva() throws AWTException{
 
 	}
 	
 	@Test (groups = {"PerfilOficina"} )
-	public void TS_143266_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_Inactiva( ) throws AWTException{
+	public void TS_143269_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_suspendida_Fraude() throws AWTException{
 
 	}
 	
 	@Test (groups = {"PerfilOficina"} )
-	public void TS_143269_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_suspendida_Fraude( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_143265_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_Suspendida_Siniestro( ) throws AWTException{
+	public void TS_143265_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_Suspendida_Siniestro() throws AWTException{
 
 	}
 	
 	//----------------------------------------------- Agente -------------------------------------------------------\\
 	@Test (groups = {"PerfilAgente"} )
-	public void TS_168774_CRM_Pospago_SalesCPQ_Cambio_de_plan_Agente_DNI_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
+	public void TS_168774_CRM_Pospago_SalesCPQ_Cambio_de_plan_Agente_DNI_de_Plan_con_Tarjeta_a_APRO4() throws AWTException{
 
 	}
 	
 	@Test (groups = {"PerfilAgente"} )
-	public void TS_168782_CRM_Pospago_SalesCPQ_Cambio_de_plan_Telefonico_P_8_R_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
+	public void TS_168782_CRM_Pospago_SalesCPQ_Cambio_de_plan_Telefonico_P_8_R_de_Plan_con_Tarjeta_a_APRO4() throws AWTException{
 
 	}
 	
 	
-	//----------------------------------------------- OOCC -------------------------------------------------------\\
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_143263_CRM_Pospago_SalesCPQ_Cambio_de_plan_con_Falla_S069() throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_143262_CRM_Pospago_SalesCPQ_Cambio_de_plan_con_Falla_S131( ) throws AWTException{
-
-	}
-
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_144313_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_159158_CRM_Pospago_SalesCPQ_Cambio_de_plan_Actualizar_Ciclo_de_Facturacion_Solo_en_la_Primera_Gestion( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_156600_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_RedList_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_144340_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_Repro_a_APRO4( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_156667_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_con_Gestion_en_Curso( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_143266_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_Inactiva( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_143269_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_suspendida_Fraude( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilOficina"} )
-	public void TS_143265_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_Suspendida_Siniestro( ) throws AWTException{
-
-	}
-	
-	//----------------------------------------------- Agente -------------------------------------------------------\\
-	@Test (groups = {"PerfilAgente"} )
-	public void TS_168774_CRM_Pospago_SalesCPQ_Cambio_de_plan_Agente_DNI_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
-
-	}
-	
-	@Test (groups = {"PerfilAgente"} )
-	public void TS_168782_CRM_Pospago_SalesCPQ_Cambio_de_plan_Telefonico_P_8_R_de_Plan_con_Tarjeta_a_APRO4( ) throws AWTException{
-
-	}
-	
-	*/
 }

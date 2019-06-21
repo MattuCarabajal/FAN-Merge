@@ -1454,6 +1454,7 @@ public class CustomerCare extends BasePage {
 	
 	public void buscarCaso(String nCaso) {
 		tb = new TestBase();
+		tb.cambioDeFrame(driver, By.id("phSearchInput"), 0);
 		WebElement Buscador = tb.esperarElemento(driver, By.id("phSearchInput"), 0);
 //		WebElement Buscador = driver.findElement(By.id("phSearchInput"));
 		Buscador.sendKeys(nCaso);
