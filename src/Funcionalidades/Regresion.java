@@ -17,6 +17,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import com.gargoylesoftware.htmlunit.javascript.host.file.FileReader;
+
 import DataProvider.ExcelUtils;
 import Pages.BasePage;
 import Pages.BeFan;
@@ -77,7 +79,6 @@ public class Regresion extends TestBase {
 		cbsm = new CBS_Mattu();
 		contact = new ContactSearch(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		
 	//	loginBeFAN(driver);
 	}
 	
@@ -147,11 +148,13 @@ public class Regresion extends TestBase {
 		sleep(5000);
 	}
 	
+	//================================================== TEST CASES ==================================================\\
+	
 	@Test(groups = { "PreactivacionBeFan", "PerfilMayorista" })
     public void preactivacion() throws Exception {
+		// PREACTOIVACION
     	BeFan Botones = new BeFan(driver);
-        Object[][] testObjArray;
-        testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"Preactivacion");
+        Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"Preactivacion");
         String nombreArchivo = "SerialBalido";
         int filaExcel = 0;
         for (int i = 0; i < testObjArray.length; i++) {
@@ -165,22 +168,64 @@ public class Regresion extends TestBase {
         String prefijo1 = testObjArray[filaExcel][3].toString();
         String cantidad = testObjArray[filaExcel][7].toString();
         int numeroDeLineas = Integer.parseInt(cantidad);
-        Botones.andaAlMenu("sims", "importacion");
-        Botones.SISeleccionDeDeposito(deposito);
-        Botones.SISeleccionDePrefijo(prefijo1);
-        Botones.SISeleccionCantidadDePrefijo(cantidad);
-        Botones.SIClickAgregar();
-        Botones.SIImportarArchivo(nombreArchivo = Botones.LecturaDeDatosTxt(path + "\\seriales.txt", numeroDeLineas));
-        Botones.SIClickImportar();
-        String mensaje = Botones.SIMensajeModal();
-        Assert.assertTrue(mensaje.contentEquals("El archivo se import\u00f3 correctamente."));
-        Botones.SIClickAceptarImportar();
+        seleccionOpcion(driver, "sims", "importacion");
+        seleccionDeposito(driver, deposito);
+        seleccionPrefijo(driver, prefijo1);
+        sendKeysBy(driver, By.cssSelector("input[type='number']"), cantidad, 0);
+        clickBy(driver, By.name("btnAgregar"), 0);
+        nombreArchivo = Botones.LecturaDeDatosTxt(path + "\\seriales.txt", numeroDeLineas);
+        sendKeysBy(driver, By.id("fileinput"), nombreArchivo, 0);
+        clickBy(driver, By.xpath("//button[contains(text(),'Importar')]"), 0);
+        Assert.assertTrue(getTextBy(driver, By.xpath("//h3[contains(text(),'correctamente')]"), 0).contentEquals("El archivo se import\u00f3 correctamente."));
+        clickBy(driver, By.cssSelector(".btn.btn-link"), 0);
         nombreArchivo = "seriales" + nombreArchivo.substring(nombreArchivo.length()-18, nombreArchivo.length()-4);
-        File informacion = new File(path + "\\resultados\\informacion" + nombreArchivo + ".txt");
-        System.out.println("ESTE ES EL NOMBRE DEL ARCHIVO QUE SE IMPORTO: " + nombreArchivo);
-        BufferedWriter info = new BufferedWriter(new FileWriter(informacion));
-        info.write("Nombre del archivo: " + nombreArchivo);
-        info.close();
+        // OBTENCION DE LAS LINEAS
+		String estado = "Procesado";
+		seleccionOpcion(driver, "sims", "gestion");
+		clickBy(driver, By.xpath("//option[contains(text(), 'Estado')]"), 0);
+		clickBy(driver, By.xpath("//option[contains(text(), '" + estado + "')]"), 0);
+		sendKeysBy(driver, By.cssSelector("input[class='form-control ng-pristine ng-untouched ng-valid ng-empty']"), nombreArchivo, 0);
+		clickBy(driver, By.name("buscar"), 0);
+		clickBy(driver, By.cssSelector("td [class='btn btn-primary btn-xs']"), 0);
+		int columnaLineas = 2;
+		int columnaEstados = 8;
+		List<WebElement> columnas = driver.findElements(By.xpath("//div[@class='modal-body']//thead//th"));
+		for (int i = 0; i < columnas.size(); i++) {
+			if (columnas.get(i).getText().contains("nea")) {
+				columnaLineas = i + 1;
+			} else if (columnas.get(i).getText().contains("estado")) {
+				columnaEstados = i + 1;
+			}
+		}
+		// CLICK PARA QUE SE VISUALICEN DE 100 EN 100
+		esperarElemento(driver, By.cssSelector("select[ng-model='detalleCabeceraCtrl.container.cantCabecerasVistaActual']"), 0);
+		selectByText(driver.findElement(By.cssSelector("select[ng-model='detalleCabeceraCtrl.container.cantCabecerasVistaActual']")), "100");
+		//PAGINA EN LA QUE ESTA Y CANTIDAD DE PAGINAS QUE TIENE
+		String texto = driver.findElement(By.xpath("//div[@class='modal-body']//label[contains(text(), 'gina')]")).getText();
+		texto = texto.replaceAll("[^\\d/]", "");
+		int paginaFinal = Integer.parseInt(texto.substring(texto.indexOf("/")+1));
+		int paginaInicial = Integer.parseInt(texto.substring(0, texto.indexOf("/")));
+		File resultados = new File(System.getProperty("user.home") + "/Desktop/lineasPreactivas-" + nombreArchivo.substring(nombreArchivo.length() - 14) + ".txt");
+		BufferedWriter escribir = new BufferedWriter(new FileWriter(resultados));
+		for (int j = 1; j < paginaFinal + 1; j++) {
+			List<WebElement> lineas = driver.findElements(By.xpath("//div[@class='modal-body']//tbody//td[" + columnaLineas + "]"));
+			List<WebElement> estados = driver.findElements(By.xpath("//div[@class='modal-body']//tbody//td[" + columnaEstados + "]"));
+			Assert.assertTrue(lineas.size() == estados.size());
+			for (int i = 0; i < lineas.size(); i++) {
+				System.out.println(estados.get(i).getText());
+				if (estados.get(i).getText().equalsIgnoreCase("Activado")) {
+					// Escribir la linea en el nuevo archivo .TXT
+					escribir.write(lineas.get(i).getText() + System.lineSeparator());
+				}
+			}
+			
+			if (paginaInicial < paginaFinal) {
+				clickBy(driver, By.cssSelector("button[ng-click='detalleCabeceraCtrl.container.siguiente()']"), 0);
+				String nuevaPagina = driver.findElement(By.xpath("//div[@class='modal-body']//label[contains(text(), 'gina')]")).getText().replaceAll("[^\\d/]", "");
+				paginaInicial = Integer.parseInt(nuevaPagina.substring(0, nuevaPagina.indexOf("/")));
+			}
+		}
+		escribir.close();
 	}
 	
 	//@Test (groups = "PerfilTelefonico", dataProvider="rNuevaNomina") 
