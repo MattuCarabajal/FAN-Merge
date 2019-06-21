@@ -489,7 +489,7 @@ public class Login extends BasePage {
 			if (urlAmbiente.contains("befanuat2.personal.corp")) {
 				switch (perfil) {
 				case "mayorista":
-					driver.findElement(By.name("username")).sendKeys("ua2195528");
+					driver.findElement(By.name("username")).sendKeys("ua2196312");
 					driver.findElement(By.name("txtPass")).sendKeys("Testa10k");
 					break;
 				case "configurador":
