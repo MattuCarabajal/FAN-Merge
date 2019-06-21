@@ -250,7 +250,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	
 	public void BuscarCuenta(String Type, String NDNI){
 		TestBase tb = new TestBase();
-		tb.cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
+		tb.cambioDeFrame(driver, By.id("SearchClientDocumentType"), -10);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
 		getSelect(DNIbuscador).selectByVisibleText(Type);
 		DNI.sendKeys(NDNI);
@@ -338,9 +338,9 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	public void irAGestionEnCardPorNumeroDeLinea(String sGestion, String sLinea) {
 		driver.switchTo().defaultContent();
 		TestBase tb = new TestBase();
-		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
-		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card active expired']"));
-		WebElement cardPorLinea= getBuscarElementoPorText(listaDeElementosPorText(cards, sLinea),"Active");
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), -20);
+		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card active']"));
+		WebElement cardPorLinea= getBuscarElementoPorText(listaDeElementosPorText(cards, sLinea),"Activo");
 		boolean resp=false;
 		try{
 			 resp = cardPorLinea.getText().contains("Repro");
@@ -362,9 +362,9 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='community-flyout-actions-card'] ul li"), 0));
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='card-info-hybrid'] [class='actions'] li"), 0));
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-button slds-button--neutral ']"), 0));
-			List<WebElement> elementos = driver.findElements(By.cssSelector("[class='card-info'] [class='actions'] li"));
-			elementos.addAll(driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li")));
-			elementos.addAll(driver.findElements(By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class*='slds-grid slds-grid--vertical slds-align-middle'] [class='items-card ng-not-empty ng-valid'] [class='slds-col'] button")));
+			List<WebElement> elementos = driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li"));
+			elementos.addAll(driver.findElements(By.cssSelector("[class='card-info-hybrid'] [class='actions'] li")));
+			elementos.addAll(driver.findElements(By.cssSelector("[class='slds-button slds-button--neutral ']")));
 			System.out.println(clickElementoPorTextExacto(elementos, sGestion));
 		}
 
