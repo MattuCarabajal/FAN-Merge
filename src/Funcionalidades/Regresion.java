@@ -68,7 +68,7 @@ public class Regresion extends TestBase {
 		//cc.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilMayorista")
+	//@BeforeClass (groups = "PerfilMayorista")
 	public void initMayo() {
 		driver = setConexion.setupEze();
 		loginBeFANVictor(driver, "mayorista");
@@ -81,7 +81,7 @@ public class Regresion extends TestBase {
 	//	loginBeFAN(driver);
 	}
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -96,7 +96,7 @@ public class Regresion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-//	@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -111,7 +111,7 @@ public class Regresion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups = "PerfilAgente")
+	@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -126,14 +126,14 @@ public class Regresion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-//	@BeforeMethod (alwaysRun = true)
+	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod(alwaysRun=true)
+	@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -147,7 +147,7 @@ public class Regresion extends TestBase {
 		sleep(5000);
 	}
 	
-	@Test(groups = { "PreactivacionBeFan", "PerfilMayorista" })
+	//@Test(groups = { "PreactivacionBeFan", "PerfilMayorista" })
     public void preactivacion() throws Exception {
     	BeFan Botones = new BeFan(driver);
         Object[][] testObjArray;
@@ -183,7 +183,7 @@ public class Regresion extends TestBase {
         info.close();
 	}
 	
-	//@Test (groups = "PerfilTelefonico", dataProvider="rNuevaNomina") 
+	@Test (groups = "PerfilTelefonico", dataProvider="rNuevaNomina") 
 	public void TS_001_Nominacion_Cliente_Nuevo_Telefonico(String sLinea, String sDni, String sNombre, String sApellido, String sGenero, String sFnac, String sEmail, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) { 
 		imagen = "TS_001";
 		detalles = imagen + "- Nominacion - DNI:" + sDni;		

@@ -3,6 +3,7 @@ package PagesPOM;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.awt.AWTException;
@@ -117,6 +118,20 @@ public class BasePageFw {
 		 
 		
 	}
+	
+	public List<WebElement> listaDeElementosPorText(List<WebElement> listado, String parametroBusqueda){ 
+		//filtra por texto y retorna un array con los elementos que machea 
+		//System.out.println(listado.size()); 
+		List<WebElement> aux = new ArrayList<WebElement>() ; 
+		for (WebElement x : listado) { 
+			 
+			//System.out.println(x.getText()+"<--------------->"+parametroBusqueda); 
+			if(x.getText().contains(parametroBusqueda)) { 
+				aux.add(x); 
+			} 
+		} 
+		return aux; 
+	} 
 	
 	public boolean matchText(List<WebElement> listaElementos, String textoaComparar){
 		//de una lista de ElemetosWeb toma el texto y compara con un texto que puede estar formado por mas de una condicion(ver metodo Matches)
