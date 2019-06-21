@@ -114,7 +114,7 @@ public class VentaDePacks extends TestBase {
 	
 	@Test (groups = "PerfilOficina", dataProvider = "ventaX1Dia" )
 	public void TS123163_CRM_Movil_REPRO_Venta_de_pack_1000_min_a_Personal_y_1000_SMS_x_1_dia_Factura_de_Venta_TC_Presencial(String sDNI, String sLinea, String sVentaPack, String sBanco, String sTarjeta, String sPromo, String sCuotas, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTipoDNI, String sDNITarjeta, String sTitular) throws KeyManagementException, NoSuchAlgorithmException{
-		// Pack modificado Pack SMS y Minutos a Personal Ilimitados x 1 día
+		// Pack modificado Pack SMS y Minutos a Personal Ilimitados x 1 dï¿½a
 		imagen = "TS123163";
 		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
 		ges.BuscarCuenta("DNI", sDNI);
@@ -608,13 +608,14 @@ public class VentaDePacks extends TestBase {
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Minutos");
 		vt.packMinutos(sPackAgente30MinPersonal);
-		vt.tipoDePago("en factura de venta");driver.findElement(By.id("SetPaymentType_nextBtn")).click();
+		vt.tipoDePago("en factura de venta");
+		driver.findElement(By.id("SetPaymentType_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("InvoicePreview_nextBtn")));
 		String sOrden = cc.obtenerOrden2(driver);
 		detalles+="-Orden:"+sOrden;
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
-		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "efectivo");
+		buscarYClick(driver.findElements(By.cssSelector("[class = 'slds-form-element__label ng-binding']")), "equals", "efectivo");
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
