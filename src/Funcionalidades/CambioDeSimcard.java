@@ -96,7 +96,7 @@ public class CambioDeSimcard extends TestBase {
 	@Test(groups = { "GestionesPerfilOficina","CambioSimcardDer", "E2E","Ciclo3" }, priority = 1, dataProvider = "CambioSimCardOficina")
 	public void TS134381_CRM_Movil_REPRO_Cambio_de_simcard_sin_costo_Voluntario_Ofcom_Presencial_Con_entega_de_pedido(String sDNI, String sLinea, String accid) throws AWTException	{
 		imagen = "134381";
-		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:"+accid;
+		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Cambio SimCard");
 		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);
@@ -122,7 +122,7 @@ public class CambioDeSimcard extends TestBase {
 		imagen = "134382";
 		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
-		ges.irAGestionEnCard("Cambio de Simcard");
+		ges.irAGestionEnCard("Cambio SimCard");
 		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);
 		clickBy(driver, By.id("DeliveryMethodSelection"), 0);
 		selectByText(driver.findElement(By.id("DeliveryMethodSelection")), "Presencial");
@@ -141,12 +141,12 @@ public class CambioDeSimcard extends TestBase {
 //		cbsm.Servicio_NotificarEmisionFactura(orden);
 	}
 	
-//	@Test(groups = { "GestionesPerfilTelefonico","CambioDeSimcardDer", "E2E" }, priority = 1, dataProvider = "SimCardSiniestroOfCom") 
-	public void TS134406_OF_COM_CRM_Movil_REPRO_Cambio_de_simcard_con_costo_Siniestro_Ofcom_Store_pickUp_Con_entega_de_pedido_pago_en_Efectivo(String sDNI, String sLinea, String accid){
+	@Test(groups = { "GestionesPerfilTelefonico","CambioDeSimcardDer", "E2E" }, priority = 1, dataProvider = "SimCardSiniestroOfCom") 
+	public void TS134406_OF_COM_CRM_Movil_REPRO_Cambio_de_simcard_con_costo_Siniestro_Ofcom_Store_pickUp_Con_entega_de_pedido_pago_en_Efectivo(String sDNI, String sLinea, String accid) {
 		imagen = "134406";
 		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
-		ges.irAGestionEnCard("Cambio de Simcard");
+		ges.irAGestionEnCard("Cambio SimCard");
 		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);
 		clickBy(driver, By.id("DeliveryMethodSelection"), 0);
 		selectByText(driver.findElement(By.id("DeliveryMethodSelection")), "Store Pick Up");
@@ -173,13 +173,13 @@ public class CambioDeSimcard extends TestBase {
 		imagen = "134407";
 		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
-		ges.irAGestionEnCard("Cambio de Simcard");
+		ges.irAGestionEnCard("Cambio SimCard");
 		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);
 		clickBy(driver, By.id("DeliveryMethodSelection"), 0);
 		selectByText(driver.findElement(By.id("DeliveryMethodSelection")), "Store Pick Up");
-		selectByText(driver.findElement(By.id("PickState")), "PREGUNTAR PROVINCIA");           // PREGUNTAR PROVINCIA
-		selectByText(driver.findElement(By.id("PickCity")), "PREGUNTAR LOCALIDAD");		// PREGUNTAR LOCALIDAD
-		selectByText(driver.findElement(By.id("Store")), "PREGUNTAR PUNTO DE VENTA");		// PREGUNTAR LOCALIDAD
+		selectByText(driver.findElement(By.id("PickState")), "PREGUNTAR PROVINCIA"); // PREGUNTAR PROVINCIA
+		selectByText(driver.findElement(By.id("PickCity")), "PREGUNTAR LOCALIDAD"); // PREGUNTAR LOCALIDAD
+		selectByText(driver.findElement(By.id("Store")), "PREGUNTAR PUNTO DE VENTA"); // PREGUNTAR LOCALIDAD
 		clickBy(driver, By.id("DeliveryMethodConfiguration_nextBtn"), 0);
 		cambioDeFrame(driver, By.id("InvoicePreview_nextBtn"), 0);
 		clickBy(driver, By.id("InvoicePreview_nextBtn"), 0);
@@ -198,7 +198,7 @@ public class CambioDeSimcard extends TestBase {
 	@Test(groups = { "GestionesPerfilOficina","CambioDeSimcard", "E2E","Ciclo3" }, priority = 1, dataProvider = "SimCardSiniestroOfCom")
 	public void TS99030_CRM_Movil_REPRO_Cambio_de_SimCard_Presencial_Siniestro_Ofcom(String sDNI, String sLinea, String accid) throws AWTException {
 		imagen = "TS99030";
-		detalles = imagen + "-DNI:" + sDNI;
+		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Cambio SimCard");
 		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);
@@ -222,7 +222,7 @@ public class CambioDeSimcard extends TestBase {
 	@Test(groups = { "GestionesPerfilOficina", "CambioSimCard","Ciclo3" }, priority = 1, dataProvider = "CambioSimCardOficina")
 	public void TSCambioSimCardOficina(String sDNI, String sLinea, String accid) throws AWTException {
 		imagen = "TSCambioSimCardOficina";
-		detalles = imagen + "-DNI:" + sDNI;
+		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Cambio SimCard");
 		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);
@@ -246,7 +246,7 @@ public class CambioDeSimcard extends TestBase {
 	@Test(groups = { "GestionesPerfilTelefonico","CambioSimCard", "E2E" }, priority = 1, dataProvider = "CambioSimCardOficina")
 	public void TS158806_CRM_Movil_PRE_Cambio_de_Simcard_suspension_siniestro_OOCC_presencial(String sDNI, String sLinea, String accid) {
 		imagen = "134381";
-		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:"+accid;
+		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Cambio SimCard");
 		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);
@@ -270,7 +270,7 @@ public class CambioDeSimcard extends TestBase {
 	@Test(groups = { "GestionesPerfilTelefonico","CambioSimCard", "E2E" }, priority = 1, dataProvider = "CambioSimCardOficina")
 	public void TS159155_CRM_Movil_PRE_Cambio_de_Simcard_voluntario_OOCC_presencial(String sDNI, String sLinea, String accid) {
 		imagen = "134381";
-		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:"+accid;
+		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Cambio SimCard");
 		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);
@@ -296,7 +296,7 @@ public class CambioDeSimcard extends TestBase {
 //	@Test(groups = { "GestionesPerfilTelefonico","CambioSimCard", "E2E" }, priority = 1, dataProvider = "CambioSimCardTelef")
 	public void TS_Cambio_Sim_Card_Store_Pick_up_Telefonico(String sDNI, String sLinea, String accid, String sEntrega, String sProvincia, String sLocalidad, String sPuntodeVenta) throws AWTException {
 		imagen = "TS_Cambio_Sim_Card_Store_Pick_up_Telefonico";
-		detalles = imagen+"-Telef-DNI:"+sDNI;
+		detalles = imagen + "-Telef-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Cambio SimCard");
 //		detalles += "-Orden:" + orden;
@@ -305,16 +305,16 @@ public class CambioDeSimcard extends TestBase {
 //	@Test(groups = { "GestionesPerfilTelefonico","CambioSimcardDer", "E2E" }, priority = 1, dataProvider = "SimCardSiniestroOfCom") 
 	public void TS134392_TELEF_CRM_Movil_REPRO_Cambio_de_simcard_sin_costo_Siniestro_Telefonico_Store_pickUp_Con_entega_de_pedido(String sDNI, String sLinea, String accid){
 		imagen = "134392";
-		detalles = imagen + "-DNI:" + sDNI;
+		detalles = imagen + "-Telef-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
 		detalles +="-Cuenta:"+accid;
-		ges.irAGestionEnCard("Cambio de Simcard");
+		ges.irAGestionEnCard("Cambio SimCard");
 	}
 	
 //	@Test(groups = { "GestionesPerfilTelefonico","CambioSimCard","Ciclo 3", "E2E" }, priority = 1, dataProvider = "SimCardSiniestroTelef")
 	public void TS134427_CRM_Movil_REPRO_Cambio_de_simcard_con_costo_Voluntario_Telefonico_Store_pickUp_Con_Siniestro_Telef(String sDNI, String sLinea, String accid, String sEntrega, String sProvincia, String sLocalidad, String sPuntodeVenta) throws AWTException {
 		imagen = "134427";
-		detalles = imagen+"-Telef-DNI:"+sDNI;
+		detalles = imagen + "-Telef-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
 		detalles +="-Cuenta:"+accid;
 		ges.irAGestionEnCard("Cambio SimCard");
@@ -324,7 +324,7 @@ public class CambioDeSimcard extends TestBase {
 //	@Test(groups = { "GestionesPerfilTelefonico","CambioSimCard","Ciclo 3", "E2E" }, priority = 1, dataProvider = "CambioSimCardTelef")
 	public void TS159157_CRM_Movil_PRE_Cambio_de_Simcard_voluntario_Telefonico_store_pick_up(String sDNI, String sLinea, String accid, String sEntrega, String sProvincia, String sLocalidad, String sPuntodeVenta) throws AWTException {
 		imagen = "134381";
-		detalles = imagen + "-DNI:" + sDNI + "-Cuenta:" + accid;
+		detalles = imagen + "-Telef-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Cambio SimCard");
 	}
@@ -334,7 +334,7 @@ public class CambioDeSimcard extends TestBase {
 //	@Test(groups = { "GestionesPerfilAgente","Ciclo 3", "E2E", "CambioDeSimCard" }, priority = 1, dataProvider = "SimCardSiniestroAG")
 	public void TS99020_CRM_Movil_REPRO_Cambio_de_SimCard_Presencial_Siniestro_DOC_Store_Pick_Up_TC_Agente(String sDNI, String sLinea, String accid, String sEntrega, String sProvincia, String sLocalidad, String sPuntodeVenta) throws AWTException {
 		imagen = "99020";
-		detalles = imagen+"-Telef-DNI:"+sDNI;
+		detalles = imagen + "-Telef-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Cambio SimCard");
 		driver.navigate().refresh();
@@ -349,9 +349,9 @@ public class CambioDeSimcard extends TestBase {
 	}
 	
 //	@Test(groups = { "GestionesPerfilAgente","CambioSimCard", "E2E","Ciclo3" }, priority = 1, dataProvider = "CambioSimCardAgente")
-	public void TS_Cambio_SimCard_Agente(String sDNI, String sLinea) throws AWTException {
+	public void TS_Cambio_SimCard_Agente(String sDNI, String sLinea, String accid) throws AWTException {
 		imagen = "TS_Cambio_SimCard_Agente";
-		detalles = imagen + "-DNI:" + sDNI;
+		detalles = imagen + "-Telef-DNI:" + sDNI + "-Cuenta:" + accid;
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCard("Cambio SimCard");
 		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);

@@ -405,10 +405,12 @@ public class BeFan extends BasePage{
 	}
 	
 	public String SIMensajeModal() {
-		String mensaje;
-		tst.waitForVisible(driver, By.xpath("/html/body/div[1]/div/div/div/div[1]/div[1]/h3"), 15);
-		mensaje = driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[1]/h3")).getText();
-		return mensaje;
+		TestBase tb = new TestBase();
+		return tb.getTextBy(driver, By.xpath("/html/body/div[1]/div/div/div/div[1]/div[1]/h3"), 0);
+//		String mensaje;
+//		tst.waitForVisible(driver, By.xpath("/html/body/div[1]/div/div/div/div[1]/div[1]/h3"), 15);
+//		mensaje = driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[1]/div[1]/h3")).getText();
+//		return mensaje;
 	}
 	
 	public String SIMensajeModalMasDeUnMensaje() {
