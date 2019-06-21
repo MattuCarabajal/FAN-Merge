@@ -55,20 +55,20 @@ public class GestionDeClientes extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod (alwaysRun = true)
+//	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
 		tomarCaptura(driver,imagen);
 	}
-
-	@AfterClass (alwaysRun = true)
+	
+//	@AfterClass (alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
 	}
-
-	//----------------------------------------------- OOCC -------------------------------------------------------\\
+	
+	//=============================================== OOCC ===============================================\\
 	
 	@Test (groups = "PerfilOficina")
 	public void TS135495_CRM_Movil_REPRO_Busqueda_Tipo_de_documento_DNI() {
@@ -100,32 +100,32 @@ public class GestionDeClientes extends TestBase {
 	}
 	
 //	@Test (groups = "PerfilOficina")
-//	public void TS135498_CRM_Movil_REPRO_Busqueda_Tipo_de_documento_Libreta_de_enrolamiento() {
-//		imagen = "TS135498";
-//		detalles = imagen + " - Gestion de clientes";
-//		cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
-//		selectByText(driver.findElement(By.id("SearchClientDocumentType")), "Libreta de Enrolamiento");
-//		Assert.assertTrue(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("libreta de enrolamiento"));
-//	}
+	public void TS135498_CRM_Movil_REPRO_Busqueda_Tipo_de_documento_Libreta_de_enrolamiento() {
+		imagen = "TS135498";
+		detalles = imagen + " - Gestion de clientes";
+		cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
+		selectByText(driver.findElement(By.id("SearchClientDocumentType")), "Libreta de Enrolamiento");
+		Assert.assertTrue(driver.findElement(By.id("SearchClientDocumentType")).getText().toLowerCase().contains("libreta de enrolamiento"));
+	}
 	
-//	@Test (groups = "PerfilOficina", dataProvider = "validaDocumentacion") 
-//	public void TS135499_CRM_Movil_REPRO_Busqueda_Libreta_de_enrolamiento_Numero_de_Documento(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail){
-//		imagen = "TS135499";
-//		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
-//		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
-//		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
-//		Assert.assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
-//	}
+//	@Test (groups = "PerfilOficina", dataProvider = "validaDocumentacion")
+	public void TS135499_CRM_Movil_REPRO_Busqueda_Libreta_de_enrolamiento_Numero_de_Documento(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail){
+		imagen = "TS135499";
+		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
+		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
+		List<WebElement> activo = driver.findElement(By.className("slds-tabs--scoped__nav")).findElements(By.tagName("li"));
+		Assert.assertTrue(activo.get(0).findElement(By.tagName("a")).getText().equals("Clientes Activos"));
+	}
 	
 //	@Test (groups = "PerfilOficina", dataProvider = "invalidaDocumentacion")
-//	public void TS135500_CRM_Movil_REPRO_Busqueda_Libreta_dE_enrolamiento_Numero_de_Documento_no_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
-//		imagen = "TS135500";
-//		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
-//		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
-//		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento";
-//		String messageFound = getTextBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
-//		Assert.assertTrue(messageFound.contains(message));
-//	}
+	public void TS135500_CRM_Movil_REPRO_Busqueda_Libreta_dE_enrolamiento_Numero_de_Documento_no_existente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sLibreta, String sRazon, String sEmail) {
+		imagen = "TS135500";
+		detalles = imagen + "- Gestion de clientes - Libreta de enrolamiento: " + sLibreta;
+		sb.BuscarCuenta("Libreta de Enrolamiento", sLibreta);
+		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento";
+		String messageFound = getTextBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
+		Assert.assertTrue(messageFound.contains(message));
+	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "validaDocumentacion")
 	public void TS135501_CRM_Movil_REPRO_Busqueda_Nombre(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
@@ -216,4 +216,5 @@ public class GestionDeClientes extends TestBase {
 		String messageFound = getTextBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
 		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
 	}
+	
 }

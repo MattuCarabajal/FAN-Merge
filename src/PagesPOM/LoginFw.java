@@ -18,13 +18,15 @@ import Pages.Login;
 
 public class LoginFw extends BasePageFw {
 	
-	//URLS 
+	//============================================== URLS ==============================================\\
+	
 	//public static String urlMerge = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
 		
 	public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
 	//public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com";
 	
 	public static String urlSit02 = "https://telecomcrm--sit02.cs91.my.salesforce.com";
+	
 	// viejo public String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";
 	public static String urlSCP = "https://telecomcrm--uat.cs53.my.salesforce.com";
 	
@@ -35,7 +37,8 @@ public class LoginFw extends BasePageFw {
 	
 	public static String urlBeFAN = "http://snapuat.telecom.com.ar/#/home";
 	
-	//ELEMENTOS 
+	//=========================================== ELEMENTOS ===========================================\\
+	
 	@FindBy(how = How.ID, using = "idp_section_buttons")
 	private WebElement logininterno;
 	
@@ -57,7 +60,8 @@ public class LoginFw extends BasePageFw {
 	@FindBy (how = How.ID, using = "loginButton2")
 	private WebElement loginButton2;
 
-	//CONTRUCTOR
+	//========================================== CONSTRUCTOR ==========================================\\
+	
 	public LoginFw(WebDriver driver) {
 		super.setDriver(driver);
 		PageFactory.initElements(getDriver(), this);
@@ -68,7 +72,9 @@ public class LoginFw extends BasePageFw {
 		.ignoring(NullPointerException.class)
 		.ignoring(ElementNotVisibleException.class);
 	}
-	//METODOS
+	
+	//============================================ METODOS ============================================\\
+	
 	public void LoginSit02() {
 		  driver.get(urlSit02);
 		  fluentWait.until(ExpectedConditions.elementToBeClickable(loginMerge));
@@ -140,4 +146,5 @@ public class LoginFw extends BasePageFw {
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
 	}		 
+
 }

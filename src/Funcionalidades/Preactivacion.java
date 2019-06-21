@@ -51,7 +51,7 @@ public class Preactivacion extends TestBase {
 
 	private WebDriver driver;
 	private SCP scp;
-	private Pages.BeFan pbf;
+	private BeFan pbf;
 	
 	private void irA(String opcion) {
 		WebElement menu = null;

@@ -17,6 +17,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import com.gargoylesoftware.htmlunit.javascript.host.file.FileReader;
+
 import DataProvider.ExcelUtils;
 import Pages.BasePage;
 import Pages.BeFan;
@@ -68,7 +70,7 @@ public class Regresion extends TestBase {
 		//cc.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups = "PerfilMayorista")
+	@BeforeClass (groups = "PerfilMayorista")
 	public void initMayo() {
 		driver = setConexion.setupEze();
 		loginBeFANVictor(driver, "mayorista");
@@ -77,11 +79,10 @@ public class Regresion extends TestBase {
 		cbsm = new CBS_Mattu();
 		contact = new ContactSearch(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		
 	//	loginBeFAN(driver);
 	}
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -96,7 +97,7 @@ public class Regresion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -111,7 +112,7 @@ public class Regresion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -126,14 +127,14 @@ public class Regresion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeMethod (alwaysRun = true)
+	//@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod(alwaysRun=true)
+	//@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -147,11 +148,13 @@ public class Regresion extends TestBase {
 		sleep(5000);
 	}
 	
-	//@Test(groups = { "PreactivacionBeFan", "PerfilMayorista" })
+	//================================================== TEST CASES ==================================================\\
+	
+	@Test(groups = { "PreactivacionBeFan", "PerfilMayorista" })
     public void preactivacion() throws Exception {
+		// PREACTOIVACION
     	BeFan Botones = new BeFan(driver);
-        Object[][] testObjArray;
-        testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"Preactivacion");
+        Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"Preactivacion");
         String nombreArchivo = "SerialBalido";
         int filaExcel = 0;
         for (int i = 0; i < testObjArray.length; i++) {
@@ -165,22 +168,64 @@ public class Regresion extends TestBase {
         String prefijo1 = testObjArray[filaExcel][3].toString();
         String cantidad = testObjArray[filaExcel][7].toString();
         int numeroDeLineas = Integer.parseInt(cantidad);
-        Botones.andaAlMenu("sims", "importacion");
-        Botones.SISeleccionDeDeposito(deposito);
-        Botones.SISeleccionDePrefijo(prefijo1);
-        Botones.SISeleccionCantidadDePrefijo(cantidad);
-        Botones.SIClickAgregar();
-        Botones.SIImportarArchivo(nombreArchivo = Botones.LecturaDeDatosTxt(path + "\\seriales.txt", numeroDeLineas));
-        Botones.SIClickImportar();
-        String mensaje = Botones.SIMensajeModal();
-        Assert.assertTrue(mensaje.contentEquals("El archivo se import\u00f3 correctamente."));
-        Botones.SIClickAceptarImportar();
+        seleccionOpcion(driver, "sims", "importacion");
+        seleccionDeposito(driver, deposito);
+        seleccionPrefijo(driver, prefijo1);
+        sendKeysBy(driver, By.cssSelector("input[type='number']"), cantidad, 0);
+        clickBy(driver, By.name("btnAgregar"), 0);
+        nombreArchivo = Botones.LecturaDeDatosTxt(path + "\\seriales.txt", numeroDeLineas);
+        sendKeysBy(driver, By.id("fileinput"), nombreArchivo, 0);
+        clickBy(driver, By.xpath("//button[contains(text(),'Importar')]"), 0);
+        Assert.assertTrue(getTextBy(driver, By.xpath("//h3[contains(text(),'correctamente')]"), 0).contentEquals("El archivo se import\u00f3 correctamente."));
+        clickBy(driver, By.cssSelector(".btn.btn-link"), 0);
         nombreArchivo = "seriales" + nombreArchivo.substring(nombreArchivo.length()-18, nombreArchivo.length()-4);
-        File informacion = new File(path + "\\resultados\\informacion" + nombreArchivo + ".txt");
-        System.out.println("ESTE ES EL NOMBRE DEL ARCHIVO QUE SE IMPORTO: " + nombreArchivo);
-        BufferedWriter info = new BufferedWriter(new FileWriter(informacion));
-        info.write("Nombre del archivo: " + nombreArchivo);
-        info.close();
+        // OBTENCION DE LAS LINEAS
+		String estado = "Procesado";
+		seleccionOpcion(driver, "sims", "gestion");
+		clickBy(driver, By.xpath("//option[contains(text(), 'Estado')]"), 0);
+		clickBy(driver, By.xpath("//option[contains(text(), '" + estado + "')]"), 0);
+		sendKeysBy(driver, By.cssSelector("input[class='form-control ng-pristine ng-untouched ng-valid ng-empty']"), nombreArchivo, 0);
+		clickBy(driver, By.name("buscar"), 0);
+		clickBy(driver, By.cssSelector("td [class='btn btn-primary btn-xs']"), 0);
+		int columnaLineas = 2;
+		int columnaEstados = 8;
+		List<WebElement> columnas = driver.findElements(By.xpath("//div[@class='modal-body']//thead//th"));
+		for (int i = 0; i < columnas.size(); i++) {
+			if (columnas.get(i).getText().contains("nea")) {
+				columnaLineas = i + 1;
+			} else if (columnas.get(i).getText().contains("estado")) {
+				columnaEstados = i + 1;
+			}
+		}
+		// CLICK PARA QUE SE VISUALICEN DE 100 EN 100
+		esperarElemento(driver, By.cssSelector("select[ng-model='detalleCabeceraCtrl.container.cantCabecerasVistaActual']"), 0);
+		selectByText(driver.findElement(By.cssSelector("select[ng-model='detalleCabeceraCtrl.container.cantCabecerasVistaActual']")), "100");
+		//PAGINA EN LA QUE ESTA Y CANTIDAD DE PAGINAS QUE TIENE
+		String texto = driver.findElement(By.xpath("//div[@class='modal-body']//label[contains(text(), 'gina')]")).getText();
+		texto = texto.replaceAll("[^\\d/]", "");
+		int paginaFinal = Integer.parseInt(texto.substring(texto.indexOf("/")+1));
+		int paginaInicial = Integer.parseInt(texto.substring(0, texto.indexOf("/")));
+		File resultados = new File(System.getProperty("user.home") + "/Desktop/lineasPreactivas-" + nombreArchivo.substring(nombreArchivo.length() - 14) + ".txt");
+		BufferedWriter escribir = new BufferedWriter(new FileWriter(resultados));
+		for (int j = 1; j < paginaFinal + 1; j++) {
+			List<WebElement> lineas = driver.findElements(By.xpath("//div[@class='modal-body']//tbody//td[" + columnaLineas + "]"));
+			List<WebElement> estados = driver.findElements(By.xpath("//div[@class='modal-body']//tbody//td[" + columnaEstados + "]"));
+			Assert.assertTrue(lineas.size() == estados.size());
+			for (int i = 0; i < lineas.size(); i++) {
+				System.out.println(estados.get(i).getText());
+				if (estados.get(i).getText().equalsIgnoreCase("Activado")) {
+					// Escribir la linea en el nuevo archivo .TXT
+					escribir.write(lineas.get(i).getText() + System.lineSeparator());
+				}
+			}
+			
+			if (paginaInicial < paginaFinal) {
+				clickBy(driver, By.cssSelector("button[ng-click='detalleCabeceraCtrl.container.siguiente()']"), 0);
+				String nuevaPagina = driver.findElement(By.xpath("//div[@class='modal-body']//label[contains(text(), 'gina')]")).getText().replaceAll("[^\\d/]", "");
+				paginaInicial = Integer.parseInt(nuevaPagina.substring(0, nuevaPagina.indexOf("/")));
+			}
+		}
+		escribir.close();
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider="rNuevaNomina") 
@@ -226,7 +271,7 @@ public class Regresion extends TestBase {
 		Assert.assertTrue(a);
 	}
 	
-	//@Test (groups = "PerfilOficina", dataProvider = "rExistenteNomina") 
+	@Test (groups = "PerfilOficina", dataProvider = "rExistenteNomina") 
 	public void TS85097_CRM_Movil_REPRO_Nominatividad_Cliente_Existente_Presencial_DOC_OfCom(String sLinea, String sDni, String sNombre, String sApellido) {
 		imagen = "TS85097";
 		detalles = imagen + " -Nominacion: " + sDni+"- Linea: "+sLinea;
@@ -308,17 +353,19 @@ public class Regresion extends TestBase {
 		cc.verificarPedido(caso, "activada");
 	}
 
-	@Test (groups = "PerfilOficina", dataProvider="rSmsDescuento")
-	public void TS_002_Compra_De_Pack_SMS_Descuento_De_Saldo_OOCC(String sDni, String sLinea, String sVentaPack){
-		imagen ="TS_002";
+	@Test (groups = "PerfilOficina", dataProvider="rMinDescuento")
+	public void TS135657_CRM_Movil_REPRO_Venta_de_Pack_150_min_a_Personal_y_150_SMS_x_7_dias_Presencial_OOCC_Descuento_de_Saldo(String sDni, String sLinea, String sventaPack) {
+		imagen = "TS135657";
+		detalles = imagen+"-Venta de pack-DNI:"+sDni;
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
 		ges.BuscarCuenta("DNI", sDni);
-		try {ges.cerrarPanelDerecho();} catch (Exception e) {}
-		ges.irAGestionEnCard("Comprar SMS");
-		vt.packSMS(sVentaPack);	
+		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
+		ges.irAGestionEnCard("Comprar Internet");
+		vt.packMinutos(sventaPack);
 		vt.tipoDePago("descuento de saldo");
 		driver.findElement(By.id("SetPaymentType_nextBtn")).click();
+		sleep(45000);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
 		Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
@@ -326,14 +373,14 @@ public class Regresion extends TestBase {
 		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		Assert.assertTrue(iMainBalance > uiMainBalance);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sventaPack));
 	}
 	
-	//@Test (groups = "PerfilAgente", dataProvider="rDatosEfectivo")
-	public void TS135801_CRM_Movil_PREVenta_de_pack_Paquete_M2M_10_MB_Factura_de_Venta_Efectivo_Presencial_PuntMa_Alta_Agente(String sDni, String sLinea, String sPack){
-		imagen = "TS135801";
-		detalles = "Venta de Pack "+imagen+"-DNI:"+sDni;
-		ges.BuscarCuenta("DNI", sDni);
+	@Test (groups = "PerfilAgente", dataProvider="rDatosEfectivo")
+	public void Venta_de_Pack_1_GB_x_1_dia_whatsapp_gratis_Factura_de_Venta_efectivo_Agente(String sDNI, String sLinea, String sPack) throws AWTException{
+		imagen = "Venta_de_Pack_1_GB_x_1_dia_whatsapp_gratis";
+		detalles = imagen + "-Venta de pack-DNI:" + sDNI+ "-Linea: "+sLinea;
+		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar SMS");
 		vt.packDatos(sPack);
@@ -349,35 +396,36 @@ public class Regresion extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(10000);
-		String orden = cc.obtenerTNyMonto2(driver, sOrden);
-		detalles+="-Monto:"+orden.split("-")[1]+"-Prefactura:"+orden.split("-")[0];
+		cc.buscarCaso(sOrden);
 		cbsm.Servicio_NotificarPago(sOrden);
-		//Assert.assertTrue(invoSer.PagoEnCaja("1006", accid, "1001", orden.split("-")[1], orden.split("-")[0],driver));
 		sleep(30000);
 		boolean a = false;
-		for(int i= 0; i < 10 ; i++) {
-			cambioDeFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
-			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
-			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
-			String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-			if(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated")) {
-				a = true;
-			}else {
-				driver.navigate().refresh();
-				i++;
+			for(int i= 0; i < 10 ; i++) {
+				cambioDeFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
+				ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
+				WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
+				String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
+				if(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated")) {
+					a = true;
+				}else {
+					driver.navigate().refresh();
+					sleep(15000);
+					i++;
+				}
 			}
-		}
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack) && a);
+		Assert.assertTrue(a);
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack));
 	}
 	
-	@Test (groups = "PerfilTelefonico", dataProvider="rMinutosTC")
-	public void TS_003_Compra_De_Pack_Minutos_TC_Telefonico(String sDni, String sLinea, String sPack, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular){
-		imagen = "TS_003";
-		detalles = "Compra de pack "+imagen+"-DNI:"+sDni;
-		ges.BuscarCuenta("DNI", sDni);
-		try {ges.cerrarPanelDerecho();} catch (Exception e) {}
+	@Test (groups = "PerfilTelefonico", dataProvider="rSmsTC")
+	public void TS123133_CRM_Movil_REPRO_Venta_De_Pack_internacional_30_SMS_al_Resto_del_Mundo_Factura_De_Venta_TC_Telefonico(String sDNI, String sLinea, String sPack, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) throws InterruptedException, AWTException{
+		//Pack modificado = Pack internacional 30 minutos LDI y 15 SMS int
+		imagen = "TS123133";
+		detalles = null;
+		ges.BuscarCuenta("DNI", sDNI);
+		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Internet");
-		vt.packMinutos(sPack);		
+		vt.packLDI(sPack);		
 		vt.tipoDePago("en factura de venta");
 		driver.findElement(By.id("SetPaymentType_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("InvoicePreview_nextBtn")));
@@ -395,32 +443,32 @@ public class Regresion extends TestBase {
 		selectByText(driver.findElement(By.id("expirationYear-0")), sVenceAno);
 		driver.findElement(By.id("securityCode-0")).sendKeys(sCodSeg);
 		selectByText(driver.findElement(By.id("documentType-0")), "DNI");
-		driver.findElement(By.id("documentNumber-0")).sendKeys(sDni);
+		driver.findElement(By.id("documentNumber-0")).sendKeys(sDNI);
 		driver.findElement(By.id("cardHolder-0")).sendKeys(sTitular);
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		sleep(5000);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
 		sleep(20000);
-		String orden = cc.obtenerTNyMonto2(driver, sOrden);
-		detalles+="-Monto:"+orden.split("-")[1]+"-Prefactura:"+orden.split("-")[0];
-		sleep(15000);
+		cc.buscarCaso(sOrden);
 		boolean a = false;
-		for (int i = 0; i <= 10; i++) {
-			cambioDeFrame(driver,By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"),0);
-			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
-			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
-			String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-			if (datos.equalsIgnoreCase("activada") || datos.equalsIgnoreCase("activated")) {
-				a = true;
-			} else {
-				sleep(10000);
-				driver.navigate().refresh();
-				i++;
+			for (int i = 0; i < 10; i++) {
+				cambioDeFrame(driver,By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"),0);
+				ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
+				WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
+				String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
+				if (datos.equalsIgnoreCase("activada") || datos.equalsIgnoreCase("activated")) {
+					a = true;
+				} else {
+					sleep(15000);
+					driver.navigate().refresh();
+					i++;
+				}
 			}
-		}
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack) && a);
+		Assert.assertTrue(a);
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack));
 	}
-
+	
 	@Test(groups = { "GestionesPerfilTelefonico", "RenovacionDeCuota","E2E" }, dataProvider = "RenovacionCuotaConSaldo")
 	public void TS_CRM_Movil_REPRO_Renovacion_De_Cuota_Telefonico_Descuento_De_Saldo_Con_Credito(String sDNI, String sLinea, String accid) {
 		imagen = "TS_CRM_Movil_REPRO_Renovacion_De_Cuota_Telefonico_Descuento_De_Saldo_Con_Credito";
@@ -495,7 +543,7 @@ public class Regresion extends TestBase {
 		String datosFinal = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres Adicionales");
 		System.out.println("Datos Inicial "+datosInicial);
 		System.out.println("Datos final "+datosFinal);
-		Assert.assertTrue((Integer.parseInt(datosInicial)+153600)==Integer.parseInt(datosFinal));
+		Assert.assertTrue((Integer.parseInt(datosInicial)+25600)==Integer.parseInt(datosFinal));
 		cambioDeFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
 		boolean condition = false;
 		List<WebElement> tabla = driver.findElements(By.cssSelector("[class='detailList'] tr"));
