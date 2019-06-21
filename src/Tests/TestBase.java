@@ -1005,7 +1005,7 @@ public class TestBase {
 	}
 	
 	public void cambioDeFrame(WebDriver driver, By byForElement, double timeAcumulated) {
-		if (10 > timeAcumulated) {
+		if (15 > timeAcumulated) {
 			try {
 				WebElement myFrame = frameConElElemento(driver, byForElement);
 				driver.switchTo().frame(myFrame);
@@ -1017,9 +1017,9 @@ public class TestBase {
 	}
 	
 	public WebElement esperarElemento(WebDriver driver, By byForElement, double timeAcumulated) {
-		if (10 > timeAcumulated) {
+		if (15 > timeAcumulated) {
 			try {
-				return driver.findElement(byForElement);
+				if (driver.findElement(byForElement) != null) return driver.findElement(byForElement);
 			} catch (Exception e) {
 				sleepPrivado(250);
 				return esperarElemento(driver, byForElement, timeAcumulated + 0.250);
@@ -1041,7 +1041,7 @@ public class TestBase {
 	}
 	
 	public void elementosRequeridos(WebDriver driver, By byForElements, int numberOfElements, double timeAcumulated) {
-		if (10 > timeAcumulated) {
+		if (15 > timeAcumulated) {
 			if (driver.findElements(byForElements).size() < numberOfElements) {
 				sleepPrivado(250);
 				elementosRequeridos(driver, byForElements, numberOfElements, timeAcumulated + 0.250);
@@ -1050,7 +1050,7 @@ public class TestBase {
 	}
 	
 	public String getTextBy(WebDriver driver, By byForElement, double timeAcumulated) {
-		if (10 > timeAcumulated) {
+		if (15 > timeAcumulated) {
 			try {
 				if (driver.findElement(byForElement).getText().length() > 0) {
 					return driver.findElement(byForElement).getText();
@@ -1064,7 +1064,7 @@ public class TestBase {
 	}
 	
 	public void sendKeysBy(WebDriver driver, By byForElement, String text, double timeAcumulated) {
-		if (10 > timeAcumulated) {
+		if (15 > timeAcumulated) {
 			try {
 				driver.findElement(byForElement).sendKeys(text);
 			} catch (Exception e) {
@@ -1073,6 +1073,17 @@ public class TestBase {
 			}
 		} else { driver.findElement(byForElement).sendKeys(text); }
 	}
+	
+	public WebElement elementByText(WebDriver driver, String tag, String texto, double timeAcumulated) {
+		if (15 > timeAcumulated) {
+			try {
+				return driver.findElement(By.xpath("//" + tag + "[contains(text(), '" + texto + "']"));
+			} catch (Exception e) { System.out.println("NO SE ENCUENTRA NINGUN ELEMENTO CON EL TEXTO --> " + texto); }
+		}
+		return null;
+	}
+	
+	//=============================================== METODOS PREACTIVACION JOSE ===============================================\\
 	
 	public void lineasPreactivadas(String nombreArchivo, String estado) {
 		String ambiente = driver.getCurrentUrl();
@@ -1098,7 +1109,27 @@ public class TestBase {
 		}
 	}
 	
-	//===================================================== DATA PROVIDER =====================================================\\
+	public void seleccionOpcion(WebDriver driver, String opcion, String subopcion) {
+		clickBy(driver, By.xpath("//*[contains(text(), '" + opcion.substring(0,1).toUpperCase() + opcion.substring(1) + "')]"), 0);
+		clickBy(driver, By.cssSelector("li[ng-show*='sims_" + subopcion + "'] a"), 0);
+	}
+	
+	public void seleccionDeposito(WebDriver driver, String deposito) { // Menu Simcard-Importacion
+		elementosRequeridos(driver, By.cssSelector("[name='vendedores'] option"), 2, 0);
+		selectByText(driver.findElement(By.name("vendedores")), deposito);
+	}
+	
+	public void seleccionPrefijo (WebDriver driver, String prefijo) {
+		clickBy(driver, By.xpath("//option[contains(text(), 'Prefijos')]"), 0);
+		clickBy(driver, By.xpath("//option[contains(text(), '" + prefijo + "')]"), 0);
+	}
+	
+	public void importarArchivo(WebDriver driver, String path) {
+//		clickBy(driver, By.id("fileinput"), 0);
+		sendKeysBy(driver, By.id("fileinput"), path, 0);
+	}
+	
+	//===================================================== DATA PROVIDER ======================================================\\
 	
 	@DataProvider
 	public Object[][] Nominacion() throws Exception{
@@ -1457,7 +1488,7 @@ public class TestBase {
 	
 	@DataProvider
 	public Object[][] CambioSimCardAgente() throws Exception{
-		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,2,"Cambio SimCard Agente");
+		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,3,"Cambio SimCard Agente");
 	}
 	
 	@DataProvider
@@ -1472,7 +1503,7 @@ public class TestBase {
 	
 	@DataProvider
 	public Object[][] SimCardSiniestroOfCom() throws Exception{
-		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,2,"SimCard Siniestro OfCom");
+		return  ExcelUtils.getTableArray(dataProviderE2E(),"cambio de simcard",1,1,3,"SimCard Siniestro OfCom");
 	}
 	
 	@DataProvider
@@ -1786,7 +1817,6 @@ public class TestBase {
 		
 	}
 	
-
 	@DataProvider
 	public Object[][] NominaDomicilioSimple() throws Exception{
 		
