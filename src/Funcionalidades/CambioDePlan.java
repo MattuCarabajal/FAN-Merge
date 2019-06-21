@@ -233,40 +233,25 @@ public class CambioDePlan extends TestBase {
 	}
 	
 	@Test (groups = {"PerfilOficina"} )
-	public void TS159158_CRM_Pospago_SalesCPQ_Cambio_de_plan_Actualizar_Ciclo_de_Facturacion_Solo_en_la_Primera_Gestion() throws AWTException{
-		imagen = "TS159158";
-//		ges.BuscarCuenta("DNI", "5115412");
-//		ges.irAGestionEnCardPorNumeroDeLinea("Cambio de Plan", "2932598531");
-//		Calendar fechaFut = Calendar.getInstance(); 
-//		fechaFut.add(Calendar.DATE, +1); 
-//		int fechaFutura= fechaFut.get(Calendar.YEAR); 
-//		 
-//		 
-		 
-		ges.BuscarCuenta("DNI", "95850890"); 
-		ges.irAGestionEnCardPorNumeroDeLinea("Suscripciones", "2932598342"); 
-		cambioDeFrame(driver, By.id("OrderRequestDate"),0); 
-		cambioDeFrame(driver, By.id("Request date_nextBtn"),0); 
+	public void TS159158_CRM_Pospago_SalesCPQ_Cambio_de_plan_Actualizar_Ciclo_de_Facturacion_Solo_en_la_Primera_Gestion() throws AWTException{		
+		imagen = "TS159158"; 
+		ges.BuscarCuenta("DNI", "91020744"); 
+		ges.irAGestionEnCardPorNumeroDeLinea("Cambio de Plan", "2932598839");
+		sleep(20000); 
+		cambioDeFrame(driver, By.id("OrderRequestDate"), 0); 
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Request date_nextBtn"))); 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderRequestDate"))); 
-		driver.findElement(By.id("OrderRequestDate")).sendKeys(fechaCapro(30)); 
+		driver.findElement(By.id("OrderRequestDate")).sendKeys(fecha); 
 		driver.findElement(By.id("Request date_nextBtn")).click(); 
-		sleep(30000); 
-		cambioDeFrame(driver,By.id("TargetOffer_nextBtn"),0); 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.className("ScrollWindow"))); 
-		sleep(3000); 
-		List<WebElement> planes = driver.findElements(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup")); 
-		for(WebElement p : planes){ 
-		if(p.getText().toLowerCase().contains("plan abono fijo 3gb")){ 
-		p.click(); 
-		} 
+		sleep(100000);
+		for (WebElement x : driver.findElements(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup"))) { 
+			if (x.getText().toLowerCase().contains("conexi\u00f3n control abono m")) 
+				x.click(); 
 		} 
 		driver.findElement(By.id("TargetOffer_nextBtn")).click(); 
-		sleep(10000); 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Comparision_nextBtn"))); 
+		sleep(60000); 
 		driver.findElement(By.id("Comparision_nextBtn")).click(); 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Summary_nextBtn"))); 
-		driver.findElement(By.id("Summary_nextBtn")).click(); 
+		sleep(60000); 
+		driver.findElement(By.id("Summary_nextBtn")).click();		 
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("AccountData_nextBtn"))); 
 		driver.findElement(By.id("AccountData_nextBtn")).click(); 
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn"))); 
@@ -276,9 +261,59 @@ public class CambioDePlan extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("nextBtn-label"))); 
 		driver.findElement(By.id("nextBtn-label")).click(); 
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button_brand"))); 
-		sleep(8500); 
 		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click(); 
-		
+		sleep(10000);
+		mk.closeActiveTab();
+		mk.closeActiveTab();
+		cc.irAFacturacion(); 
+		cambioDeFrame(driver, By.cssSelector(".console-card.active.expired"), 0); 
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".console-card.active.expired"))); 
+		WebElement cicloFacturacion = null; 
+		for (WebElement x : driver.findElement(By.cssSelector(".console-card.active.expired")).findElements(By.tagName("li"))) { 
+			if (x.getText().toLowerCase().contains("ciclo de facturaci\u00f3n")) 
+				cicloFacturacion = x; 
+		} 
+		String cicloAnterior = cicloFacturacion.findElements(By.tagName("span")).get(2).getText(); 
+		mk.closeActiveTab(); 
+		driver.navigate().refresh();		
+		ges.irAGestionEnCardPorNumeroDeLinea("Cambio de Plan", "2932598840");
+		sleep(20000); 
+		cambioDeFrame(driver, By.id("OrderRequestDate"), 0); 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Request date_nextBtn"))); 
+		driver.findElement(By.id("OrderRequestDate")).sendKeys(fecha); 
+		driver.findElement(By.id("Request date_nextBtn")).click(); 
+		sleep(140000); 
+		for (WebElement x : driver.findElements(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup"))) { 
+			if (x.getText().toLowerCase().contains("conexi\u00f3n control abono m")) 
+				x.click(); 
+		} 
+		driver.findElement(By.id("TargetOffer_nextBtn")).click(); 
+		sleep(120000); 
+		driver.findElement(By.id("Comparision_nextBtn")).click(); 
+		sleep(120000); 
+		driver.findElement(By.id("Summary_nextBtn")).click();		 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("AccountData_nextBtn"))); 
+		driver.findElement(By.id("AccountData_nextBtn")).click(); 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn"))); 
+		contact.tipoValidacion("documento"); 
+		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si"); 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("nextBtn-label"))); 
+		driver.findElement(By.id("nextBtn-label")).click(); 
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button_brand"))); 
+		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click(); 
+		sleep(10000);
+		mk.closeActiveTab();
+		mk.closeActiveTab();
+		cc.irAFacturacion(); 
+		cambioDeFrame(driver, By.cssSelector(".console-card.active.expired"), 0); 
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".console-card.active.expired")));
+		WebElement nuevoCicloFacturacion = null; 
+		for (WebElement x : driver.findElement(By.cssSelector(".console-card.active.expired")).findElements(By.tagName("li"))) { 
+			if (x.getText().toLowerCase().contains("ciclo de facturaci\u00f3n")) 
+				nuevoCicloFacturacion = x; 
+		} 
+		String cicloPosterior = nuevoCicloFacturacion.findElements(By.tagName("span")).get(2).getText(); 
+		Assert.assertTrue(cicloAnterior.equals(cicloPosterior));
 	}
 	
 	@Test (groups = {"PerfilOficina"} )
@@ -294,16 +329,25 @@ public class CambioDePlan extends TestBase {
 	@Test (groups = {"PerfilOficina"} )
 	public void TS156667_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_con_Gestion_en_Curso() throws AWTException{
 		imagen = "TS156667";
-		ges.BuscarCuenta("DNI", "15647523");
-		ges.irAGestionEnCardPorNumeroDeLinea("Cambio de Plan", "2932598510");
+		ges.BuscarCuenta("DNI", "38010576");
+		ges.irAGestionEnCardPorNumeroDeLinea("Cambio de Plan", "2932598378");
 		cambioDeFrame(driver, By.cssSelector(".message.description.ng-binding.ng-scope"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".message.description.ng-binding.ng-scope")));
 		Assert.assertTrue(driver.findElement(By.cssSelector(".message.description.ng-binding.ng-scope")).getText().toLowerCase().contains("asset cannot be modified because a request has already been made to disconnect it"));
 	}
 	
 	@Test (groups = {"PerfilOficina"} )
-	public void TS_143266_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_Inactiva() throws AWTException{
-
+	public void TS143266_CRM_Pospago_SalesCPQ_No_Cambio_de_plan_Linea_Inactiva() throws AWTException{
+		imagen = "TS143266"; 
+		ges.BuscarCuenta("DNI", "51365481");
+		cambioDeFrame(driver, By.cssSelector("[class='console-card active expired']"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='console-card active expired']")));
+		driver.findElement(By.cssSelector("[class='console-card active expired'] [class='card-top']")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".slds-small-size--3-of-12.slds-medium-size--3-of-12.slds-large-size--3-of-12.flyout-actions")));
+		driver.findElement(By.xpath("//li//span[contains(text(), 'Cambio de Plan')]")).click();
+		cambioDeFrame(driver, By.id("prompt-heading-id"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("prompt-heading-id")));
+		Assert.assertTrue(driver.findElement(By.id("prompt-heading-id")).getText().toLowerCase().contains("l\u00ednea inactiva"));
 	}
 	
 	@Test (groups = {"PerfilOficina"} )

@@ -339,8 +339,8 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		driver.switchTo().defaultContent();
 		TestBase tb = new TestBase();
 		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
-		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card active expired']"));
-		WebElement cardPorLinea= getBuscarElementoPorText(listaDeElementosPorText(cards, sLinea),"Active");
+		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card active']"));
+		WebElement cardPorLinea= getBuscarElementoPorText(listaDeElementosPorText(cards, sLinea),"Activo");
 		boolean resp=false;
 		try{
 			 resp = cardPorLinea.getText().contains("Repro");
