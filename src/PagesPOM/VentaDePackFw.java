@@ -100,9 +100,10 @@ public class VentaDePackFw extends BasePageFw {
 			.ignoring(ElementNotVisibleException.class);
 			
 		}
-	//----------------------------------------------------------------------------------------------------------------------------------------------------------------//		
+	//----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 		
 	//--------------------------------------------------------Seleccion---De---Packs---------------------------------------------------------------------------------//	
+		//TODOS LOS PACKS == Packs Combinados, Packs de Datos, Packs LDI, Packs de Roaming, Packs de SMS, Packs de Minutos, Packs OTT.
 		public void packCombinado(String Pack1) {
 			tb.cambioDeFrame(driver, By.cssSelector(".slds-button.cpq-item-has-children"), 0);		
 			Pack("Packs Opcionales", "Packs Combinados", Pack1);
@@ -146,6 +147,14 @@ public class VentaDePackFw extends BasePageFw {
 		public void packMinutos(String Pack1) {
 			tb.cambioDeFrame(driver, By.cssSelector(".slds-button.cpq-item-has-children"), 0);
 			Pack("Packs Opcionales", "Packs de Minutos", Pack1);
+			try {Thread.sleep(8000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+			getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class = 'slds-button slds-button--brand ta-button-brand']")));
+			driver.findElement(By.cssSelector("[class = 'slds-button slds-button--brand ta-button-brand']")).click();
+		}
+		
+		public void packOTT(String Pack1) {
+			tb.cambioDeFrame(driver, By.cssSelector(".slds-button.cpq-item-has-children"), 0);
+			Pack("Packs Opcionales", "Packs OTT", Pack1);
 			try {Thread.sleep(8000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 			getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class = 'slds-button slds-button--brand ta-button-brand']")));
 			driver.findElement(By.cssSelector("[class = 'slds-button slds-button--brand ta-button-brand']")).click();
@@ -213,33 +222,6 @@ public class VentaDePackFw extends BasePageFw {
 				}
 				Assert.assertTrue(estaPack);
 			}
-//			if(estaPack == true) {
-//				System.out.println("Se selecciono el pack");
-//			} else {
-//				boolean estaPack2 = false;
-//				getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class = 'cpq-item-product-child-level-3 ng-not-empty ng-valid'] [class = 'cpq-item-no-children']"),0));
-//				// subtablas = seleccion del pack
-//				List<String> packs2 = Arrays.asList(Pack1);
-//				List<WebElement> Pack2 = driver.findElements(By.cssSelector("[class = 'cpq-item-product-child-level-3 ng-not-empty ng-valid'] [class = 'cpq-item-no-children']"));
-//				List<WebElement> Eliminar = driver.findElements(By.cssSelector("[class='cpq-item-product-child-level-3 ng-not-empty ng-valid'] [class = 'icon-outline-delete']"));
-//				if (Pack2.size() != Eliminar.size()) {
-//					for (int i = 0; i < Pack2.size(); i++) {
-//						for (int j = 0; j < packs2.size(); j++) {
-//							if (Pack2.get(i).getText().equals(packs2.get(j))) {
-//								System.out.println(Pack2.get(i).getText());
-//								cc.obligarclick(Eliminar.get(j));
-//								estaPack2 = true;
-//								break;
-//							}
-//						}
-//					}
-//				}
-//				Assert.assertTrue(estaPack2);
-//				getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-button slds-button--destructive']")));
-//				driver.findElement(By.cssSelector("[class = 'slds-button slds-button--destructive']"));
-//				mk.closeActiveTab();
-//				driver.navigate().refresh();
-//			}
 		}
 		
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------------//

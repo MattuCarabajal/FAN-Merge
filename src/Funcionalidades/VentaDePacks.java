@@ -48,7 +48,7 @@ public class VentaDePacks extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -61,7 +61,7 @@ public class VentaDePacks extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -706,6 +706,7 @@ public class VentaDePacks extends TestBase {
 		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		Assert.assertTrue(iMainBalance > uiMainBalance);
+		//No se impacta el pack,por lo cual no funciona la validacion del pack activo
 		//Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackIlimitadoX7Dias));
 	}
 
