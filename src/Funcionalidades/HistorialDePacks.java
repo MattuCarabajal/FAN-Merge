@@ -66,7 +66,7 @@ public class HistorialDePacks extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -85,7 +85,7 @@ public class HistorialDePacks extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod (alwaysRun = true)
+	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -93,7 +93,7 @@ public class HistorialDePacks extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass(alwaysRun = true)
+	//@AfterClass(alwaysRun = true)
 	public void quit() throws IOException {
 		driver.quit();
 		sleep(5000);
@@ -153,11 +153,11 @@ public class HistorialDePacks extends TestBase {
 		driver.findElement(By.id("text-input-03")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-dropdown slds-dropdown--left resize-dropdowns']")));
 		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
-			if (x.getText().toLowerCase().contains("bam pack 10gb x 30 dias"))
+			if (x.getText().toLowerCase().contains("pack internacional 30 minutos ldi y 15 sms int"))
 				cc.obligarclick(x);
 		}
 		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
-		Assert.assertTrue(datoTabla.toLowerCase().contains("bam pack 10gb x 30 dias"));
+		Assert.assertTrue(datoTabla.toLowerCase().contains("pack internacional 30 minutos ldi y 15 sms int"));
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
@@ -172,11 +172,11 @@ public class HistorialDePacks extends TestBase {
 		driver.findElement(By.id("text-input-03")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-dropdown slds-dropdown--left resize-dropdowns']")));
 		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
-			if (x.getText().toLowerCase().contains("internet 100 mb dia"))
+			if (x.getText().toLowerCase().contains("pack 150 min a personal y 150 sms x 7 dias"))
 				cc.obligarclick(x);
 		}
 		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
-		Assert.assertTrue(datoTabla.toLowerCase().contains("internet 100 mb dia"));
+		Assert.assertTrue(datoTabla.toLowerCase().contains("pack 150 min a personal y 150 sms x 7 dias"));
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
@@ -191,11 +191,11 @@ public class HistorialDePacks extends TestBase {
 		driver.findElement(By.id("text-input-03")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-dropdown slds-dropdown--left resize-dropdowns']")));
 		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
-			if (x.getText().toLowerCase().contains("internet 50 mb dia"))
+			if (x.getText().toLowerCase().contains("pack 200 mb x 1 dia + whatsapp gratis"))
 				cc.obligarclick(x);
 		}
 		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
-		Assert.assertTrue(datoTabla.toLowerCase().contains("internet 50 mb dia"));
+		Assert.assertTrue(datoTabla.toLowerCase().contains("pack 200 mb x 1 dia + whatsapp gratis"));
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "RecargasHistorias")
@@ -301,11 +301,11 @@ public class HistorialDePacks extends TestBase {
 		driver.findElement(By.id("text-input-03")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-dropdown slds-dropdown--left resize-dropdowns']")));
 		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
-			if (x.getText().toLowerCase().contains("internet 100 mb dia"))
+			if (x.getText().toLowerCase().contains("pack 150 min a personal y 150 sms x 7 dias"))
 				cc.obligarclick(x);
 		}
 		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
-		Assert.assertTrue(datoTabla.toLowerCase().contains("internet 100 mb dia"));
+		Assert.assertTrue(datoTabla.toLowerCase().contains("pack 150 min a personal y 150 sms x 7 dias"));
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
@@ -320,11 +320,11 @@ public class HistorialDePacks extends TestBase {
 		driver.findElement(By.id("text-input-03")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-dropdown slds-dropdown--left resize-dropdowns']")));;
 		for (WebElement x : driver.findElement(By.cssSelector(".slds-dropdown.slds-dropdown--left.resize-dropdowns")).findElements(By.tagName("li"))) {
-			if (x.getText().toLowerCase().contains("1 gb renovacion cuota de datos"))
+			if (x.getText().toLowerCase().contains("pack 200 mb x 1 dia + whatsapp gratis"))
 				cc.obligarclick(x);
 		}
 		String datoTabla = driver.findElement(By.cssSelector(".slds-p-bottom--small.slds-p-left--medium.slds-p-right--medium")).findElements(By.tagName("tbody")).get(1).findElement(By.tagName("tr")).findElements(By.tagName("td")).get(2).getText();
-		Assert.assertTrue(datoTabla.toLowerCase().contains("1 gb renovacion cuota de datos"));
+		Assert.assertTrue(datoTabla.toLowerCase().contains("pack 200 mb x 1 dia + whatsapp gratis"));
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider = "RecargasHistorias")
