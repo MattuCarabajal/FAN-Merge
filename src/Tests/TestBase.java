@@ -1293,7 +1293,7 @@ public class TestBase {
 
 	@DataProvider
 	public Object[][] DatosSalesNominacionNuevoOfCom() throws Exception {
-		return ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 14, "NominacionNuevoOfCom");
+		return ExcelUtils.getTableArray(dataProviderE2E(), "nominacion", 1, 1, 16, "NominacionNuevoOfCom");
 	}
 
 	@DataProvider

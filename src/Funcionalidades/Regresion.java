@@ -180,7 +180,7 @@ public class Regresion extends TestBase {
         clickBy(driver, By.cssSelector(".btn.btn-link"), 0);
         nombreArchivo = "seriales" + nombreArchivo.substring(nombreArchivo.length()-18, nombreArchivo.length()-4);
         // OBTENCION DE LAS LINEAS
-		String estado = "Procesado";
+		String estado = "En Proceso";
 		seleccionOpcion(driver, "sims", "gestion");
 		clickBy(driver, By.xpath("//option[contains(text(), 'Estado')]"), 0);
 		clickBy(driver, By.xpath("//option[contains(text(), '" + estado + "')]"), 0);
@@ -213,7 +213,7 @@ public class Regresion extends TestBase {
 			Assert.assertTrue(lineas.size() == estados.size());
 			for (int i = 0; i < lineas.size(); i++) {
 				System.out.println(estados.get(i).getText());
-				if (estados.get(i).getText().equalsIgnoreCase("Activado")) {
+				if (estados.get(i).getText().equalsIgnoreCase("PendientePreactivar")) {
 					// Escribir la linea en el nuevo archivo .TXT
 					escribir.write(lineas.get(i).getText() + System.lineSeparator());
 				}
