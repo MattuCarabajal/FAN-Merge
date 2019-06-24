@@ -311,9 +311,8 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public void irAGestionEnCardPorNumeroDeLinea(String sGestion, String sLinea) {
-		driver.switchTo().defaultContent();
-		TestBase tb = new TestBase();
-		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), -20);
+		tb = new TestBase();
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card active']"));
 		WebElement cardPorLinea= getBuscarElementoPorText(listaDeElementosPorText(cards, sLinea),"Activo");
 		boolean resp=false;
