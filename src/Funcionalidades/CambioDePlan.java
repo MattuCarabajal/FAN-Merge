@@ -48,7 +48,7 @@ public class CambioDePlan extends TestBase {
 	private String imagen;
 	private SCP scp;
 	String detalles;
-	private String fecha = "12-20-2020";
+	private String fecha = fechaCapro(10);
 	
 	
 //	 @BeforeClass (alwaysRun = true)
@@ -133,9 +133,8 @@ public class CambioDePlan extends TestBase {
 		sleep(5000);
 	}
 	
-	private void cambioDePlan() {
-		String fecha = fechaCapro(10);
-		ges.BuscarCuenta("Pasaporte", "925475893");
+	private void cambioDePlan(String tipoDNI, String DNI, String plan) {
+		ges.BuscarCuenta(tipoDNI, DNI);
 		sleep(3000);
 		mk.closeActiveTab();
 		cc.irAFacturacion();
@@ -163,10 +162,9 @@ public class CambioDePlan extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.className("ScrollWindow")));
 		sleep(3000);
 		List<WebElement> planes = driver.findElements(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup"));
-		for(WebElement p : planes){
-			if(p.getText().toLowerCase().contains("plan abono fijo 3gb")){
+		for (WebElement p : planes){
+			if (p.getText().toLowerCase().contains(plan.toLowerCase()))
 				p.click();
-			}
 		}
 		driver.findElement(By.id("TargetOffer_nextBtn")).click();
 		sleep(35000);
@@ -211,7 +209,7 @@ public class CambioDePlan extends TestBase {
 		}
 		String cicloPosterior = cicloFacturacionPost.findElements(By.tagName("span")).get(2).getText();
 		System.out.println("Cliclo Repro: "+cicloPosterior);
-		Assert.assertTrue(cicloPosterior!=cicloAnterior);	
+		Assert.assertTrue(cicloPosterior != cicloAnterior);	
 	}
 	
 	
@@ -360,16 +358,20 @@ public class CambioDePlan extends TestBase {
 
 	}
 	
+	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
+	
+	@Test (groups = {"PerfilAgente"} )
+	public void TS_168782_CRM_Pospago_SalesCPQ_Cambio_de_plan_Telefonico_P_8_R_de_Plan_con_Tarjeta_a_APRO4() throws AWTException{
+		
+	}
+	
 	//----------------------------------------------- Agente -------------------------------------------------------\\
+	
 	@Test (groups = {"PerfilAgente"} )
 	public void TS_168774_CRM_Pospago_SalesCPQ_Cambio_de_plan_Agente_DNI_de_Plan_con_Tarjeta_a_APRO4() throws AWTException{
 
 	}
 	
-	@Test (groups = {"PerfilAgente"} )
-	public void TS_168782_CRM_Pospago_SalesCPQ_Cambio_de_plan_Telefonico_P_8_R_de_Plan_con_Tarjeta_a_APRO4() throws AWTException{
-
-	}
 	
 	
 }
