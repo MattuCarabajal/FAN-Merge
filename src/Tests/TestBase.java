@@ -1050,7 +1050,7 @@ public class TestBase {
 	}
 	
 	public String getTextBy(WebDriver driver, By byForElement, double timeAcumulated) {
-		if (15 > timeAcumulated) {
+		if (30 > timeAcumulated) {
 			try {
 				if (driver.findElement(byForElement).getText().length() > 0) {
 					return driver.findElement(byForElement).getText();
@@ -1152,8 +1152,8 @@ public class TestBase {
 	}
 	
 	@DataProvider
-	public Object[][] rSmsDescuento() throws Exception{
-		return ExcelUtils.getTableArray(dataProviderE2E(),"DatosRegresion",1,1,3,"PackSmsDescuento");
+	public Object[][] rMinDescuento() throws Exception{
+		return ExcelUtils.getTableArray(dataProviderE2E(),"DatosRegresion",1,1,3,"PackMinDescuento");
 	}
 	
 	@DataProvider
@@ -1162,8 +1162,8 @@ public class TestBase {
 	}
 	
 	@DataProvider
-	public Object[][] rMinutosTC() throws Exception{
-		return ExcelUtils.getTableArray(dataProviderE2E(),"DatosRegresion",1,1,12,"PackMinutosTC");
+	public Object[][] rSmsTC() throws Exception{
+		return ExcelUtils.getTableArray(dataProviderE2E(),"DatosRegresion",1,1,12,"PackSmsTC");
 	}
 	
 	@DataProvider

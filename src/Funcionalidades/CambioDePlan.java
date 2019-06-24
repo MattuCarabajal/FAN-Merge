@@ -232,85 +232,85 @@ public class CambioDePlan extends TestBase {
 	
 	@Test (groups = {"PerfilOficina"} )
 	public void TS159158_CRM_Pospago_SalesCPQ_Cambio_de_plan_Actualizar_Ciclo_de_Facturacion_Solo_en_la_Primera_Gestion() throws AWTException{		
-		imagen = "TS159158"; 
-		ges.BuscarCuenta("DNI", "91020744"); 
+		imagen = "TS159158";
+		ges.BuscarCuenta("DNI", "91020744");
 		ges.irAGestionEnCardPorNumeroDeLinea("Cambio de Plan", "2932598839");
-		sleep(20000); 
-		cambioDeFrame(driver, By.id("OrderRequestDate"), 0); 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Request date_nextBtn"))); 
-		driver.findElement(By.id("OrderRequestDate")).sendKeys(fecha); 
-		driver.findElement(By.id("Request date_nextBtn")).click(); 
+		sleep(20000);
+		cambioDeFrame(driver, By.id("OrderRequestDate"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Request date_nextBtn")));
+		driver.findElement(By.id("OrderRequestDate")).sendKeys(fecha);
+		driver.findElement(By.id("Request date_nextBtn")).click();
 		sleep(100000);
-		for (WebElement x : driver.findElements(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup"))) { 
-			if (x.getText().toLowerCase().contains("conexi\u00f3n control abono m")) 
-				x.click(); 
-		} 
-		driver.findElement(By.id("TargetOffer_nextBtn")).click(); 
-		sleep(60000); 
-		driver.findElement(By.id("Comparision_nextBtn")).click(); 
-		sleep(60000); 
-		driver.findElement(By.id("Summary_nextBtn")).click();		 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("AccountData_nextBtn"))); 
-		driver.findElement(By.id("AccountData_nextBtn")).click(); 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn"))); 
-		contact.tipoValidacion("documento"); 
-		File directory = new File("Dni.jpg"); 
-		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si"); 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("nextBtn-label"))); 
-		driver.findElement(By.id("nextBtn-label")).click(); 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button_brand"))); 
-		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click(); 
+		for (WebElement x : driver.findElements(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup"))) {
+			if (x.getText().toLowerCase().contains("conexi\u00f3n control abono m"))
+				x.click();
+		}
+		driver.findElement(By.id("TargetOffer_nextBtn")).click();
+		sleep(60000);
+		driver.findElement(By.id("Comparision_nextBtn")).click();
+		sleep(60000);
+		driver.findElement(By.id("Summary_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("AccountData_nextBtn")));
+		driver.findElement(By.id("AccountData_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn")));
+		contact.tipoValidacion("documento");
+		File directory = new File("Dni.jpg");
+		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("nextBtn-label")));
+		driver.findElement(By.id("nextBtn-label")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button_brand")));
+		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
 		sleep(10000);
 		mk.closeActiveTab();
 		mk.closeActiveTab();
-		cc.irAFacturacion(); 
-		cambioDeFrame(driver, By.cssSelector(".console-card.active.expired"), 0); 
-		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".console-card.active.expired"))); 
-		WebElement cicloFacturacion = null; 
-		for (WebElement x : driver.findElement(By.cssSelector(".console-card.active.expired")).findElements(By.tagName("li"))) { 
-			if (x.getText().toLowerCase().contains("ciclo de facturaci\u00f3n")) 
-				cicloFacturacion = x; 
-		} 
-		String cicloAnterior = cicloFacturacion.findElements(By.tagName("span")).get(2).getText(); 
-		mk.closeActiveTab(); 
-		driver.navigate().refresh();		
-		ges.irAGestionEnCardPorNumeroDeLinea("Cambio de Plan", "2932598840");
-		sleep(20000); 
-		cambioDeFrame(driver, By.id("OrderRequestDate"), 0); 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Request date_nextBtn"))); 
-		driver.findElement(By.id("OrderRequestDate")).sendKeys(fecha); 
-		driver.findElement(By.id("Request date_nextBtn")).click(); 
-		sleep(140000); 
-		for (WebElement x : driver.findElements(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup"))) { 
-			if (x.getText().toLowerCase().contains("conexi\u00f3n control abono m")) 
-				x.click(); 
-		} 
-		driver.findElement(By.id("TargetOffer_nextBtn")).click(); 
-		sleep(120000); 
-		driver.findElement(By.id("Comparision_nextBtn")).click(); 
-		sleep(120000); 
-		driver.findElement(By.id("Summary_nextBtn")).click();		 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("AccountData_nextBtn"))); 
-		driver.findElement(By.id("AccountData_nextBtn")).click(); 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn"))); 
-		contact.tipoValidacion("documento"); 
-		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si"); 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("nextBtn-label"))); 
-		driver.findElement(By.id("nextBtn-label")).click(); 
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button_brand"))); 
-		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click(); 
-		sleep(10000);
-		mk.closeActiveTab();
-		mk.closeActiveTab();
-		cc.irAFacturacion(); 
-		cambioDeFrame(driver, By.cssSelector(".console-card.active.expired"), 0); 
+		cc.irAFacturacion();
+		cambioDeFrame(driver, By.cssSelector(".console-card.active.expired"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".console-card.active.expired")));
-		WebElement nuevoCicloFacturacion = null; 
-		for (WebElement x : driver.findElement(By.cssSelector(".console-card.active.expired")).findElements(By.tagName("li"))) { 
-			if (x.getText().toLowerCase().contains("ciclo de facturaci\u00f3n")) 
-				nuevoCicloFacturacion = x; 
-		} 
-		String cicloPosterior = nuevoCicloFacturacion.findElements(By.tagName("span")).get(2).getText(); 
+		WebElement cicloFacturacion = null;
+		for (WebElement x : driver.findElement(By.cssSelector(".console-card.active.expired")).findElements(By.tagName("li"))) {
+			if (x.getText().toLowerCase().contains("ciclo de facturaci\u00f3n"))
+				cicloFacturacion = x;
+		}
+		String cicloAnterior = cicloFacturacion.findElements(By.tagName("span")).get(2).getText();
+		mk.closeActiveTab();
+		driver.navigate().refresh();
+		ges.irAGestionEnCardPorNumeroDeLinea("Cambio de Plan", "2932598840");
+		sleep(20000);
+		cambioDeFrame(driver, By.id("OrderRequestDate"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Request date_nextBtn")));
+		driver.findElement(By.id("OrderRequestDate")).sendKeys(fecha);
+		driver.findElement(By.id("Request date_nextBtn")).click();
+		sleep(140000);
+		for (WebElement x : driver.findElements(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup"))) {
+			if (x.getText().toLowerCase().contains("conexi\u00f3n control abono m"))
+				x.click();
+		}
+		driver.findElement(By.id("TargetOffer_nextBtn")).click();
+		sleep(120000);
+		driver.findElement(By.id("Comparision_nextBtn")).click();
+		sleep(120000);
+		driver.findElement(By.id("Summary_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("AccountData_nextBtn")));
+		driver.findElement(By.id("AccountData_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn")));
+		contact.tipoValidacion("documento");
+		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("nextBtn-label")));
+		driver.findElement(By.id("nextBtn-label")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button_brand")));
+		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		sleep(10000);
+		mk.closeActiveTab();
+		mk.closeActiveTab();
+		cc.irAFacturacion();
+		cambioDeFrame(driver, By.cssSelector(".console-card.active.expired"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".console-card.active.expired")));
+		WebElement nuevoCicloFacturacion = null;
+		for (WebElement x : driver.findElement(By.cssSelector(".console-card.active.expired")).findElements(By.tagName("li"))) {
+			if (x.getText().toLowerCase().contains("ciclo de facturaci\u00f3n"))
+				nuevoCicloFacturacion = x;
+		}
+		String cicloPosterior = nuevoCicloFacturacion.findElements(By.tagName("span")).get(2).getText();
 		Assert.assertTrue(cicloAnterior.equals(cicloPosterior));
 	}
 	
