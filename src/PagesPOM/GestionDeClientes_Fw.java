@@ -1,5 +1,7 @@
 package PagesPOM;
 
+import static org.testng.Assert.assertTrue;
+
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
@@ -227,8 +229,8 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public void BuscarCuenta(String Type, String NDNI){
-		tb = new TestBase();
-		tb.cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
+		TestBase tb = new TestBase();
+		tb.cambioDeFrame(driver, By.id("SearchClientDocumentType"), -10);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
 		getSelect(DNIbuscador).selectByVisibleText(Type);
 		DNI.sendKeys(NDNI);
@@ -339,12 +341,86 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='community-flyout-actions-card'] ul li"), 0));
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='card-info-hybrid'] [class='actions'] li"), 0));
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-button slds-button--neutral ']"), 0));
-			List<WebElement> elementos = driver.findElements(By.cssSelector("[class='card-info'] [class='actions'] li"));
-			elementos.addAll(driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li")));
-			elementos.addAll(driver.findElements(By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class*='slds-grid slds-grid--vertical slds-align-middle'] [class='items-card ng-not-empty ng-valid'] [class='slds-col'] button")));
+			List<WebElement> elementos = driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li"));
+			elementos.addAll(driver.findElements(By.cssSelector("[class='card-info-hybrid'] [class='actions'] li")));
+			elementos.addAll(driver.findElements(By.cssSelector("[class='slds-button slds-button--neutral ']")));
 			System.out.println(clickElementoPorTextExacto(elementos, sGestion));
 		}
 
+	}
+	
+	public boolean compararMegasEnCard() { 
+		driver.switchTo().defaultContent(); 
+		TestBase tb = new TestBase(); 
+		tb.cambioDeFrame(driver, By.cssSelector("[id='flecha']"), 0); 
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[id='flecha'] i"))); 
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-text-body_regular value']"), 0)); 
+		WebElement elemento = getBuscarElementoPorText(driver.findElements(By.cssSelector("[class='detail']")), "MB").findElements(By.cssSelector("[class='slds-text-body_regular value']")).get(1); 
+		String megasAnterior = elemento.getText().substring(0,elemento.getText().length()-3); 
+		 
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[id='flecha']"))); 
+		driver.findElement(By.cssSelector("[id='flecha'] i")).click(); 
+		 
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters']"), 0)); 
+		List<WebElement> elementos = driver.findElements(By.cssSelector("[class='slds-grid slds-gutters']")); 
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']"), 0)); 
+		elemento = getBuscarElementoPorText(elementos, "Internet").findElements(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']")).get(1); 
+		String nuevomega = elemento.getText(); 
+ 
+		boolean result =nuevomega.contains(megasAnterior); 
+		assertTrue(result); 
+		 
+		try {Thread.sleep(8000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();} 
+		driver.switchTo().defaultContent(); 
+		return result;
+	}
+
+	public boolean compararMegasEnCardPorLinea(String linea) { 
+		driver.switchTo().defaultContent(); 
+		boolean result =false;
+		WebElement elemento =null;
+		String megasAnterior="0";
+		String nuevomega ="1";
+		TestBase tb = new TestBase(); 
+		//busca por linea y verifica el estado 
+		
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card ']"));
+		cards =listaDeElementosPorText(cards, linea);
+		if(cards.size()<=0) {
+			System.out.println("numero de linea inexistente");
+		}
+		
+		WebElement cardActiva= getBuscarElementoPorText(cards, "Activo");
+		WebElement cardInactiva= getBuscarElementoPorText(cards, "Inactivo");
+		// obtienen los megas anteriores
+		try {
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-text-body_regular value']"), 0));
+			elemento = getBuscarElementoPorText(cardInactiva.findElements(By.cssSelector("[class='detail']")), "MB").findElements(By.cssSelector("[class='slds-text-body_regular value']")).get(1);
+			megasAnterior = elemento.getText().substring(0, elemento.getText().length() - 3);
+		} catch (Exception e) {
+			System.out.println("Verificar el estado de la card ");
+		}
+		// despliega el menu de la nueva card
+		try {
+			tb.cambioDeFrame(driver, By.cssSelector("[id='flecha'] i"), 0);
+			fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[id='flecha'] i")));
+			cardActiva.findElement(By.cssSelector("[id='flecha'] i")).click();
+			// obtienen la cantidad de megas del nuevo plan
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters']"), 0));
+			List<WebElement> elementos = driver.findElements(By.cssSelector("[class='slds-grid slds-gutters']"));
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']"),0));
+			elemento = getBuscarElementoPorText(elementos, "Internet").findElements(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']")).get(1);
+			nuevomega = elemento.getText();
+		} catch (Exception e) {
+			System.out.println("Verificar el estado de la card actual");
+		}
+		 
+		//compara
+		result = nuevomega.equals(megasAnterior); 
+		assertTrue(result); 
+		driver.switchTo().defaultContent(); 
+		return result;
 	}
 	
 	public WebDriverWait getWait() {
