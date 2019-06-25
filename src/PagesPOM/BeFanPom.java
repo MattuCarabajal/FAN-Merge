@@ -115,7 +115,7 @@ public class BeFanPom extends BasePageFw {
 
 	public boolean getMacheaText(List<WebElement> listaElementos, String textoaComparar) {
 		
-		return super.getMacheaText(listaElementos, textoaComparar);		
+		return super.matchText(listaElementos, textoaComparar);		
 	}
 	
 	public boolean containsText(List<WebElement> listaElementos, String textoaComparar) {
