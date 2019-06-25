@@ -199,9 +199,12 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		tb = new TestBase();
 		try {Thread.sleep(5000);} catch (InterruptedException e1) {}
 		clickMenuIzq();
-		try{
-			tb.clickBy(driver, By.xpath("//li//span[contains(text(),'Inicio')]"), 0);
-		}catch(Exception e) {
+		try {
+			try {Thread.sleep(3000);} catch (InterruptedException e1) {}
+			WebElement select = driver.findElement(By.xpath("//li//span[contains(text(),'" + opcionVisible + "')]"));
+			JavascriptExecutor jse = (JavascriptExecutor)driver;
+			jse.executeScript("arguments[0].click();", select);
+		} catch(Exception e) {
 			System.out.println("no se encuentra elemento verificar que coincida con el texto visible");
 		}
 	}

@@ -347,7 +347,6 @@ public class ContactSearch extends BasePage {
 		tb.waitFor(driver, By.id("tab-scoped-1"));
 		List<WebElement> btns = driver.findElements(By.cssSelector(".slds-button.slds-button.slds-button--icon"));
 		for(WebElement e: btns){
-			System.out.println(e.getText());
 			if(e.getText().toLowerCase().equals("catalogo")){ 
 				e.click();
 				break;
@@ -450,7 +449,6 @@ public class ContactSearch extends BasePage {
 		List<WebElement> productos = driver.findElements(By.cssSelector(".slds-media.cpq-product-item-container"));
 		List<WebElement> botones = driver.findElements(By.cssSelector(".slds-button.slds-button_neutral.icon-add_shopping_cart.icon-only.cpq-add-button"));
 		for (int i = 0; i <= productos.size()-1; i++) {
-			System.out.println(i + ". " + productos.get(i).getText());
 			if (productos.get(i).getText().substring(0, productos.get(i).getText().indexOf("\n")).equalsIgnoreCase(plan)) {
 				botones.get(i).click();
 				break;
