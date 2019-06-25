@@ -1050,7 +1050,7 @@ public class TestBase {
 	}
 	
 	public String getTextBy(WebDriver driver, By byForElement, double timeAcumulated) {
-		if (15 > timeAcumulated) {
+		if (30 > timeAcumulated) {
 			try {
 				if (driver.findElement(byForElement).getText().length() > 0) {
 					return driver.findElement(byForElement).getText();
