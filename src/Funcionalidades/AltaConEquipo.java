@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -109,21 +110,30 @@ public class AltaConEquipo extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button--brand.ta-button-brand")));
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.ta-button-brand")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("LineAssignment_nextBtn")));
+		//ESTO NO DEBERIA IR
+//		driver.findElement(By.id("SearchBlock")).clear();
+//		driver.findElement(By.id("SearchBlock")).sendKeys("PUNTA ALTA ALTE SOLIER");
+//		sleep(1000);
+//		driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ARROW_DOWN);
+//		driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ENTER);
+//		driver.findElement(By.id("ChangeNumber")).click();
+//		sleep(5000);		
 		driver.findElement(By.id("LineAssignment_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("InvoicePreview_nextBtn")));
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SelectPaymentMethodsStep_nextBtn")));
-		driver.findElement(By.xpath("//*[@class='taPaymentMethodForm']//span[contains(text(), 'Efectivo')]")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='taPaymentMethodContainer']//*[@class='slds-radio ng-scope']//span[contains(text(), 'Efectivo')]")));
+		driver.findElement(By.xpath("//*[@class='taPaymentMethodContainer']//*[@class='slds-radio ng-scope']//span[contains(text(), 'Efectivo')]")).click();
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SelectPaymentMethodsStep_nextBtn")));
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn")));
 		driver.findElement(By.xpath("//*[@class='ta-radioBtnContainer taBorderOverlay slds-grid slds-grid--align-center slds-grid--vertical-align-center']//span[contains(text(), 'Validaci\u00f3n por Documento de Identidad')]")).click();
-		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		driver.findElement(By.id("MethodSelection_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("DocumentMethod_nextBtn")));
 		File directory = new File("Dni.jpg");
 		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderSumary_nextBtn")));
 		String orden = driver.findElement(By.xpath("//*[@class='background-style']//div[contains(text(), 'N\u00famero de Order: ')]")).getText();
-		System.out.println(orden);
+		orden = orden.substring(orden.lastIndexOf(" ")+1, orden.length());
+		driver.findElement(By.id("OrderSumary_nextBtn")).click();
 		
 		
 //		CustomerCare cc = new CustomerCare(driver);
