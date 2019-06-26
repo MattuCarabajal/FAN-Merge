@@ -229,7 +229,7 @@ public class CambioDePlan extends TestBase {
 
 	@Test (groups = {"PerfilOficina"} )
 	public void TS_144313_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO4() throws AWTException{
-		
+		cambioDePlan("DNI","15851622","conexi\u00f3n control abono m");
 	}
 	
 	@Test (groups = {"PerfilOficina"} )

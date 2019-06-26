@@ -112,7 +112,8 @@ public class Vista360 extends TestBase {
 				}
 		}
 		List<WebElement> elementosDeLaTabla = tabla.findElement(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small slds-p-around--medium'] [class='slds-p-bottom--small'] ")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-		ArrayList<String> tablaComparar = new ArrayList<String>(Arrays.asList("Barrings Configurables por el Usuario","Caller Id","Contestador Personal", "DDI con Roaming Internacional","Llamada en espera","Transferencia de Llamadas","Datos","MMS", "SMS Saliente", "SMS Entrante", "Voz"));
+		//ArrayList<String> tablaComparar = new ArrayList<String>(Arrays.asList("Barrings Configurables por el Usuario","Caller Id","Contestador Personal", "DDI con Roaming Internacional","Llamada en espera","Transferencia de Llamadas","Datos","MMS", "SMS Saliente", "SMS Entrante", "Voz"));
+		ArrayList<String> tablaComparar = new ArrayList<String>(Arrays.asList("Contestador Personal", "Datos", "DDI con Roaming Internacional", "MMS", "Plan con Tarjeta Repro", "SMS Entrante", "SMS Saliente" ,"Voz"));
 		for (int i = 0; i < tablaComparar.size(); i++) {
 			String nombre = elementosDeLaTabla.get(i).findElements(By.tagName("td")).get(0).getText();
 			String nombreComparar = tablaComparar.get(i);
