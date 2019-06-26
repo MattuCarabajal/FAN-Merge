@@ -17,6 +17,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.ElementNotVisibleException;
@@ -1823,6 +1824,34 @@ public class CustomerCare extends BasePage {
 		}
 		Assert.assertTrue(enc);
 	}
+	
+	public void buscarCasoParaPedidos(String nCaso) {
+		tb = new TestBase();
+		tb.cambioDeFrame(driver, By.id("phSearchInput"), 0);
+		WebElement Buscador = tb.esperarElemento(driver, By.id("phSearchInput"), 0);
+		Buscador.sendKeys(nCaso);
+		try {
+			tb.cambioDeFrame(driver, By.cssSelector("[id = 'phSearchInput_autoCompleteBoxId']"), 0);
+			driver.findElement(By.cssSelector("[class = 'autoCompleteBoxScrolling'] div ul li a strong")).click();
+			sleep(2000);
+			Buscador.clear();
+		} catch (Exception e) {
+			sleep(7000);
+			Buscador.submit();
+			sleep(1000);
+			Buscador.clear();
+			sleep(2000);
+			tb.cambioDeFrame(driver, By.id("searchPageHolderDiv"), 0);
+			sleep(2000);
+			WebElement numeroDePedido = driver.findElement(By.cssSelector("[class = 'listRelatedObject orderBlock'] [class = 'bPageBlock brandSecondaryBrd secondaryPalette'] [class = 'pbBody'] table tbody tr [class = ' dataCell  cellCol1 '] a"));
+			String numeroPedido = numeroDePedido.getText();
+			System.out.println("Numero de Pedido: " + numeroPedido );
+			numeroDePedido.click();
+//			WebElement Caso = driver.findElement(By.cssSelector(".listRelatedObject.orderBlock")).findElement(By.cssSelector(".bPageBlock.brandSecondaryBrd.secondaryPalette")).findElement(By.className("pbBody")).findElement(By.className("list")).findElements(By.tagName("tr")).get(1).findElement(By.tagName("th")).findElement(By.tagName("a"));
+//			Caso.click();
+		}
+	}
+
 	//===========================================================// DIAGNOSTICO 2019 //========================================================================================================
 	
 	public void verificarStatus(String orden, String estado){

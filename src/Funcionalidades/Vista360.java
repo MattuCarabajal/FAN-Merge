@@ -168,33 +168,20 @@ public class Vista360 extends TestBase {
 		}
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-text-heading--small"),0));
-		boolean a = false;
-		List<WebElement> filtro = driver.findElements(By.cssSelector(".slds-text-heading--small"));
-		for(WebElement f : filtro){
-			if(f.getText().toLowerCase().equals("filtros avanzados")) {
-				a = true;
-				f.click();
-				WebElement desplegable = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-p-around--medium'] [class='slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-8 slds-large-size--2-of-8']")).get(3);
-				desplegable.click();
-				List<WebElement> lista = desplegable.findElements(By.tagName("li"));
-				for (WebElement fila : lista) {
-					if (fila.getText().contains("Internet")) {
-						fila.click();
-						break;
-					}
-				}
-			}
-		}	
-		Assert.assertTrue(a);
+		clickBy(driver, By.xpath("//label[contains (text(), 'Filtros avanzados')]"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-grid slds-wrap slds-card slds-p-around--medium']")));
+		WebElement desplegable = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-p-around--medium'] [class='slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-8 slds-large-size--2-of-8'] [class = 'slds-form-element']")).get(2);
+		desplegable.click();
+		driver.findElement(By.xpath("//div[@class= 'slds-dropdown slds-dropdown--left']//li//*[contains(text(),'Pack 1 GB x 1 dia + whatsapp gratis')]")).click();
 		Select pagina = new Select (driver.findElement(By.cssSelector(".slds-select.ng-pristine.ng-untouched.ng-valid.ng-not-empty")));
 		pagina.selectByVisibleText("30");
-		sleep(7000);
+		sleep(4000);
 		boolean b = false;
 		WebElement lista = driver.findElement(By.cssSelector("[class='slds-table slds-table_striped slds-table--bordered slds-table--resizable-cols slds-table--fixed-layout via-slds-table-pinned-header'] tbody"));
 		List <WebElement> consumos = lista.findElements(By.tagName("tr"));
 		System.out.println(lista.getText());
 		for(WebElement x : consumos) {
-			if(x.getText().contains("Internet")) {
+			if(x.getText().contains("Pack 1 GB")) {
 				b = true;
 				break;
 			}
@@ -204,13 +191,12 @@ public class Vista360 extends TestBase {
 	
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaVista360")
 	public void TS134370_CRM_Movil_Prepago_Vista_360_Consulta_por_gestiones_Gestiones_no_registradas_FAN_Front_OOCC(String sDNI , String sLinea, String sNombre) {
+		//Para seleccionar las fechas= //div[@class = 'slds-datepicker slds-dropdown slds-dropdown--left nds-datepicker nds-dropdown nds-dropdown--left']//table//tbody//tr//td//span
 		imagen = "TS134370";
 		detalles = imagen+"- Vista 360 - DNI: "+sDNI;
 		String dia = fechaDeHoy().substring(0,2);
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		cc.seleccionarCardPornumeroLinea(sLinea, driver);
-		buscarYClick(driver.findElements(By.className("slds-text-body_regular")), "equals", "gestiones");
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Gestiones");
 		cambioDeFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter"), 0);
 		driver.findElement(By.id("text-input-id-1")).click();
 		WebElement table = driver.findElement(By.cssSelector(".slds-datepicker.slds-dropdown.slds-dropdown--left"));
