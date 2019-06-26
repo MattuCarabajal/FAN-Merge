@@ -79,7 +79,7 @@ public class AltaDeLinea extends TestBase {
 	public void setup() throws Exception {
 		detalles = null;
 		ges.cerrarPestaniaGestion(driver);
-		ges.selectMenuIzq("Inicio");		
+		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 	}
 
@@ -101,98 +101,89 @@ public class AltaDeLinea extends TestBase {
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
 	
-		
-	
-	
 	@Test (groups={"PerfilOficina","AltaDeLinea"}, dataProvider="DatosAltaLineaOfCom")
-	public void TS_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_OfCom_Efectivo_Presencial_DNI(String sDni, String sNombre, String sApellido, String sSexo, String sFnac,String sEmail, String sPlan, String sEntrega, String sProvincia, String sLocalidad,String  sZona,String  sCalle,String  sNumCalle,String  sCodPostal,String  sTipoDomicilio,String  sBarrio,String  sPiso,String  sDepartamento,String  sTipoEdificio,String  sNumEdificio) throws IOException {
+	public void TS_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_OfCom_Efectivo_Presencial_DNI(String sDni, String sNombre, String sApellido, String sSexo, String sFnac,String sEmail, String sPlan, String sEntrega, String sProvincia, String sLocalidad,String  sZona,String  sCalle,String  sNumCalle,String  sCodPostal,String  sTipoDomicilio) throws IOException {
 		imagen = "TS_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_OfCom_Efectivo_Presencial_DNI";
 		sDni = contact.crearCliente("DNI");
 		contact.Llenar_Contacto(sNombre, sApellido, sFnac, sSexo, sEmail);
 		contact.elegirPlan(sPlan);
 		contact.continuar();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")));
-		//contact.completarDomicilio(sProvincia, sLocalidad, sZona, sCalle, sNumCa, sCP, tDomic);
-		contact.completarDomicilioDetallado(sProvincia, sLocalidad, sZona, sCalle, sNumCalle, sCodPostal, sTipoDomicilio, sBarrio, sPiso, sDepartamento, sTipoEdificio, sNumEdificio);
-		//ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("LineAssignment_nextBtn")));
-		//driver.findElement(By.id("SearchBlock")).clear();
-		//driver.findElement(By.id("SearchBlock")).sendKeys(sLocalidad);
-		//sleep(1875);
-		//driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ENTER);
-		sleep(9000);
-		//driver.findElement(By.id("ChangeNumber")).click();
-//		driver.findElement(By.id("LineAssignment_nextBtn")).click();
-//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("InvoicePreview_nextBtn")));
-//		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("ValidationMethods")));
-//		File directory = new File("Dni.jpg");
-//		contact.tipoValidacion("documento");
-//		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
-//		cc.obligarclick(driver.findElement(By.id("DocumentMethod_nextBtn")));
-//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderSumary_nextBtn")));
-//		String orden = driver.findElement(By.className("top-data")).findElement(By.className("ng-binding")).getText();
-//		String NCuenta = driver.findElements(By.className("top-data")).get(1).findElements(By.className("ng-binding")).get(3).getText();
-//		String Linea = driver.findElement(By.cssSelector(".top-data.ng-scope")).findElements(By.className("ng-binding")).get(1).getText();
-//		System.out.println("Orden "+orden);
-//		System.out.println("cuenta "+NCuenta);
-//		System.out.println("Linea "+Linea);
-//		orden = orden.substring(orden.length()-8);
-//		NCuenta = NCuenta.substring(NCuenta.length()-16);
-//		Linea = Linea.substring(Linea.length()-10);
-//		cc.obligarclick(driver.findElement(By.id("OrderSumary_nextBtn")));
-//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SaleOrderMessages_nextBtn")));
-//		cc.obligarclick(driver.findElement(By.id("SaleOrderMessages_nextBtn")));
-//		sOrders.add("Orden:"+orden+"-DNI:"+sDni+"-Cuenta:"+NCuenta+"-Linea"+Linea);
-//		sleep(15000);
-//		System.out.println(cc.obtenerMontoyTNparaAlta(driver, orden));
-//		CBS_Mattu invoSer = new CBS_Mattu();
-//		invoSer.Servicio_NotificarPago(orden);
-//		driver.navigate().refresh();
-//		ges.selectMenuIzq("Logistica");
-//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.className("ta-logistic-control-panel--prepareOrder")));
-//		
+		contact.completarDomicilio(sProvincia, sLocalidad, sZona, sCalle, sNumCalle, sCodPostal, sTipoDomicilio);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("LineAssignment_nextBtn")));
+		driver.findElement(By.id("SearchBlock")).clear();
+		driver.findElement(By.id("SearchBlock")).sendKeys("BAHIA BLANCA");
+		sleep(2000);
+		driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ARROW_DOWN);
+		driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ENTER);
+		driver.findElement(By.id("ChangeNumber")).click();
+		sleep(15000);
+		driver.findElement(By.id("LineAssignment_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("InvoicePreview_nextBtn")));
+		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("ValidationMethods")));
+		File directory = new File("Dni.jpg");
+		contact.tipoValidacion("documento");
+		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderSumary_nextBtn")));
+		String orden = driver.findElement(By.className("top-data")).findElement(By.className("ng-binding")).getText();
+		String NCuenta = driver.findElements(By.className("top-data")).get(1).findElements(By.className("ng-binding")).get(3).getText();
+		String Linea = driver.findElement(By.cssSelector(".top-data.ng-scope")).findElements(By.className("ng-binding")).get(1).getText();
+		orden = orden.substring(orden.length()-8);
+		NCuenta = NCuenta.substring(NCuenta.length()-16);
+		Linea = Linea.substring(Linea.length()-10);
+		System.out.println("Orden "+orden);
+		System.out.println("cuenta "+NCuenta);
+		System.out.println("Linea "+Linea);
+		cc.obligarclick(driver.findElement(By.id("OrderSumary_nextBtn")));
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SaleOrderMessages_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("SaleOrderMessages_nextBtn")));
+		cbsm.Servicio_NotificarPago(orden);
+		driver.navigate().refresh();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.className("ta-logistic-control-panel--prepareOrder")));
 		
 		
-	/*	
-		sleep(10000);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
-		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-		if(activarFalsos==true) {
-			boolean esta = false;
-			List<WebElement> campos = tabla.findElements(By.tagName("tr"));
-			for(WebElement UnC: campos) {
-				if(UnC.getText().toLowerCase().contains("tracking status")) {
-					Assert.assertTrue(UnC.getText().toLowerCase().contains("preparar pedido"));
-					esta = true;
-					break;
-				}
-			}
-			Assert.assertTrue(esta);
-				
-		}
-		CambiarPerfil("logisticayentrega",driver);
-		sb.completarLogistica(orden, driver);
-		//CambiarPerfil("entrega",driver);
-		sb.completarEntrega(orden, driver);
-		CambiarPerfil("ofcom",driver);
-		try {
-		//	cc.cajonDeAplicaciones("Consola FAN");
-		} catch(Exception e) {
-			//sleep(3000);
-			waitForClickeable(driver,By.id("tabBar"));
-			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
-			sleep(6000);
-		}
-			
-		driver.switchTo().defaultContent();
-		sleep(6000);
-		cc.obtenerMontoyTNparaAlta(driver, orden);
-		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-		tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
-		datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-		invoSer.ValidarInfoCuenta(Linea, sNombre,sApellido, sPlan);
-		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));*/
+		
+		
+//		sleep(10000);
+//		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
+//		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
+//		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
+//		if(activarFalsos==true) {
+//			boolean esta = false;
+//			List<WebElement> campos = tabla.findElements(By.tagName("tr"));
+//			for(WebElement UnC: campos) {
+//				if(UnC.getText().toLowerCase().contains("tracking status")) {
+//					Assert.assertTrue(UnC.getText().toLowerCase().contains("preparar pedido"));
+//					esta = true;
+//					break;
+//				}
+//			}
+//			Assert.assertTrue(esta);
+//				
+//		}
+//		CambiarPerfil("logisticayentrega",driver);
+//		sb.completarLogistica(orden, driver);
+//		//CambiarPerfil("entrega",driver);
+//		sb.completarEntrega(orden, driver);
+//		CambiarPerfil("ofcom",driver);
+//		try {
+//		//	cc.cajonDeAplicaciones("Consola FAN");
+//		} catch(Exception e) {
+//			//sleep(3000);
+//			waitForClickeable(driver,By.id("tabBar"));
+//			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
+//			sleep(6000);
+//		}
+//			
+//		driver.switchTo().defaultContent();
+//		sleep(6000);
+//		cc.obtenerMontoyTNparaAlta(driver, orden);
+//		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
+//		tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
+//		datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
+//		invoSer.ValidarInfoCuenta(Linea, sNombre,sApellido, sPlan);
+//		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
 	}
 	
 	@Test(groups={"PerfilOficina", "AltaDeLinea"}, dataProvider="AltaLineaExistenteOfComPresencial")
@@ -279,7 +270,8 @@ public class AltaDeLinea extends TestBase {
 		sleep(15000);
 		System.out.println(cc.obtenerMontoyTNparaAlta(driver, orden));
 		CBS_Mattu invoSer = new CBS_Mattu();
-		if(activarFalsos==true) {
+		//if(activarFalsos==true) 
+		{
 			invoSer.Servicio_NotificarEmisionFactura(orden);
 			sleep(10000);
 		}
@@ -288,7 +280,8 @@ public class AltaDeLinea extends TestBase {
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-		if(activarFalsos==true) {
+		//if(activarFalsos==true) 
+		{
 			boolean esta = false;
 			List<WebElement> campos = tabla.findElements(By.tagName("tr"));
 			for(WebElement UnC: campos) {
@@ -413,16 +406,16 @@ public class AltaDeLinea extends TestBase {
 		sleep(15000);
 		System.out.println(cc.obtenerMontoyTNparaAlta(driver, orden));
 		CBS_Mattu invoSer = new CBS_Mattu();
-		if(activarFalsos==true) {
+//		if(activarFalsos==true) {
 			invoSer.Servicio_NotificarEmisionFactura(orden);
 			sleep(10000);
-		}
+//		}
 		driver.navigate().refresh();
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-		if(activarFalsos==true) {
+//		if(activarFalsos==true) {
 			boolean esta = false;
 			List<WebElement> campos = tabla.findElements(By.tagName("tr"));
 			for(WebElement UnC: campos) {
@@ -434,7 +427,7 @@ public class AltaDeLinea extends TestBase {
 			}
 			Assert.assertTrue(esta);
 				
-		}
+//		}
 		CambiarPerfil("logisticayentrega",driver);
 		sb.completarLogistica(orden, driver);
 		//CambiarPerfil("entrega",driver);
@@ -563,16 +556,16 @@ public class AltaDeLinea extends TestBase {
 		sleep(15000);
 		System.out.println(cc.obtenerMontoyTNparaAlta(driver, orden));
 		CBS_Mattu invoSer = new CBS_Mattu();
-		if(activarFalsos==true) {
+//		if(activarFalsos==true) {
 			invoSer.Servicio_NotificarEmisionFactura(orden);
 			sleep(10000);
-		}
+//		}
 		driver.navigate().refresh();
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-		if(activarFalsos==true) {
+//		if(activarFalsos==true) {
 			boolean esta = false;
 			List<WebElement> campos = tabla.findElements(By.tagName("tr"));
 			for(WebElement UnC: campos) {
@@ -581,7 +574,7 @@ public class AltaDeLinea extends TestBase {
 					esta = true;
 					break;
 				}
-			}
+//			}
 			Assert.assertTrue(esta);
 				
 		}
@@ -705,16 +698,16 @@ public class AltaDeLinea extends TestBase {
 		sleep(15000);
 		System.out.println(cc.obtenerMontoyTNparaAlta(driver, orden));
 		CBS_Mattu invoSer = new CBS_Mattu();
-		if(activarFalsos==true) {
+//		if(activarFalsos==true) {
 			invoSer.Servicio_NotificarEmisionFactura(orden);
 			sleep(10000);
-		}
+//		}
 		driver.navigate().refresh();
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-		if(activarFalsos==true) {
+//		if(activarFalsos==true) {
 			boolean esta = false;
 			List<WebElement> campos = tabla.findElements(By.tagName("tr"));
 			for(WebElement UnC: campos) {
@@ -726,7 +719,7 @@ public class AltaDeLinea extends TestBase {
 			}
 			Assert.assertTrue(esta);
 				
-		}
+//		}
 		CambiarPerfil("logisticayentrega",driver);
 		sb.completarLogistica(orden, driver);
 		//CambiarPerfil("entrega",driver);
@@ -850,16 +843,16 @@ public class AltaDeLinea extends TestBase {
 		CBS_Mattu invoSer = new CBS_Mattu();
 		invoSer.PagarTCPorServicio(orden);
 		sleep(5000);
-		if(activarFalsos == true) {
+//		if(activarFalsos == true) {
 			invoSer.Servicio_NotificarPago(orden);
 			sleep(20000);
-		}
+//		}
 		driver.navigate().refresh();
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
 		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-		if(activarFalsos==true) {
+//		if(activarFalsos==true) {
 			boolean esta = false;
 			List<WebElement> campos = tabla.findElements(By.tagName("tr"));
 			for(WebElement UnC: campos) {
@@ -871,7 +864,7 @@ public class AltaDeLinea extends TestBase {
 			}
 			Assert.assertTrue(esta);
 				
-		}
+//		}
 		CambiarPerfil("logisticayentrega",driver);
 		sb.completarLogistica(orden, driver);
 		//CambiarPerfil("entrega",driver);

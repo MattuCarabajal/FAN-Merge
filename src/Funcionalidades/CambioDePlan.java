@@ -159,20 +159,20 @@ public class CambioDePlan extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderRequestDate")));
 		driver.findElement(By.id("OrderRequestDate")).sendKeys(fecha);
 		driver.findElement(By.id("Request date_nextBtn")).click();
-		sleep(30000);
+		sleep(120000);
 		cambioDeFrame(driver,By.id("TargetOffer_nextBtn"),0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.className("ScrollWindow")));
-		sleep(3000);
+		sleep(9000);
 		List<WebElement> planes = driver.findElements(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup"));
 		for (WebElement p : planes){
 			if (p.getText().toLowerCase().contains(plan.toLowerCase()))
 				p.click();
 		}
 		driver.findElement(By.id("TargetOffer_nextBtn")).click();
-		sleep(35000);
+		sleep(80000);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Comparision_nextBtn")));
 		driver.findElement(By.id("Comparision_nextBtn")).click();
-		sleep(25000);
+		sleep(29000);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Summary_nextBtn")));
 		driver.findElement(By.id("Summary_nextBtn")).click();
 //		selectByText(driver.findElement(By.id("state-BillingAddress")), "BUENOS AIRES");
@@ -229,7 +229,7 @@ public class CambioDePlan extends TestBase {
 
 	@Test (groups = {"PerfilOficina"} )
 	public void TS_144313_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO4() throws AWTException{
-		
+		cambioDePlan("DNI","15851622","conexi\u00f3n control abono m");
 	}
 	
 	@Test (groups = {"PerfilOficina"} )
@@ -441,7 +441,10 @@ public class CambioDePlan extends TestBase {
 	
 	@Test (groups = {"PerfilAgente"} )
 	public void TS_168774_CRM_Pospago_SalesCPQ_Cambio_de_plan_Agente_DNI_de_Plan_con_Tarjeta_a_APRO4() throws AWTException{
-
+		imagen = "17954137"; 
+		cambioDePlan("DNI", "17954140", "Plan con Tarjeta Repro");
+		Assert.assertTrue(ges.compararMegasEnCardPorLinea("2932598828"));
+		
 	}
 	
 	
