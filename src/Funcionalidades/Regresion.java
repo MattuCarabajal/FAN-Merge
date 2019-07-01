@@ -340,6 +340,92 @@ public class Regresion extends TestBase {
 
 	}
 	
+	@Test(groups = { "PreactivacionBeFan", "PerfilMayorista" })
+	public void obtenerSerialesConError() {
+		BufferedReader br = null;
+		String fichero = System.getProperty("user.home") + "/Desktop/lotesSeriales.txt";
+		String linea;
+		
+		// SELECCIONAR ESTADO 
+//	    String estado = "En Proceso";
+		String estado = "Procesado";
+		
+		int cant = 0;
+		seleccionOpcion(driver, "sims", "gestion");
+//		sleep(60000);
+		clickBy(driver, By.xpath("//option[contains(text(), 'Estado')]"), 0);
+		clickBy(driver, By.xpath("//option[contains(text(), '" + estado + "')]"), 0);
+		try {
+			File resultados = new File(System.getProperty("user.home") + "/Desktop/SerialesConError.txt");
+			FileWriter fw = new FileWriter(resultados.getAbsoluteFile(), true);
+			BufferedWriter escribir = new BufferedWriter(fw);
+			br = new BufferedReader(new java.io.FileReader(fichero));
+			while ((linea = br.readLine()) != null) {
+				System.out.println(cant = cant + 1);
+				System.out.println("LEYENDO " + linea);
+//				  	sendKeysBy(driver, By.cssSelector("input[class='form-control ng-pristine ng-untouched ng-valid ng-empty']"), linea, 0);
+				driver.findElement(By.cssSelector("input[class*='form-control ng']")).clear();
+				sendKeysBy(driver, By.cssSelector("input[class*='form-control ng']"), linea, 0);
+				clickBy(driver, By.name("buscar"), 0);
+				sleep(5000);
+				clickBy(driver, By.cssSelector("td [class='btn btn-primary btn-xs']"), 0);
+				sleep(8000);
+				int columnaLineas = 2;
+				int columnaEstados = 8;
+				List<WebElement> columnas = driver.findElements(By.xpath("//div[@class='modal-body']//thead//th"));
+				for (int i = 0; i < columnas.size(); i++) {
+					if (columnas.get(i).getText().contains("Serie")) {
+						columnaLineas = i + 1;
+					} else if (columnas.get(i).getText().contains("estado")) {
+						columnaEstados = i + 1;
+					}
+				}
+				// CLICK PARA QUE SE VISUALICEN DE 100 EN 100 (DESCOMENTAR SI SE HACEN DE A 100)
+//					esperarElemento(driver, By.cssSelector("select[ng-model='detalleCabeceraCtrl.container.cantCabecerasVistaActual']"), 0);
+//					selectByText(driver.findElement(By.cssSelector("select[ng-model='detalleCabeceraCtrl.container.cantCabecerasVistaActual']")), "100");
+
+				// PAGINA EN LA QUE ESTA Y CANTIDAD DE PAGINAS QUE TIENE
+				sleep(3000);
+				String texto = driver
+						.findElement(By.xpath("//div[@class='modal-body']//label[contains(text(), 'gina')]")).getText();
+				texto = texto.replaceAll("[^\\d/]", "");
+				int paginaFinal = Integer.parseInt(texto.substring(texto.indexOf("/") + 1));
+				int paginaInicial = Integer.parseInt(texto.substring(0, texto.indexOf("/")));
+				for (int j = 1; j < paginaFinal + 1; j++) {
+					List<WebElement> lineas = driver
+							.findElements(By.xpath("//div[@class='modal-body']//tbody//td[" + columnaLineas + "]"));
+					List<WebElement> estados = driver
+							.findElements(By.xpath("//div[@class='modal-body']//tbody//td[" + columnaEstados + "]"));
+					Assert.assertTrue(lineas.size() == estados.size());
+					for (int i = 0; i < lineas.size(); i++) {
+						System.out.println(estados.get(i).getText());
+						if (estados.get(i).getText().equalsIgnoreCase("Error")) {
+							// Escribir la linea en el nuevo archivo .TXT
+							escribir.write(lineas.get(i).getText() + System.lineSeparator());
+						}
+					}
+
+					if (paginaInicial < paginaFinal) {
+						clickBy(driver, By.cssSelector("button[ng-click='detalleCabeceraCtrl.container.siguiente()']"),
+								0);
+						String nuevaPagina = driver
+								.findElement(By.xpath("//div[@class='modal-body']//label[contains(text(), 'gina')]"))
+								.getText().replaceAll("[^\\d/]", "");
+						paginaInicial = Integer.parseInt(nuevaPagina.substring(0, nuevaPagina.indexOf("/")));
+					}
+				}
+				driver.findElement(By.xpath("//Button[text() = 'Cerrar']")).click();
+				sleep(2000);
+
+			}
+			escribir.close();
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 	@Test (groups = "PerfilTelefonico", dataProvider="rNuevaNomina") 
 	public void TS_001_Nominacion_Cliente_Nuevo_Telefonico(String sLinea, String sDni, String sNombre, String sApellido, String sGenero, String sFnac, String sEmail, String sProvincia, String sLocalidad,String sZona, String sCalle, String sNumCa, String sCP, String tDomic) { 
 		imagen = "TS_001";
