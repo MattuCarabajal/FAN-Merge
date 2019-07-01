@@ -136,7 +136,6 @@ public class VentaDePacks extends TestBase {
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
-		//cbsm.PagarTCPorServicio(sOrden);
 		sleep(7000);
 		cbsm.Servicio_NotificarPago(sOrden);
 		cc.buscarCasoParaPedidos(sOrden);
