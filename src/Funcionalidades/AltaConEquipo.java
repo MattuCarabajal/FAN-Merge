@@ -99,7 +99,7 @@ public class AltaConEquipo extends TestBase {
 	@Test(groups={"Sales", "AltaLineaDatos","E2E"}, priority=1, dataProvider="DatosAltaEquipoExiste") //========  31- 8 Aparece el paso de carga de datos de la cuenta
 	public void TS125214_CRM_Movil_PRE_Alta_Linea_con_Equipo_Cliente_existente_Presencial_OFCOM(String sDni, String sNombre, String sApellido, String sPlan, String sEquipo) throws IOException, AWTException {
 		imagen = "TS125214";
-		sb.BuscarCuenta("DNI", "17954136");
+		sb.BuscarCuenta("DNI", "17954137");
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-button.slds-button.slds-button--icon"), 0));
 		contact.seleccionarCatalogo();
 		contact.elegirPlan("plan con tarjeta");
@@ -121,8 +121,8 @@ public class AltaConEquipo extends TestBase {
 		driver.findElement(By.id("LineAssignment_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("InvoicePreview_nextBtn")));
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='taPaymentMethodContainer']//*[@class='slds-radio ng-scope']//span[text()= 'Efectivo']")));
-		driver.findElement(By.xpath("//*[@class='taPaymentMethodContainer']//*[@class='slds-radio ng-scope']//span[contains(text(), 'Efectivo')]")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='taPaymentMethodContainer']//span[contains(text(), 'Efectivo')]")));
+		driver.findElement(By.xpath("//*[@class='taPaymentMethodContainer']//span[contains(text(), 'Efectivo')]")).click();
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn")));
 		driver.findElement(By.xpath("//*[@class='ta-radioBtnContainer taBorderOverlay slds-grid slds-grid--align-center slds-grid--vertical-align-center']//span[contains(text(), 'Validaci\u00f3n por Documento de Identidad')]")).click();
@@ -153,8 +153,8 @@ public class AltaConEquipo extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("OrderItemNumeration")));
 		String serial1 = driver.findElement(By.xpath("//*[@id='OrderItemNumeration']//tbody//*[@data-label='Serial']//div")).getText();
 		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern")).sendKeys(serial1);
-		String serial3 = driver.findElements(By.xpath("//*[@id='OrderItemNumeration']//tbody//*[@data-label='Serial']//div")).get(1).getText();
-		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern")).sendKeys(serial3);
+//		String serial3 = driver.findElements(By.xpath("//*[@id='OrderItemNumeration']//tbody//*[@data-label='Serial']//div")).get(1).getText();
+//		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern")).sendKeys(serial3);
 		driver.findElement(By.id("SerialNumberValidation_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Confirmation_nextBtn")));
 		driver.findElement(By.id("Confirmation_nextBtn")).click();
