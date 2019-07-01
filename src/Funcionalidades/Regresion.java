@@ -281,6 +281,7 @@ public class Regresion extends TestBase {
 				driver.findElement(By.cssSelector("input[class*='form-control ng']")).clear();
 				sendKeysBy(driver, By.cssSelector("input[class*='form-control ng']"), linea, 0);
 				clickBy(driver, By.name("buscar"), 0);
+				sleep(5000);
 				clickBy(driver, By.cssSelector("td [class='btn btn-primary btn-xs']"), 0);
 				sleep(8000);
 				int columnaLineas = 2;
@@ -298,6 +299,7 @@ public class Regresion extends TestBase {
 //					selectByText(driver.findElement(By.cssSelector("select[ng-model='detalleCabeceraCtrl.container.cantCabecerasVistaActual']")), "100");
 
 				// PAGINA EN LA QUE ESTA Y CANTIDAD DE PAGINAS QUE TIENE
+				sleep(3000);
 				String texto = driver
 						.findElement(By.xpath("//div[@class='modal-body']//label[contains(text(), 'gina')]")).getText();
 				texto = texto.replaceAll("[^\\d/]", "");
