@@ -61,14 +61,14 @@ public class Regresion extends TestBase {
 	String detalles;
 	
 	//@BeforeClass (alwaysRun = true)
-	public void Sit02() throws IOException, AWTException {
+	public void Sit03() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		contact = new ContactSearch(driver);
-		log.LoginSit02();
+		log.LoginSit03();
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		//cc.irAConsolaFAN();
@@ -157,6 +157,7 @@ public class Regresion extends TestBase {
 	@Test(groups = { "PreactivacionBeFan", "PerfilMayorista" })
     public void preactivacion() throws Exception {
 		// PREACTOIVACION
+		for (int cant=0; cant<=10; cant++) {
     	BeFan Botones = new BeFan(driver);
         Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(),"seriales",1,1,8,"Preactivacion");
         String nombreArchivo = "SerialBalido";
@@ -195,6 +196,9 @@ public class Regresion extends TestBase {
         BufferedWriter bw = new BufferedWriter(fw);
         bw.write(nombreArchivo + "\r\n");
         bw.close();
+        sleep(900000);
+        cant++;
+		}
         
         
         
