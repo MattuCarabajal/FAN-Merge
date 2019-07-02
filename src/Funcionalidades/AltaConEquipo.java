@@ -99,7 +99,7 @@ public class AltaConEquipo extends TestBase {
 	@Test(groups={"Sales", "AltaLineaDatos","E2E"}, priority=1, dataProvider="DatosAltaEquipoExiste") //========  31- 8 Aparece el paso de carga de datos de la cuenta
 	public void TS125214_CRM_Movil_PRE_Alta_Linea_con_Equipo_Cliente_existente_Presencial_OFCOM(String sDni, String sNombre, String sApellido, String sPlan, String sEquipo) throws IOException, AWTException {
 		imagen = "TS125214";
-		sb.BuscarCuenta("DNI", "17954136");
+		sb.BuscarCuenta("DNI", "17954137");
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-button.slds-button.slds-button--icon"), 0));
 		contact.seleccionarCatalogo();
 		contact.elegirPlan("plan con tarjeta");
@@ -111,18 +111,18 @@ public class AltaConEquipo extends TestBase {
 		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.ta-button-brand")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("LineAssignment_nextBtn")));
 		//ESTO NO DEBERIA IR
-//		driver.findElement(By.id("SearchBlock")).clear();
-//		driver.findElement(By.id("SearchBlock")).sendKeys("PUNTA ALTA ALTE SOLIER");
-//		sleep(1000);
-//		driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ARROW_DOWN);
-//		driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ENTER);
-//		driver.findElement(By.id("ChangeNumber")).click();
-//		sleep(5000);		
+		driver.findElement(By.id("SearchBlock")).clear();
+		driver.findElement(By.id("SearchBlock")).sendKeys("PUNTA ALTA ALTE SOLIER");
+		sleep(1000);
+		driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ARROW_DOWN);
+		driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ENTER);
+		driver.findElement(By.id("ChangeNumber")).click();
+		sleep(5000);		
 		driver.findElement(By.id("LineAssignment_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("InvoicePreview_nextBtn")));
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='taPaymentMethodContainer']//*[@class='slds-radio ng-scope']//span[contains(text(), 'Efectivo')]")));
-		driver.findElement(By.xpath("//*[@class='taPaymentMethodContainer']//*[@class='slds-radio ng-scope']//span[contains(text(), 'Efectivo')]")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='taPaymentMethodContainer']//span[contains(text(), 'Efectivo')]")));
+		driver.findElement(By.xpath("//*[@class='taPaymentMethodContainer']//span[contains(text(), 'Efectivo')]")).click();
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn")));
 		driver.findElement(By.xpath("//*[@class='ta-radioBtnContainer taBorderOverlay slds-grid slds-grid--align-center slds-grid--vertical-align-center']//span[contains(text(), 'Validaci\u00f3n por Documento de Identidad')]")).click();
@@ -133,7 +133,70 @@ public class AltaConEquipo extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderSumary_nextBtn")));
 		String orden = driver.findElement(By.xpath("//*[@class='background-style']//div[contains(text(), 'N\u00famero de Order: ')]")).getText();
 		orden = orden.substring(orden.lastIndexOf(" ")+1, orden.length());
+		System.out.println(orden);
 		driver.findElement(By.id("OrderSumary_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SaleOrderMessages_nextBtn")));
+		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
+		cbsm.Servicio_NotificarPago(orden);
+		sleep(10000);
+		ges.cerrarPestaniaGestion(driver);
+		ges.selectMenuIzq("Logistica");
+		cambioDeFrame(driver, By.cssSelector("[class='slds-card__body cards-container']"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='slds-card__body cards-container']")));
+		WebElement fila = null;
+		for (WebElement x : driver.findElement(By.cssSelector(".slds-card__body.cards-container")).findElements(By.tagName("tbody"))) {
+			if (x.findElement(By.tagName("td")).getText().contains(orden))
+				fila = x;
+		}
+		fila.findElement(By.xpath("//button//span[text()= 'Armar pedido']")).click();
+		cambioDeFrame(driver, By.id("OrderItemNumeration"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("OrderItemNumeration")));
+		String serial1 = driver.findElement(By.xpath("//*[@id='OrderItemNumeration']//tbody//*[@data-label='Serial']//div")).getText();
+		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern")).sendKeys(serial1);
+//		String serial3 = driver.findElements(By.xpath("//*[@id='OrderItemNumeration']//tbody//*[@data-label='Serial']//div")).get(1).getText();
+//		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern")).sendKeys(serial3);
+		driver.findElement(By.id("SerialNumberValidation_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Confirmation_nextBtn")));
+		driver.findElement(By.id("Confirmation_nextBtn")).click();
+		ges.cerrarPestaniaGestion(driver);
+//		ges.selectMenuIzq("Logistica");
+//		cambioDeFrame(driver, By.cssSelector("[class='slds-card__body cards-container']"), 0);
+//		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='slds-card__body cards-container']")));
+//		WebElement fila1 = null;
+//		for (WebElement x : driver.findElement(By.cssSelector(".slds-card__body.cards-container")).findElements(By.tagName("tbody"))) {
+//			if (x.findElement(By.tagName("td")).getText().contains(orden))
+//				fila1 = x;
+//		}
+//		fila1.findElement(By.xpath("//button//span[text()= 'Armar pedido']")).click();
+//		cambioDeFrame(driver, By.id("OrderItemNumeration"), 0);
+//		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("OrderItemNumeration")));
+//		String serial2 = driver.findElement(By.xpath("//*[@id='OrderItemNumeration']//tbody//*[@data-label='Serial']//div")).getText();
+//		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern")).sendKeys(serial2);
+//		String serial3 = driver.findElements(By.xpath("//*[@id='OrderItemNumeration']//tbody//*[@data-label='Serial']//div")).get(1).getText();
+//		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern")).sendKeys(serial3);
+//		driver.findElement(By.id("SerialNumberValidation_nextBtn")).click();
+//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Confirmation_nextBtn")));
+//		driver.findElement(By.id("Confirmation_nextBtn")).click();
+		cbsm.Servicio_NotificarEmisionFactura(orden);
+		sleep(10000);
+		ges.cerrarPestaniaGestion(driver);
+		ges.selectMenuIzq("Entregas");
+		cambioDeFrame(driver, By.cssSelector("[class='slds-card__body cards-container']"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='slds-card__body cards-container']")));
+		WebElement fila2 = null;
+		for (WebElement x : driver.findElement(By.cssSelector(".slds-card__body.cards-container")).findElements(By.tagName("tbody"))) {
+			if (x.findElement(By.tagName("td")).getText().contains(orden))
+				fila2 = x;
+		}
+		System.out.println(fila2.getText());
+		fila2.findElement(By.xpath("//button//span[text()= 'Entregar pedido']")).click();
+		
+		
+		
+		
+//		cbsm.Servicio_NotificarEmisionFactura("00039770");
+//		ges.cerrarPestaniaGestion(driver);
+//		ges.selectMenuIzq("Entregas");
 		
 		
 //		CustomerCare cc = new CustomerCare(driver);

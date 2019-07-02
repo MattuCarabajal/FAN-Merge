@@ -26,6 +26,7 @@ public class LoginFw extends BasePageFw {
 	//public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com";
 	
 	public static String urlSit02 = "https://telecomcrm--sit02.cs91.my.salesforce.com";
+	public static String urlSit03 = "https://telecomcrm--sit03.cs42.my.salesforce.com";
 	
 	// viejo public String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";
 	public static String urlSCP = "https://telecomcrm--uat.cs53.my.salesforce.com";
@@ -75,14 +76,14 @@ public class LoginFw extends BasePageFw {
 	
 	//============================================ METODOS ============================================\\
 	
-	public void LoginSit02() {
-		  driver.get(urlSit02);
+	public void LoginSit03() {
+		  driver.get(urlSit03);
 		  fluentWait.until(ExpectedConditions.elementToBeClickable(loginMerge));
 		  //username.sendKeys("florangel.rojas@xappia.com.fan.sit02");
 		  //password.sendKeys("Testa10k");
-		  username.sendKeys("ezequiel-matias.girola@atos.net.sit02");
-		  password.sendKeys("Atos.002");
-		  System.out.println("Log Sit02");	
+		  username.sendKeys("nicolas.fazzano@xappia.com.fan.sit03");
+		  password.sendKeys("xappia2019");
+//		  System.out.println("Log Sit03");	
 		  fluentWait.until(ExpectedConditions.elementToBeClickable(loginMerge)).click();
 	}
 	
