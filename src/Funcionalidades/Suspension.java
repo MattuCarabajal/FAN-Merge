@@ -121,10 +121,12 @@ public class Suspension extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@class = 'slds-form-element__label ng-binding ng-scope'] [contains (text(), 'Si')]")));
 		clickBy(driver, By.xpath("//span[@class = 'slds-form-element__label ng-binding ng-scope'] [contains (text(), 'Si')]"), 0);
 		driver.findElement(By.id("AccountData_nextBtn")).click();
+		sleep(2000);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step6-Summary_nextBtn")));
-		clickBy(driver, By.xpath("//*[@id = 'Step6-Summary_nextBtn']//*[contains(text (), 'Finalizar')]"), 0);
+		clickBy(driver, By.id("Step6-Summary_nextBtn"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done']")));
 		Assert.assertTrue(driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header h1")).getText().equalsIgnoreCase("tu solicitud est\u00e1 siendo procesada."));
+		sleep(10000);
 		String ncaso = driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header")).getText();
 		String numeroCaso = cc.getNumeros(ncaso);
 		System.out.println(cc.getNumeros(ncaso));
@@ -138,122 +140,80 @@ public class Suspension extends TestBase {
 		System.out.println("Numero de Pedido: " + numeroPedido );
 		numeroDePedido.click();
 		boolean gestion = false;
-		WebElement estado = null;
-		super.cambioDeFrame(driver, By.className("detailList"),0);
-		for (WebElement x : driver.findElements(By.className("detailList"))) {
-			if (x.getText().toLowerCase().contains("propietario del caso"))
-				estado = x;
+		for (int i = 0; i < 10; i++) {
+			super.cambioDeFrame(driver, By.className("detailList"),0);
+			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr"), 25));
+			String estado = driver.findElement(By.id("cas7_ileinner")).getText();
+			if (estado.equalsIgnoreCase("realizada exitosa")) {
+				gestion = true;
+			} else {
+				sleep(8000);
+				driver.navigate().refresh();
+				i++;
+			}
 		}
-
-		for (WebElement x : estado.findElements(By.tagName("tr"))) {
-			if (x.getText().toLowerCase().contains("estado"))
-				estado = x;			
-		}
-		if (estado.getText().toLowerCase().contains("resuelta exitosa"));
-			gestion = true;
 		Assert.assertTrue(gestion);
-		//estado.getText().toLowerCase().contains("en espera de ejecuci\u00f3n") ||
-		
 	}
 	
-//	@Test (groups = {"Suspension", "GestionesPerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaSuspension")
-//	public void TS98438_CRM_Movil_REPRO_Suspension_por_Siniestro_Hurto_Linea_Titular_Presencial(String cDNI, String cLinea, String cProvincia, String cCiudad, String cPartido) {
-//		imagen = "TS98438";
-//		detalles = null;
-//		detalles = imagen + " - Suspension - DNI: " +cDNI+" - Linea: "+cLinea;
-//		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-//		sb.BuscarCuenta("DNI", cDNI);
-//		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-//		cc.irAGestion("suspensiones");
-//		sleep(15000);
-//		driver.switchTo().frame(cambioFrame(driver, By.id("Step1-SuspensionOrReconnection_nextBtn")));
-//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "contains", "suspensi\u00f3n");
-//		driver.findElement(By.id("Step1-SuspensionOrReconnection_nextBtn")).click();
-//		sleep(10000);
-//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "contains", "linea");
-//		driver.findElement(By.id("Step2-AssetTypeSelection_nextBtn")).click();
-//		sleep(10000);
-//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")),"contains","l\u00ednea: "+cLinea);
-//		driver.findElement(By.id("Step3-AvailableAssetsSelection_nextBtn")).click();
-//		sleep(10000);
-//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")),"contains", "hurto");
-//		driver.findElement(By.id("Step4-SuspensionReason_nextBtn")).click();
-//		sleep(10000);
-//		selectByText(driver.findElement(By.id("State")),cProvincia);
-//		sleep(4000);
-//		driver.findElement(By.id("CityTypeAhead")).sendKeys(cCiudad);
-//		sleep(4000);
-//		driver.findElement(By.id("Partido")).sendKeys(cPartido);
-//		sleep(4000);
-//		driver.findElement(By.id("AccountData_nextBtn")).click();
-//		sleep(10000);
-//		driver.findElement(By.id("Step6-Summary_nextBtn")).click();
-//		sleep(15000);
-//		buscarYClick(driver.findElements(By.cssSelector(".slds-button.slds-button--neutral.ng-binding.ng-scope")),"contains", "continue");
-//		sleep(40000);
-//		boolean a = false;
-//		List <WebElement> elem = driver.findElements(By.cssSelector(".slds-box.ng-scope"));
-//		for(WebElement x : elem) {
-//			if(x.getText().toLowerCase().contains("tu solicitud est\u00e1 siendo procesada.")) {
-//				a = true;
-//			}			
-//		}
-//		Assert.assertTrue(a);
-//		sleep(5000);
-//		String orden = cc.obtenerOrden(driver, "Suspensi\u00f3n de Linea");
-//		detalles+= " - Orden: "+orden;
-//		sOrders.add("Suspension, orden numero: " + orden + " con numero de DNI: " + cDNI);
-//		System.out.println(sOrders);
-//	}
+
 	
-//	@Test (groups = {"Suspension", "GestionesPerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaSuspension")
-//	public void TS98442_CRM_Movil_REPRO_Suspension_por_Siniestro_Extravio_Linea_Titular_Presencial(String cDNI, String cLinea, String cProvincia, String cCiudad, String cPartido) {
-//		imagen = "TS98442";
-//		detalles = null;
-//		detalles = imagen + " -Suspension - DNI: " + cDNI +" - Linea: "+cLinea;
-//		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-//		sb.BuscarCuenta("DNI", cDNI);
-//		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-//		cc.irAGestion("suspensiones");
-//		sleep(15000);
-//		driver.switchTo().frame(cambioFrame(driver, By.id("Step1-SuspensionOrReconnection_nextBtn")));
-//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "contains", "suspensi\u00f3n");
-//		driver.findElement(By.id("Step1-SuspensionOrReconnection_nextBtn")).click();
-//		sleep(10000);
-//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "contains", "linea");
-//		driver.findElement(By.id("Step2-AssetTypeSelection_nextBtn")).click();
-//		sleep(10000);
-//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")),"contains","l\u00ednea: "+cLinea);
-//		driver.findElement(By.id("Step3-AvailableAssetsSelection_nextBtn")).click();
-//		sleep(10000);
-//		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")),"contains", "extrav\u00edo");
-//		driver.findElement(By.id("Step4-SuspensionReason_nextBtn")).click();
-//		sleep(10000);
-//		selectByText(driver.findElement(By.id("State")),cProvincia);
-//		sleep(10000);
-//		driver.findElement(By.id("CityTypeAhead")).sendKeys(cCiudad);
-//		sleep(10000);
-//		driver.findElement(By.id("Partido")).sendKeys(cPartido);
-//		sleep(7000);
-//		driver.findElement(By.id("AccountData_nextBtn")).click();
-//		sleep(5000);
-//		driver.findElement(By.id("Step6-Summary_nextBtn")).click();
-//		sleep(15000);
-//		buscarYClick(driver.findElements(By.cssSelector(".slds-button.slds-button--neutral.ng-binding.ng-scope")),"contains", "continue");
-//		sleep(15000);
-//		boolean a = false;
-//		List <WebElement> elem = driver.findElements(By.cssSelector(".slds-box.ng-scope"));
-//		for(WebElement x : elem) {
-//			if(x.getText().toLowerCase().contains("tu solicitud est\u00e1 siendo procesada.")) {
-//				a = true;
-//			}			
-//		}
-//		Assert.assertTrue(a);
-//		sleep(5000);
-//		String orden = cc.obtenerOrden(driver, "Suspensi\u00f3n de Linea");
-//		sOrders.add("Suspencion, orden numero: " + orden + " con numero de DNI: " + cDNI);
-//		System.out.println(sOrders);
-//	}
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaSuspension" )
+	public void TS_98442_CRM_Movil_REPRO_Suspension_por_Siniestro_Extravio_Linea_Titular_Presencial(String sDNI, String sLinea, String sProvincia, String sLocalidad, String sPartido) {
+		imagen = "TS_98442";
+		detalles = imagen + "- Suspension - DNI: " + sDNI;
+		ges.BuscarCuenta("DNI", sDNI);
+		cc.irAGestion("suspensiones");
+		cambioDeFrame(driver, By.id("Step1-SuspensionOrReconnection_nextBtn"), 0);
+		clickBy(driver, By.xpath("//span[@class = 'slds-form-element__label ng-binding ng-scope'] [contains (text(), 'Suspensi\u00f3n')]"), 0);
+		driver.findElement(By.id("Step1-SuspensionOrReconnection_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//label[@class ='slds-radio ng-scope']//span[@class = 'slds-form-element__label ng-binding ng-scope'] [contains (text() , 'Linea')]")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "contains", "linea");
+		driver.findElement(By.id("Step2-AssetTypeSelection_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("Step3-AvailableAssetsSelection_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")),"contains","l\u00ednea: "+sLinea);
+		driver.findElement(By.id("Step3-AvailableAssetsSelection_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("AccountData_nextBtn")));
+		selectByText(driver.findElement(By.cssSelector("[id = 'Radio3-ReasonSuspension']")), "Extravio");
+		clickBy(driver, By.xpath("//span[@class = 'slds-form-element__label ng-binding ng-scope'] [contains (text(), 'Argentina')]"), 0);
+		selectByText(driver.findElement(By.cssSelector("[id = 'State']")), sProvincia);
+		driver.findElement(By.id("CityTypeAhead")).sendKeys(sLocalidad);
+		driver.findElement(By.id("Partido")).sendKeys(sPartido);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@class = 'slds-form-element__label ng-binding ng-scope'] [contains (text(), 'Si')]")));
+		clickBy(driver, By.xpath("//span[@class = 'slds-form-element__label ng-binding ng-scope'] [contains (text(), 'Si')]"), 0);
+		driver.findElement(By.id("AccountData_nextBtn")).click();
+		sleep(2000);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step6-Summary_nextBtn")));
+		clickBy(driver, By.id("Step6-Summary_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done']")));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header h1")).getText().equalsIgnoreCase("tu solicitud est\u00e1 siendo procesada."));
+		sleep(10000);
+		String ncaso = driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header")).getText();
+		String numeroCaso = cc.getNumeros(ncaso);
+		System.out.println(cc.getNumeros(ncaso));
+		ges.cerrarPestaniaGestion(driver);
+		driver.findElement(By.id("phSearchInput")).sendKeys(numeroCaso);
+		driver.findElement(By.id("phSearchInput")).submit();
+		cambioDeFrame(driver, By.id("searchPageHolderDiv"), 0);
+		sleep(2000);
+		WebElement numeroDePedido = driver.findElement(By.cssSelector("[class = 'listRelatedObject caseBlock'] [class = 'bPageBlock brandSecondaryBrd secondaryPalette'] [class = 'pbBody'] table tbody tr [class = ' dataCell  cellCol1 '] a"));
+		String numeroPedido = numeroDePedido.getText();
+		System.out.println("Numero de Pedido: " + numeroPedido );
+		numeroDePedido.click();
+		boolean gestion = false;
+		for (int i = 0; i < 10; i++) {
+			super.cambioDeFrame(driver, By.className("detailList"),0);
+			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr"), 25));
+			String estado = driver.findElement(By.id("cas7_ileinner")).getText();
+			if (estado.equalsIgnoreCase("realizada exitosa")) {
+				gestion = true;
+			} else {
+				sleep(8000);
+				driver.navigate().refresh();
+				i++;
+			}
+		}
+		Assert.assertTrue(gestion);
+	}
 	
 //	@Test (groups = {"Suspension", "GestionesPerfilOficina", "E2E", "Ciclo3"}, dataProvider = "CuentaSuspension")
 //	public void TS98434_CRM_Movil_REPRO_Suspension_por_Siniestro_Robo_Linea_Titular_Presencial(String sDNI, String sLinea, String sProvincia, String sCiudad, String sPartido) {
