@@ -322,7 +322,9 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		WebElement cardPorLinea= getBuscarElementoPorText(listaDeElementosPorText(cards, sLinea),"Activo");
 		boolean resp=false;
 		try{
-			 resp = cardPorLinea.getText().contains("Repro");
+			if(cardPorLinea.getText().contains("tarjeta")||cardPorLinea.getText().contains("Tarjeta")) {
+				resp =true;
+			}
 		}catch (Exception e){
 			
 		}
@@ -385,6 +387,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		//busca por linea y verifica el estado 
 		
 		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		tb.sleep(10000);
 		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card ']"));
 		cards =listaDeElementosPorText(cards, linea);
 		if(cards.size()<=0) {

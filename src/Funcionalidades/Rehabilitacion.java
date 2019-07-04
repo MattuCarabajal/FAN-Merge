@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -17,33 +18,46 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import Pages.Accounts;
+import Pages.CBS;
+import Pages.ContactSearch;
 import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
+import Tests.CBS_Mattu;
 import Tests.TestBase;
 
 public class Rehabilitacion extends TestBase {
 
 	private WebDriver driver;
+	private LoginFw log;
+	private GestionDeClientes_Fw ges;
 	private SalesBase sb;
 	private CustomerCare cc;
+	private CBS cbs;
+	private CBS_Mattu cbsm;
+	private ContactSearch contact;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	private TestBase tb;
 	String detalles;
+	
 	
 	
 	@BeforeClass (alwaysRun = true)
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
-		sb = new SalesBase(driver);
+		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		contact = new ContactSearch(driver);
+		tb = new TestBase();
+		log.loginOOCC();
+		ges.irAConsolaFAN();
 	}
 	
 	@BeforeMethod(alwaysRun=true)
@@ -55,7 +69,7 @@ public class Rehabilitacion extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod(alwaysRun=true)
+	//@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -77,41 +91,32 @@ public class Rehabilitacion extends TestBase {
 		imagen = "TS98590";
 		detalles = null;
 		detalles = imagen + " - Rehabilitacion - DNI: " + sDNI;
-		driver.switchTo().frame(cambioFrame(driver, By.id("SearchClientDocumentType")));
-		sb.BuscarCuenta("DNI", sDNI);
-		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).click();
-		sleep(8000);
-		cc.irAGestion("suspensiones");
-		sleep(20000);
-		driver.switchTo().frame(cambioFrame(driver, By.id("Step1-SuspensionOrReconnection_nextBtn")));
+		cambioDeFrame(driver,By.id("phSearchInput"),0);
+		driver.findElement(By.id("phSearchInput")).sendKeys("93645609");
+		driver.findElement(By.id("phSearchInput")).submit();
+		sleep(7500);
+		cambioDeFrame(driver,By.id("Contact_body"),0);
+		WebElement nombreCuenta = driver.findElement(By.xpath("//*[@id='Contact_body']//tbody/tr[2]//td[2]//a"));
+		nombreCuenta.click();
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='card-top']")));
+		cc.irAGestion("Suspensiones");
+		cambioDeFrame(driver, By.id("Step1-SuspensionOrReconnection_nextBtn"),0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step1-SuspensionOrReconnection_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")),"contains", "habilitaci\u00f3n");
 		driver.findElement(By.id("Step1-SuspensionOrReconnection_nextBtn")).click();
-		sleep(8000);
-		buscarYClick(driver.findElements(By.cssSelector(".ta-radioBtnContainer.taBorderOverlay.slds-grid.slds-grid--align-center.slds-grid--vertical-align-center")), "contains", "validaci\u00f3n por documento de identidad");
-		driver.findElement(By.id("MethodSelection_nextBtn")).click();
-		sleep(8000);
-		File directory = new File("Dni.jpg");
-		driver.findElement(By.id("FileDocumentImage")).sendKeys(new File(directory.getAbsolutePath()).toString());
-		driver.findElement(By.id("DocumentMethod_nextBtn")).click();
-		sleep(8000);
-		//driver.findElement(By.id("ValidationResult_nextBtn")).click();
-		//sleep(8000);
-		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")),"contains","linea");
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step2-AssetTypeSelection_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "contains", "linea");
 		driver.findElement(By.id("Step2-AssetTypeSelection_nextBtn")).click();
-		sleep(8000);
-		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")),"contains", "l\u00ednea: ");
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step3-AvailableAssetsSelection_nextBtn")));
+		driver.findElement(By.xpath("//*[@class='slds-radio--faux']")).click();
 		driver.findElement(By.id("Step3-AvailableAssetsSelection_nextBtn")).click();
-		sleep(8000);
+		sleep(10000);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step6-Summary_nextBtn")));
 		driver.findElement(By.id("Step6-Summary_nextBtn")).click();
 		sleep(15000);
-		boolean b = false;
-		List <WebElement> prov = driver.findElements(By.cssSelector(".slds-box.ng-scope"));
-		for(WebElement x : prov) {
-			if(x.getText().toLowerCase().contains("tu solicitud est\u00e1 siendo procesada.")) {
-				b = true;
-			}			
-		}
-		Assert.assertTrue(b);
+		WebElement msjProcesado = driver.findElement(By.xpath("//*[@id='VlocityBPView']//*[@class='slds-box ng-scope']//*[@class='ta-care-omniscript-done']//header"));
+		Assert.assertTrue(msjProcesado.getText().contains("tu solicitud est\u00e1 siendo procesada."));
 		sleep(8000);
 		String orden = cc.obtenerOrden(driver, "Reconexi\u00f3n de Linea");
 		detalles+=" - Orden: "+orden;
