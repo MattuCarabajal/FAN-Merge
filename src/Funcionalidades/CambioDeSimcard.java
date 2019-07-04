@@ -37,7 +37,7 @@ public class CambioDeSimcard extends TestBase {
 	String imagen;
 	String detalles;
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -48,7 +48,7 @@ public class CambioDeSimcard extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-//	@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -321,7 +321,7 @@ public class CambioDeSimcard extends TestBase {
 //		detalles += "-Orden:" + orden;
 	}
 	
-//	@Test(groups = { "GestionesPerfilTelefonico","CambioSimCard","Ciclo 3", "E2E" }, priority = 1, dataProvider = "CambioSimCardTelef")
+	@Test(groups = { "GestionesPerfilTelefonico","CambioSimCard","Ciclo 3", "E2E" }, priority = 1, dataProvider = "CambioSimCardTelef")
 	public void TS159157_CRM_Movil_PRE_Cambio_de_Simcard_voluntario_Telefonico_store_pick_up(String sDNI, String sLinea, String accid, String sEntrega, String sProvincia, String sLocalidad, String sPuntodeVenta) throws AWTException {
 		imagen = "134381";
 		detalles = imagen + "-Telef-DNI:" + sDNI + "-Cuenta:" + accid;

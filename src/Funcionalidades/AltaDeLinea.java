@@ -164,8 +164,9 @@ public class AltaDeLinea extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Confirmation_nextBtn")));
 		driver.findElement(By.id("Confirmation_nextBtn")).click();
 		ges.cerrarPestaniaGestion(driver);
-		driver.navigate().refresh();
 		cbsm.Servicio_NotificarEmisionFactura(orden);
+		driver.navigate().refresh();
+		sleep(15000);
 		ges.selectMenuIzq("Entregas");
 		cambioDeFrame(driver, By.cssSelector("[class='slds-card__body cards-container']"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='slds-card__body cards-container']")));

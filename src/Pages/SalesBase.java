@@ -1190,19 +1190,20 @@ public class SalesBase extends BasePage {
 		
 		public boolean completarLogistica(String sOrder, WebDriver driver) {
 			TestBase TB = new TestBase();
-			try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-			try {
-				driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
-				sleep(12000);
-			}catch(Exception ex1) {}
-			driver.switchTo().defaultContent();
-			sleep(3000);
-			TB.goToLeftPanel3(driver, "Logistica");
-			sleep(12000);
-			try{
-				cerrarPestaniaGestion(driver);}
-			catch(Exception ex2) {}
-			driver.switchTo().frame(TB.cambioFrame(driver, By.className("taNotificactionPanel")));
+//			try {Thread.sleep(15000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
+//			try {
+//				driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
+//				sleep(12000);
+//			}catch(Exception ex1) {}
+//			driver.switchTo().defaultContent();
+//			sleep(3000);
+//			TB.goToLeftPanel3(driver, "Logistica");
+//			sleep(12000);
+//			try{
+//				cerrarPestaniaGestion(driver);}
+//			catch(Exception ex2) {}
+			
+			TB.cambioDeFrame(driver, By.className("taNotificactionPanel"), 0);
 			WebElement wBody = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-no-row-hover.slds-table--cell-buffer.slds-max-medium-table--stacked-horizontal"));
 			List<WebElement> wOrders = wBody.findElements(By.tagName("tbody"));
 			for (WebElement wAux : wOrders) {
@@ -1212,8 +1213,8 @@ public class SalesBase extends BasePage {
 					break;
 				}
 			}
-			sleep(12000);
-			driver.switchTo().frame(TB.cambioFrame(driver, By.cssSelector(".slds-truncate.ng-binding")));
+			TB.cambioDeFrame(driver, By.cssSelector(".slds-truncate.ng-binding"), 0);
+			//driver.switchTo().frame(TB.cambioFrame(driver, By.cssSelector(".slds-truncate.ng-binding")));
 			String serial = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--cell-buffer.vlc-slds-table")).findElements(By.cssSelector(".slds-truncate.ng-binding")).get(1).getText();
 			System.out.println("S="+serial);
 			wBody = driver.findElement(By.xpath("//*[@class='slds-table slds-table--bordered slds-table--cell-buffer vlc-slds-table']"));
