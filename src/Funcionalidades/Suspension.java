@@ -571,7 +571,7 @@ public class Suspension extends TestBase {
 		System.out.println(sOrders);
 	}
 	
-	@Test (groups = {"Suspension", "GestionesPerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaSuspension")
+	@Test (groups = {"Suspension", "GestionesPerfilFraude","E2E","Ciclo3"}, dataProvider="CuentaSuspension")
 	public void TS98491_CRM_Movil_REPRO_Suspension_por_Fraude_Linea_Comercial_Desconocimiento_Administrativo(String cDNI, String cLinea, String cProvincia, String cCiudad, String cPartido) {
 		imagen = "TS98491";
 		detalles = null;

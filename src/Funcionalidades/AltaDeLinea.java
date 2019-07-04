@@ -1,5 +1,7 @@
 package Funcionalidades;
 
+import static org.testng.Assert.assertTrue;
+
 import java.awt.AWTException;
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +46,7 @@ public class AltaDeLinea extends TestBase {
 	private ContactSearch contact;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	private TestBase tb;
 	String detalles;
 	
 	
@@ -57,6 +60,7 @@ public class AltaDeLinea extends TestBase {
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		contact = new ContactSearch(driver);
+		tb = new TestBase();
 		log.loginOOCC();
 		ges.irAConsolaFAN();
 		
@@ -68,6 +72,7 @@ public class AltaDeLinea extends TestBase {
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
 		contact = new ContactSearch(driver);
+		tb = new TestBase();
 		loginAgente(driver);
 		sleep(15000);
 		cc.irAConsolaFAN();	
@@ -139,52 +144,60 @@ public class AltaDeLinea extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SaleOrderMessages_nextBtn")));
 		cc.obligarclick(driver.findElement(By.id("SaleOrderMessages_nextBtn")));
 		cbsm.Servicio_NotificarPago(orden);
+		sleep(5000);
 		driver.navigate().refresh();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.className("ta-logistic-control-panel--prepareOrder")));
-		
-		
-		
-		
-//		sleep(10000);
-//		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-//		WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
-//		String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-//		if(activarFalsos==true) {
-//			boolean esta = false;
-//			List<WebElement> campos = tabla.findElements(By.tagName("tr"));
-//			for(WebElement UnC: campos) {
-//				if(UnC.getText().toLowerCase().contains("tracking status")) {
-//					Assert.assertTrue(UnC.getText().toLowerCase().contains("preparar pedido"));
-//					esta = true;
-//					break;
-//				}
-//			}
-//			Assert.assertTrue(esta);
-//				
-//		}
-//		CambiarPerfil("logisticayentrega",driver);
-//		sb.completarLogistica(orden, driver);
-//		//CambiarPerfil("entrega",driver);
-//		sb.completarEntrega(orden, driver);
-//		CambiarPerfil("ofcom",driver);
-//		try {
-//		//	cc.cajonDeAplicaciones("Consola FAN");
-//		} catch(Exception e) {
-//			//sleep(3000);
-//			waitForClickeable(driver,By.id("tabBar"));
-//			driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
-//			sleep(6000);
-//		}
-//			
-//		driver.switchTo().defaultContent();
-//		sleep(6000);
-//		cc.obtenerMontoyTNparaAlta(driver, orden);
+		ges.selectMenuIzq("Logistica");
+		cambioDeFrame(driver, By.cssSelector("[class='slds-card__body cards-container']"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='slds-card__body cards-container']")));
+		WebElement fila = null;
+			for (WebElement x : driver.findElement(By.cssSelector(".slds-card__body.cards-container")).findElements(By.tagName("tbody"))) {
+				if (x.findElement(By.tagName("td")).getText().contains(orden)) {
+					fila = x;
+				}
+			}
+		fila.findElement(By.xpath("//button//span[text()= 'Armar pedido']")).click();
+		cambioDeFrame(driver, By.id("OrderItemNumeration"),0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("OrderItemNumeration")));
+		String serial = driver.findElement(By.xpath("//*[@id='OrderItemNumeration']//tbody//*[@data-label='Serial']//div")).getText();
+		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern")).sendKeys(serial);
+		driver.findElement(By.id("SerialNumberValidation_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Confirmation_nextBtn")));
+		driver.findElement(By.id("Confirmation_nextBtn")).click();
+		ges.cerrarPestaniaGestion(driver);
+		driver.navigate().refresh();
+		cbsm.Servicio_NotificarEmisionFactura(orden);
+		ges.selectMenuIzq("Entregas");
+		cambioDeFrame(driver, By.cssSelector("[class='slds-card__body cards-container']"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='slds-card__body cards-container']")));
+		WebElement entregas = null;
+			for (WebElement x : driver.findElement(By.cssSelector(".slds-card__body.cards-container")).findElements(By.tagName("tbody"))) {
+				if (x.findElement(By.tagName("td")).getText().contains(orden)) {
+					System.out.println("entro al if");
+					entregas = x;
+				}
+			}
+		entregas.findElement(By.xpath("//button//span[text()= 'Entregar pedido']")).click();
+		cambioDeFrame(driver, By.id("checkbox-0"),0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("checkbox-0")));
+		driver.findElement(By.xpath("//*[@class='slds-checkbox']//span")).click();
+		cc.obligarclick(driver.findElement(By.id("OrderItemVerification_nextBtn")));
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Confirmation_nextBtn")));
+		boolean a = false;
+		WebElement text = driver.findElement(By.id("TextBlock1"));
+			if(text.getText().contains("La orden se realiz\u00f3 con \u00e9xito"))
+				a= true;
+		Assert.assertTrue(a);
+		driver.findElement(By.id("Confirmation_nextBtn"));
+		cbsm.ValidarInfoCuenta(Linea, sNombre, sApellido, sPlan);	
+		ges.selectMenuIzq("Inicio");
 //		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
 //		tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 //		datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
 //		invoSer.ValidarInfoCuenta(Linea, sNombre,sApellido, sPlan);
 //		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
 	}
+	
+	
 	
 	@Test(groups={"PerfilOficina", "AltaDeLinea"}, dataProvider="AltaLineaExistenteOfComPresencial")
 	public void TS119298_CRM_Movil_PRE_Alta_Linea_Cliente_Existente_OFCOM_Efectivo_Presencial_DNI(String sDni, String sPlan, String sEntrega, String sNombre, String sApellido) throws IOException {

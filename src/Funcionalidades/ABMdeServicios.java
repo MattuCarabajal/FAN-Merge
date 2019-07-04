@@ -108,15 +108,13 @@ public class ABMdeServicios extends TestBase {
 		System.out.println("id "+accid);
 		detalles +="-Cuenta:"+accid;
 		driver.findElement(By.cssSelector(".slds-tree__item.ng-scope")).findElement(By.tagName("div")).click();
-//		sleep(25000);
-//		cc.seleccionarCardPornumeroLinea(sLinea, driver);
-//		sleep(5000);
+
 		ges.irAGestionEnCardPorNumeroDeLinea("Alta/Baja de Servicios", sLinea);
 
-		//cc.openrightpanel();
-		//cc.closerightpanel();
-		//cc.openleftpanel();
-		//cc.closeleftpanel();
+//		cc.openrightpanel();
+//		cc.closerightpanel();
+//		cc.openleftpanel();
+//		cc.closeleftpanel();
 		driver.switchTo().defaultContent();
 		cambioDeFrame(driver, By.cssSelector("[class='slds-button cpq-item-has-children'] svg"),0);
 //		String sOrder = driver.findElement(By.cssSelector(".slds-text-body--small.slds-page-header__info.taDevider")).getText();
