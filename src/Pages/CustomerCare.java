@@ -1851,6 +1851,17 @@ public class CustomerCare extends BasePage {
 //			Caso.click();
 		}
 	}
+	
+	public String getNumeros(String cadena) {
+		char [] cadena_numerica = cadena.toCharArray();
+		String numeros = "";
+		for(int i = 0 ; i < cadena_numerica.length; i++) {
+			if(Character.isDigit(cadena_numerica[i])) {
+				numeros += cadena_numerica[i];
+			}
+		}
+		return numeros;
+	}
 
 	//===========================================================// DIAGNOSTICO 2019 //========================================================================================================
 	
