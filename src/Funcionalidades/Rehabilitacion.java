@@ -83,7 +83,6 @@ public class Rehabilitacion extends TestBase {
 		sleep(5000);
 	}
 	
-	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
 	@Test (groups = {"Habilitacion", "GestionesPerfilOficina","E2E","Ciclo3"}, dataProvider="CuentaHabilitacion")
@@ -92,7 +91,7 @@ public class Rehabilitacion extends TestBase {
 		detalles = null;
 		detalles = imagen + " - Rehabilitacion - DNI: " + sDNI;
 		cambioDeFrame(driver,By.id("phSearchInput"),0);
-		driver.findElement(By.id("phSearchInput")).sendKeys("93645609");
+		driver.findElement(By.id("phSearchInput")).sendKeys(sDNI);
 		driver.findElement(By.id("phSearchInput")).submit();
 		sleep(7500);
 		cambioDeFrame(driver,By.id("Contact_body"),0);
@@ -110,17 +109,42 @@ public class Rehabilitacion extends TestBase {
 		driver.findElement(By.id("Step2-AssetTypeSelection_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step3-AvailableAssetsSelection_nextBtn")));
 		driver.findElement(By.xpath("//*[@class='slds-radio--faux']")).click();
+		sleep(2500);
 		driver.findElement(By.id("Step3-AvailableAssetsSelection_nextBtn")).click();
-		sleep(10000);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step6-Summary_nextBtn")));
+		sleep(2500);
 		driver.findElement(By.id("Step6-Summary_nextBtn")).click();
-		sleep(15000);
-		WebElement msjProcesado = driver.findElement(By.xpath("//*[@id='VlocityBPView']//*[@class='slds-box ng-scope']//*[@class='ta-care-omniscript-done']//header"));
-		Assert.assertTrue(msjProcesado.getText().contains("tu solicitud est\u00e1 siendo procesada."));
-		sleep(8000);
-		String orden = cc.obtenerOrden(driver, "Reconexi\u00f3n de Linea");
-		detalles+=" - Orden: "+orden;
-		System.out.println(sOrders);
+		sleep(5000);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done']")));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header h1")).getText().equalsIgnoreCase("tu solicitud est\u00e1 siendo procesada."));
+		String ncaso = driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header")).getText();
+		String numeroCaso = cc.getNumeros(ncaso);
+		System.out.println(cc.getNumeros(ncaso));
+		ges.cerrarPestaniaGestion(driver);
+		driver.findElement(By.id("phSearchInput")).clear();
+		driver.findElement(By.id("phSearchInput")).sendKeys(numeroCaso);
+		driver.findElement(By.id("phSearchInput")).submit();
+		boolean z = false;
+			for(int i = 0; i<10; i++ ){
+				cambioDeFrame(driver, By.id("Case_body"),0);
+				WebElement status = driver.findElement(By.xpath("//*[@id='Case_body']//tr[2]//td[3]"));
+				if(status.getText().contains("Realizada exitosa")){
+					z = true;	
+				}
+			else{
+				sleep(5000);
+				driver.navigate().refresh();
+			}
+		}
+		Assert.assertTrue(z);
+		ges.cerrarPestaniaGestion(driver);
+		ges.irGestionClientes();
+		ges.BuscarCuenta("DNI", sDNI);
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='card-top']")));
+		WebElement postestado = driver.findElement(By.xpath("//div[@class = 'card-info']//ul[@class = 'uLdetails']//span[@class = 'imagre']"));
+		Assert.assertTrue(postestado.getText().contains("Activo"));
+		
 	}
 	
 	//----------------------------------------------- FRAUDE -------------------------------------------------------\\
