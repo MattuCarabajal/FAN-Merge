@@ -130,7 +130,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		//PageFactory.initElements(driver, this);
 		PageFactory.initElements(getDriver(), this);
 		super.setFluentWait(new FluentWait<WebDriver>(driver));
-		super.getFluentWait().withTimeout(30, TimeUnit.SECONDS)
+		super.getFluentWait().withTimeout(50, TimeUnit.SECONDS)
 		.pollingEvery(500, TimeUnit.MILLISECONDS)
 		.ignoring(NoSuchElementException.class)
 		.ignoring(NullPointerException.class)
