@@ -99,7 +99,7 @@ public class AltaConEquipo extends TestBase {
 	@Test(groups={"Sales", "AltaLineaDatos","E2E"}, priority=1, dataProvider="DatosAltaEquipoExiste") //========  31- 8 Aparece el paso de carga de datos de la cuenta
 	public void TS125214_CRM_Movil_PRE_Alta_Linea_con_Equipo_Cliente_existente_Presencial_OFCOM(String sDni, String sNombre, String sApellido, String sPlan, String sEquipo) throws IOException, AWTException {
 		imagen = "TS125214";
-		sb.BuscarCuenta("DNI", "17954137");
+		sb.BuscarCuenta("DNI", "42377443");
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-button.slds-button.slds-button--icon"), 0));
 		contact.seleccionarCatalogo();
 		contact.elegirPlan("plan con tarjeta");
@@ -153,8 +153,8 @@ public class AltaConEquipo extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("OrderItemNumeration")));
 		String serial1 = driver.findElement(By.xpath("//*[@id='OrderItemNumeration']//tbody//*[@data-label='Serial']//div")).getText();
 		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern")).sendKeys(serial1);
-//		String serial3 = driver.findElements(By.xpath("//*[@id='OrderItemNumeration']//tbody//*[@data-label='Serial']//div")).get(1).getText();
-//		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern")).sendKeys(serial3);
+		String serial3 = driver.findElements(By.xpath("//*[@id='OrderItemNumeration']//tbody//*[@data-label='Serial']//div")).get(1).getText();
+		driver.findElement(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern")).sendKeys(serial3);
 		driver.findElement(By.id("SerialNumberValidation_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Confirmation_nextBtn")));
 		driver.findElement(By.id("Confirmation_nextBtn")).click();
@@ -178,7 +178,7 @@ public class AltaConEquipo extends TestBase {
 //		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Confirmation_nextBtn")));
 //		driver.findElement(By.id("Confirmation_nextBtn")).click();
 		cbsm.Servicio_NotificarEmisionFactura(orden);
-		sleep(10000);
+		sleep(60000);
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Entregas");
 		cambioDeFrame(driver, By.cssSelector("[class='slds-card__body cards-container']"), 0);
@@ -190,8 +190,14 @@ public class AltaConEquipo extends TestBase {
 		}
 		System.out.println(fila2.getText());
 		fila2.findElement(By.xpath("//button//span[text()= 'Entregar pedido']")).click();
-		
-		
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("ItemGrid")));
+		driver.findElements(By.xpath("//*[@id='ItemGrid']//tbody//*[@data-label='Entregado']//label//span")).get(0).click();
+		driver.findElements(By.xpath("//*[@id='ItemGrid']//tbody//*[@data-label='Entregado']//label//span")).get(1).click();
+		driver.findElement(By.id("OrderItemVerification_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Confirmation_nextBtn")));
+		driver.findElement(By.id("Confirmation_nextBtn")).click();
+		sleep(5000);
+		cbsm.ValidarInfoCuenta("17954137", "Automatata", "Compacto", "Plan con Tarjeta");
 		
 		
 //		cbsm.Servicio_NotificarEmisionFactura("00039770");
@@ -297,7 +303,7 @@ public class AltaConEquipo extends TestBase {
 //		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
 //		tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 //		datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-//		invoSer.ValidarInfoCuenta(Linea, sNombre,sApellido, sPlan);
+//		cbsm.ValidarInfoCuenta(Linea, sNombre,sApellido, sPlan);
 //		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
 	}
 	
