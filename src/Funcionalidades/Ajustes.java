@@ -22,6 +22,7 @@ import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
+import io.appium.java_client.functions.ExpectedCondition;
 
 public class Ajustes extends TestBase {
 
@@ -896,6 +897,34 @@ public class Ajustes extends TestBase {
 		System.out.println(datosFinal);
 		Assert.assertTrue(datosInicial + 200000 == datosFinal);
 		detalles = imagen + " -Ajustes-DNI: " + sDNI + ", Caso numero: " + caso;
+	}
+	
+	@Test
+	public void TS112446_CRM_Movil_Pre_Ajuste_Nota_de_Credito_Monto_15000_Aprobador_Director_Revisor_BO_Exepcion_Crm_OC() {
+		ges.BuscarCuenta("DNI", "91021694");
+		sleep(5000);
+		cc.irAGestion("inconvenientes con cargos tasados");
+		cambioDeFrame(driver, By.id("Step-TipodeAjuste_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-TipodeAjuste_nextBtn")));
+		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO POSPAGO");
+		selectByText(driver.findElement(By.id("CboItem")), "Minutos/SMS");
+		selectByText(driver.findElement(By.id("CboMotivo")), "Error/omisi\u00f3n/demora gesti\u00f3n");
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si");
+		driver.findElement(By.id("Step-TipodeAjuste_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step1-SelectBillingAccount_nextBtn")));
+		driver.findElement(By.cssSelector("[class='slds-radio__label'] [class='slds-form-element__label ng-binding']")).click();
+		driver.findElement(By.id("Step1-SelectBillingAccount_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-VerifyPreviousAdjustments_prevBtn")));
+		driver.findElement(By.xpath("//span//*[@class='slds-form-element__label ng-binding ng-scope'][text()= 'Si, ajustar']")).click();
+		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-AjusteNivelCuenta_nextBtn")));
+		driver.findElement(By.xpath("//*[@class='slds-radio ng-scope']//span[text()='Nota de crédito']")).click();
+		driver.findElements(By.xpath("//*[@class='slds-radio ng-scope']//span[text()= 'No']")).get(1).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("MontoLibre")));
+		driver.findElement(By.id("MontoLibre")).sendKeys("1500000");
+		selectByText(driver.findElement(By.id("SelectItemAjusteLibre")), "Ajuste Minutos");
+		driver.findElement(By.id("Step-AjusteNivelCuenta_nextBtn")).click();
+		
 	}
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
