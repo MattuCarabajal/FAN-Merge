@@ -33,13 +33,13 @@ public class Recargas extends TestBase {
 	String detalles;
 	
 	//@BeforeClass (groups= "PerfilOficina")
-	public void Sit02() throws IOException, AWTException {
+	public void Sit03() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		log.LoginSit02();
+		log.LoginSit03();
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		//cc.irAConsolaFAN();

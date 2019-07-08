@@ -74,7 +74,7 @@ public class Regresion extends TestBase {
 		//cc.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilMayorista")
+	//@BeforeClass (groups = "PerfilMayorista")
 	public void initMayo() {
 		driver = setConexion.setupEze();
 		loginBeFANVictor(driver, "mayorista");
@@ -86,7 +86,7 @@ public class Regresion extends TestBase {
 	//	loginBeFAN(driver);
 	}
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -131,14 +131,14 @@ public class Regresion extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	//@BeforeMethod (alwaysRun = true)
+	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod(alwaysRun=true)
+	@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
