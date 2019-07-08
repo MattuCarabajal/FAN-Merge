@@ -22,6 +22,7 @@ import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
+import io.appium.java_client.functions.ExpectedCondition;
 
 public class Ajustes extends TestBase {
 
@@ -898,6 +899,34 @@ public class Ajustes extends TestBase {
 		detalles = imagen + " -Ajustes-DNI: " + sDNI + ", Caso numero: " + caso;
 	}
 	
+	@Test
+	public void TS112446_CRM_Movil_Pre_Ajuste_Nota_de_Credito_Monto_15000_Aprobador_Director_Revisor_BO_Exepcion_Crm_OC() {
+		ges.BuscarCuenta("DNI", "91021694");
+		sleep(5000);
+		cc.irAGestion("inconvenientes con cargos tasados");
+		cambioDeFrame(driver, By.id("Step-TipodeAjuste_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-TipodeAjuste_nextBtn")));
+		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO POSPAGO");
+		selectByText(driver.findElement(By.id("CboItem")), "Minutos/SMS");
+		selectByText(driver.findElement(By.id("CboMotivo")), "Error/omisi\u00f3n/demora gesti\u00f3n");
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si");
+		driver.findElement(By.id("Step-TipodeAjuste_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step1-SelectBillingAccount_nextBtn")));
+		driver.findElement(By.cssSelector("[class='slds-radio__label'] [class='slds-form-element__label ng-binding']")).click();
+		driver.findElement(By.id("Step1-SelectBillingAccount_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-VerifyPreviousAdjustments_prevBtn")));
+		driver.findElement(By.xpath("//span//*[@class='slds-form-element__label ng-binding ng-scope'][text()= 'Si, ajustar']")).click();
+		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-AjusteNivelCuenta_nextBtn")));
+		driver.findElement(By.xpath("//*[@class='slds-radio ng-scope']//span[text()='Nota de cr�dito']")).click();
+		driver.findElements(By.xpath("//*[@class='slds-radio ng-scope']//span[text()= 'No']")).get(1).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("MontoLibre")));
+		driver.findElement(By.id("MontoLibre")).sendKeys("1500000");
+		selectByText(driver.findElement(By.id("SelectItemAjusteLibre")), "Ajuste Minutos");
+		driver.findElement(By.id("Step-AjusteNivelCuenta_nextBtn")).click();
+		
+	}
+	
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaAjustesPRE")
 	public void TS103596_CRM_Movil_Pre_Ajuste_General_Derivacion_manual_Crm_OC(String sDNI, String sLinea) {
 		imagen = "TS103596";
@@ -934,6 +963,52 @@ public class Ajustes extends TestBase {
 		sleep(2000);
 		String estadoDelCaso = driver.findElement(By.cssSelector("[class = 'listRelatedObject caseBlock'] [class = 'bPageBlock brandSecondaryBrd secondaryPalette'] [class = 'pbBody'] table tbody tr [class = ' dataCell  cellCol3 ']")).getText();
 		Assert.assertTrue(estadoDelCaso.equalsIgnoreCase("derivada"));
+	}
+	
+	@Test (groups = "PerfilTelefonico", dataProvider="CuentaAjustesPRE")
+	public void TS121281CRM_Movil_Pre_Ajuste_Nota_de_Credito_Monto_1500_Aprobador_BO_Sin_revisor_Exepci�n_Crm_OC(String sDNI, String sLinea){
+		ges.BuscarCuenta("DNI", sDNI);
+		sleep(8000);
+		cc.irAGestion("inconvenientes con cargos tasados");
+		cambioDeFrame(driver, By.id("Step-TipodeAjuste_nextBtn"),0);
+		selectByText(driver.findElement(By.id("CboConcepto")), "FACTURA EMITIDA");
+		selectByText(driver.findElement(By.id("CboTipo")), "Cargos fijos facturados");
+		selectByText(driver.findElement(By.id("CboItem")), "Abono/proporcional");
+		selectByText(driver.findElement(By.id("CboMotivo")), "Error/omisi\u00f3n/demora gesti\u00f3n");
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "no");
+		driver.findElement(By.id("Step-TipodeAjuste_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step1-SelectBillingAccount_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "contains", "cuenta:");
+		driver.findElement(By.id("Step1-SelectBillingAccount_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-VerifyPreviousAdjustments_prevBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si, ajustar");
+		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-AjusteNivelCuenta_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "nota de cr\u00e9dito");
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "no");
+		driver.findElement(By.id("MontoLibre")).sendKeys("250000");
+		cc.selectByText(driver.findElement(By.id("SelectItemAjusteLibre")),"Ajuste Minutos");
+		driver.findElement(By.id("Step-AjusteNivelCuenta_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-Summary_nextBtn")));
+		sleep(2500);
+		driver.findElement(By.id("Step-Summary_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='slds-box ng-scope']//header//*[@class='vlc-slds-inline-control__label ng-binding']")));
+		String orden = driver.findElement(By.xpath("//*[@class='slds-box ng-scope']//header//*[@class='vlc-slds-inline-control__label ng-binding']")).getText();
+		String nOrden = cc.getNumeros(orden);
+		System.out.println(nOrden);
+		ges.cerrarPestaniaGestion(driver);
+		driver.findElement(By.id("phSearchInput")).sendKeys(nOrden);
+		driver.findElement(By.id("phSearchInput")).submit();
+		sleep(7500);
+		cambioDeFrame(driver,By.id("Case_body"),0);
+		WebElement estado = driver.findElement(By.xpath("//*[@class='pbBody']//tbody//*[@class='dataRow even last first']//td[3]"));
+		WebElement propiet = driver.findElement(By.xpath("//*[@class='pbBody']//tbody//*[@class='dataRow even last first']//td[5]"));
+		System.out.println(estado.getText());
+		System.out.println(propiet.getText());
+		Assert.assertTrue(estado.getText().equalsIgnoreCase("En autorizaci\u00f3n"));
+		Assert.assertTrue(propiet.getText().equalsIgnoreCase("BO Centralizado"));
+		Assert.assertTrue(false);
+		// FALTA COTINUAR CON EL PERFIL BACK OFFICE
 	}
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\

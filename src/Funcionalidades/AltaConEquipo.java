@@ -42,6 +42,20 @@ public class AltaConEquipo extends TestBase {
 	
 	
 	@BeforeClass (alwaysRun = true)
+	public void Sit03() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		cc = new CustomerCare(driver);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		contact = new ContactSearch(driver);
+		log.LoginSit03();
+		ges.irAConsolaFAN();
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		//cc.irAConsolaFAN();
+	}
+	
+	//@BeforeClass (alwaysRun = true)
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
