@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -915,15 +916,25 @@ public class Ajustes extends TestBase {
 		driver.findElement(By.cssSelector("[class='slds-radio__label'] [class='slds-form-element__label ng-binding']")).click();
 		driver.findElement(By.id("Step1-SelectBillingAccount_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-VerifyPreviousAdjustments_prevBtn")));
-		driver.findElement(By.xpath("//span//*[@class='slds-form-element__label ng-binding ng-scope'][text()= 'Si, ajustar']")).click();
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si, ajustar");
 		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-AjusteNivelCuenta_nextBtn")));
-		driver.findElement(By.xpath("//*[@class='slds-radio ng-scope']//span[text()='Nota de cr�dito']")).click();
+		driver.findElement(By.xpath("//*[@class='slds-radio ng-scope']//span[text()='Nota de cr\u00e9dito']")).click();
 		driver.findElements(By.xpath("//*[@class='slds-radio ng-scope']//span[text()= 'No']")).get(1).click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("MontoLibre")));
 		driver.findElement(By.id("MontoLibre")).sendKeys("1500000");
 		selectByText(driver.findElement(By.id("SelectItemAjusteLibre")), "Ajuste Minutos");
 		driver.findElement(By.id("Step-AjusteNivelCuenta_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-Summary_nextBtn")));
+		driver.findElement(By.id("Step-Summary_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='ta-care-omniscript-done']")));
+		Assert.assertTrue(driver.findElement(By.xpath("//*[@class='ta-care-omniscript-done']//header//h1")).getText().toLowerCase().contains("el caso fue derivado para autorizaci\u00f3n"));
+		String orden = driver.findElement(By.xpath("//*[@class='ta-care-omniscript-done']//header//label")).getText();
+		orden = orden.substring(orden.lastIndexOf(" ")+1, orden.length());
+		System.out.println(orden);
+		ges.cambiarPerfil("Ua2569324");
+		ges.irAConsolaFAN();
+		cc.buscarCaso(orden);
 		
 	}
 	
@@ -966,7 +977,7 @@ public class Ajustes extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider="CuentaAjustesPRE")
-	public void TS121281CRM_Movil_Pre_Ajuste_Nota_de_Credito_Monto_1500_Aprobador_BO_Sin_revisor_Exepci�n_Crm_OC(String sDNI, String sLinea){
+	public void TS121281CRM_Movil_Pre_Ajuste_Nota_de_Credito_Monto_1500_Aprobador_BO_Sin_revisor_Exepcion_Crm_OC(String sDNI, String sLinea){
 		ges.BuscarCuenta("DNI", sDNI);
 		sleep(8000);
 		cc.irAGestion("inconvenientes con cargos tasados");
