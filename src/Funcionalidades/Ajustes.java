@@ -1145,6 +1145,48 @@ public class Ajustes extends TestBase {
 		Assert.assertTrue(verificarFecha);
 	}
 	
+	@Test(groups = "PerfilTelefonico", dataProvider = "CuentaAjustesPRE")
+	public void TS160697CRM_Movil_Pre_Ajuste_Credito_Monto_20000_Aprobador_Director_Revisor_BO_Ordinaria_Crm_Telefonico(String sDNI, String sLinea) {
+		imagen = "TS103596";
+		ges.BuscarCuenta("DNI", sDNI);
+		cc.irAGestion("inconvenientes con cargos tasados");
+		cambioDeFrame(driver, By.id("Step-TipodeAjuste_nextBtn"), 0);
+		selectByText(driver.findElement(By.id("CboConcepto")), "FACTURA EMITIDA");
+		selectByText(driver.findElement(By.id("CboTipo")), "Cargos fijos facturados");
+		selectByText(driver.findElement(By.id("CboItem")), "Abono/proporcional");
+		selectByText(driver.findElement(By.id("CboMotivo")), "Informacion incorrecta");
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "no");
+		driver.findElement(By.id("Step-TipodeAjuste_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step1-SelectBillingAccount_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "contains", "cuenta: ");
+		driver.findElement(By.id("Step1-SelectBillingAccount_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-VerifyPreviousAdjustments_prevBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si, ajustar");
+		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-AjusteNivelCuenta_prevBtn")));
+		buscarYClick(driver.findElements(By.cssSelector("[class = 'slds-form-element__label ng-binding ng-scope']")), "equals", "nota de cr\u00e9dito");
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "no");
+		driver.findElement(By.id("MontoLibre")).sendKeys("2000000");
+		selectByText(driver.findElement(By.id("SelectItemAjusteLibre")), "Ajuste Datos");
+		driver.findElement(By.id("Step-AjusteNivelCuenta_nextBtn")).click();
+		sleep(5000);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-Summary_nextBtn")));
+		driver.findElement(By.id("Step-Summary_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header")));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header h1")).getText().equalsIgnoreCase("el caso fue derivado para autorizaci\u00f3n."));
+		String caso = driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header p label")).getText();
+		String nCaso = cc.getNumeros(caso);
+		System.out.println(cc.getNumeros(caso));
+		ges.cerrarPestaniaGestion(driver);
+		driver.findElement(By.id("phSearchInput")).sendKeys(nCaso);
+		driver.findElement(By.id("phSearchInput")).submit();
+		cambioDeFrame(driver, By.id("searchPageHolderDiv"), 0);
+		sleep(2000);
+		String estadoDelCaso = driver.findElement(By.cssSelector("[class = 'listRelatedObject caseBlock'] [class = 'bPageBlock brandSecondaryBrd secondaryPalette'] [class = 'pbBody'] table tbody tr [class = ' dataCell  cellCol3 ']")).getText();
+		Assert.assertTrue(estadoDelCaso.equalsIgnoreCase("en autorizaci\u00f3n"));
+		//se debe seguir con el flujo de backOffice manga de gil 
+	}
+	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
 	@Test (groups = "PerfilAgente", dataProvider = "RecargasHistorias")

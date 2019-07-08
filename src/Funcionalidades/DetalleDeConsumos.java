@@ -30,16 +30,16 @@ public class DetalleDeConsumos extends TestBase {
 	String detalles;
 	
 	//@BeforeClass (groups= "PerfilOficina")
-	public void Sit02() throws IOException, AWTException {
+	public void Sit03() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		log.LoginSit02();
+		log.LoginSit03();
 		//ges.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -49,7 +49,7 @@ public class DetalleDeConsumos extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -85,7 +85,7 @@ public class DetalleDeConsumos extends TestBase {
 		sleep(2000);
 	}
 
-	@AfterClass (alwaysRun = true)
+	//@AfterClass (alwaysRun = true)
 	public void quit() {
 		driver.quit();
 		sleep(5000);
@@ -93,7 +93,13 @@ public class DetalleDeConsumos extends TestBase {
 	
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
-	
+	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "DetalleDeConsumoApro")
+	public void TS171828_CRM_Movil_Mix_Detalle_de_consumo_Consulta_detalle_de_consumo_SMS_Crm_OC(String sDNI, String sLinea) {
+		imagen = "TS171828";
+		ges.BuscarCuenta("DNI", sDNI);;
+		ges.irAGestionEnCardPorNumeroDeLinea("Detalles de Consumo", sLinea);
+		
+	}
 //	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga")
 //	public void TS134782_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_SMS_FAN_Front_OOCC(String sDNI, String sLinea) {
 //		imagen = "TS134782";
