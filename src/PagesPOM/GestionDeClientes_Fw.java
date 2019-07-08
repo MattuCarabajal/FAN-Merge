@@ -491,4 +491,26 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			break;
 		}
 	}
+	
+	public void cambiarPerfil(String user) {
+		cerrarPestaniaGestion(driver);
+		driver.switchTo().defaultContent();
+		getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("userNavLabel")));
+		driver.findElement(By.id("userNavLabel")).click();		
+		WebElement option = driver.findElement(By.xpath("//*[@id='userNavMenu']//a[text()='Finalizar sesi\u00f3n']"));
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+		jse.executeScript("arguments[0].click();", option);
+		getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("userDropdown")));
+		driver.findElement(By.id("userDropdown")).click();
+		driver.findElement(By.id("logout")).click();
+		tb.cambioDeFrame(driver, By.cssSelector("[class='head3b']"), 0);
+		getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='head3b'][text()='Salida de la sesi�n']")));
+		driver.get(TestBase.urlAmbiente);
+		getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[id='idp_hint'] [class='button mb24 secondary wide']")));
+		driver.findElement(By.cssSelector("[id='idp_hint'] [class='button mb24 secondary wide']")).click();
+		getWait().until(ExpectedConditions.elementToBeClickable(By.id("loginButton2")));
+		driver.findElement(By.name("Ecom_User_ID")).sendKeys(user);
+		driver.findElement(By.name("Ecom_Password")).sendKeys("Testa10k");
+		driver.findElement(By.id("loginButton2")).click();
+	}
 }

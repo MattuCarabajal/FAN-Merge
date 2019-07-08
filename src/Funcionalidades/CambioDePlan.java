@@ -54,14 +54,14 @@ public class CambioDePlan extends TestBase {
 	
 	
 //	 @BeforeClass (alwaysRun = true)
-	public void Sit02() throws IOException, AWTException {
+	public void Sit03() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		contact = new ContactSearch(driver);
-		log.LoginSit02();
+		log.LoginSit03();
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		mk = new Marketing(driver);
@@ -162,6 +162,7 @@ public class CambioDePlan extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Summary_nextBtn")));
 		driver.findElement(By.id("Summary_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("AccountData_nextBtn")));
+		sleep(5000);
 		driver.findElement(By.id("AccountData_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn")));
 		contact.tipoValidacion("documento");
@@ -333,10 +334,24 @@ public class CambioDePlan extends TestBase {
 
 	}
 	
+	@Test (groups = {"PerfilAgente", "R1"})
+	public void TS145168_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO2() {
+		imagen = "TS145168";
+		cambioDePlan("DNI", "92010588", "conexi\u00f3n control abono s", "2932564197");
+		
+	}
+	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
 	@Test (groups = {"PerfilAgente"} )
 	public void TS_168782_CRM_Pospago_SalesCPQ_Cambio_de_plan_Telefonico_P_8_R_de_Plan_con_Tarjeta_a_APRO4() throws AWTException{
+		
+	}
+	
+	@Test (groups = {"PerfilAgente", "R1"})
+	public void TS169804_CRM_Pospago_SalesCPQ_Cambio_de_plan_Telefonico_P_y_R_de_Plan_con_Tarjeta_Repro_a_APRO2() {
+		imagen = "TS169804";
+		cambioDePlan("DNI", "92010588", "conexi\u00f3n control abono s", "2932564197");
 		
 	}
 	
@@ -347,6 +362,13 @@ public class CambioDePlan extends TestBase {
 		imagen = "17954137"; 
 		cambioDePlan("DNI", "17954140", "Plan con Tarjeta Repro", detalles);
 		Assert.assertTrue(ges.compararMegasEnCardPorLinea("2932598828"));
+		
+	}
+	
+	@Test (groups = {"PerfilAgente", "R1"})
+	public void TS169796_CRM_Pospago_SalesCPQ_Cambio_de_plan_Agente_DNI_de_Plan_con_Tarjeta_Repro_a_APRO2() {
+		imagen = "TS169796";
+		cambioDePlan("DNI", "92010588", "conexi\u00f3n control abono s", "2932564197");
 		
 	}
 	
