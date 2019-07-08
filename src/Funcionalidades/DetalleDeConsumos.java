@@ -1,12 +1,16 @@
 package Funcionalidades;
 
 import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -39,7 +43,7 @@ public class DetalleDeConsumos extends TestBase {
 		//ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -49,7 +53,7 @@ public class DetalleDeConsumos extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	//@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -98,6 +102,19 @@ public class DetalleDeConsumos extends TestBase {
 		imagen = "TS171828";
 		ges.BuscarCuenta("DNI", sDNI);;
 		ges.irAGestionEnCardPorNumeroDeLinea("Detalles de Consumo", sLinea);
+		cambioDeFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter"), 0);
+		driver.findElement(By.id("text-input-03")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//div[@class= 'slds-dropdown slds-dropdown--left resize-dropdowns']//li"), 0));
+		driver.findElement(By.xpath("//div[@class= 'slds-dropdown slds-dropdown--left resize-dropdowns']//li//*[contains(text(),'Plan con Tarjeta Repro - "+sLinea+"')]")).click();
+		driver.findElement(By.id("text-input-02")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//div[@class= 'slds-dropdown slds-dropdown--left']//li"), 0));
+		driver.findElement(By.xpath("//*[text() = 'Los \u00faltimos 15 d\u00edas']")).click();
+		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-text-heading--small"),0));
+		clickBy(driver, By.xpath("//label[contains (text(), 'Filtros avanzados')]"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-grid slds-wrap slds-card slds-p-around--medium']")));
+		WebElement desplegable = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-p-around--medium'] [class='slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-8 slds-large-size--2-of-8'] [class = 'slds-form-element']")).get(0);
+		desplegable.click();
 		
 	}
 //	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga")
@@ -210,6 +227,45 @@ public class DetalleDeConsumos extends TestBase {
 		}
 	}
 	
+	@Test (groups = {"PerfilTelefonico", "R1"}, dataProvider = "DetalleDeConsumoApro")
+	public void TS171834_CRM_Movil_Mix_Detalle_de_consumo_Consulta_detalle_de_consumo_Datos_Crm_Telefonico(String sDNI, String sLinea) {
+		imagen = "TS171834";
+		ges.BuscarCuenta("DNI", sDNI);;
+		ges.irAGestionEnCardPorNumeroDeLinea("Detalles de Consumo", sLinea);
+		cambioDeFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter"), 0);
+		driver.findElement(By.id("text-input-03")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//div[@class= 'slds-dropdown slds-dropdown--left resize-dropdowns']//li"), 0));
+		driver.findElement(By.xpath("//div[@class= 'slds-dropdown slds-dropdown--left resize-dropdowns']//li//*[contains(text(),'Plan con Tarjeta Repro - "+sLinea+"')]")).click();
+		driver.findElement(By.id("text-input-02")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//div[@class= 'slds-dropdown slds-dropdown--left']//li"), 0));
+		driver.findElement(By.xpath("//*[text() = 'Los \u00faltimos 15 d\u00edas']")).click();
+		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-text-heading--small"),0));
+		clickBy(driver, By.xpath("//label[contains (text(), 'Filtros avanzados')]"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-grid slds-wrap slds-card slds-p-around--medium']")));
+		WebElement desplegable = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-p-around--medium'] [class='slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-8 slds-large-size--2-of-8'] [class = 'slds-form-element']")).get(0);
+		desplegable.click();
+	}
+	
+	@Test (groups = {"PerfilTelefonico", "R1"}, dataProvider = "DetalleDeConsumoApro")
+	public void TS171835_CRM_Movil_Mix_Detalle_de_consumo_Consulta_detalle_de_consumo_Voz_Crm_Telefonico(String sDNI, String sLinea) {
+		imagen = "TS171835";
+		ges.BuscarCuenta("DNI", sDNI);;
+		ges.irAGestionEnCardPorNumeroDeLinea("Detalles de Consumo", sLinea);
+		cambioDeFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter"), 0);
+		driver.findElement(By.id("text-input-03")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//div[@class= 'slds-dropdown slds-dropdown--left resize-dropdowns']//li"), 0));
+		driver.findElement(By.xpath("//div[@class= 'slds-dropdown slds-dropdown--left resize-dropdowns']//li//*[contains(text(),'Plan con Tarjeta Repro - "+sLinea+"')]")).click();
+		driver.findElement(By.id("text-input-02")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//div[@class= 'slds-dropdown slds-dropdown--left']//li"), 0));
+		driver.findElement(By.xpath("//*[text() = 'Los \u00faltimos 15 d\u00edas']")).click();
+		driver.findElement(By.cssSelector(".slds-button.slds-button--brand")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-text-heading--small"),0));
+		clickBy(driver, By.xpath("//label[contains (text(), 'Filtros avanzados')]"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-grid slds-wrap slds-card slds-p-around--medium']")));
+		WebElement desplegable = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-p-around--medium'] [class='slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-8 slds-large-size--2-of-8'] [class = 'slds-form-element']")).get(0);
+		desplegable.click();
+	}
 //	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaProblemaRecarga")
 //	public void TS134803_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_SMS_FAN_Front_Telefonico(String sDNI, String sLinea ){
 //		imagen = "TS134803";

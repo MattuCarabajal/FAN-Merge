@@ -1815,7 +1815,13 @@ public class TestBase {
 	}
 	
 	@DataProvider
-public Object[][] DetalleDeConsumoApro() throws Exception{
+	public Object[][] PackAPRO() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"PackApro");
+	} 
+	
+	@DataProvider
+	public Object[][] DetalleDeConsumoApro() throws Exception{
 		
 		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,2,"DetalleDeConsumo");
 	} 
