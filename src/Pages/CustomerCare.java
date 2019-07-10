@@ -1454,41 +1454,16 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public void buscarCaso(String nCaso) {
-		tb = new TestBase();
-		tb.cambioDeFrame(driver, By.id("phSearchInput"), 0);
-		WebElement Buscador = tb.esperarElemento(driver, By.id("phSearchInput"), 0);
-//		WebElement Buscador = driver.findElement(By.id("phSearchInput"));
+		TestBase tb = new TestBase();
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
+		ges.cerrarPestaniaGestion(driver);
+		WebElement Buscador = driver.findElement(By.id("phSearchInput"));
 		Buscador.sendKeys(nCaso);
-		sleep(2000);
-		try {
-			driver.findElement(By.className("autoCompleteRowLink")).click();
-			sleep(2000);
-			Buscador.clear();
-		} catch (Exception e) {
-			sleep(7000);
-			Buscador.submit();
-			sleep(1000);
-			Buscador.clear();
-			sleep(2000);
-			int i = 0;
-			while (i < 3) {
-				try {
-					tb.cambioDeFrame(driver, By.id("searchResultsWarningMessageBox"), 0);
-					if (driver.findElement(By.id("searchResultsWarningMessageBox")).isDisplayed()) {
-						driver.navigate().refresh();
-						sleep(2000);
-						i++;
-					}
-				} catch (java.lang.NullPointerException a) {
-					sleep(3000);
-					tb.cambioDeFrame(driver, By.id("searchPageHolderDiv"), 0);
-					i = 4;
-				}
-			}
-			sleep(2000);
-			WebElement Caso = driver.findElement(By.cssSelector(".listRelatedObject.caseBlock")).findElement(By.cssSelector(".bPageBlock.brandSecondaryBrd.secondaryPalette")).findElement(By.className("pbBody")).findElement(By.className("list")).findElements(By.tagName("tr")).get(1).findElement(By.tagName("th")).findElement(By.tagName("a"));
-			Caso.click();
-		}
+		Buscador.submit();
+		Buscador.clear();
+		tb.cambioDeFrame(driver, By.id("searchAllSummaryView"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='bPageBlock brandSecondaryBrd secondaryPalette'] [id='Case_body']")));		
+		driver.findElement(By.cssSelector("[class = 'listRelatedObject caseBlock'] [class = 'bPageBlock brandSecondaryBrd secondaryPalette'] [class = 'pbBody'] table tbody tr [class = ' dataCell  cellCol1 '] a")).click();
 	}
 	
 	public WebElement botonConsultar() {

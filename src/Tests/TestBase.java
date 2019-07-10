@@ -1442,6 +1442,11 @@ public class TestBase {
 	}
 	
 	@DataProvider
+	public Object[][] CuentaSuspensionApro() throws Exception {
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,5,"SuspensionApro");
+	}
+	
+	@DataProvider
 	public Object[][] CuentaAjustesPRE() throws Exception {
 		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Ajustes PRE");
 	}
@@ -1808,6 +1813,18 @@ public class TestBase {
 		
 		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,7,"PackAgente40Minutos");
 	}
+	
+	@DataProvider
+	public Object[][] PackAPRO() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"venta de pack",1,1,14,"PackApro");
+	} 
+	
+	@DataProvider
+	public Object[][] DetalleDeConsumoApro() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(),"clientes",1,1,2,"DetalleDeConsumo");
+	} 
 	/////////////////////////////////////////////////////////////////////       Impro     ////////////////////////////////////////////////
 	
 	@DataProvider

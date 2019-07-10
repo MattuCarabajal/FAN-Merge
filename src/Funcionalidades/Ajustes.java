@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -22,6 +23,7 @@ import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
+import io.appium.java_client.functions.ExpectedCondition;
 
 public class Ajustes extends TestBase {
 
@@ -898,6 +900,44 @@ public class Ajustes extends TestBase {
 		detalles = imagen + " -Ajustes-DNI: " + sDNI + ", Caso numero: " + caso;
 	}
 	
+	@Test
+	public void TS112446_CRM_Movil_Pre_Ajuste_Nota_de_Credito_Monto_15000_Aprobador_Director_Revisor_BO_Exepcion_Crm_OC() {
+		ges.BuscarCuenta("DNI", "91021694");
+		sleep(5000);
+		cc.irAGestion("inconvenientes con cargos tasados");
+		cambioDeFrame(driver, By.id("Step-TipodeAjuste_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-TipodeAjuste_nextBtn")));
+		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO POSPAGO");
+		selectByText(driver.findElement(By.id("CboItem")), "Minutos/SMS");
+		selectByText(driver.findElement(By.id("CboMotivo")), "Error/omisi\u00f3n/demora gesti\u00f3n");
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si");
+		driver.findElement(By.id("Step-TipodeAjuste_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step1-SelectBillingAccount_nextBtn")));
+		driver.findElement(By.cssSelector("[class='slds-radio__label'] [class='slds-form-element__label ng-binding']")).click();
+		driver.findElement(By.id("Step1-SelectBillingAccount_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-VerifyPreviousAdjustments_prevBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si, ajustar");
+		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-AjusteNivelCuenta_nextBtn")));
+		driver.findElement(By.xpath("//*[@class='slds-radio ng-scope']//span[text()='Nota de cr\u00e9dito']")).click();
+		driver.findElements(By.xpath("//*[@class='slds-radio ng-scope']//span[text()= 'No']")).get(1).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("MontoLibre")));
+		driver.findElement(By.id("MontoLibre")).sendKeys("1500000");
+		selectByText(driver.findElement(By.id("SelectItemAjusteLibre")), "Ajuste Minutos");
+		driver.findElement(By.id("Step-AjusteNivelCuenta_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-Summary_nextBtn")));
+		driver.findElement(By.id("Step-Summary_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='ta-care-omniscript-done']")));
+		Assert.assertTrue(driver.findElement(By.xpath("//*[@class='ta-care-omniscript-done']//header//h1")).getText().toLowerCase().contains("el caso fue derivado para autorizaci\u00f3n"));
+		String orden = driver.findElement(By.xpath("//*[@class='ta-care-omniscript-done']//header//label")).getText();
+		orden = orden.substring(orden.lastIndexOf(" ")+1, orden.length());
+		System.out.println(orden);
+		ges.cambiarPerfil("Ua2569324");
+		ges.irAConsolaFAN();
+		cc.buscarCaso(orden);
+		
+	}
+	
 	@Test (groups = "PerfilOficina", dataProvider = "CuentaAjustesPRE")
 	public void TS103596_CRM_Movil_Pre_Ajuste_General_Derivacion_manual_Crm_OC(String sDNI, String sLinea) {
 		imagen = "TS103596";
@@ -937,7 +977,7 @@ public class Ajustes extends TestBase {
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider="CuentaAjustesPRE")
-	public void TS121281CRM_Movil_Pre_Ajuste_Nota_de_Credito_Monto_1500_Aprobador_BO_Sin_revisor_Exepci�n_Crm_OC(String sDNI, String sLinea){
+	public void TS121281CRM_Movil_Pre_Ajuste_Nota_de_Credito_Monto_1500_Aprobador_BO_Sin_revisor_Exepcion_Crm_OC(String sDNI, String sLinea){
 		ges.BuscarCuenta("DNI", sDNI);
 		sleep(8000);
 		cc.irAGestion("inconvenientes con cargos tasados");
@@ -1189,6 +1229,48 @@ public class Ajustes extends TestBase {
 		if (fechaAjuste.compareTo(fechaDesde) >= 0 && fechaAjuste.compareTo(fechaHasta) <= 0)
 			verificarFecha = true;
 		Assert.assertTrue(verificarFecha);
+	}
+	
+	@Test(groups = "PerfilTelefonico", dataProvider = "CuentaAjustesPRE")
+	public void TS160697CRM_Movil_Pre_Ajuste_Credito_Monto_20000_Aprobador_Director_Revisor_BO_Ordinaria_Crm_Telefonico(String sDNI, String sLinea) {
+		imagen = "TS103596";
+		ges.BuscarCuenta("DNI", sDNI);
+		cc.irAGestion("inconvenientes con cargos tasados");
+		cambioDeFrame(driver, By.id("Step-TipodeAjuste_nextBtn"), 0);
+		selectByText(driver.findElement(By.id("CboConcepto")), "FACTURA EMITIDA");
+		selectByText(driver.findElement(By.id("CboTipo")), "Cargos fijos facturados");
+		selectByText(driver.findElement(By.id("CboItem")), "Abono/proporcional");
+		selectByText(driver.findElement(By.id("CboMotivo")), "Informacion incorrecta");
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "no");
+		driver.findElement(By.id("Step-TipodeAjuste_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step1-SelectBillingAccount_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "contains", "cuenta: ");
+		driver.findElement(By.id("Step1-SelectBillingAccount_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-VerifyPreviousAdjustments_prevBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si, ajustar");
+		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-AjusteNivelCuenta_prevBtn")));
+		buscarYClick(driver.findElements(By.cssSelector("[class = 'slds-form-element__label ng-binding ng-scope']")), "equals", "nota de cr\u00e9dito");
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "no");
+		driver.findElement(By.id("MontoLibre")).sendKeys("2000000");
+		selectByText(driver.findElement(By.id("SelectItemAjusteLibre")), "Ajuste Datos");
+		driver.findElement(By.id("Step-AjusteNivelCuenta_nextBtn")).click();
+		sleep(5000);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-Summary_nextBtn")));
+		driver.findElement(By.id("Step-Summary_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header")));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header h1")).getText().equalsIgnoreCase("el caso fue derivado para autorizaci\u00f3n."));
+		String caso = driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header p label")).getText();
+		String nCaso = cc.getNumeros(caso);
+		System.out.println(cc.getNumeros(caso));
+		ges.cerrarPestaniaGestion(driver);
+		driver.findElement(By.id("phSearchInput")).sendKeys(nCaso);
+		driver.findElement(By.id("phSearchInput")).submit();
+		cambioDeFrame(driver, By.id("searchPageHolderDiv"), 0);
+		sleep(2000);
+		String estadoDelCaso = driver.findElement(By.cssSelector("[class = 'listRelatedObject caseBlock'] [class = 'bPageBlock brandSecondaryBrd secondaryPalette'] [class = 'pbBody'] table tbody tr [class = ' dataCell  cellCol3 ']")).getText();
+		Assert.assertTrue(estadoDelCaso.equalsIgnoreCase("en autorizaci\u00f3n"));
+		//se debe seguir con el flujo de backOffice manga de gil 
 	}
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
