@@ -233,6 +233,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		tb.cambioDeFrame(driver, By.id("SearchClientDocumentType"), -10);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_DNI)));
 		getSelect(DNIbuscador).selectByVisibleText(Type);
+		tb.esperarElemento(driver, By.id("SearchClientDocumentNumber"), 0);
 		DNI.sendKeys(NDNI);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.id(locator_BtnBuscar)));
 		BtnBuscar.click();

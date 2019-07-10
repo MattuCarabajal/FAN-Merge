@@ -1917,6 +1917,19 @@ public class CustomerCare extends BasePage {
 				}
 			}
 	}
+	
+	public String consutarSaldoEnCard (String sLinea){
+		WebElement h = null;
+		List<WebElement> cards = driver.findElements(By.cssSelector("[class='console-card active']"));
+			for(WebElement c : cards){
+				if(c.getText().contains(sLinea)){
+					h = c.findElement(By.xpath("//*[@class='card-info-hybrid']//*[@class='detail'][1]//*[@class='slds-text-body_regular value'][2]"));
+				}
+			}
+		
+	String	Saldo = h.getText();
+	return Saldo;
+	}
 
 	
 }
