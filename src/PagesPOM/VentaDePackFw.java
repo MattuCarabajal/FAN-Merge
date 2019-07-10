@@ -174,8 +174,8 @@ public class VentaDePackFw extends BasePageFw {
 		
 		
 		private void seleccionDeServicio1(String servicio1) {
-			getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.cpq-item-has-children")));
-			driver.findElement(By.cssSelector(".slds-button.cpq-item-has-children")).click();
+			getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class = 'slds-button cpq-item-has-children']")));
+			driver.findElement(By.cssSelector("[class = 'slds-button cpq-item-has-children']")).click();
 			getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class = 'cpq-item-product-child-level-1 cpq-item-child-product-name-wrapper']"), 0));
 			List<WebElement> NomPack = driver.findElements(By.cssSelector("[class = 'cpq-item-product-child-level-1 cpq-item-child-product-name-wrapper']"));
 			for (WebElement a : NomPack) {

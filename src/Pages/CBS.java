@@ -555,6 +555,12 @@ public class CBS {
 						esta = true;
 				}
 			break;
+			case "pack roaming 40 sms limitrofes y usa x 30 d\u00edas":
+				for (int i=0; i<ofertas.getLength();i++) {
+					if(ofertas.item(i).getTextContent().equals("SO_ROI_40SMS_LIM_USA_30D"))
+						esta = true;
+				}
+			break;
 		}		
 		return esta;
 	}

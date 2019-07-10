@@ -62,7 +62,7 @@ public class VentaDePacks extends TestBase {
 	}
 	
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -75,7 +75,7 @@ public class VentaDePacks extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups = "PerfilAgente")
+	@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -152,7 +152,6 @@ public class VentaDePacks extends TestBase {
 			}else {
 				sleep(15000);
 				driver.navigate().refresh();
-				i++;
 			}
 		}
 		Assert.assertTrue(verificacion);
@@ -196,7 +195,6 @@ public class VentaDePacks extends TestBase {
 			}else {
 				sleep(15000);
 				driver.navigate().refresh();
-				i++;
 			}
 		}
 		Assert.assertTrue(a);
@@ -242,7 +240,6 @@ public class VentaDePacks extends TestBase {
 			} else {
 				sleep(15000);
 				driver.navigate().refresh();
-				i++;
 			}
 		}
 		Assert.assertTrue(a);
@@ -287,7 +284,6 @@ public class VentaDePacks extends TestBase {
 			} else {
 				sleep(15000);
 				driver.navigate().refresh();
-				i++;
 			}
 		}
 		Assert.assertTrue(a);
@@ -328,7 +324,6 @@ public class VentaDePacks extends TestBase {
 			}else {
 				sleep(15000);
 				driver.navigate().refresh();
-				i++;
 			}
 		}
 		Assert.assertTrue(a);
@@ -373,7 +368,6 @@ public class VentaDePacks extends TestBase {
 			} else {
 				sleep(15000);
 				driver.navigate().refresh();
-				i++;
 			}
 		}
 		Assert.assertTrue(a);
@@ -423,6 +417,7 @@ public class VentaDePacks extends TestBase {
 		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		Assert.assertTrue(iMainBalance > uiMainBalance);
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));
 	}
 	
 
@@ -473,7 +468,6 @@ public class VentaDePacks extends TestBase {
 			} else {
 				sleep(15000);
 				driver.navigate().refresh();
-				i++;
 			}
 		}
 		Assert.assertTrue(a);
@@ -579,7 +573,7 @@ public class VentaDePacks extends TestBase {
 	
 	@Test (groups = {"PerfilTelefonico", "R1"}, dataProvider = "PackAPRO")
 	public void TS156768_CRM_Movil_Mix_Venta_de_oferta_Telefonico_Pack_Roaming_TDC(String sDNI, String sLinea, String sVentaPack, String sBanco, String sTarjeta, String sPromo, String sCuotas, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTipoDNI, String sDNITarjeta, String sTitular){
-		imagen = "TS135671";
+		imagen = "TS156768";
 		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
@@ -664,7 +658,6 @@ public class VentaDePacks extends TestBase {
 			}else {
 				driver.navigate().refresh();
 				sleep(15000);
-				i++;
 			}
 		}
 		Assert.assertTrue(a);
@@ -705,7 +698,6 @@ public class VentaDePacks extends TestBase {
 			}else {
 				driver.navigate().refresh();
 				sleep(15000);
-				i++;
 			}
 		}
 		Assert.assertTrue(a);
@@ -750,7 +742,6 @@ public class VentaDePacks extends TestBase {
 			} else {
 				sleep(15000);
 				driver.navigate().refresh();
-				i++;
 			}
 		}
 		Assert.assertTrue(a);
@@ -819,11 +810,48 @@ public class VentaDePacks extends TestBase {
 			} else {
 				sleep(15000);
 				driver.navigate().refresh();
-				i++;
 			}
 		}
 		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack40Minutos) && a);
 	}
 	
-	
+	@Test (groups = { "PerfilAgente", "R1" }, dataProvider = "PackAPRO")
+	public void TS156753_CRM_Movil_Mix_Venta_de_oferta_Agente_Pack_Roaming_Efectivo(String sDNI, String sLinea, String sVentaPack, String sBanco, String sTarjeta, String sPromo, String sCuotas, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTipoDNI, String sDNITarjeta, String sTitular){
+		imagen = "TS156753";
+		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
+		ges.BuscarCuenta("DNI", sDNI);
+		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
+		ges.irAGestionEnCardPorNumeroDeLinea("Comprar Minutos", sLinea);
+		vt.packRoaming(sVentaPack);	
+		vt.tipoDePago("en factura de venta");
+		driver.findElement(By.id("SetPaymentType_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("InvoicePreview_nextBtn")));
+		String sOrden = cc.obtenerOrden2(driver);
+		detalles+="-Orden:"+sOrden;
+		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "efectivo");
+		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
+		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
+		sleep(7000);
+		cbsm.Servicio_NotificarPago(sOrden);
+		cc.buscarCasoParaPedidos(sOrden);
+		sleep(7000);
+		boolean a = false;
+		for(int i= 0; i <= 10 ; i++) {
+			cambioDeFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
+			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
+			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
+			String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
+			if(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated")) {
+				a = true;
+			}else {
+				sleep(15000);
+				driver.navigate().refresh();
+			}
+		}
+		Assert.assertTrue(a);
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));
+	}
 }
