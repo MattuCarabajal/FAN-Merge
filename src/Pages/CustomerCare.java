@@ -1853,33 +1853,26 @@ public class CustomerCare extends BasePage {
 	public void verificarPedido(String orden, String estado){
 		Boolean ord = false;
 		tb = new TestBase();
-		driver.switchTo().frame(tb.cambioFrame(driver, By.id("Order_body")));
+		tb.cambioDeFrame(driver, By.id("Order_body"),0);
 		List<WebElement> status = driver.findElement(By.id("Order_body")).findElement(By.tagName("tbody")).findElements(By.tagName("td"));
 		for(WebElement s : status){
-			if(s.getText().toLowerCase().contains(estado)){
+			System.out.println(s.getText());
+			if(s.getText().equalsIgnoreCase(estado)){
 				ord = true;
 			}
     	}
     Assert.assertTrue(ord);
 	}
 	
-	public void buscarOrdenDiag (String orden){
-		driver.switchTo().defaultContent();
-			sleep(1000);
-			WebElement Buscador = driver.findElement(By.id("phSearchInput"));
-			Buscador.sendKeys(orden);
-			sleep(2000);
-			try {
-				driver.findElement(By.className("autoCompleteRowLink")).click();
-				sleep(2000);
-				Buscador.clear();
-			} catch (Exception e) {
-				sleep(7000);
-				Buscador.submit();
-				sleep(1000);
-				Buscador.clear();
-				sleep(2000);
-			}
+	public void buscarOrden (String orden){
+		TestBase tb = new TestBase();
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
+		ges.cerrarPestaniaGestion(driver);
+		WebElement Buscador = driver.findElement(By.id("phSearchInput"));
+		Buscador.sendKeys(orden);
+		Buscador.submit();
+		Buscador.clear();
+		tb.cambioDeFrame(driver, By.id("searchAllSummaryView"), 0);
 	}
 	
 	public void cobertura (String antenas){
@@ -1895,3 +1888,4 @@ public class CustomerCare extends BasePage {
 
 	
 }
+;
