@@ -1892,6 +1892,37 @@ public class CustomerCare extends BasePage {
 				}
 			}
 	}
+	
+	public boolean aprobarAjusteConPerfilBOYDirector(String orden, String perfilInicial) {
+		TestBase tb = new TestBase(); 
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
+		ges.cambiarPerfil("Ua2569324");
+		ges.irAConsolaFAN();
+		buscarCaso(orden);
+		tb.cambioDeFrame(driver, By.id("topButtonRow"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.name("submit")));
+		driver.findElement(By.name("submit")).click();
+		driver.switchTo().alert().accept();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("topButtonRow")));
+		driver.findElement(By.xpath("//*[@class='pbBody']//a[text()='Aprobar/rechazar']")).click();
+		tb.cambioDeFrame(driver, By.cssSelector("[id='bottomButtonRow'] [value='Aprobar']"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[id='bottomButtonRow'] [value='Aprobar']")));
+		driver.findElement(By.cssSelector("[id='bottomButtonRow'] [value='Aprobar']")).click();
+		ges.cambiarPerfil("Ua2556268");
+		ges.irAConsolaFAN();
+		buscarCaso(orden);
+		tb.cambioDeFrame(driver, By.id("topButtonRow"), 0);
+		driver.findElement(By.xpath("//*[@class='pbBody']//a[text()='Aprobar/rechazar']")).click();
+		tb.cambioDeFrame(driver, By.cssSelector("[id='bottomButtonRow'] [value='Aprobar']"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[id='bottomButtonRow'] [value='Aprobar']")));
+		driver.findElement(By.cssSelector("[id='bottomButtonRow'] [value='Aprobar']")).click();
+		driver.navigate().refresh();
+		tb.cambioDeFrame(driver, By.id("topButtonRow"), 0);
+		String status = driver.findElement(By.xpath("//*[@class='detailList']//tr//*[@id='cas7_ilecell']")).getText();
+		ges.cambiarPerfil(perfilInicial);
+		ges.irAConsolaFAN();
+		return status.equalsIgnoreCase("Realizada exitosa");		
+	}
 
 	
 }

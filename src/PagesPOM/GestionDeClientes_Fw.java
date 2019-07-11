@@ -172,7 +172,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	
 	public void irConsolaFanUat02(){
 		tb = new TestBase();
-		tb.clickBy(driver, By.xpath("//*[contains(text(),'Consola FAN')]"), 0);
+		tb.clickBy(driver, By.xpath("//*[contains(text(),'a Consola FAN')]"), 0);
 	 }
 	
 	public void cerrarPestaniaGestion(WebDriver driver) {//copiado de SalesBase Cierra todas las pesta�as de gestion
@@ -504,7 +504,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		driver.findElement(By.id("userDropdown")).click();
 		driver.findElement(By.id("logout")).click();
 		tb.cambioDeFrame(driver, By.cssSelector("[class='head3b']"), 0);
-		getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='head3b'][text()='Salida de la sesi�n']")));
+		getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='head3b'][text()='Salida de la sesi\u00f3n']")));
 		driver.get(TestBase.urlAmbiente);
 		getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[id='idp_hint'] [class='button mb24 secondary wide']")));
 		driver.findElement(By.cssSelector("[id='idp_hint'] [class='button mb24 secondary wide']")).click();
