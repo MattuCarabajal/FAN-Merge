@@ -172,7 +172,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	
 	public void irConsolaFanUat02(){
 		tb = new TestBase();
-		tb.clickBy(driver, By.xpath("//*[contains(text(),'Consola FAN')]"), 0);
+		tb.clickBy(driver, By.xpath("//*[contains(text(),'a Consola FAN')]"), 0);
 	 }
 	
 	public void cerrarPestaniaGestion(WebDriver driver) {//copiado de SalesBase Cierra todas las pesta�as de gestion
@@ -348,9 +348,38 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			List<WebElement> elementos = driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li"));
 			elementos.addAll(driver.findElements(By.cssSelector("[class='card-info-hybrid'] [class='actions'] li")));
 			elementos.addAll(driver.findElements(By.cssSelector("[class='slds-button slds-button--neutral ']")));
+			driver.findElement(By.xpath("//*[@id='j_id0:j_id5']/div/div/ng-include/div/div[2]/div[1]/ng-include/section[2]/div[3]/ng-transclude/div/ng-include/div/div[1]/div/ng-include/div/ul/li[3]/a/span")).click();;
+
 			System.out.println(clickElementoPorTextExacto(elementos, sGestion));
+
+			
+
 		}
 
+	}
+	
+	public void irRenovacionDeDatos(String sLinea) {
+		tb = new TestBase();
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card active']"));
+		WebElement cardPorLinea= getBuscarElementoPorText(listaDeElementosPorText(cards, sLinea),"Activo");
+		try {
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='community-flyout-actions-card'] ul li"), 0));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='card-info-hybrid'] [class='actions'] li"), 0));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-button slds-button--neutral ']"), 0));
+		driver.findElement(By.xpath("//a//span[contains(text(),'Renovacion de Datos')]")).click();;
+		}catch(Exception e) {
+			
+			cardPorLinea.findElement(By.cssSelector("[id='flecha'] i")).click();
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='community-flyout-actions-card'] ul li"), 0));
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='card-info-hybrid'] [class='actions'] li"), 0));
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-button slds-button--neutral ']"), 0));
+			driver.findElement(By.xpath("//a//span[contains(text(),'Renovacion de Datos')]")).click();;
+
+		}
+
+
+	
 	}
 	
 	public boolean compararMegasEnCard() { 
@@ -406,8 +435,8 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		} catch (Exception e) {
 			System.out.println("Verificar el estado de la card ");
 		}
-		// despliega el menu de la nueva card
 		try {
+			// despliega el menu de la nueva card
 			tb.cambioDeFrame(driver, By.cssSelector("[id='flecha'] i"), 0);
 			fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[id='flecha'] i")));
 			cardActiva.findElement(By.cssSelector("[id='flecha'] i")).click();
@@ -426,6 +455,73 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		assertTrue(result); 
 		driver.switchTo().defaultContent(); 
 		return result;
+	}
+
+	public String getMegasNuevaCard(String linea) {
+		driver.switchTo().defaultContent(); 
+		String nuevomega ="no hay datos";
+		TestBase tb = new TestBase(); 
+		//busca por linea y verifica el estado 
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		tb.sleep(10000);
+		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card ']"));
+		cards =listaDeElementosPorText(cards, linea);
+		if(cards.size()<=0) {
+			System.out.println("numero de linea inexistente");
+		}
+		WebElement cardActiva= getBuscarElementoPorText(cards, "Activo");
+		try {
+			// despliega el menu de la nueva card
+			tb.cambioDeFrame(driver, By.cssSelector("[id='flecha'] i"), 0);
+			fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[id='flecha'] i")));
+			cardActiva.findElement(By.cssSelector("[id='flecha'] i")).click();
+			// obtienen la cantidad de megas del nuevo plan
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters']"), 0));
+			List<WebElement> elementos = driver.findElements(By.cssSelector("[class='slds-grid slds-gutters']"));
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']"),0));
+			WebElement elemento = getBuscarElementoPorText(elementos, "Internet").findElements(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']")).get(1);
+			 nuevomega = elemento.getText();
+		} catch (Exception e) {
+			System.out.println("Verificar el est sado de la card actual");
+		}
+		 
+		return nuevomega;
+	}
+	
+	public String getInfoNuevaCard(String linea, String TipoDeConsumo) {
+		//retorna los datos de la linea pasado por parametro, el tipo de comsumo puede ser, internet, minutos, SMS, credito disponible
+		driver.switchTo().defaultContent(); 
+		String info ="no hay datos";
+		TestBase tb = new TestBase(); 
+		//busca por linea y verifica el estado 
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		tb.sleep(10000);
+		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card ']"));
+		cards =listaDeElementosPorText(cards, linea);
+		if(cards.size()<=0) {
+			System.out.println("numero de linea inexistente");
+		}
+		WebElement cardActiva= getBuscarElementoPorText(cards, "Activo");
+		try {
+			// intenta obtener los datos en caso de que la card se encuentre desplegada
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters']"), 0));
+			List<WebElement> elementos = driver.findElements(By.cssSelector("[class='slds-grid slds-gutters']"));
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']"),0));
+			WebElement elemento = getBuscarElementoPorText(elementos, TipoDeConsumo).findElements(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']")).get(1);
+			info = elemento.getText().replaceAll("[$,.]", "");
+		} catch (Exception e) {
+			tb.cambioDeFrame(driver, By.cssSelector("[id='flecha'] i"), 0);
+			fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[id='flecha'] i")));
+			cardActiva.findElement(By.cssSelector("[id='flecha'] i")).click();
+			// obtienen la cantidad de megas del nuevo plan
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters']"), 0));
+			List<WebElement> elementos = driver.findElements(By.cssSelector("[class='slds-grid slds-gutters']"));
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']"),0));
+			WebElement elemento = getBuscarElementoPorText(elementos, TipoDeConsumo).findElements(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']")).get(1);
+			info = elemento.getText().replaceAll("[$,.]", "");
+		}
+		 
+		return info;
 	}
 	
 	public WebDriverWait getWait() {
@@ -504,7 +600,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		driver.findElement(By.id("userDropdown")).click();
 		driver.findElement(By.id("logout")).click();
 		tb.cambioDeFrame(driver, By.cssSelector("[class='head3b']"), 0);
-		getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='head3b'][text()='Salida de la sesi�n']")));
+		getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='head3b'][text()='Salida de la sesi\u00f3n']")));
 		driver.get(TestBase.urlAmbiente);
 		getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[id='idp_hint'] [class='button mb24 secondary wide']")));
 		driver.findElement(By.cssSelector("[id='idp_hint'] [class='button mb24 secondary wide']")).click();

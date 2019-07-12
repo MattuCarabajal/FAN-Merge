@@ -8,13 +8,16 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
+import Tests.CBS_Mattu;
 import Tests.TestBase;
 
 public class GestionDeClientes extends TestBase {
@@ -25,6 +28,9 @@ public class GestionDeClientes extends TestBase {
 	private LoginFw log;
 	private GestionDeClientes_Fw ges;
 	private String imagen;
+	private CBS_Mattu cbsm;
+	private CustomerCare cc;
+	
 	String detalles;
 	
 	//@BeforeClass (groups= "PerfilOficina")
@@ -34,17 +40,29 @@ public class GestionDeClientes extends TestBase {
 		sb = new SalesBase(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		log.LoginSit02();
+		log.LoginSit03();
 		//ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups= "PerfilOficina")
+	//@BeforeClass (groups= "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		log.loginOOCC();
+		ges.irAConsolaFAN();	
+	}
+	
+	@BeforeClass (groups = "PerfilTelefonico")
+	public void initTelefonico() {
+		driver = setConexion.setupEze();
+		cc = new CustomerCare(driver);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		sb = new SalesBase(driver);
+		cbsm = new CBS_Mattu();
+		log.loginTelefonico();
 		ges.irAConsolaFAN();	
 	}
 	
@@ -217,4 +235,32 @@ public class GestionDeClientes extends TestBase {
 		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
 	}
 	
+	@Test (groups = "PerfilOficina, R1", dataProvider = "invalidaDocumentacion")
+	public void TS150642_CRM_Movil_MIX_Busqueda_DNI_Numero_de_Documento_no_existente_OOCC(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail){
+		imagen = "TS150642";
+		sb.BuscarCuenta("DNI", sDNI);
+		String message = "no hay ning\u00fan cliente con este tipo y n\u00famero de documento. busc\u00e1 con otro dato o cre\u00e1 un nuevo cliente.";
+		String messageFound = getTextBy(driver, By.cssSelector("[class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope']"), 0);
+		Assert.assertTrue(message.equalsIgnoreCase(messageFound));
+	}
+	
+	@Test (groups = "PerfilOficina, R1", dataProvider = "validaDocumentacion")
+	public void TS150654_CRM_Movil_MIX_Busqueda_Numero_de_Cuenta_OOCC(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail){
+		imagen = "150654";
+		detalles = imagen + "- Gestion de Clientes - DNI: " + sDNI;
+		sb.BuscarAvanzada("", "", "", sNumeroDeCuenta, "");
+		Assert.assertTrue(ges.estaEnClientes(sDNI));
+	}
+	
+	//------------------------------------------------------------    TELEFONICO     -------------------------------------------------------------------------------
+	@Test (groups = "PerfilTelefonico, R1", dataProvider = "validaDocumentacion")
+	public void TS150641_CRM_Movil_MIX_Busqueda_DNI_Numero_de_Documento_Telefonico(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail){
+		imagen = "150641";
+		sb.BuscarCuenta("DNI", sDNI);
+		Assert.assertTrue(ges.estaEnClientes(sDNI));
+		
+		
+		
+		
+	}
 }
