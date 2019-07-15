@@ -43,7 +43,7 @@ public class DetalleDeConsumos extends TestBase {
 		//ges.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -53,7 +53,7 @@ public class DetalleDeConsumos extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -115,7 +115,27 @@ public class DetalleDeConsumos extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-grid slds-wrap slds-card slds-p-around--medium']")));
 		WebElement desplegable = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-p-around--medium'] [class='slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-8 slds-large-size--2-of-8'] [class = 'slds-form-element']")).get(0);
 		desplegable.click();
-		
+		driver.findElement(By.xpath("//div[@class= 'slds-dropdown slds-dropdown--left']//li//*[contains(text(),'SMS')]")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-table slds-table_striped slds-table--bordered slds-table--resizable-cols slds-table--fixed-layout via-slds-table-pinned-header'] tbody tr"), 0));
+		boolean b = false;
+		WebElement lista = driver.findElement(By.cssSelector("[class='slds-table slds-table_striped slds-table--bordered slds-table--resizable-cols slds-table--fixed-layout via-slds-table-pinned-header'] tbody"));
+		List <WebElement> consumos = lista.findElements(By.tagName("tr"));
+		System.out.println(lista.getText());
+		for(WebElement x : consumos) {
+			if(x.getText().contains("SMS")) {
+				b = true;
+				break;
+			}
+		}
+		Assert.assertTrue(b);
+		List<WebElement> filas = driver.findElements(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"));
+		filas.get(0).click();
+		filas = driver.findElements(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"));
+		List<WebElement> detalles = filas.get(1).findElements(By.cssSelector(".slds-text-heading--label"));
+		List<String> detallesReferencia = new ArrayList<String>(Arrays.asList("FECHA DE INICIO", "FECHA DE FIN", "PRODUCTO", "IMPORTE", "ORIGEN/DESTINO"));
+		for (int i = 0; i < detalles.size(); i++) {
+			Assert.assertTrue(detalles.get(i).getText().equals(detallesReferencia.get(i)));
+		}
 	}
 //	@Test (groups = "PerfilOficina", dataProvider = "CuentaProblemaRecarga")
 //	public void TS134782_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_SMS_FAN_Front_OOCC(String sDNI, String sLinea) {
@@ -245,6 +265,27 @@ public class DetalleDeConsumos extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-grid slds-wrap slds-card slds-p-around--medium']")));
 		WebElement desplegable = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-p-around--medium'] [class='slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-8 slds-large-size--2-of-8'] [class = 'slds-form-element']")).get(0);
 		desplegable.click();
+		driver.findElement(By.xpath("//div[@class= 'slds-dropdown slds-dropdown--left']//li//*[contains(text(),'Servicio de datos')]")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-table slds-table_striped slds-table--bordered slds-table--resizable-cols slds-table--fixed-layout via-slds-table-pinned-header'] tbody tr"), 0));
+		boolean b = false;
+		WebElement lista = driver.findElement(By.cssSelector("[class='slds-table slds-table_striped slds-table--bordered slds-table--resizable-cols slds-table--fixed-layout via-slds-table-pinned-header'] tbody"));
+		List <WebElement> consumos = lista.findElements(By.tagName("tr"));
+		System.out.println(lista.getText());
+		for(WebElement x : consumos) {
+			if(x.getText().contains("Servicio de datos")) {
+				b = true;
+				break;
+			}
+		}
+		Assert.assertTrue(b);
+		List<WebElement> filas = driver.findElements(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"));
+		filas.get(0).click();
+		filas = driver.findElements(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"));
+		List<WebElement> detalles = filas.get(1).findElements(By.cssSelector(".slds-text-heading--label"));
+		List<String> detallesReferencia = new ArrayList<String>(Arrays.asList("FECHA DE INICIO", "FECHA DE FIN", "PRODUCTO", "IMPORTE", "ORIGEN/DESTINO"));
+		for (int i = 0; i < detalles.size(); i++) {
+			Assert.assertTrue(detalles.get(i).getText().equals(detallesReferencia.get(i)));
+		}
 	}
 	
 	@Test (groups = {"PerfilTelefonico", "R1"}, dataProvider = "DetalleDeConsumoApro")
@@ -265,6 +306,27 @@ public class DetalleDeConsumos extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-grid slds-wrap slds-card slds-p-around--medium']")));
 		WebElement desplegable = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-p-around--medium'] [class='slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-8 slds-large-size--2-of-8'] [class = 'slds-form-element']")).get(0);
 		desplegable.click();
+		driver.findElement(By.xpath("//div[@class= 'slds-dropdown slds-dropdown--left']//li//*[contains(text(),'Llamada de voz')]")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-table slds-table_striped slds-table--bordered slds-table--resizable-cols slds-table--fixed-layout via-slds-table-pinned-header'] tbody tr"), 0));
+		boolean b = false;
+		WebElement lista = driver.findElement(By.cssSelector("[class='slds-table slds-table_striped slds-table--bordered slds-table--resizable-cols slds-table--fixed-layout via-slds-table-pinned-header'] tbody"));
+		List <WebElement> consumos = lista.findElements(By.tagName("tr"));
+		System.out.println(lista.getText());
+		for(WebElement x : consumos) {
+			if(x.getText().contains("Llamada de voz")) {
+				b = true;
+				break;
+			}
+		}
+		Assert.assertTrue(b);
+		List<WebElement> filas = driver.findElements(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"));
+		filas.get(0).click();
+		filas = driver.findElements(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--medium'] tbody tr"));
+		List<WebElement> detalles = filas.get(1).findElements(By.cssSelector(".slds-text-heading--label"));
+		List<String> detallesReferencia = new ArrayList<String>(Arrays.asList("FECHA DE INICIO", "FECHA DE FIN", "PRODUCTO", "IMPORTE", "ORIGEN/DESTINO"));
+		for (int i = 0; i < detalles.size(); i++) {
+			Assert.assertTrue(detalles.get(i).getText().equals(detallesReferencia.get(i)));
+		}
 	}
 //	@Test (groups = "PerfilTelefonico", dataProvider = "CuentaProblemaRecarga")
 //	public void TS134803_CRM_Movil_Prepago_Vista_360_Detalle_de_consumo_Consulta_detalle_de_consumo_SMS_FAN_Front_Telefonico(String sDNI, String sLinea ){
