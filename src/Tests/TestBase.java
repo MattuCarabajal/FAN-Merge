@@ -672,7 +672,7 @@ public class TestBase {
 	}
 
 	public String fechaDeHoy() {
-		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
 		return (dateFormat.format(date));
 	}
@@ -1679,6 +1679,11 @@ public class TestBase {
 	@DataProvider
 	public Object[][] RecargasHistorias() throws Exception{
 		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"RecargaHistoria");
+	}
+	
+	@DataProvider
+	public Object[][] RecargasHistorialApro() throws Exception{
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"HistorialRecargasApro");
 	}
 	
 	@DataProvider
