@@ -58,7 +58,7 @@ public class RenovacionDeCuota extends TestBase {
 		//ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (alwaysRun = true)
+//	@BeforeClass (alwaysRun = true)
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
@@ -71,7 +71,7 @@ public class RenovacionDeCuota extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	//@BeforeClass (alwaysRun = true)
+	@BeforeClass (alwaysRun = true)
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
@@ -124,7 +124,7 @@ public class RenovacionDeCuota extends TestBase {
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "RenovacionDeCuota","E2E"})
-	public void TS162148CRM_Movil_Mix_Renovacion_de_Datos_APRO2_OOCC_Descuento_Saldo() {
+	public void TS163166CRM_Movil_Mix_Renovacion_de_Datos_APRO2_OOCC_Descuento_Saldo() {
 		imagen = "TS162149_CRM_Movil_Mix_Renovacion_de_Datos_APRO2_OOCC_Efectivo";
 		detalles = null;
 		ges.BuscarCuenta("DNI", "9585089");
@@ -132,9 +132,9 @@ public class RenovacionDeCuota extends TestBase {
 		sleep(500);
 		int saldoOriginal = Integer.valueOf(ges.getInfoNuevaCard("2932598337","Disponible"));
 		int datosOriginal = Integer.valueOf(ges.getInfoNuevaCard("2932598337","Internet"));
-		ges.irRenovacionDeDatos("2932598789");
+		ges.irRenovacionDeDatos("2932598337");
 		cambioDeFrame(driver, By.id("combosMegas"), 0);
-		sleep(500);
+		sleep(5000);
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer"), 0));
 		List<WebElement> elementos = driver.findElement(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
 		for(WebElement elemento : elementos) {
@@ -155,13 +155,13 @@ public class RenovacionDeCuota extends TestBase {
 		ges.irGestionClientes();
 		ges.BuscarCuenta("DNI", "9585089");
 		sleep(5000);
-		assertTrue(saldoOriginal > Integer.valueOf(ges.getInfoNuevaCard("2932598789","Disponible")));
-		assertTrue(datosOriginal < Integer.valueOf(ges.getInfoNuevaCard("2932598789","Internet")));
+		assertTrue((saldoOriginal - 17500) == Integer.valueOf(ges.getInfoNuevaCard("2932598337","Disponible")));
+		assertTrue((datosOriginal+1024) == Integer.valueOf(ges.getInfoNuevaCard("2932598337","Internet")));
 	
 	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "RenovacionDeCuota","E2E"})
-	public void TS162149_CRM_Movil_Mix_Renovacion_de_Datos_APRO2_OOCC_Efectivo() {
+	public void TS163167_CRM_Movil_Mix_Renovacion_de_Datos_APRO2_OOCC_Efectivo() {
 		imagen = "TS162149_CRM_Movil_Mix_Renovacion_de_Datos_APRO2_OOCC_Efectivo";
 		detalles = null;
 		ges.BuscarCuenta("DNI", "38010123");
@@ -503,6 +503,95 @@ public class RenovacionDeCuota extends TestBase {
 //	
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
+	@Test (groups = {"GestionesPerfilTelefonico", "RenovacionDeCuota","E2E"})
+	public void TS163182CRM_Movil_Mix_Renovacion_de_Datos_APRO2_Telefonico_TDC() {
+		imagen = "TS163181CRM_Movil_Mix_Renovacion_de_Datos_APRO2_Telefonico_Descuento_Saldo";
+		detalles = null;
+		ges.BuscarCuenta("DNI", "9585089");
+		cambioDeFrame(driver,By.cssSelector("[class='details']"),0);
+		sleep(500);
+
+		int datosOriginal = Integer.valueOf(ges.getInfoNuevaCard("2932598337","Internet"));
+		ges.irRenovacionDeDatos("2932598337");
+		cambioDeFrame(driver, By.id("combosMegas"), 0);
+		sleep(5000);
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer"), 0));
+		List<WebElement> elementos = driver.findElement(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+		for(WebElement elemento : elementos) {
+			if(elemento.getText().contains("1 GB")) {
+				elemento.findElement(By.className("slds-checkbox")).click();
+				break;
+			}
+		}
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("CombosDeMegas_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("CombosDeMegas_nextBtn")));	
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-radio ng-scope']")));
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-radio ng-scope']")), "contains", "Venta");
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SetPaymentType_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("SetPaymentType_nextBtn")));
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("InvoicePreview_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("InvoicePreview_nextBtn")));
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SelectPaymentMethodsStep_nextBtn")));
+		sleep(8000);
+		selectByText(driver.findElement(By.id("BankingEntity-0")), "BANCO DE LA NACION ARGENTINA");
+		selectByText(driver.findElement(By.id("CardBankingEntity-0")), "MASTERCARD");
+		selectByText(driver.findElement(By.id("promotionsByCardsBank-0")), "MASTERCARD/ARGENCARD S.A. - Cuotas: 1.. 1 Recargo: 0,00%");
+		selectByText(driver.findElement(By.id("Installment-0")), "1 - CFT %1.0");
+		driver.findElement(By.id("CardNumber-0")).sendKeys("5399099990081010");
+		selectByText(driver.findElement(By.id("expirationMonth-0")), "6");
+		selectByText(driver.findElement(By.id("expirationYear-0")), "2020");
+		driver.findElement(By.id("securityCode-0")).sendKeys("159");
+		selectByText(driver.findElement(By.id("documentType-0")), "DNI");
+		driver.findElement(By.id("documentNumber-0")).sendKeys("22222000");
+		driver.findElement(By.id("cardHolder-0")).sendKeys("Nombre Cuenta");
+		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		sleep(5000);
+		ges.cerrarPestaniaGestion(driver);
+		ges.selectMenuIzq("Inicio");
+		ges.irGestionClientes();
+		ges.BuscarCuenta("DNI", "9585089");
+		sleep(5000);
+		System.out.println(datosOriginal+" ---> "+ges.getInfoNuevaCard("2932598337","Internet"));
+		assertTrue((datosOriginal+1024) == Integer.valueOf(ges.getInfoNuevaCard("2932598337","Internet")));
+	
+	}
+	
+	@Test (groups = {"GestionesPerfilTelefonico", "RenovacionDeCuota","E2E"})
+	public void TS163181CRM_Movil_Mix_Renovacion_de_Datos_APRO2_Telefonico_Descuento_Saldo() {
+		imagen = "TS163181CRM_Movil_Mix_Renovacion_de_Datos_APRO2_Telefonico_Descuento_Saldo";
+		detalles = null;
+		ges.BuscarCuenta("DNI", "9585089");
+		cambioDeFrame(driver,By.cssSelector("[class='details']"),0);
+		sleep(500);
+		int saldoOriginal = Integer.valueOf(ges.getInfoNuevaCard("2932598337","Disponible"));
+		int datosOriginal = Integer.valueOf(ges.getInfoNuevaCard("2932598337","Internet"));
+		ges.irRenovacionDeDatos("2932598337");
+		cambioDeFrame(driver, By.id("combosMegas"), 0);
+		sleep(5000);
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer"), 0));
+		List<WebElement> elementos = driver.findElement(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer")).findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+		for(WebElement elemento : elementos) {
+			if(elemento.getText().contains("1 GB")) {
+				elemento.findElement(By.className("slds-checkbox")).click();
+				break;
+			}
+		}
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("CombosDeMegas_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("CombosDeMegas_nextBtn")));	
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-radio ng-scope']")));
+		buscarYClick(driver.findElements(By.cssSelector("[class='slds-radio ng-scope']")), "contains", "Saldo");
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SetPaymentType_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("SetPaymentType_nextBtn")));
+		sleep(5000);
+		ges.cerrarPestaniaGestion(driver);
+		ges.selectMenuIzq("Inicio");
+		ges.irGestionClientes();
+		ges.BuscarCuenta("DNI", "9585089");
+		sleep(5000);
+		assertTrue((saldoOriginal - 17500) == Integer.valueOf(ges.getInfoNuevaCard("2932598337","Disponible")));
+		assertTrue((datosOriginal+1024) == Integer.valueOf(ges.getInfoNuevaCard("2932598337","Internet")));
+	
+	}
 	
 	@Test (groups = {"GestionesPerfilTelefonico", "RenovacionDeCuota","E2E"}, dataProvider="RenovacionCuotaConSaldo")
 	public void TS_CRM_Movil_REPRO_Renovacion_De_Cuota_Telefonico_Descuento_De_Saldo_Con_Credito(String sDNI, String sLinea, String accid) {
