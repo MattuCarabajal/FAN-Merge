@@ -1,40 +1,25 @@
 package Funcionalidades;
 
 import java.awt.AWTException;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import Pages.BasePage;
-import Pages.BeFan;
-import Pages.CBS;
 import Pages.ContactSearch;
 import Pages.CustomerCare;
 import Pages.Marketing;
-import Pages.SCP;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
-import PagesPOM.VentaDePackFw;
-import Tests.CBS_Mattu;
-import Tests.MDW;
 import Tests.TestBase;
-import Pages.Marketing;
 
 public class CambioDePlan extends TestBase {
 
@@ -42,18 +27,15 @@ public class CambioDePlan extends TestBase {
 	private LoginFw log;
 	private GestionDeClientes_Fw ges;
 	private CustomerCare cc;
-	private CBS cbs;
-	private CBS_Mattu cbsm;
 	private ContactSearch contact;
 	private Marketing mk;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
-	private SCP scp;
 	String detalles;
 	private String fecha = fechaCapro(25);
 	
 	
-//	 @BeforeClass (alwaysRun = true)
+	//@BeforeClass (alwaysRun = true)
 	public void Sit03() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sleep(5000);
@@ -62,50 +44,40 @@ public class CambioDePlan extends TestBase {
 		ges = new GestionDeClientes_Fw(driver);
 		contact = new ContactSearch(driver);
 		log.LoginSit03();
-		cbs = new CBS();
-		cbsm = new CBS_Mattu();
 		mk = new Marketing(driver);
 
 	}
 
-	@BeforeClass(groups = "PerfilOficina")
+	//@BeforeClass(groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
 		contact = new ContactSearch(driver);
-		cbs = new CBS();
-		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
 		mk = new Marketing(driver);
 		log.loginOOCC();
 		ges.irAConsolaFAN();
 		mk = new Marketing(driver);
-		BeFan Botones = new BeFan(driver);
 	}
 
-//	 @BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
-		cbs = new CBS();
-		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
 		contact = new ContactSearch(driver);
 		log.loginTelefonico();
 		ges.irAConsolaFAN();
 		mk = new Marketing(driver);
-		BeFan Botones = new BeFan(driver);
 	}
 
-//	 @BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
-		cbs = new CBS();
-		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
 		contact = new ContactSearch(driver);
 		log.loginAgente();
@@ -134,6 +106,7 @@ public class CambioDePlan extends TestBase {
 		driver.quit();
 		sleep(5000);
 	}
+	
 	
 	private void cambioDePlan(String tipoDNI, String DNI, String plan, String numLinea) {
 		ges.BuscarCuenta(tipoDNI, DNI);
@@ -176,6 +149,7 @@ public class CambioDePlan extends TestBase {
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
+		sleep(120000);
 		ges.BuscarCuenta(tipoDNI, DNI);
 		ges.compararMegasEnCardPorLinea(numLinea);
 		
@@ -337,8 +311,7 @@ public class CambioDePlan extends TestBase {
 	@Test (groups = {"PerfilAgente", "R1"})
 	public void TS145168_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO2() {
 		imagen = "TS145168";
-		cambioDePlan("DNI", "92010588", "conexi\u00f3n control abono s", "2932564197");
-		
+		cambioDePlan("DNI", "57132591", "conexi\u00f3n control abono s", "3861453936");		
 	}
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
@@ -351,8 +324,7 @@ public class CambioDePlan extends TestBase {
 	@Test (groups = {"PerfilAgente", "R1"})
 	public void TS169804_CRM_Pospago_SalesCPQ_Cambio_de_plan_Telefonico_P_y_R_de_Plan_con_Tarjeta_Repro_a_APRO2() {
 		imagen = "TS169804";
-		cambioDePlan("DNI", "92010588", "conexi\u00f3n control abono s", "2932564197");
-		
+		cambioDePlan("DNI", "57132592", "conexi\u00f3n control abono s", "3861453836");
 	}
 	
 	//----------------------------------------------- Agente -------------------------------------------------------\\
@@ -368,8 +340,7 @@ public class CambioDePlan extends TestBase {
 	@Test (groups = {"PerfilAgente", "R1"})
 	public void TS169796_CRM_Pospago_SalesCPQ_Cambio_de_plan_Agente_DNI_de_Plan_con_Tarjeta_Repro_a_APRO2() {
 		imagen = "TS169796";
-		cambioDePlan("DNI", "92010588", "conexi\u00f3n control abono s", "2932564197");
-		
+		cambioDePlan("DNI", "57132590", "conexi\u00f3n control abono s", "3861453831");		
 	}
 	
 	
