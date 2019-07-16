@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -16,10 +17,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import Pages.Accounts;
+import Pages.CBS;
 import Pages.CustomerCare;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.CBS_Mattu;
 import Tests.TestBase;
 
@@ -30,28 +33,43 @@ public class TriviasYSuscripciones extends TestBase {
 	private CustomerCare cc;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
+	private GestionDeClientes_Fw ges;
+	private CBS_Mattu cbsm;
+	private CBS cbs;
+	private LoginFw log;
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		cc = new CustomerCare(driver);
-		loginOOCC(driver);
-		sleep(15000);
-		cc.irAConsolaFAN();	
-		driver.switchTo().defaultContent();
-		sleep(6000);
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.loginOOCC();
+		ges.irAConsolaFAN();
 	}
+	
+	@BeforeClass (groups = "PerfilTelefonico")
+	public void initTelefonico() throws IOException, AWTException {
+		driver = setConexion.setupEze();
+		sb = new SalesBase(driver);
+		cc = new CustomerCare(driver);
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.loginTelefonico();
+		ges.irAConsolaFAN();
+	}
+	
 	
 	@BeforeMethod(alwaysRun=true)
 	public void setup() throws Exception {
 		detalles = null;
-		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
-		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
+		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 	}
 
@@ -72,7 +90,7 @@ public class TriviasYSuscripciones extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"GestionesPerfilOficina", "TriviasYSuscripciones", "E2E","Ciclo3"}, dataProvider = "CuentaTriviasYSuscripciones")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaTriviasYSuscripciones")
 	public void TS110877_CRM_Movil_REPRO_Suscripciones_Baja_de_una_suscripcion_sin_BlackList_con_ajuste_Presencial(String sDNI, String sLinea) {
 		imagen = "TS110877";
 		detalles = null;
@@ -123,7 +141,7 @@ public class TriviasYSuscripciones extends TestBase {
 		Assert.assertTrue(gest);
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "TriviasYSuscripciones", "E2E","Ciclo3"}, dataProvider = "CuentaTriviasYSuscripciones")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaTriviasYSuscripciones")
 	public void TS110893_CRM_Movil_REPRO_Suscripciones_Baja_de_una_suscripcion_con_BlackList_con_ajuste_Presencial(String sDNI, String sLinea) {
 		imagen="TS110893";
 		detalles = null;
@@ -173,7 +191,7 @@ public class TriviasYSuscripciones extends TestBase {
 		Assert.assertTrue(gest);
 	}
 	
-	@Test (groups = {"GestionesPerfilOficina", "TriviasYSuscripciones", "E2E","Ciclo3"}, dataProvider = "CuentaTriviasYSuscripciones")
+	@Test (groups = "PerfilOficina", dataProvider = "CuentaTriviasYSuscripciones")
 	public void TS119032_CRM_Movil_REPRO_Suscripciones_Baja_de_suscripciones_sin_BlackList_Presencial(String cDNI,String cLinea) {
 		imagen = "TS119032";
 		detalles = null;
@@ -214,5 +232,94 @@ public class TriviasYSuscripciones extends TestBase {
 			}
 		}
 		Assert.assertTrue(gest);
+	}
+	
+	@Test (groups = {"PerfilOficica" , "R1"}, dataProvider = "CuentaTriviasYSuscripciones")
+	public void TS151385_CRM_Movil_MIX_Suscripciones_Baja_de_suscripciones_sin_BlackList_Presencial(String sDNI, String sLinea) {
+		imagen = "TS151384";
+		detalles = imagen +" -Trivias y suscripciones - DNI: " +sDNI;
+		//cbsm.Servicio_RealizarAltaSuscripcion("2932598789","178");
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irSuscripciones(sLinea);
+		cambioDeFrame(driver, By.cssSelector("[class = 'slds-button slds-button--brand']"), 0);
+		sleep(5000);
+		driver.findElement(By.cssSelector("[class = 'slds-card__body cards-container'] [class = 'addedValueServices'] [class = 'slds-checkbox']")).click();
+		driver.findElement(By.cssSelector("[class = 'slds-p-horizontal--x-small slds-p-bottom--large'] button")).click();
+		cambioDeFrame(driver, By.id("UnsubscriptionOptions_nextBtn"), 0);
+		sleep(5000);
+		buscarYClick(driver.findElements(By.cssSelector("[class = 'slds-form-element__label ng-binding ng-scope']")), "contains", "nunca me suscrib\u00ed");
+		buscarYClick(driver.findElements(By.cssSelector("[class = 'slds-form-element__label ng-binding ng-scope']")), "contains", "no");
+		driver.findElement(By.id("UnsubscriptionOptions_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("UnsubscriptionSummary_nextBtn")));
+		String mensaje = driver.findElement(By.cssSelector("[class = 'slds-form-element__control'] p p span")).getText();
+		Assert.assertTrue(mensaje.toLowerCase().contains("las suscripciones fueron dadas de baja exitosamente"));
+		driver.findElement(By.id("UnsubscriptionSummary_nextBtn")).click();
+		cambioDeFrame(driver, By.cssSelector("[class = 'slds-icon slds-icon--large nds-icon nds-icon_large ta-Icon-wrapper-content']"), 0);
+		esperarElemento(driver, By.cssSelector("[class = 'slds-form-element__control'] p h1 span"), 0);
+		String verificacion = driver.findElement(By.cssSelector("[class = 'slds-form-element__control'] p h1 span")).getText();
+		Assert.assertTrue(verificacion.toLowerCase().contains("tu caso se resolvi\u00f3 con \u00e9xito"));
+		String nGestion = driver.findElement(By.cssSelector("[class = 'slds-form-element__control'] p span strong")).getText();
+		sleep(5000);
+		ges.cerrarPestaniaGestion(driver);
+		driver.findElement(By.id("phSearchInput")).sendKeys(nGestion);
+		driver.findElement(By.id("phSearchInput")).submit();
+		boolean gestion = false;
+		for (int i = 0; i < 10; i++) {
+			cambioDeFrame(driver, By.id("searchPageHolderDiv"), 0);
+			String estado = driver.findElement(By.xpath("//*[@id='Case_body']//tr[2]//td[3]")).getText();
+			if (estado.equalsIgnoreCase("resuelta exitosa")) {
+				gestion = true;
+			} else {
+				sleep(8000);
+				driver.navigate().refresh();
+			}
+		}
+		Assert.assertTrue(gestion);
+	}
+	
+	
+	//----------------------------------------------- Telefonico -------------------------------------------------------\\
+	
+	@Test (groups = {"PerfilOficica" , "R1"}, dataProvider = "CuentaTriviasYSuscripciones")
+	public void TS151384_CRM_Movil_MIX_Suscripciones_Baja_de_suscripciones_sin_BlackList_Crm_Telefonico(String sDNI, String sLinea) {
+		imagen = "TS151384";
+		detalles = imagen +" -Trivias y suscripciones - DNI: " +sDNI;
+		cbsm.Servicio_RealizarAltaSuscripcion("2932598789","178");
+		ges.BuscarCuenta("DNI", "38010123");
+		ges.irSuscripciones("2932598789");
+		cambioDeFrame(driver, By.cssSelector("[class = 'slds-button slds-button--brand']"), 0);
+		sleep(5000);
+		driver.findElement(By.cssSelector("[class = 'slds-card__body cards-container'] [class = 'addedValueServices'] [class = 'slds-checkbox']")).click();
+		driver.findElement(By.cssSelector("[class = 'slds-p-horizontal--x-small slds-p-bottom--large'] button")).click();
+		cambioDeFrame(driver, By.id("UnsubscriptionOptions_nextBtn"), 0);
+		sleep(5000);
+		buscarYClick(driver.findElements(By.cssSelector("[class = 'slds-form-element__label ng-binding ng-scope']")), "contains", "nunca me suscrib\u00ed");
+		buscarYClick(driver.findElements(By.cssSelector("[class = 'slds-form-element__label ng-binding ng-scope']")), "contains", "no");
+		driver.findElement(By.id("UnsubscriptionOptions_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("UnsubscriptionSummary_nextBtn")));
+		String mensaje = driver.findElement(By.cssSelector("[class = 'slds-form-element__control'] p p span")).getText();
+		Assert.assertTrue(mensaje.toLowerCase().contains("las suscripciones fueron dadas de baja exitosamente"));
+		driver.findElement(By.id("UnsubscriptionSummary_nextBtn")).click();
+		cambioDeFrame(driver, By.cssSelector("[class = 'slds-icon slds-icon--large nds-icon nds-icon_large ta-Icon-wrapper-content']"), 0);
+		esperarElemento(driver, By.cssSelector("[class = 'slds-form-element__control'] p h1 span"), 0);
+		String verificacion = driver.findElement(By.cssSelector("[class = 'slds-form-element__control'] p h1 span")).getText();
+		Assert.assertTrue(verificacion.toLowerCase().contains("tu caso se resolvi\u00f3 con \u00e9xito"));
+		String nGestion = driver.findElement(By.cssSelector("[class = 'slds-form-element__control'] p span strong")).getText();
+		sleep(5000);
+		ges.cerrarPestaniaGestion(driver);
+		driver.findElement(By.id("phSearchInput")).sendKeys(nGestion);
+		driver.findElement(By.id("phSearchInput")).submit();
+		boolean gestion = false;
+		for (int i = 0; i < 10; i++) {
+			cambioDeFrame(driver, By.id("searchPageHolderDiv"), 0);
+			String estado = driver.findElement(By.xpath("//*[@id='Case_body']//tr[2]//td[3]")).getText();
+			if (estado.equalsIgnoreCase("resuelta exitosa")) {
+				gestion = true;
+			} else {
+				sleep(8000);
+				driver.navigate().refresh();
+			}
+		}
+		Assert.assertTrue(gestion);
 	}
 }

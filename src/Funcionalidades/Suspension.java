@@ -248,7 +248,7 @@ public class Suspension extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@class = 'slds-form-element__label ng-binding ng-scope'] [contains (text(), 'Si')]")));
 		clickBy(driver, By.xpath("//span[@class = 'slds-form-element__label ng-binding ng-scope'] [contains (text(), 'Si')]"), 0);
 		driver.findElement(By.id("AccountData_nextBtn")).click();
-		sleep(2000);
+		sleep(5000);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step6-Summary_nextBtn")));
 		clickBy(driver, By.id("Step6-Summary_nextBtn"), 0);
 		esperarElemento(driver,By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done']"), -50);

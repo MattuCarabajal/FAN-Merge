@@ -114,7 +114,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	@FindBy (how = How.CSS, using = locator_BotonesInf)
 	private WebElement botonesInf ;
 	
-	final String locator_razonSocial = "[class='slds-tree__item ng-scope']";
+	final String locator_razonSocial = "[class='slds-tree__item ng-scope'] div";
 	@FindBy (how = How.CSS, using = locator_razonSocial)
 	private WebElement razonSocial ;
 	
@@ -327,7 +327,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			if(cardPorLinea.getText().contains("tarjeta")||cardPorLinea.getText().contains("Tarjeta")) {
 				resp =true;
 			}
-		}catch (Exception e){
+		}catch (Exception e) {
 			
 		}
 		if(resp) {
@@ -348,7 +348,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			List<WebElement> elementos = driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li"));
 			elementos.addAll(driver.findElements(By.cssSelector("[class='card-info-hybrid'] [class='actions'] li")));
 			elementos.addAll(driver.findElements(By.cssSelector("[class='slds-button slds-button--neutral ']")));
-			driver.findElement(By.xpath("//*[@id='j_id0:j_id5']/div/div/ng-include/div/div[2]/div[1]/ng-include/section[2]/div[3]/ng-transclude/div/ng-include/div/div[1]/div/ng-include/div/ul/li[3]/a/span")).click();;
+			//driver.findElement(By.xpath("//*[@id='j_id0:j_id5']/div/div/ng-include/div/div[2]/div[1]/ng-include/section[2]/div[3]/ng-transclude/div/ng-include/div/div[1]/div/ng-include/div/ul/li[3]/a/span")).click();;
 
 			System.out.println(clickElementoPorTextExacto(elementos, sGestion));
 
@@ -377,10 +377,29 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			driver.findElement(By.xpath("//a//span[contains(text(),'Renovacion de Datos')]")).click();;
 
 		}
-
-
-	
 	}
+	
+	public void irSuscripciones(String sLinea) {
+		tb = new TestBase();
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card active']"));
+		WebElement cardPorLinea= getBuscarElementoPorText(listaDeElementosPorText(cards, sLinea),"Activo");
+		try {
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='community-flyout-actions-card'] ul li"), 0));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='card-info-hybrid'] [class='actions'] li"), 0));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-button slds-button--neutral ']"), 0));
+		driver.findElement(By.xpath("//a//span[contains(text(),'Suscripciones')]")).click();;
+		}catch(Exception e) {
+			
+			cardPorLinea.findElement(By.cssSelector("[id='flecha'] i")).click();
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='community-flyout-actions-card'] ul li"), 0));
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='card-info-hybrid'] [class='actions'] li"), 0));
+			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-button slds-button--neutral ']"), 0));
+			driver.findElement(By.xpath("//a//span[contains(text(),'Suscripciones')]")).click();
+
+		}
+	}
+	
 	
 	public boolean compararMegasEnCard() { 
 		driver.switchTo().defaultContent(); 
