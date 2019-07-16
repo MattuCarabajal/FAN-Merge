@@ -1850,6 +1850,7 @@ public class CustomerCare extends BasePage {
     	}
     Assert.assertTrue(ord);
 	}
+	
 	public void verificarPedido(String orden, String estado){
 		Boolean ord = false;
 		tb = new TestBase();
@@ -1930,6 +1931,23 @@ public class CustomerCare extends BasePage {
 	return Saldo;
 	}
 
+	public void buscarOrdenDiag (String orden){
+		driver.switchTo().defaultContent();
+			sleep(1000);
+			WebElement Buscador = driver.findElement(By.id("phSearchInput"));
+			Buscador.sendKeys(orden);
+			sleep(2000);
+			try {
+				driver.findElement(By.className("autoCompleteRowLink")).click();
+				sleep(2000);
+				Buscador.clear();
+			} catch (Exception e) {
+				sleep(7000);
+				Buscador.submit();
+				sleep(1000);
+				Buscador.clear();
+				sleep(2000);
+			}
+	}
 	
 }
-;
