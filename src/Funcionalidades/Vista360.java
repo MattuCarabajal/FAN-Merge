@@ -38,7 +38,7 @@ public class Vista360 extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
@@ -61,7 +61,7 @@ public class Vista360 extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	//@BeforeClass (groups = "PerfilAgente")
+	@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() throws IOException, AWTException {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
@@ -124,9 +124,25 @@ public class Vista360 extends TestBase {
 		ges.BuscarCuenta("DNI", "37478859");
 		cambioDeFrame(driver, By.cssSelector("[class='profile-box']"), 0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='left-sidebar-section-header'] [class='icon-v-right-caret']")));		
-		driver.findElement(By.cssSelector("[class='left-sidebar-section-header'] [class='icon-v-right-caret']")).click();
 		Assert.assertTrue(false);  //No estan los segmentos ni los botones de "Anadir mas"
 	}
+	
+	@Test
+	public void TS148726_CRM_Movil_Mix_Vista_360_Consulta_por_gestiones_Gestiones_Cerradas_Informacion_brindada_Crm_OC() {
+		imagen = "TS148726";
+		ges.BuscarCuenta("DNI", "37478859");
+		cambioDeFrame(driver, By.cssSelector("[class='console-card active']"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='console-card active']")));
+		driver.findElement(By.xpath("//*[@class='console-card active']//*[@class='card-info-hybrid']//*[@class='actions']//span[text()='Gestiones']")).click();
+		cambioDeFrame(driver, By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small secondaryFont']"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small secondaryFont']")));		
+		driver.findElement(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small secondaryFont']")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small  slds-m-around--medium'] tbody tr"), 0));
+		List<WebElement> datosTabla = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small  slds-m-around--medium'] tbody tr"));
+		Assert.assertTrue(datosTabla.size() >= 1);
+	}
+	
+	
 	
 //	@Test (groups = "PerfilOficina", dataProvider = "documentacionVista360")//ok
 //	public void TS134379_CRM_Movil_Prepago_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_servicios_activos_FAN_Front_OOCC(String sDNI) throws AWTException {
@@ -827,6 +843,51 @@ public class Vista360 extends TestBase {
 //	}
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
+	
+	@Test
+	public void TS148803_CRM_Movil_Mix_Vista_360_Producto_Activo_del_cliente_Datos_Crm_Agente() {
+		imagen = "TS148798";
+		boolean gest = false, prodServ = false, cuenta = false, estado = false, credDisp = false, credProm = false;
+		ges.BuscarCuenta("DNI", "37478859");
+		cambioDeFrame(driver, By.cssSelector("[class='console-card active']"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='console-card active']")));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='console-card active'] [class='card-top']")).getText().contains("Conexi\u00f3n Control Abono"));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='console-card active'] [class='card-top'] [class='slds-text-body_regular activation-date slds-p-bottom--xx-small']")).getText().matches("Act: [0-9]{2}/[0-9]{2}/[0-9]{4}"));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='console-card active'] [class='card-top'] [class='slds-text-body_regular line-number slds-p-bottom--xx-small']")).getText().matches("Linea: [0-9]{10}"));
+		for (WebElement x : driver.findElements(By.cssSelector("[class='console-card active'] [class='card-info-hybrid'] [class='details']"))) {
+			if (x.getText().contains("Cuenta:"))
+				cuenta = true;
+			if (x.getText().contains("Estado:"))
+				estado = true;
+			if (x.getText().contains("Cr\u00e9dito Disponible:"))
+				credDisp = true;
+			if (x.getText().contains("Cr\u00e9dito Promocional:"))
+				credProm = true;
+		}
+		Assert.assertTrue(cuenta && estado && credDisp && credProm);
+		for (WebElement x : driver.findElements(By.cssSelector("[class='console-card active'] [class='card-info-hybrid'] [class='actions'] li"))) {
+			if (x.getText().equalsIgnoreCase("Gestiones"))
+				gest = true;
+			if (x.getText().equalsIgnoreCase("Productos y Servicios"))
+				prodServ = true;
+		}
+		Assert.assertTrue(gest && prodServ);
+	}
+	
+	@Test
+	public void TS148747_CRM_Movil_Mix_Vista_360_Productos_y_Servicios_Visualizacion_del_estado_de_los_servicios_activos_Crm_Agente() {
+		imagen = "TS148726";
+		ges.BuscarCuenta("DNI", "37478859");
+		cambioDeFrame(driver, By.cssSelector("[class='console-card active']"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='console-card active']")));
+		driver.findElement(By.xpath("//*[@class='console-card active']//*[@class='card-info-hybrid']//*[@class='actions']//span[text()='Productos y Servicios']")).click();
+		cambioDeFrame(driver, By.cssSelector("[class='slds-button slds-button--brand']"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-button slds-button--brand']")));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--x-large'] thead")).getText().contains("NOMBRE"));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--x-large'] thead")).getText().contains("FECHA DE ESTADO"));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--x-large'] thead")).getText().contains("ESTADO"));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-button slds-button--brand']")).getText().contains("Ver detalle"));
+	}
 	
 //	@Test (groups = "PerfilAgente", dataProvider = "CuentaVista360")//ok
 //	public void TS134823_CRM_Movil_Prepago_Vista_360_Producto_Activo_del_cliente_Datos_FAN_Front_Agentes(String sDNI, String sLinea, String sNombre){
