@@ -118,6 +118,8 @@ public class VentaDePacks extends TestBase {
 		// Pack modificado Pack SMS y Minutos a Personal Ilimitados x 1 d�a
 		imagen = "TS123163";//No esta impactando el Pack
 		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Minutos");
@@ -155,7 +157,7 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(verificacion);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack , dia));
 
 	}
 	
@@ -165,6 +167,8 @@ public class VentaDePacks extends TestBase {
 		//Pack modificado Pack 150 min a Personal y 150 SMS x 7 dias
 		imagen = "TS139727";
 		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar SMS");
@@ -198,7 +202,7 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sventaPack));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sventaPack, dia));
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider="PackOfCom")
@@ -206,6 +210,8 @@ public class VentaDePacks extends TestBase {
 		//Pack modificado = Pack 1 GB x 1 dia + whatsapp gratis
 		imagen = "Venta De Pack 1 GB x 1 dia";
 		detalles = imagen + "- DNI: "+sDNI+" - Linea: "+sLinea;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Internet");
@@ -243,13 +249,15 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackOfCom));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackOfCom, dia));
 	}
 
 	@Test(groups = "PerfilOficina", dataProvider = "PackOOCC1GBx7Dias")
 	public void TS135662_CRM_Movil_PRE_Venta_de_Pack_1_GB_x_7_dias_whatsapp_gratis_Presencial_OOCC_TD(String sDNI, String sLinea, String sPack1GBx7Dias, String cBanco, String cTarjeta, String cPromo, String cCuotas){
 		imagen = "TS135662";
 		detalles = imagen + "- DNI: "+sDNI+" - Linea: "+sLinea;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Internet");
@@ -287,13 +295,15 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack1GBx7Dias));
+		Assert.assertTrue(cbs.validarActivacionPack2(cbsm.Servicio_QueryFreeUnit(sLinea), sPack1GBx7Dias , dia));
 	}
 	
 	@Test(groups = "PerfilOficina", dataProvider = "PackOOCCInternetx7Dias")
 	public void TS135703_CRM_Movil_REPRO_Venta_de_Pack_Pack_internet_x_7_dias_OOCC_EFE(String sDNI, String sLinea, String sPackInternetx7Dias) {
 		imagen = "TS135703";
 		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Internet");
@@ -327,13 +337,15 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackInternetx7Dias));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackInternetx7Dias, dia));
 	}
 	
 	@Test(groups = "PerfilOficina", dataProvider = "PackOOCC1GBYSMSYVOZ")
 	public void TS135656_CRM_Movil_REPRO_Venta_de_Pack_1_GB_sms_voz_y_whatsapp_gratis_x_7_dias_Presencial_OOCC_TC(String sDNI, String sLinea, String sPack1GBsmsYvoz, String cBanco, String cTarjeta, String cPromo, String cCuotas) {
 		imagen = "TS135656";
 		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar SMS");
@@ -371,7 +383,7 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack1GBsmsYvoz));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack1GBsmsYvoz, dia));
 	}
 	
 	@Test (groups = "PerfilOficina", dataProvider = "ventaPack50ofic")
@@ -380,6 +392,8 @@ public class VentaDePacks extends TestBase {
 		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Internet");
@@ -394,7 +408,7 @@ public class VentaDePacks extends TestBase {
 		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		Assert.assertTrue(iMainBalance > uiMainBalance);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sventaPack));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sventaPack, dia));
 	}
 	
 	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "PackAPRO")
@@ -404,6 +418,8 @@ public class VentaDePacks extends TestBase {
 		ges.BuscarCuenta("DNI", sDNI);
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCardPorNumeroDeLinea("Comprar Minutos", sLinea);
 		vt.packRoaming(sVentaPack);
@@ -417,7 +433,7 @@ public class VentaDePacks extends TestBase {
 		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		Assert.assertTrue(iMainBalance > uiMainBalance);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack, dia));
 	}
 	
 
@@ -427,7 +443,9 @@ public class VentaDePacks extends TestBase {
 	public void TS123133_CRM_Movil_REPRO_Venta_De_Pack_internacional_30_SMS_al_Resto_del_Mundo_Factura_De_Venta_TC_Telefonico(String sDNI, String sLinea, String sVentaPack, String sBanco, String sTarjeta, String sPromo, String sCuotas, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTipoDNI, String sDNITarjeta, String sTitular) throws InterruptedException, AWTException{
 		//Pack modificado = Pack internacional 30 minutos LDI y 15 SMS int
 		imagen = "TS123133";
-		detalles = null;
+		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Internet");
@@ -471,7 +489,7 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack, dia));
 	}
 	
 	@Test (groups = "PerfilTelefonico",priority=1, dataProvider="packUruguay")
@@ -481,6 +499,8 @@ public class VentaDePacks extends TestBase {
 		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Internet");
@@ -495,13 +515,15 @@ public class VentaDePacks extends TestBase {
 		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		Assert.assertTrue(iMainBalance > uiMainBalance);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), packUruguay));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), packUruguay, dia));
 	}
 	
 	@Test (groups = "PerfilTelefonico",priority=1, dataProvider="ventaPack50Tele")
 	public void TS135671_CRM_Movil_REPRO_Venta_de_Pack_150_min_a_Personal_y_150_SMS_x_7_dias_Telefonico_TC(String sDNI, String sLinea, String sVentaPack, String cBanco, String cTarjeta, String cPromo, String cCuotas, String cNumTarjeta, String cVenceMes, String cVenceAno, String cCodSeg, String cTipoDNI, String cDNITarjeta, String cTitular) throws InterruptedException, AWTException{
 		imagen = "TS135671";
 		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar SMS");
@@ -545,7 +567,7 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack, dia));
 	}
 	
 	@Test (groups = "PerfilTelefonico", dataProvider="PackTel200MB")
@@ -554,6 +576,8 @@ public class VentaDePacks extends TestBase {
 		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
 		String sMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer iMainBalance = Integer.parseInt(sMainBalance.substring(0, (sMainBalance.length()) - 1));
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Internet");
@@ -568,13 +592,15 @@ public class VentaDePacks extends TestBase {
 		String uMainBalance = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		Assert.assertTrue(iMainBalance > uiMainBalance);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack200MB));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack200MB, dia));
 	}
 	
 	@Test (groups = {"PerfilTelefonico", "R1"}, dataProvider = "PackAPRO")
 	public void TS156768_CRM_Movil_Mix_Venta_de_oferta_Telefonico_Pack_Roaming_TDC(String sDNI, String sLinea, String sVentaPack, String sBanco, String sTarjeta, String sPromo, String sCuotas, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTipoDNI, String sDNITarjeta, String sTitular){
 		imagen = "TS156768";
 		detalles = imagen+"-Venta de pack-DNI:"+sDNI;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCardPorNumeroDeLinea("Comprar Minutos", sLinea);
@@ -618,7 +644,7 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack, dia));
 	}
 	
 	
@@ -628,6 +654,8 @@ public class VentaDePacks extends TestBase {
 	public void Venta_de_Pack_1_GB_x_1_dia_whatsapp_gratis_Factura_de_Venta_efectivo_Agente(String sDNI, String sLinea, String sPackAgente) throws AWTException{
 		imagen = "Venta_de_Pack_1_GB_x_1_dia_whatsapp_gratis";
 		detalles = imagen + "-Venta de pack-DNI:" + sDNI+ "-Linea: "+sLinea;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar SMS");
@@ -661,13 +689,15 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackAgente));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackAgente, dia));
 	}
 	
 	@Test (groups = "PerfilAgente", dataProvider="PackAgente30minAPersonal")
 	public void TS123155_CRM_Movil_REPRO_Venta_de_Pack_300_min_a_Personal_x_7_dias_Agente_Efectivo(String sDNI, String sLinea , String sPackAgente30MinPersonal){
 		imagen = "TS123155";
 		detalles = imagen + "-Venta de pack-DNI:" + sDNI+ "-Linea: "+sLinea;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Minutos");
@@ -701,13 +731,15 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackAgente30MinPersonal));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackAgente30MinPersonal, dia));
 	}
 	
 	@Test (groups = "PerfilAgente", dataProvider="PackAgenteRoaming1GB")
 	public void TS135672_CRM_Movil_REPRO_Venta_de_Pack_Roaming_1GB_Lim_y_USA_Agente_TC(String sDNI, String sLinea, String sPackAgenteRoaming, String cBanco, String cTarjeta, String cPromo, String cCuotas){
 		imagen = "TS135672";
 		detalles = imagen + "-Venta de pack-DNI:" + sDNI+ "-Linea: "+sLinea;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Internet");
@@ -745,7 +777,7 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackAgenteRoaming));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPackAgenteRoaming, dia));
 	}
 	
 	@Test (groups = "PerfilAgente", dataProvider="PackAgenteSmsYMinutosIlimitados")
@@ -776,6 +808,8 @@ public class VentaDePacks extends TestBase {
 	public void TS135668_CRM_Movil_REPRO_Venta_de_Pack_40_minutos_a_cualquier_compania_x_3_dias_Agente_TD(String sDNI, String sLinea, String sPack40Minutos, String cBanco, String cTarjeta, String cPromo, String cCuotas){
 		imagen = "TS135668";
 		detalles = imagen + "-Venta de pack-DNI:" + sDNI+ "-Linea: "+sLinea;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCard("Comprar Internet");
@@ -812,13 +846,15 @@ public class VentaDePacks extends TestBase {
 				driver.navigate().refresh();
 			}
 		}
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack40Minutos) && a);
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack40Minutos , dia) && a);
 	}
 	
 	@Test (groups = { "PerfilAgente", "R1" }, dataProvider = "PackAPRO")
 	public void TS156753_CRM_Movil_Mix_Venta_de_oferta_Agente_Pack_Roaming_Efectivo(String sDNI, String sLinea, String sVentaPack, String sBanco, String sTarjeta, String sPromo, String sCuotas, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTipoDNI, String sDNITarjeta, String sTitular){
 		imagen = "TS156753";
 		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
+		String dia = fecha();
+		dia = dia.replaceAll("[/]", "");
 		ges.BuscarCuenta("DNI", sDNI);
 		try { ges.cerrarPanelDerecho(); } catch (Exception e) {}
 		ges.irAGestionEnCardPorNumeroDeLinea("Comprar Minutos", sLinea);
@@ -852,6 +888,6 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack, dia));
 	}
 }
