@@ -48,7 +48,7 @@ public class Preactivacion extends TestBase {
         Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "seriales", 1,1,8, "Preactivacion");
         String nombreArchivo = "SerialBalido";
         int filaExcel = 0;
-        for (int i = 0; i < testObjArray.length; i++) {
+        for (int i=0; i<testObjArray.length; i++) {
             if (testObjArray[i][1].toString().equalsIgnoreCase(nombreArchivo)) {
                 filaExcel = i;
                 break;
@@ -86,7 +86,6 @@ public class Preactivacion extends TestBase {
 		clickBy(driver, By.cssSelector("td [class='btn btn-primary btn-xs']"), 0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("botonExportar")));
 		String linea = driver.findElement(By.cssSelector("[class='modal-body'] tbody tr td:nth-child(2)")).getText();
-		System.out.println(linea);
 		sleep(1800000);
 		log.loginOOCC();
 		ges.irAConsolaFAN();
@@ -97,6 +96,6 @@ public class Preactivacion extends TestBase {
 		driver.findElement(By.id("PhoneNumber")).sendKeys("2616052355");
 		driver.findElement(By.id("SearchClientsDummy")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-button slds-button--icon slds-m-right--x-small ng-scope']")));
-		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-table slds-table--bordered slds-tree slds-table--tree table tableCSS'] tbody th div a")).getText().equalsIgnoreCase("Repro" + "2616052355"));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-table slds-table--bordered slds-tree slds-table--tree table tableCSS'] tbody th div a")).getText().equalsIgnoreCase("Repro" + linea));
 	}
 }
