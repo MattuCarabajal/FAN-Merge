@@ -240,7 +240,7 @@ public class Recargas extends TestBase {
 		cc.buscarOrdenDiag(caso+"*");
 		cc.verificarPedido(caso, "activada");
 	}
-	@Test (groups = "PerfilOficina, R1", dataProvider="RecargaEfectivo")
+	@Test (groups ={ "PerfilOficina", "R1"}, dataProvider="RecargaEfectivo")
 	public void TS146849_CRM_Movil_APRO2_Recarga_OOCC_Efectivo(String sDNI, String sMonto, String sLinea){
 		imagen="146849";
 		ges.BuscarCuenta("DNI", sDNI);
@@ -327,7 +327,7 @@ public class Recargas extends TestBase {
 		cc.verificarPedido(caso, "activada");
 	}
 	
-	@Test (groups = "PerfilTelefonico, R1", dataProvider = "RecargaTC")  
+	@Test (groups ={ "PerfilTelefonico", "R1"}, dataProvider = "RecargaTC")  
 	public void TS146857_CRM_Movil_APRO2_Recarga_Telefonico_TDC(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular) throws AWTException {
 		imagen= "146857";
 		ges.BuscarCuenta("DNI", sDNI);
@@ -525,7 +525,7 @@ public class Recargas extends TestBase {
 		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-form-element__control'] p p")).getText().contains("Nro. orden"));
 		}
 	
-	@Test(groups = "PerfilAgente , R1" , dataProvider="RecargaTD")
+	@Test(groups = {"PerfilAgente" , "R1"}, dataProvider="RecargaTD")
 	public void TS146855_CRM_Movil_APRO2_Recarga_Agente_TDD(String sDNI, String sMonto, String sLinea, String sBanco, String sTarjeta, String sPromo, String sCuota, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTitular){
 		imagen="146855";
 		ges.BuscarCuenta("DNI", sDNI);

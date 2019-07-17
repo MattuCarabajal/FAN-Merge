@@ -69,8 +69,8 @@ public class TestBase {
 
 	public static String urlBeFANUAT = "http://snapuat.telecom.com.ar/#/home";
 
-	public static String urlBeFAN = "https://befantest2.personal.corp/#/signin";
-	 //public static String urlBeFAN = "https://befanuat2.personal.corp/#/signin";
+	//public static String urlBeFAN = "https://befantest2.personal.corp/#/signin";
+	 public static String urlBeFAN = "https://befanuat2.personal.corp/#/signin";
 				
 	public void leftDropdown(WebDriver driver, String selection) {
 		driver.findElement(By.className("x-btn-mc")).click();

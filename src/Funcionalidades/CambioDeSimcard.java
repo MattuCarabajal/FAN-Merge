@@ -85,9 +85,10 @@ public class CambioDeSimcard extends TestBase {
 	}
 	
 	
-	private boolean cambioDeSimcard(String metodoEntrega) {
-		ges.irAGestionEnCard("Cambio SimCard");
+	private boolean cambioDeSimcard(String metodoEntrega, String sLinea) {
+		ges.irAGestionEnCardPorNumeroDeLinea("Cambio SimCard", sLinea);
 		cambioDeFrame(driver, By.id("DeliveryMethodSelection"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("DeliveryMethodConfiguration_nextBtn")));
 		clickBy(driver, By.id("DeliveryMethodSelection"), 0);
 		switch(metodoEntrega.toLowerCase()) {
 		case "presencial":
@@ -165,14 +166,21 @@ public class CambioDeSimcard extends TestBase {
 	public void TS158806_CRM_Movil_PRE_Cambio_de_Simcard_suspension_siniestro_OOCC_presencial() {
 		imagen = "TS158806";
 		ges.BuscarCuenta("DNI", "93645609");
-		Assert.assertTrue(cambioDeSimcard("Presencial"));
+		Assert.assertTrue(cambioDeSimcard("Presencial","2932598809"));
 	}
 	
 	@Test (groups = "PerfilOficina")
 	public void TS159155_CRM_Movil_PRE_Cambio_de_Simcard_voluntario_OOCC_presencial() {
 		imagen = "TS159155";
 		ges.BuscarCuenta("DNI", "17954137");
-		Assert.assertTrue(cambioDeSimcard("Presencial"));
+		Assert.assertTrue(cambioDeSimcard("Presencial","2932598828"));
+	}
+	
+	@Test (groups = "PerfilOficina")
+	public void TS146456_CRM_Movil_APRO4_Cambio_de_SimCard_Presencial_Voluntario_DOC_Presencial_EFE(){
+		imagen = "TS146456";
+		ges.BuscarCuenta("DNI", "37478859");
+		Assert.assertTrue(cambioDeSimcard("Presencial","2932598003"));
 	}
 	
 //	@Test(groups = { "GestionesPerfilOficina","CambioSimcardDer", "E2E","Ciclo3" }, priority = 1, dataProvider = "CambioSimCardOficina")
@@ -331,8 +339,9 @@ public class CambioDeSimcard extends TestBase {
 	public void TS159157_CRM_Movil_PRE_Cambio_de_Simcard_voluntario_Telefonico_store_pick_up() {
 		imagen = "TS159157";
 		ges.BuscarCuenta("DNI", "17954137");
-		Assert.assertTrue(cambioDeSimcard("Store Pick Up"));
+		Assert.assertTrue(cambioDeSimcard("Store Pick Up", "2932598828"));
 	}
+		
 //	
 ////	@Test(groups = { "GestionesPerfilTelefonico","CambioSimCard", "E2E" }, priority = 1, dataProvider = "CambioSimCardTelef")
 //	public void TS_Cambio_Sim_Card_Store_Pick_up_Telefonico(String sDNI, String sLinea, String accid, String sEntrega, String sProvincia, String sLocalidad, String sPuntodeVenta) throws AWTException {
@@ -369,14 +378,14 @@ public class CambioDeSimcard extends TestBase {
 	public void TS158809_CRM_Movil_PRE_Cambio_de_Simcard_suspension_siniestro_Agente_presencial(String sDNI, String sLinea, String accid) {
 		imagen = "TS158809";
 		ges.BuscarCuenta("DNI", "93645609");
-		Assert.assertTrue(cambioDeSimcard("Presencial"));
+		Assert.assertTrue(cambioDeSimcard("Presencial","2932598809"));
 	}
 	
 	@Test (groups = "PerfilAgente")
 	public void TS159156_CRM_Movil_PRE_Cambio_de_Simcard_voluntario_Agente_presencial(String sDNI, String sLinea, String accid) {
 		imagen = "TS159156";
 		ges.BuscarCuenta("DNI", "17954137");
-		Assert.assertTrue(cambioDeSimcard("Presencial"));
+		Assert.assertTrue(cambioDeSimcard("Presencial","2932598828"));
 	}
 	
 //	
