@@ -471,94 +471,176 @@ public class CBS {
 		return sRequest;
 	}
 	
-	public boolean validarActivacionPack(Document Response, String tipo) {
+	public boolean validarActivacionPack(Document Response, String tipo , String fecha) {
 		boolean esta = false;
-		NodeList ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+		NodeList ofertas = (NodeList) Response.getElementsByTagName("bbs:EffectiveTime");
 		switch(tipo.toLowerCase()) {
 			case "pack 150 min a personal y 150 sms x 7 dias":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_VOICE_150MIN_150SMS_7D"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_VOICE_150MIN_150SMS_7D")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 			case  "pack internacional 30 minutos ldi y 15 sms int":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_LDI_30MIN_15SMS"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_LDI_30MIN_15SMS")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 			case "pack 1gb x 1 dia + whatsapp gratis":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_DATA_1GX1D"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_DATA_1GX1D")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 			case "pack sms y minutos a personal ilimitados x 1 d\u00eda":
-				System.out.println("estoy en el case");
 				for (int i=0; i<ofertas.getLength();i++) {
-					System.out.println("Oferta: "+ofertas.item(i).getTextContent());
-					if(ofertas.item(i).getTextContent().equals("SO_VOICE_SMS_ILIMITADO_1D"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_VOICE_SMS_ILIMITADO_1D")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 			case "pack 100mb uruguay":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_ROI_100MB_URU"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_ROI_100MB_URU")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 			case "pack 300 min a personal x 7 dias":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_VOICE_300MIN_7D"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_VOICE_300MIN_7D")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 			case "pack 7 dias de sms ilimitados":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_SMS_ILIMITADO_7D"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_SMS_ILIMITADO_7D")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 			case "pack 1 gb x 7 dias + whatsapp gratis":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_DATA_INET7D"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_DATA_INET7D")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 			case "pack internet x 7 dias":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_DATA_BLUE7"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_DATA_BLUE7")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 			case "pack 1 gb + sms + voz y whatsapp gratis x 7 d\u00edas":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_DATA_FULL7D"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_DATA_FULL7D")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 			case "pack 200 mb x 1 dia + whatsapp gratis":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_DATA_INET1D"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_DATA_INET1D")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 			case "pack roaming 1gb lim y usa":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_ROI_P_1GB_LIMUSA"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_ROI_P_1GB_LIMUSA")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 			case "pack 40 minutos a cualquier compa\u00f1\u00eda x 3 d\u00edas":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_VOICE_40MIN_3D"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_VOICE_40MIN_3D")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 			case "pack roaming 40 sms limitrofes y usa x 30 d\u00edas":
 				for (int i=0; i<ofertas.getLength();i++) {
-					if(ofertas.item(i).getTextContent().equals("SO_ROI_40SMS_LIM_USA_30D"))
-						esta = true;
+					if(ofertas.item(i).getTextContent().contains(fecha)) {
+						ofertas = (NodeList) Response.getElementsByTagName("bbs:OfferingCode");
+						for(int j = 0; j<ofertas.getLength(); j++) {
+							if(ofertas.item(j).getTextContent().equals("SO_ROI_40SMS_LIM_USA_30D")) {
+								esta = true;
+							}
+						}
+					}	
 				}
 			break;
 		}		

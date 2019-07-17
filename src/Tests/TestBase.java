@@ -677,6 +677,12 @@ public class TestBase {
 		return (dateFormat.format(date));
 	}
 	
+	public String fecha() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		Date date = new Date();
+		return (dateFormat.format(date));
+	}
+	
 	public String fechaCapro(int dias) {
 		Date fecha = new Date();
 		Calendar calendar = Calendar.getInstance();
