@@ -69,8 +69,8 @@ public class TestBase {
 
 	public static String urlBeFANUAT = "http://snapuat.telecom.com.ar/#/home";
 
-	public static String urlBeFAN = "https://befantest2.personal.corp/#/signin";
-	 //public static String urlBeFAN = "https://befanuat2.personal.corp/#/signin";
+	//public static String urlBeFAN = "https://befantest2.personal.corp/#/signin";
+	 public static String urlBeFAN = "https://befanuat2.personal.corp/#/signin";
 				
 	public void leftDropdown(WebDriver driver, String selection) {
 		driver.findElement(By.className("x-btn-mc")).click();
@@ -673,6 +673,12 @@ public class TestBase {
 
 	public String fechaDeHoy() {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = new Date();
+		return (dateFormat.format(date));
+	}
+	
+	public String fecha() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date();
 		return (dateFormat.format(date));
 	}
