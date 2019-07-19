@@ -45,19 +45,13 @@ public class Preactivacion extends TestBase {
 	
 	@Test
     public void TS127617_BeFan_Movil_REPRO_Preactivacion_repro_Envio_de_lote_a_OM_Verificacion_de_lineas_enviadas() throws Exception {
-        Object[][] testObjArray = ExcelUtils.getTableArray(dataProviderE2E(), "seriales", 1,1,8, "Preactivacion");
-        String nombreArchivo = "SerialBalido";
-        int filaExcel = 0;
-        for (int i=0; i<testObjArray.length; i++) {
-            if (testObjArray[i][1].toString().equalsIgnoreCase(nombreArchivo)) {
-                filaExcel = i;
-                break;
-            }
-        }
-        String path = testObjArray[filaExcel][0].toString();
-        String deposito = testObjArray[filaExcel][2].toString();
-        String prefijo1 = testObjArray[filaExcel][3].toString();
-        String cantidad = testObjArray[filaExcel][7].toString();
+        Object[][] testObjArray = ExcelUtils.getTableArray("E2EUAT.xlsx", "seriales", 1,1,4, "Preactivacion");
+        String nombreArchivo = "";
+        int celdaExcel = 0;
+        String path = testObjArray[celdaExcel][0].toString();
+        String deposito = testObjArray[celdaExcel][1].toString();
+        String prefijo1 = testObjArray[celdaExcel][2].toString();
+        String cantidad = testObjArray[celdaExcel][3].toString();
         int numeroDeLineas = Integer.parseInt(cantidad);
         seleccionOpcion(driver, "sims", "importacion");
         seleccionDeposito(driver, deposito);
@@ -93,7 +87,7 @@ public class Preactivacion extends TestBase {
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 		cambioDeFrame(driver, By.id("SearchClientDocumentType"), 0);
-		driver.findElement(By.id("PhoneNumber")).sendKeys("2616052355");
+		driver.findElement(By.id("PhoneNumber")).sendKeys(linea);
 		driver.findElement(By.id("SearchClientsDummy")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-button slds-button--icon slds-m-right--x-small ng-scope']")));
 		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-table slds-table--bordered slds-tree slds-table--tree table tableCSS'] tbody th div a")).getText().equalsIgnoreCase("Repro" + linea));

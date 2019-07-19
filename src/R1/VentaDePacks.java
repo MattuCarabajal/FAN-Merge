@@ -1,6 +1,5 @@
 package R1;
 
-import java.awt.AWTException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -163,14 +162,14 @@ public class VentaDePacks extends TestBase {
 		cc.buscarCasoParaPedidos(sOrden);
 		sleep(15000);
 		boolean a = false;
-		for(int i= 0; i < 10 ; i++) {
+		for (int i= 0; i < 10 ; i++) {
 			cambioDeFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
 			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
 			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 			String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-			if(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated")) {
+			if (datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated")) {
 				a = true;
-			}else {
+			} else {
 				sleep(15000);
 				driver.navigate().refresh();
 			}
@@ -181,7 +180,7 @@ public class VentaDePacks extends TestBase {
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
-	@Test (groups = { "PerfilAgente", "R1"}, dataProvider = "PackAPRO")
+	@Test (groups = {"PerfilAgente", "R1"}, dataProvider = "PackAPRO")
 	public void TS156753_CRM_Movil_Mix_Venta_de_oferta_Agente_Pack_Roaming_Efectivo(String sDNI, String sLinea, String sVentaPack, String sBanco, String sTarjeta, String sPromo, String sCuotas, String sNumTarjeta, String sVenceMes, String sVenceAno, String sCodSeg, String sTipoDNI, String sDNITarjeta, String sTitular){
 		imagen = "TS156753";
 		detalles = imagen+"- Venta de pack - DNI: "+sDNI+" - Linea: "+sLinea;
@@ -207,14 +206,14 @@ public class VentaDePacks extends TestBase {
 		cc.buscarCasoParaPedidos(sOrden);
 		sleep(7000);
 		boolean a = false;
-		for(int i= 0; i <= 10 ; i++) {
+		for (int i= 0; i <= 10 ; i++) {
 			cambioDeFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr"), 0);
 			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[id = 'ep'] table tr "), 25));
 			WebElement tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
 			String datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-			if(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated")) {
+			if (datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated")) {
 				a = true;
-			}else {
+			} else {
 				sleep(15000);
 				driver.navigate().refresh();
 			}

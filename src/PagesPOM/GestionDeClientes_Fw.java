@@ -303,9 +303,9 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	public void irAGestionEnCard(String sGestion) {
 		tb = new TestBase();
 		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		tb.sleep(2000);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='card-top']")));
-		WebElement card = driver.findElement(By.cssSelector("[class='card-top']"));
-		card.click();
+		driver.findElement(By.cssSelector("[class='card-top']")).click();
 		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='community-flyout-actions-card'] ul li"), 0));
 		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='card-info'] [class='actions'] li"), 0));
 		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='console-flyout active flyout'] [class='card-info'] [class*='slds-grid slds-grid--vertical slds-align-middle'] [class='items-card ng-not-empty ng-valid'] [class='slds-col'] button"), 0));

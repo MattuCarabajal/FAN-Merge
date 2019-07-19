@@ -89,10 +89,10 @@ public class Vista360 extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilOficina", "R1"})
-	public void TS145701_CRM_Movil_Mix_Card_de_Facturacion_Datos_informativos_Crm_OC() {
+	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "ConsultaSaldo")
+	public void TS145701_CRM_Movil_Mix_Card_de_Facturacion_Datos_informativos_Crm_OC(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS145701";
-		ges.BuscarCuenta("DNI", "37478859");
+		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver, By.cssSelector("[class='console-card active']"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='console-card active']")));
 		mk.closeActiveTab();
@@ -109,19 +109,19 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(driver.findElement(By.cssSelector("[class='console-card active expired'] [class='card-info'] [class='details']")).getText().contains("Ciclo de Facturaci\u00f3n"));
 	}
 	
-	@Test (groups = {"PerfilOficina", "R1"})
-	public void TS148788_CRM_Movil_Mix_Vista_360_Distribucion_de_paneles_Perfil_Crm_OC() {
+	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "ConsultaSaldo")
+	public void TS148788_CRM_Movil_Mix_Vista_360_Distribucion_de_paneles_Perfil_Crm_OC(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS148788";
-		ges.BuscarCuenta("DNI", "37478859");
+		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver, By.cssSelector("[class='profile-box']"), 0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='left-sidebar-section-header'] [class='icon-v-right-caret']")));		
 		Assert.assertTrue(false);  //No estan los segmentos ni los botones de "Anadir mas"
 	}
 	
-	@Test (groups = {"PerfilOficina", "R1"})
-	public void TS148726_CRM_Movil_Mix_Vista_360_Consulta_por_gestiones_Gestiones_Cerradas_Informacion_brindada_Crm_OC() {
+	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "ConsultaSaldo")
+	public void TS148726_CRM_Movil_Mix_Vista_360_Consulta_por_gestiones_Gestiones_Cerradas_Informacion_brindada_Crm_OC(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS148726";
-		ges.BuscarCuenta("DNI", "37478859");
+		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver, By.cssSelector("[class='console-card active']"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='console-card active']")));
 		driver.findElement(By.xpath("//*[@class='console-card active']//*[@class='card-info-hybrid']//*[@class='actions']//span[text()='Gestiones']")).click();
@@ -135,10 +135,10 @@ public class Vista360 extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilTelefonico", "R1"})
-	public void TS145700_CRM_Movil_Mix_Card_de_Facturacion_Datos_informativos_Crm_Telefonico() {
+	@Test (groups = {"PerfilTelefonico", "R1"}, dataProvider = "ConsultaSaldo")
+	public void TS145700_CRM_Movil_Mix_Card_de_Facturacion_Datos_informativos_Crm_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS145700";
-		ges.BuscarCuenta("DNI", "37478859");
+		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver, By.cssSelector("[class='console-card active']"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='console-card active']")));
 		mk.closeActiveTab();
@@ -155,11 +155,11 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(driver.findElement(By.cssSelector("[class='console-card active expired'] [class='card-info'] [class='details']")).getText().contains("Ciclo de Facturaci\u00f3n"));
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "R1"})
-	public void TS148798_CRM_Movil_Mix_Vista_360_Card_de_servicios_Desplegable_Crm_Telefonico() {
+	@Test (groups = {"PerfilTelefonico", "R1"}, dataProvider = "ConsultaSaldo")
+	public void TS148798_CRM_Movil_Mix_Vista_360_Card_de_servicios_Desplegable_Crm_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS148798";
 		boolean histSusp = false, suscrip = false, renovDatos = false, detPlan = false, numGratis = false, diag = false, inconvRecarg = false, abmServ = false, internet = false, minutos = false, sms = false, credDisp = false, credProm = false;
-		ges.BuscarCuenta("DNI", "37478859");
+		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver, By.cssSelector("[class='console-card active']"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='console-card active']")));
 		Assert.assertTrue(driver.findElement(By.cssSelector("[class='console-card active'] [class='card-top']")).getText().contains("Conexi\u00f3n Control Abono"));
@@ -202,11 +202,11 @@ public class Vista360 extends TestBase {
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilAgente", "R1"})
-	public void TS148803_CRM_Movil_Mix_Vista_360_Producto_Activo_del_cliente_Datos_Crm_Agente() {
-		imagen = "TS148798";
+	@Test (groups = {"PerfilAgente", "R1"}, dataProvider = "ConsultaSaldo")
+	public void TS148803_CRM_Movil_Mix_Vista_360_Producto_Activo_del_cliente_Datos_Crm_Agente(String sDNI, String sLinea, String sAccountKey) {
+		imagen = "TS148803";
 		boolean gest = false, prodServ = false, cuenta = false, estado = false, credDisp = false, credProm = false;
-		ges.BuscarCuenta("DNI", "37478859");
+		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver, By.cssSelector("[class='console-card active']"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='console-card active']")));
 		Assert.assertTrue(driver.findElement(By.cssSelector("[class='console-card active'] [class='card-top']")).getText().contains("Conexi\u00f3n Control Abono"));
@@ -232,10 +232,10 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(gest && prodServ);
 	}
 	
-	@Test (groups = {"PerfilAgente", "R1"})
-	public void TS148747_CRM_Movil_Mix_Vista_360_Productos_y_Servicios_Visualizacion_del_estado_de_los_servicios_activos_Crm_Agente() {
-		imagen = "TS148726";
-		ges.BuscarCuenta("DNI", "37478859");
+	@Test (groups = {"PerfilAgente", "R1"}, dataProvider = "ConsultaSaldo")
+	public void TS148747_CRM_Movil_Mix_Vista_360_Productos_y_Servicios_Visualizacion_del_estado_de_los_servicios_activos_Crm_Agente(String sDNI, String sLinea, String sAccountKey) {
+		imagen = "TS148747";
+		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver, By.cssSelector("[class='console-card active']"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='console-card active']")));
 		driver.findElement(By.xpath("//*[@class='console-card active']//*[@class='card-info-hybrid']//*[@class='actions']//span[text()='Productos y Servicios']")).click();

@@ -26,8 +26,8 @@ public class CambioDePlan extends TestBase {
 	private ContactSearch contact;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
-	String detalles;
 	private String fecha = fechaCapro(25);
+	String detalles;
 	
 	
 	//@BeforeClass (alwaysRun = true)
@@ -39,7 +39,7 @@ public class CambioDePlan extends TestBase {
 		log.LoginSit03();
 	}
 
-	//@BeforeClass(groups = "PerfilOficina")
+	@BeforeClass(groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -82,34 +82,25 @@ public class CambioDePlan extends TestBase {
 	}
 	
 	
-	private boolean cambioDePlan(String tipoDNI, String DNI, String plan, String numLinea) {
-		ges.BuscarCuenta(tipoDNI, DNI);
-		ges.irAGestionEnCardPorNumeroDeLinea("Cambio de Plan", numLinea);
-		sleep(7000);
-		cambioDeFrame(driver, By.id("OrderRequestDate"),0);
-		sleep(10000);
-		cambioDeFrame(driver, By.id("Request date_nextBtn"),0);
+	private boolean cambioDePlan(String DNI, String numLinea, String plan) {
+		ges.BuscarCuenta("DNI", DNI);
+		ges.irAGestionEnCard("Cambio de Plan");
+		cambioDeFrame(driver, By.id("OrderRequestDate"), 0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderRequestDate")));
 		driver.findElement(By.id("OrderRequestDate")).sendKeys(fecha);
 		driver.findElement(By.id("Request date_nextBtn")).click();
-		sleep(120000);
-		cambioDeFrame(driver,By.id("TargetOffer_nextBtn"),0);
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.className("ScrollWindow")));
-		sleep(9000);
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup"), 0));
 		List<WebElement> planes = driver.findElements(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup"));
-		for (WebElement p : planes){
+		for (WebElement p : planes) {
 			if (p.getText().toLowerCase().contains(plan.toLowerCase()))
 				p.click();
 		}
 		driver.findElement(By.id("TargetOffer_nextBtn")).click();
-		sleep(80000);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Comparision_nextBtn")));
 		driver.findElement(By.id("Comparision_nextBtn")).click();
-		sleep(29000);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Summary_nextBtn")));
-		driver.findElement(By.id("Summary_nextBtn")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("AccountData_nextBtn")));
-		sleep(5000);
+		driver.findElement(By.id("Summary_nextBtn")).click();		
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("state-BillingAddress")));
 		driver.findElement(By.id("AccountData_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn")));
 		contact.tipoValidacion("documento");
@@ -118,31 +109,29 @@ public class CambioDePlan extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("nextBtn-label")));
 		driver.findElement(By.id("nextBtn-label")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button_brand")));
-		sleep(8500);
 		driver.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
-		sleep(120000);
-		ges.BuscarCuenta(tipoDNI, DNI);
+		ges.BuscarCuenta("DNI", DNI);
 		return ges.compararMegasEnCardPorLinea(numLinea);	
 	}
 	
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilOficina", "R1"})
-	public void TS145168_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO2() {
+	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "CAPRO")
+	public void TS145168_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO2(String sDNI, String sLinea) {
 		imagen = "TS145168";
-		Assert.assertTrue(cambioDePlan("DNI", "57132591", "conexi\u00f3n control abono s", "3861453936"));		
+		Assert.assertTrue(cambioDePlan(sDNI, sLinea, "conexi\u00f3n control abono s"));
 	}
 	
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilAgente", "R1"})
-	public void TS169796_CRM_Pospago_SalesCPQ_Cambio_de_plan_Agente_DNI_de_Plan_con_Tarjeta_Repro_a_APRO2() {
+	@Test (groups = {"PerfilAgente", "R1"}, dataProvider = "CAPRO")
+	public void TS169796_CRM_Pospago_SalesCPQ_Cambio_de_plan_Agente_DNI_de_Plan_con_Tarjeta_Repro_a_APRO2(String sDNI, String sLinea) {
 		imagen = "TS169796";
-		Assert.assertTrue(cambioDePlan("DNI", "57132590", "conexi\u00f3n control abono s", "3861453831"));		
+		Assert.assertTrue(cambioDePlan(sDNI, sLinea, "conexi\u00f3n control abono s"));
 	}
 }
