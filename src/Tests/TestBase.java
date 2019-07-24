@@ -1859,6 +1859,13 @@ public class TestBase {
 		
 	}
 	
+	@DataProvider
+	public Object[][] CAPRO() throws Exception{
+		
+		return ExcelUtils.getTableArray(dataProviderE2E(), "CAPRO", 1,1,2, "Cambio de Plan");
+		
+	}
+	
 	//=============================================== Metodos Victor =========================================================\\
 	
 	public void loginBeFANVictor(WebDriver driver, String perfil) {

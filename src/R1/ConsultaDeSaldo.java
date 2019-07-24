@@ -42,7 +42,7 @@ public class ConsultaDeSaldo extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	//@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);

@@ -88,13 +88,12 @@ public class RenovacionDeCuota extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilOficina", "R1"})
-	public void TS163167_CRM_Movil_Mix_Renovacion_de_Datos_APRO2_OOCC_Efectivo() {
-		imagen = "TS162149_CRM_Movil_Mix_Renovacion_de_Datos_APRO2_OOCC_Efectivo";
-		detalles = null;
-		ges.BuscarCuenta("DNI", "38010123");
+	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "ConsultaSaldo")
+	public void TS163167_CRM_Movil_Mix_Renovacion_de_Datos_APRO2_OOCC_Efectivo(String sDNI, String sLinea, String sAccountKey) {
+		imagen = "TS163167";
+		ges.BuscarCuenta("DNI", sDNI);
 		sleep(500);
-		ges.irRenovacionDeDatos("2932598789");
+		ges.irRenovacionDeDatos(sLinea);
 		sleep(15000);
 		cambioDeFrame(driver, By.id("combosMegas"), 0);
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer"), 0));
@@ -125,16 +124,15 @@ public class RenovacionDeCuota extends TestBase {
 		cc.verificarPedido(orden, "Activada");		
 	}
 	
-	@Test (groups = {"PerfilOficina", "R1"})
-	public void TS163166CRM_Movil_Mix_Renovacion_de_Datos_APRO2_OOCC_Descuento_Saldo() {
-		imagen = "TS162149_CRM_Movil_Mix_Renovacion_de_Datos_APRO2_OOCC_Efectivo";
-		detalles = null;
-		ges.BuscarCuenta("DNI", "9585089");
+	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "ConsultaSaldo")
+	public void TS163166_CRM_Movil_Mix_Renovacion_de_Datos_APRO2_OOCC_Descuento_Saldo(String sDNI, String sLinea, String sAccountKey) {
+		imagen = "TS163166";
+		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver,By.cssSelector("[class='details']"),0);
 		sleep(500);
 		int saldoOriginal = Integer.valueOf(ges.getInfoNuevaCard("2932598337","Disponible"));
 		int datosOriginal = Integer.valueOf(ges.getInfoNuevaCard("2932598337","Internet"));
-		ges.irRenovacionDeDatos("2932598337");
+		ges.irRenovacionDeDatos(sLinea);
 		cambioDeFrame(driver, By.id("combosMegas"), 0);
 		sleep(5000);
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer"), 0));
@@ -163,15 +161,14 @@ public class RenovacionDeCuota extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilTelefonico", "R1"})
-	public void TS163182CRM_Movil_Mix_Renovacion_de_Datos_APRO2_Telefonico_TDC() {
-		imagen = "TS163181CRM_Movil_Mix_Renovacion_de_Datos_APRO2_Telefonico_Descuento_Saldo";
-		detalles = null;
-		ges.BuscarCuenta("DNI", "9585089");
+	@Test (groups = {"PerfilTelefonico", "R1"}, dataProvider = "ConsultaSaldo")
+	public void TS163182_CRM_Movil_Mix_Renovacion_de_Datos_APRO2_Telefonico_TDC(String sDNI, String sLinea, String sAccountKey) {
+		imagen = "TS163182";
+		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver,By.cssSelector("[class='details']"),0);
 		sleep(500);
 		int datosOriginal = Integer.valueOf(ges.getInfoNuevaCard("2932598337","Internet"));
-		ges.irRenovacionDeDatos("2932598337");
+		ges.irRenovacionDeDatos(sLinea);
 		cambioDeFrame(driver, By.id("combosMegas"), 0);
 		sleep(5000);
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer"), 0));
@@ -214,16 +211,15 @@ public class RenovacionDeCuota extends TestBase {
 		Assert.assertTrue((datosOriginal + 1024) == Integer.valueOf(ges.getInfoNuevaCard("2932598337","Internet")));
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "R1"})
-	public void TS163181CRM_Movil_Mix_Renovacion_de_Datos_APRO2_Telefonico_Descuento_Saldo() {
-		imagen = "TS163181CRM_Movil_Mix_Renovacion_de_Datos_APRO2_Telefonico_Descuento_Saldo";
-		detalles = null;
-		ges.BuscarCuenta("DNI", "9585089");
+	@Test (groups = {"PerfilTelefonico", "R1"}, dataProvider = "ConsultaSaldo")
+	public void TS163181_CRM_Movil_Mix_Renovacion_de_Datos_APRO2_Telefonico_Descuento_Saldo(String sDNI, String sLinea, String sAccountKey) {
+		imagen = "TS163181";
+		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver,By.cssSelector("[class='details']"),0);
 		sleep(500);
 		int saldoOriginal = Integer.valueOf(ges.getInfoNuevaCard("2932598337","Disponible"));
 		int datosOriginal = Integer.valueOf(ges.getInfoNuevaCard("2932598337","Internet"));
-		ges.irRenovacionDeDatos("2932598337");
+		ges.irRenovacionDeDatos(sLinea);
 		cambioDeFrame(driver, By.id("combosMegas"), 0);
 		sleep(5000);
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".table.slds-table.slds-table--bordered.slds-table--cell-buffer"), 0));

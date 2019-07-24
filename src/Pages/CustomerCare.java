@@ -1919,16 +1919,26 @@ public class CustomerCare extends BasePage {
 	}
 	
 	public String consutarSaldoEnCard (String sLinea){
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		WebElement h = null;
-		List<WebElement> cards = driver.findElements(By.cssSelector("[class='console-card active']"));
+		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card active']"));
+		WebElement cardPorLinea=ges.getBuscarElementoPorText(ges.listaDeElementosPorText(cards, sLinea),"Activo");
 			for(WebElement c : cards){
-				if(c.getText().contains(sLinea)){
+				if(cardPorLinea.getText().contains(sLinea)){
 					h = c.findElement(By.xpath("//*[@class='card-info-hybrid']//*[@class='detail'][1]//*[@class='slds-text-body_regular value'][2]"));
 				}
 			}
-		
+			System.out.println("saldo"+h.getText());
+		//ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='console-card active']"),1));
+//		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card active']"));
+//		WebElement cardPorLinea=ges.getBuscarElementoPorText(ges.listaDeElementosPorText(cards, sLinea),"Activo");
+//			if(cardPorLinea.getText().contains(sLinea)){
+//				h = cardPorLinea.findElement(By.xpath("//*[@class='card-info-hybrid']//*[@class='detail'][1]//*[@class='slds-text-body_regular value'][2]"));
+//				System.out.println("saldo ?" +h.getText());
+//			}	
 	String	Saldo = h.getText();
 	return Saldo;
+	
 	}
 
 	public void buscarOrdenDiag (String orden){

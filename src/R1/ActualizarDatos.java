@@ -14,8 +14,6 @@ import org.testng.annotations.*;
 
 import Pages.CBS;
 import Pages.CustomerCare;
-import Pages.Marketing;
-import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
@@ -96,7 +94,7 @@ public class ActualizarDatos extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilOficina", "ModificarDatos", "E2E", "R1"}, dataProvider = "CuentaModificacionDeDNI")
+	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "CuentaModificacionDeDNI")
 	public void TS148950_CRM_Movil_Mix_Modificacion_de_datos_Actualizar_datos_campo_DNI_Cliente_Crm_OC(String sDNI, String sLinea){
 		imagen = "TS148950";
 		ges.BuscarCuenta("DNI", sDNI);
@@ -180,6 +178,7 @@ public class ActualizarDatos extends TestBase {
 			if (s.getText().toLowerCase().contains("realizada exitosa"))
 				h = true;
 		}
+		Assert.assertTrue(h);
 		driver.switchTo().defaultContent();
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class*='x-tab-strip-closable']"),0));
 		List<WebElement> pestana = driver.findElements(By.cssSelector("[class*='x-tab-strip-closable']"));
@@ -264,6 +263,7 @@ public class ActualizarDatos extends TestBase {
 			if (s.getText().toLowerCase().contains("realizada exitosa"))
 				h = true;
 		}
+		Assert.assertTrue(h);
 		driver.switchTo().defaultContent();
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class*='x-tab-strip-closable']"),0));
 		List<WebElement> pestana = driver.findElements(By.cssSelector("[class*='x-tab-strip-closable']"));
