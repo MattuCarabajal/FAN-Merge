@@ -36,7 +36,7 @@ public class DetalleDeConsumos extends TestBase {
 		//ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);
@@ -45,7 +45,7 @@ public class DetalleDeConsumos extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	//@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);
@@ -117,6 +117,14 @@ public class DetalleDeConsumos extends TestBase {
 		List<String> detallesReferencia = new ArrayList<String>(Arrays.asList("FECHA DE INICIO", "FECHA DE FIN", "PRODUCTO", "IMPORTE", "ORIGEN/DESTINO"));
 		for (int i = 0; i < detalles.size(); i++) {
 			Assert.assertTrue(detalles.get(i).getText().equals(detallesReferencia.get(i)));
+			
+		}
+		String origen = driver.findElements(By.cssSelector("[class = 'slds-p-top--medium'] table [class = 'ng-pristine ng-untouched ng-valid ng-empty'] td")).get(2).getText();
+		String producto = driver.findElements(By.cssSelector("[class = 'slds-p-top--medium'] table [class = 'ng-pristine ng-untouched ng-valid ng-empty'] td")).get(4).getText();
+		List<WebElement> match = driver.findElements(By.cssSelector("[class = 'nghided'] [class = 'slds-grid'] [class = 'slds-text-color--default']"));
+		for(int i = 0; i< match.size(); i++) {
+			System.out.println(match.get(i).getText());
+			Assert.assertTrue(match.get(i).getText().matches("^\\d{2}[/]\\d{2}[/]\\d{4}\\s\\d{2}[:]\\d{2}[:]\\d{2}") || match.get(i).getText().equals(origen) || match.get(i).getText().matches("[-][$](\\d+\\,\\d{1,2})") || match.get(i).getText().matches(producto));
 		}
 	}
 	
@@ -161,6 +169,13 @@ public class DetalleDeConsumos extends TestBase {
 		for (int i = 0; i < detalles.size(); i++) {
 			Assert.assertTrue(detalles.get(i).getText().equals(detallesReferencia.get(i)));
 		}
+		String origen = driver.findElements(By.cssSelector("[class = 'slds-p-top--medium'] table [class = 'ng-pristine ng-untouched ng-valid ng-empty'] td")).get(2).getText();
+		String producto = driver.findElements(By.cssSelector("[class = 'slds-p-top--medium'] table [class = 'ng-pristine ng-untouched ng-valid ng-empty'] td")).get(4).getText();
+		List<WebElement> match = driver.findElements(By.cssSelector("[class = 'nghided'] [class = 'slds-grid'] [class = 'slds-text-color--default']"));
+		for(int i = 0; i< match.size(); i++) {
+			System.out.println(match.get(i).getText());
+			Assert.assertTrue(match.get(i).getText().matches("^\\d{2}[/]\\d{2}[/]\\d{4}\\s\\d{2}[:]\\d{2}[:]\\d{2}") || match.get(i).getText().equals(origen) || match.get(i).getText().matches("[-][$](\\d+\\,\\d{1,2})") || match.get(i).getText().matches(producto));
+		}
 	}
 	
 	@Test (groups = {"PerfilTelefonico", "R1"}, dataProvider = "DetalleDeConsumoApro")
@@ -201,6 +216,13 @@ public class DetalleDeConsumos extends TestBase {
 		List<String> detallesReferencia = new ArrayList<String>(Arrays.asList("FECHA DE INICIO", "FECHA DE FIN", "PRODUCTO", "IMPORTE", "ORIGEN/DESTINO"));
 		for (int i = 0; i < detalles.size(); i++) {
 			Assert.assertTrue(detalles.get(i).getText().equals(detallesReferencia.get(i)));
+		}
+		String origen = driver.findElements(By.cssSelector("[class = 'slds-p-top--medium'] table [class = 'ng-pristine ng-untouched ng-valid ng-empty'] td")).get(2).getText();
+		String producto = driver.findElements(By.cssSelector("[class = 'slds-p-top--medium'] table [class = 'ng-pristine ng-untouched ng-valid ng-empty'] td")).get(4).getText();
+		List<WebElement> match = driver.findElements(By.cssSelector("[class = 'nghided'] [class = 'slds-grid'] [class = 'slds-text-color--default']"));
+		for(int i = 0; i< match.size(); i++) {
+			System.out.println(match.get(i).getText());
+			Assert.assertTrue(match.get(i).getText().matches("^\\d{2}[/]\\d{2}[/]\\d{4}\\s\\d{2}[:]\\d{2}[:]\\d{2}") || match.get(i).getText().equals(origen) || match.get(i).getText().matches("[-][$](\\d+\\,\\d{1,2})") || match.get(i).getText().matches(producto));
 		}
 	}
 }
