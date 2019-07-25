@@ -12,10 +12,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import Pages.CBS;
 import Pages.ContactSearch;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
+import Tests.CBS_Mattu;
 import Tests.TestBase;
 
 public class CambioDePlan extends TestBase {
@@ -24,6 +26,8 @@ public class CambioDePlan extends TestBase {
 	private LoginFw log;
 	private GestionDeClientes_Fw ges;
 	private ContactSearch contact;
+	private CBS cbs;
+	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	private String fecha = fechaCapro(25);
@@ -45,6 +49,8 @@ public class CambioDePlan extends TestBase {
 		ges = new GestionDeClientes_Fw(driver);
 		contact = new ContactSearch(driver);
 		log = new LoginFw(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
 		log.loginOOCC();
 		ges.irAConsolaFAN();
 	}
@@ -55,6 +61,8 @@ public class CambioDePlan extends TestBase {
 		ges = new GestionDeClientes_Fw(driver);
 		log = new LoginFw(driver);
 		contact = new ContactSearch(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
 		log.loginAgente();
 		ges.irAConsolaFAN();
 	}
@@ -114,7 +122,8 @@ public class CambioDePlan extends TestBase {
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
 		ges.BuscarCuenta("DNI", DNI);
-		return ges.compararMegasEnCardPorLinea(numLinea);	
+		Assert.assertTrue(cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(numLinea), "bcs:OfferingName").toLowerCase().contains("conexion control abono"));
+		return ges.compararMegasEnCardPorLinea(numLinea);
 	}
 	
 	
