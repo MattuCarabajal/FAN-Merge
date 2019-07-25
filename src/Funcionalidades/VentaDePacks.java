@@ -295,7 +295,7 @@ public class VentaDePacks extends TestBase {
 			}
 		}
 		Assert.assertTrue(a);
-		Assert.assertTrue(cbs.validarActivacionPack2(cbsm.Servicio_QueryFreeUnit(sLinea), sPack1GBx7Dias , dia));
+		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sPack1GBx7Dias , dia));
 	}
 	
 	@Test(groups = "PerfilOficina", dataProvider = "PackOOCCInternetx7Dias")

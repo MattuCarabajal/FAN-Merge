@@ -238,7 +238,7 @@ public class TriviasYSuscripciones extends TestBase {
 	public void TS151385_CRM_Movil_MIX_Suscripciones_Baja_de_suscripciones_sin_BlackList_Presencial(String sDNI, String sLinea) {
 		imagen = "TS151384";
 		detalles = imagen +" -Trivias y suscripciones - DNI: " +sDNI;
-		//cbsm.Servicio_RealizarAltaSuscripcion("2932598789","178");
+		cbsm.Servicio_RealizarAltaSuscripcion(sLinea,"178");
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irSuscripciones(sLinea);
 		cambioDeFrame(driver, By.cssSelector("[class = 'slds-button slds-button--brand']"), 0);
@@ -280,13 +280,13 @@ public class TriviasYSuscripciones extends TestBase {
 	
 	//----------------------------------------------- Telefonico -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilOficica" , "R1"}, dataProvider = "CuentaTriviasYSuscripciones")
+	@Test (groups = {"PerfilTelefonico" , "R1"}, dataProvider = "CuentaTriviasYSuscripciones")
 	public void TS151384_CRM_Movil_MIX_Suscripciones_Baja_de_suscripciones_sin_BlackList_Crm_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS151384";
 		detalles = imagen +" -Trivias y suscripciones - DNI: " +sDNI;
-		cbsm.Servicio_RealizarAltaSuscripcion("2932598789","178");
-		ges.BuscarCuenta("DNI", "38010123");
-		ges.irSuscripciones("2932598789");
+		cbsm.Servicio_RealizarAltaSuscripcion(sLinea,"178");
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irSuscripciones(sLinea);
 		cambioDeFrame(driver, By.cssSelector("[class = 'slds-button slds-button--brand']"), 0);
 		sleep(5000);
 		driver.findElement(By.cssSelector("[class = 'slds-card__body cards-container'] [class = 'addedValueServices'] [class = 'slds-checkbox']")).click();
