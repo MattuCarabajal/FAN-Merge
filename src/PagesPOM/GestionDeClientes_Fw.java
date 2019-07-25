@@ -8,6 +8,7 @@ import java.awt.event.InputEvent;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
@@ -25,7 +26,9 @@ import org.openqa.selenium.support.ui.Sleeper;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import Pages.Accounts;
+import Pages.CBS;
 import Pages.CustomerCare;
+import Tests.CBS_Mattu;
 import Tests.TestBase;
 
 public class GestionDeClientes_Fw extends BasePageFw {
@@ -447,6 +450,8 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		
 		WebElement cardActiva= getBuscarElementoPorText(cards, "Activo");
 		WebElement cardInactiva= getBuscarElementoPorText(cards, "Inactivo");
+		//Verificar nombre del plan de la card activa
+		Assert.assertTrue(cardActiva.getText().toLowerCase().contains("conexi\u00f3n control abono"));
 		// obtienen los megas anteriores
 		try {
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-text-body_regular value']"), 0));
@@ -473,7 +478,8 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		//compara
 		result = nuevomega.equals(megasAnterior); 
 		assertTrue(result); 
-		driver.switchTo().defaultContent(); 
+		driver.switchTo().defaultContent();
+		
 		return result;
 	}
 
