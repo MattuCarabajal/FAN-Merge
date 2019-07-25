@@ -37,7 +37,7 @@ public class GestionDeClientes extends TestBase {
 		//ges.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups= "PerfilOficina")
+	@BeforeClass (groups= "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
@@ -47,7 +47,7 @@ public class GestionDeClientes extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);

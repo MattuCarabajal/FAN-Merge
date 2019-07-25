@@ -132,7 +132,7 @@ public class CambioDePlan extends TestBase {
 	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "CAPRO")
 	public void TS145168_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO2(String sDNI, String sLinea) {
 		imagen = "TS145168";
-		Assert.assertTrue(cambioDePlan(sDNI, sLinea, "conexi\u00f3n control abono s"));
+		Assert.assertTrue(cambioDePlan("2323232", "2932598596", "conexi\u00f3n control abono s" ));		
 	}
 	
 	

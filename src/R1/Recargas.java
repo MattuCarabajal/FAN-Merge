@@ -43,7 +43,7 @@ public class Recargas extends TestBase {
 		//cc.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -56,7 +56,7 @@ public class Recargas extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -110,12 +110,13 @@ public class Recargas extends TestBase {
 	public void TS146849_CRM_Movil_APRO2_Recarga_OOCC_Efectivo(String sDNI, String sMonto, String sLinea){
 		imagen="146849";
 		ges.BuscarCuenta("DNI", sDNI);
+		sleep(5000);
 		cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		String credInicial = cc.consutarSaldoEnCard(sLinea);
-		credInicial = credInicial.replace("$", "");
-		credInicial = credInicial.substring(0, 3);
+		credInicial = credInicial.replaceAll("[$.,]", "");
+		credInicial = credInicial.substring(0, credInicial.length()-2);
 		int x = Integer.parseInt(credInicial);
-		System.out.println(x);
+		System.out.println(credInicial);
 		cc.irAGestion("Recarga de cr\u00e9dito");
 		cambioDeFrame(driver, By.id("AssetSelection_nextBtn"),0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("AssetSelection_nextBtn")));
@@ -140,8 +141,8 @@ public class Recargas extends TestBase {
 		driver.navigate().refresh();
 		cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		String credFinal = cc.consutarSaldoEnCard(sLinea);
-		credFinal = credFinal.replace("$", "");
-		credFinal = credFinal.substring(0, 3);
+		credFinal = credFinal.replace("[$.,]", "");
+		credFinal = credFinal.substring(0, credFinal.length() -2);
 		int z = Integer.parseInt(credFinal);
 		System.out.println(z);
 		int s = Integer.parseInt(sMonto);
