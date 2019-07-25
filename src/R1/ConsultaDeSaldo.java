@@ -11,11 +11,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import Pages.CBS;
 import Pages.CustomerCare;
 import Pages.Marketing;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
+import Tests.CBS_Mattu;
 import Tests.TestBase;
 
 public class ConsultaDeSaldo extends TestBase {
@@ -24,13 +26,15 @@ public class ConsultaDeSaldo extends TestBase {
 	private CustomerCare cc;
 	private Marketing mk;
 	private GestionDeClientes_Fw ges;
+	private CBS cbs;
+	private CBS_Mattu cbsm;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	private LoginFw log;
 	String detalles;
 	
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -38,11 +42,13 @@ public class ConsultaDeSaldo extends TestBase {
 		mk = new Marketing(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
 		log.loginOOCC();
 		ges.irAConsolaFAN();
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -50,6 +56,8 @@ public class ConsultaDeSaldo extends TestBase {
 		mk = new Marketing(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
 		log.loginTelefonico();
 		ges.irAConsolaFAN();
 	}
@@ -84,7 +92,7 @@ public class ConsultaDeSaldo extends TestBase {
 		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		WebElement elemento =null;
-		String nuevomega = null;
+		String saldo = null;
 		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card ']"));
 		cards = ges.listaDeElementosPorText(cards, sLinea);
 		if(cards.size()<=0) {
@@ -99,12 +107,24 @@ public class ConsultaDeSaldo extends TestBase {
 			List<WebElement> elementos = driver.findElements(By.cssSelector("[class='slds-grid slds-gutters']"));
 			ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']"),0));
 			elemento = ges.getBuscarElementoPorText(elementos, "Cr\u00e9dito Disponible").findElements(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']")).get(1);
-			nuevomega = elemento.getText();
+			saldo = elemento.getText();
 		} catch (Exception e) {
 			System.out.println("Verificar el estado de la card actual");
 		}
-		System.out.println(nuevomega);
-		Assert.assertTrue(nuevomega.matches("[$][\\d]{1,5}[,][\\d]{2}"));
+	
+		saldo = saldo.replaceAll("[$.,]", "");
+		saldo = saldo.substring(0, saldo.length()-2);
+		Assert.assertTrue(saldo.matches("[\\d]{1,5}"));
+		int z = Integer.parseInt(saldo);
+		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		datoVNuevo = datoVNuevo.substring(0, datoVNuevo.length()-6);
+		int x = Integer.parseInt(datoVNuevo);
+//		String datoVNuevo2 = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:CCBalance");
+//		System.out.println("dato nuevo 2 " + datoVNuevo2);
+//		datoVNuevo2 = datoVNuevo2.substring(0, datoVNuevo2.length()-6);
+//		int y = Integer.parseInt(datoVNuevo2);
+		Assert.assertTrue(x ==z);
+		
 	}
 	
 	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "ConsultaSaldo")
@@ -115,8 +135,16 @@ public class ConsultaDeSaldo extends TestBase {
 		cc.irAFacturacion();
 		cambioDeFrame(driver, By.className("card-top"), 0);
 		String saldo = driver.findElement(By.className("header-right")).findElement(By.cssSelector(".slds-text-heading_medium.expired-date.expired-pink")).getText();
+		saldo  = saldo.replaceAll("[$.,]", "");
+		saldo = saldo.substring(0 , saldo.length()-2);
 		System.out.println(saldo);
-		Assert.assertTrue(saldo.matches("[$][\\d]{1,5}[,][\\d]{2}"));
+		Assert.assertTrue(saldo.matches("[\\d]{1,7}"));
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalOutStandAmt");
+		response = response.substring(0, response.length()-6);
+		System.out.println(response);
+		int a = Integer.parseInt(saldo);
+		int b = Integer.parseInt(response);
+		Assert.assertTrue(a == b);
 	}
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
@@ -146,8 +174,18 @@ public class ConsultaDeSaldo extends TestBase {
 		} catch (Exception e) {
 			System.out.println("Verificar el estado de la card actual");
 		}
-		System.out.println(credito);
-		Assert.assertTrue(credito.matches("[$][\\d]{1,5}[,][\\d]{2}"));
+		credito = credito.replaceAll("[$.,]", "");
+		credito = credito.substring(0, credito.length()-2);
+		Assert.assertTrue(credito.matches("[\\d]{1,5}"));
+		int z = Integer.parseInt(credito);
+		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		datoVNuevo = datoVNuevo.substring(0, datoVNuevo.length()-6);
+		int x = Integer.parseInt(datoVNuevo);
+		//String datoVNuevo2 = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:CCBalance");
+		//datoVNuevo2 = datoVNuevo2.substring(0, datoVNuevo2.length()-6);
+		//int y = Integer.parseInt(datoVNuevo2);
+		Assert.assertTrue(x ==z);
+		
 	}
 	
 	@Test (groups = {"PerfilTelefonico", "R1"}, dataProvider = "ConsultaSaldo")
@@ -158,7 +196,15 @@ public class ConsultaDeSaldo extends TestBase {
 		cc.irAFacturacion();
 		cambioDeFrame(driver, By.className("card-top"), 0);
 		String saldo = driver.findElement(By.className("header-right")).findElement(By.cssSelector(".slds-text-heading_medium.expired-date.expired-pink")).getText();
+		saldo  = saldo.replaceAll("[$.,]", "");
+		saldo = saldo.substring(0 , saldo.length()-2);
 		System.out.println(saldo);
-		Assert.assertTrue(saldo.matches("[$][\\d]{1,5}[,][\\d]{2}"));		
+		Assert.assertTrue(saldo.matches("[\\d]{1,7}"));
+		String response = cbs.ObtenerValorResponse(cbsm.verificarSaldo(sAccountKey), "ars:TotalOutStandAmt");
+		response = response.substring(0, response.length()-6);
+		System.out.println(response);
+		int a = Integer.parseInt(saldo);
+		int b = Integer.parseInt(response);
+		Assert.assertTrue(a == b);
 	}
 }
