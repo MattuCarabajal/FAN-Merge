@@ -2,6 +2,7 @@ package R1;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -11,11 +12,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+
+import Pages.CBS;
 import Pages.CustomerCare;
 import Pages.Marketing;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
+import Tests.CBS_Mattu;
 import Tests.TestBase;
 
 public class Vista360 extends TestBase {
@@ -23,6 +29,8 @@ public class Vista360 extends TestBase {
 	private WebDriver driver;
 	private CustomerCare cc;
 	private Marketing mk;
+	private CBS_Mattu cbsm;
+	private CBS cbs;
 	private LoginFw log;
 	private GestionDeClientes_Fw ges;
 	private List<String> sOrders = new ArrayList<String>();
@@ -48,6 +56,8 @@ public class Vista360 extends TestBase {
 		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
+		cbsm = new CBS_Mattu();
+		cbs = new CBS();
 		log = new LoginFw(driver);
 		log.loginTelefonico();
 		ges.irAConsolaFAN();
@@ -121,6 +131,7 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "ConsultaSaldo")
 	public void TS148726_CRM_Movil_Mix_Vista_360_Consulta_por_gestiones_Gestiones_Cerradas_Informacion_brindada_Crm_OC(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS148726";
+		boolean order = false, estado = false;
 		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver, By.cssSelector("[class='console-card active']"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='console-card active']")));
@@ -129,8 +140,17 @@ public class Vista360 extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small secondaryFont']")));		
 		driver.findElement(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small secondaryFont']")).click();
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small  slds-m-around--medium'] tbody tr"), 0));
-		List<WebElement> datosTabla = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small  slds-m-around--medium'] tbody tr"));
-		Assert.assertTrue(datosTabla.size() >= 1);
+		List<WebElement> orderTabla = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small  slds-m-around--medium'] tbody tr td:nth-child(2)"));
+		List<WebElement> estadoTabla = driver.findElements(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small  slds-m-around--medium'] tbody tr td:nth-child(5)"));
+		for (int i=0; i<orderTabla.size(); i++) {
+			if (orderTabla.get(i).getText().contains("Order"))
+				order = true;
+		}
+		for (int i=0; i<estadoTabla.size(); i++) {
+			if (estadoTabla.get(i).getText().contains("Activada") || estadoTabla.get(i).getText().contains("Iniciada"))
+				estado = true;
+		}
+		Assert.assertTrue(order && estado);
 	}
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
@@ -198,6 +218,29 @@ public class Vista360 extends TestBase {
 				credProm = true;
 		}
 		Assert.assertTrue(internet && minutos && sms && credDisp && credProm);
+		// COMPARACION DE DATOS EN CARD CON EL SERVICIO
+		List<WebElement> elementos = driver.findElements(By.cssSelector("[class='slds-grid slds-gutters']"));
+		WebElement elementoInternet = ges.getBuscarElementoPorText(elementos, "Internet").findElements(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']")).get(1);
+		WebElement elementoMinutos = ges.getBuscarElementoPorText(elementos, "Minutos").findElements(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']")).get(1);		
+		String cantInternet = elementoInternet.getText();
+		Integer lalala = Integer.parseInt(cantInternet);
+		lalala = lalala * 1024;
+		String piorno = Integer.toString(lalala);
+		String cantMinutos = elementoMinutos.getText();
+		cantMinutos = cantMinutos.substring(0, cantMinutos.lastIndexOf(":"));		
+		Integer lololo = Integer.parseInt(cantMinutos);
+		lololo = lololo * 60;
+		String crispo = Integer.toString(lololo);
+		boolean puto = false, elQueLee = false;
+		Document response = cbsm.Servicio_queryLiteBySubscriber(sLinea);
+		NodeList cantidades = (NodeList) response.getElementsByTagName("bcs:TotalUnusedAmount");
+		for (int i=0; i<cantidades.getLength(); i++) {
+			if (cantidades.item(i).getTextContent().equals(crispo))
+				puto = true;
+			if (cantidades.item(i).getTextContent().equals(piorno))
+				elQueLee = true;
+		}
+		Assert.assertTrue(puto && elQueLee);
 	}
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
@@ -230,6 +273,18 @@ public class Vista360 extends TestBase {
 				prodServ = true;
 		}
 		Assert.assertTrue(gest && prodServ);
+		// VERIFICACION DE SALDO EN CARD CON EL SERVICIO
+		String credFinal = cc.consutarSaldoEnCard(sLinea);
+		credFinal = credFinal.replaceAll("[$.,]","");
+		credFinal = credFinal.substring(0, credFinal.length() -2);
+		int z = Integer.parseInt(credFinal);
+		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		datoVNuevo = datoVNuevo.substring(0, datoVNuevo.length()-6);
+		int y = Integer.parseInt(datoVNuevo);
+		String datoVNuevo2 = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:CCBalance");
+		datoVNuevo2 = datoVNuevo2.substring(0, datoVNuevo2.length()-6);
+		int v = Integer.parseInt(datoVNuevo2);
+		Assert.assertTrue(y + v == z);
 	}
 	
 	@Test (groups = {"PerfilAgente", "R1"}, dataProvider = "ConsultaSaldo")
@@ -240,10 +295,16 @@ public class Vista360 extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='console-card active']")));
 		driver.findElement(By.xpath("//*[@class='console-card active']//*[@class='card-info-hybrid']//*[@class='actions']//span[text()='Productos y Servicios']")).click();
 		cambioDeFrame(driver, By.cssSelector("[class='slds-button slds-button--brand']"), 0);
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-button slds-button--brand']")));
-		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--x-large'] thead")).getText().contains("NOMBRE"));
-		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--x-large'] thead")).getText().contains("FECHA DE ESTADO"));
-		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 slds-m-top--x-large'] thead")).getText().contains("ESTADO"));
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-button slds-button--brand']")));		
+		List<String> serviciosCRM = new ArrayList<String>();
+		List<WebElement> lista = driver.findElements(By.cssSelector("[class='slds-table slds-table--bordered slds-table--resizable-cols slds-table--fixed-layout via-slds-table-pinned-header'] tbody tr td:nth-child(1)"));
+		for (int i=0; i<lista.size(); i++) {
+			serviciosCRM.add(lista.get(i).getText());
+		}
+		List<String> listaServicios = Arrays.asList("Conexi\u00f3n Control Abono M", "Contestador Personal", "Datos", "DDI con Roaming Internacional", "MMS", "SMS Entrante", "SMS Saliente", "Voz");		
+		Assert.assertTrue(serviciosCRM.equals(listaServicios));
+		int estado = driver.findElements(By.cssSelector("[class='slds-table slds-table--bordered slds-table--resizable-cols slds-table--fixed-layout via-slds-table-pinned-header'] tbody tr td:nth-child(3)")).size();
+		Assert.assertTrue(estado == 8);
 		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-button slds-button--brand']")).getText().contains("Ver detalle"));
 	}
 }

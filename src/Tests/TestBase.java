@@ -1554,7 +1554,7 @@ public class TestBase {
 	
 	@DataProvider
 	public Object[][] CuentaTriviasYSuscripciones() throws Exception{
-		return ExcelUtils.getTableArray(dataProviderE2E(),"dni",1,1,2,"Trivias Y Suscripciones");
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Trivias Y Suscripciones");
 	}
 	
 	@DataProvider
