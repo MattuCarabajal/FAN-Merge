@@ -486,10 +486,10 @@ public class Login extends BasePage {
 				break;
 			}
 		} else {
-			if (urlAmbiente.contains("befanuat2.personal.corp")) {
+			if (urlAmbiente.contains("snapuat.telecom.com.ar")) {
 				switch (perfil) {
 				case "mayorista":
-					driver.findElement(By.name("username")).sendKeys("ua2196312");
+					driver.findElement(By.name("username")).sendKeys("UAT195528");
 					driver.findElement(By.name("txtPass")).sendKeys("Testa10k");
 					break;
 				case "configurador":
@@ -498,6 +498,7 @@ public class Login extends BasePage {
 					break;
 				}
 			}
+			
 		}
 		driver.findElement(By.name("btnIngresar")).click();
 	}

@@ -35,7 +35,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 
 	//------------------------------------------------------------Listado Ambientes---------------------------------------------------------------------------
 	
-	String[] listaAmbientes = {"sit02","uat02"};
+	String[] listaAmbientes = {"sit02","uat"};
 	
 	//------------------------------------------------------------ELEMENTOS---------------------------------------------
 	
@@ -224,7 +224,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			System.out.println("Gestion Clinete Sit02");
 			break;
 		case 1:
-			switchToFrameBySrc("https://telecomcrm--uat02-");
+			switchToFrameBySrc("https://telecomcrm--uat");
 			System.out.println("Gestion cliente Uat");
 			break;
 		}
