@@ -551,7 +551,7 @@ public class RenovacionDeCuota extends TestBase {
 		ges.irGestionClientes();
 		ges.BuscarCuenta("DNI", "9585089");
 		sleep(5000);
-		System.out.println(datosOriginal+" ---> "+ges.getInfoNuevaCard("2932598337","Internet"));
+//		System.out.println(datosOriginal+" ---> "+ges.getInfoNuevaCard("2932598337","Internet"));
 		assertTrue((datosOriginal+1024) == Integer.valueOf(ges.getInfoNuevaCard("2932598337","Internet")));
 	
 	}

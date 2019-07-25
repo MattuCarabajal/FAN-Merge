@@ -635,4 +635,68 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		driver.findElement(By.name("Ecom_Password")).sendKeys("Testa10k");
 		driver.findElement(By.id("loginButton2")).click();
 	}
+	
+	public boolean verificacionDeSMS (String sLinea) {
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		String smsViejo = null;
+		WebElement elemento =null;
+		List<WebElement> elementos = driver.findElements(By.cssSelector("[class='slds-grid slds-gutters']"));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']"),0));
+		elemento = getBuscarElementoPorText(elementos, "SMS").findElements(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']")).get(1);
+		smsViejo = elemento.getText();
+		int datoViejo = Integer.parseInt(smsViejo);
+		System.out.println(datoViejo);
+		driver.navigate().refresh();
+		tb.sleep(5000);
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		tb.sleep(10000);
+		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card ']"));
+		cards = listaDeElementosPorText(cards, sLinea);
+		WebElement cardActiva= getBuscarElementoPorText(cards, "Activo");
+		tb.cambioDeFrame(driver, By.cssSelector("[id='flecha'] i"), 0);
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[id='flecha'] i")));
+		cardActiva.findElement(By.cssSelector("[id='flecha'] i")).click();
+		String smsNuevo = null;
+		WebElement elemento1 =null;
+		List<WebElement> elementos1 = driver.findElements(By.cssSelector("[class='slds-grid slds-gutters']"));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']"),0));
+		elemento1 = getBuscarElementoPorText(elementos1, "SMS").findElements(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']")).get(1);
+		smsNuevo = elemento1.getText();
+		int datoNuevo = Integer.parseInt(smsNuevo);
+		System.out.println(datoNuevo);
+		boolean verificacion = false;
+		if(datoViejo + 40 == datoNuevo) {
+			verificacion = true;
+		}
+		return verificacion;
+	}
+	
+	public String obtenerDatoSMSViejo() {
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		String smsViejo = null;
+		WebElement elemento =null;
+		List<WebElement> elementos = driver.findElements(By.cssSelector("[class='slds-grid slds-gutters']"));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']"),0));
+		elemento = getBuscarElementoPorText(elementos, "SMS").findElements(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']")).get(1);
+		smsViejo = elemento.getText();
+		return smsViejo;
+	}
+	
+	public String obtenerDatoSMSNuevo(String sLinea) {
+		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		tb.sleep(10000);
+		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card ']"));
+		cards = listaDeElementosPorText(cards, sLinea);
+		WebElement cardActiva= getBuscarElementoPorText(cards, "Activo");
+		tb.cambioDeFrame(driver, By.cssSelector("[id='flecha'] i"), 0);
+		fluentWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[id='flecha'] i")));
+		cardActiva.findElement(By.cssSelector("[id='flecha'] i")).click();
+		String smsNuevo = null;
+		WebElement elemento1 =null;
+		List<WebElement> elementos1 = driver.findElements(By.cssSelector("[class='slds-grid slds-gutters']"));
+		fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']"),0));
+		elemento1 = getBuscarElementoPorText(elementos1, "SMS").findElements(By.cssSelector("[class='slds-grid slds-gutters'] [class='slds-col slds-size_1-of-3'] [class='value']")).get(1);
+		smsNuevo = elemento1.getText();
+		return smsNuevo;
+	}
 }

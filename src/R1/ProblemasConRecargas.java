@@ -96,8 +96,7 @@ public class ProblemasConRecargas extends TestBase {
 		imagen = "TS148758";
 		detalles = imagen + " -Problema con recargas - DNI: " + sDNI;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 7));
-		System.out.println(datosInicial);
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, datoViejo.length()-6));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCardPorNumeroDeLinea("Inconvenientes con Recargas", sLinea);
 		cambioDeFrame(driver, By.id("RefillMethods_nextBtn"), 0);
@@ -124,9 +123,8 @@ public class ProblemasConRecargas extends TestBase {
 		WebElement verificacion = driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] div header h1"));
 		Assert.assertTrue(verificacion.getText().contains("Recarga realizada con \u00e9xito"));
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 7));
-		System.out.println(datosFinal);
-		Assert.assertTrue(datosInicial + 100000 == datosFinal);
+		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, datoNuevo.length()-6));
+		Assert.assertTrue(datosInicial + 10 == datosFinal);
 	}
 	
 	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "CuentaProblemaRecarga")
@@ -136,8 +134,7 @@ public class ProblemasConRecargas extends TestBase {
 		String monto = "1000";
 		String comprobante = "123";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 7));
-		System.out.println(datosInicial);
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, datoViejo.length()-6));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCardPorNumeroDeLinea("Inconvenientes con Recargas", sLinea);
 		cambioDeFrame(driver, By.id("RefillMethods_nextBtn"), 0);
@@ -159,10 +156,10 @@ public class ProblemasConRecargas extends TestBase {
 		WebElement verificacion = driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] div header h1"));
 		Assert.assertTrue(verificacion.getText().contains("Recarga realizada con \u00e9xito"));
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 7));
-		System.out.println(datosFinal);
-		Assert.assertTrue(datosInicial + 100000 == datosFinal);
+		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, datoNuevo.length()-6));
+		Assert.assertTrue(datosInicial + 10 == datosFinal);
 	}
+	
 	
 	@Test (groups = {"PerfilOficina", "R1"} , dataProvider = "CuentaProblemaRecarga" )
 	public void TS162880_CRM_Movil_Mix_Problemas_con_Recarga_Validaciones_sobre_el_servicio_Linea_suspendida_Crm_OC(String sDNI, String sLineas) {
@@ -195,16 +192,15 @@ public class ProblemasConRecargas extends TestBase {
 		imagen = "TS148755";
 		detalles = imagen + " -Problema con recargas - DNI: " + sDNI;
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, 7));
-		System.out.println(datosInicial);
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, datoViejo.length()-6));
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.irAGestionEnCardPorNumeroDeLinea("Inconvenientes con Recargas", sLinea);
 		cambioDeFrame(driver, By.id("RefillMethods_nextBtn"), 0);
 		buscarYClick(driver.findElements(By.cssSelector(".imgItemContainer.ng-scope")), "equals", "Tarjeta Prepaga");
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("PrepaidCardData_nextBtn")));
-		driver.findElement(By.cssSelector("[id = 'BatchNumber']")).sendKeys("11120000009882");
-		driver.findElement(By.cssSelector("[id = 'PIN']")).sendKeys("0638");
+		driver.findElement(By.cssSelector("[id = 'BatchNumber']")).sendKeys("11120000009885");
+		driver.findElement(By.cssSelector("[id = 'PIN']")).sendKeys("0672");	
 		driver.findElement(By.id("PrepaidCardData_nextBtn")).click();
 		try {
 			ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("ExistingCase_nextBtn")));
@@ -222,8 +218,7 @@ public class ProblemasConRecargas extends TestBase {
 		WebElement verificacion = driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] div header h1"));
 		Assert.assertTrue(verificacion.getText().contains("Recarga realizada con \u00e9xito"));
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, 7));
-		System.out.println(datosFinal);
-		Assert.assertTrue(datosInicial + 1500000 == datosFinal);		
+		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, datoNuevo.length()-6));
+		Assert.assertTrue(datosInicial + 150 == datosFinal);		
 	}
 }

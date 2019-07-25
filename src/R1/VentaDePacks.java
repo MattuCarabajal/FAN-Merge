@@ -122,6 +122,8 @@ public class VentaDePacks extends TestBase {
 		Integer uiMainBalance = Integer.parseInt(uMainBalance.substring(0, (uMainBalance.length()) - 1));
 		Assert.assertTrue(iMainBalance > uiMainBalance);
 		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack, dia));
+		sleep(3000);
+		Assert.assertTrue(ges.verificacionDeSMS(sLinea));
 	}
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
@@ -156,8 +158,14 @@ public class VentaDePacks extends TestBase {
 		driver.findElement(By.id("documentNumber-0")).sendKeys(sDNITarjeta);
 		driver.findElement(By.id("cardHolder-0")).sendKeys(sTitular);
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		sleep(15000);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
+		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
+		Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
+		sleep(5000);
+		int datoViejo = Integer.parseInt(ges.obtenerDatoSMSViejo());
+		System.out.println(datoViejo);
 		sleep(10000);
 		cc.buscarCasoParaPedidos(sOrden);
 		sleep(15000);
@@ -176,6 +184,16 @@ public class VentaDePacks extends TestBase {
 		}
 		Assert.assertTrue(a);
 		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack , dia));
+		ges.cerrarPestaniaGestion(driver);
+		ges.irGestionClientes();
+		ges.BuscarCuenta("DNI", sDNI);
+		int datoNuevo = Integer.parseInt(ges.obtenerDatoSMSNuevo(sLinea));
+		System.out.println(datoNuevo);
+		boolean verificacion = false;
+		if(datoViejo + 40 == datoNuevo) {
+			verificacion = true;
+		}
+		Assert.assertTrue(verificacion);
 	}
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
@@ -199,9 +217,14 @@ public class VentaDePacks extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SelectPaymentMethodsStep_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "equals", "efectivo");
 		driver.findElement(By.id("SelectPaymentMethodsStep_nextBtn")).click();
+		sleep(15000);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("SaleOrderMessages_nextBtn")));
+		String check = driver.findElement(By.id("GeneralMessageDesing")).getText();
+		Assert.assertTrue(check.toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		driver.findElement(By.id("SaleOrderMessages_nextBtn")).click();
-		sleep(7000);
+		sleep(5000);
+		int datoViejo = Integer.parseInt(ges.obtenerDatoSMSViejo());
+		System.out.println(datoViejo);
 		cbsm.Servicio_NotificarPago(sOrden);
 		cc.buscarCasoParaPedidos(sOrden);
 		sleep(7000);
@@ -220,5 +243,15 @@ public class VentaDePacks extends TestBase {
 		}
 		Assert.assertTrue(a);
 		Assert.assertTrue(cbs.validarActivacionPack(cbsm.Servicio_QueryFreeUnit(sLinea), sVentaPack, dia));
+		ges.cerrarPestaniaGestion(driver);
+		ges.irGestionClientes();
+		ges.BuscarCuenta("DNI", sDNI);
+		int datoNuevo = Integer.parseInt(ges.obtenerDatoSMSNuevo(sLinea));
+		System.out.println(datoNuevo);
+		boolean verificacion = false;
+		if(datoViejo + 40 == datoNuevo) {
+			verificacion = true;
+		}
+		Assert.assertTrue(verificacion);
 	}
 }
