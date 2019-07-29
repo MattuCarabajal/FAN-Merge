@@ -26,18 +26,17 @@ public class GestionDeClientes extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups= "PerfilOficina")
-	public void Sit02() {
+	@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		sb = new SalesBase(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		log.LoginSit03();
-		//ges.irAConsolaFAN();
+		log.LoginSit();
+		ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups= "PerfilOficina")
+	//@BeforeClass (groups= "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
@@ -64,7 +63,7 @@ public class GestionDeClientes extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod (alwaysRun = true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();

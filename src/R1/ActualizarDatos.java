@@ -27,12 +27,24 @@ public class ActualizarDatos extends TestBase {
 	private LoginFw log;
 	private GestionDeClientes_Fw ges;
 	private CBS_Mattu cbsm;
-	private CBS  cbs;
+	private CBS cbs;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	String detalles;
 	
 	
+	@BeforeClass (alwaysRun = true)
+	public void initSIT() {
+		driver = setConexion.setupEze();
+		cc = new CustomerCare(driver);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		cbsm = new CBS_Mattu();
+		cbs = new CBS();
+		log.LoginSit();
+		ges.irAConsolaFAN();
+	}
+		
 	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
@@ -57,7 +69,7 @@ public class ActualizarDatos extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);

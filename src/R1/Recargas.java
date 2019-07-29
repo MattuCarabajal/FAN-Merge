@@ -31,16 +31,17 @@ public class Recargas extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups= "PerfilOficina")
-	public void Sit03() {
+	@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
 		driver = setConexion.setupEze();
-		cc = new CustomerCare(driver);
-		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		log.LoginSit03();
+		cc = new CustomerCare(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
-		//cc.irAConsolaFAN();
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.LoginSit();
+		ges.irAConsolaFAN();
 	}
 	
 	//@BeforeClass (groups = "PerfilOficina")
@@ -69,7 +70,7 @@ public class Recargas extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (alwaysRun = true)
+	//@BeforeClass (alwaysRun = true)
 		public void initAgente() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -89,7 +90,7 @@ public class Recargas extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod (alwaysRun = true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();

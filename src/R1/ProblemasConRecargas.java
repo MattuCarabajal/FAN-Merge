@@ -32,16 +32,14 @@ public class ProblemasConRecargas extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups= "PerfilOficina")
-	public void Sit03() {
+	@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
 		driver = setConexion.setupEze();
-		cbs = new CBS();
-		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
-		log.LoginSit03();
+		log.LoginSit();
 		ges.irAConsolaFAN();
 	}
 	
@@ -56,7 +54,7 @@ public class ProblemasConRecargas extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);
@@ -75,7 +73,7 @@ public class ProblemasConRecargas extends TestBase {
 		ges.irGestionClientes();	
 	}
 
-	//@AfterMethod (alwaysRun = true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();

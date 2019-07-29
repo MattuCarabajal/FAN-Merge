@@ -2,10 +2,8 @@ package PagesPOM;
 
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,25 +12,20 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 
-import Pages.Login;
-
 public class LoginFw extends BasePageFw {
 	
 	//============================================== URLS ==============================================\\
-	
-	//public static String urlMerge = "https://telecomcrm--SIT02.cs91.my.salesforce.com";
 		
-	public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
-	//public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com";
-	//public static String urlAmbiente = "https://telecomcrm--uat.cs53.my.salesforce.com";
+	public static String urlUAT = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
+	//public static String urlUAT = "https://telecomcrm--uat.cs53.my.salesforce.com";
 	
-	public static String urlSit02 = "https://telecomcrm--sit02.cs91.my.salesforce.com";
-	public static String urlSit03 = "https://telecomcrm--sit03.cs42.my.salesforce.com";
+	public static String urlSIT = "https://telecomcrm--sit02.cs91.my.salesforce.com";
+	//public static String urlSIT = "https://telecomcrm--sit03.cs42.my.salesforce.com";
 	
 	// viejo public String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";
 	public static String urlSCP = "https://telecomcrm--uat.cs53.my.salesforce.com";
 	
-	//public static String urlComunidad = "https://uat-autogestion-uat.cs53.force.com/clientes/s/";
+	//public static String urlCommunity = "https://uat-autogestion-uat.cs53.force.com/clientes/s/";
 	public static String urlCommunity = "https://sit-scrumcella.cs14.force.com/clientes/s/";
 	
 	public static String urlFlow	= "https://webgestionmoviltesting/default.aspx";
@@ -77,76 +70,71 @@ public class LoginFw extends BasePageFw {
 	
 	//============================================ METODOS ============================================\\
 	
-	public void LoginSit03() {
-		  driver.get(urlSit03);
+	public void LoginSit() {
+		  driver.get(urlSIT);
 		  fluentWait.until(ExpectedConditions.elementToBeClickable(loginMerge));
-		  //username.sendKeys("florangel.rojas@xappia.com.fan.sit02");
-		  //password.sendKeys("Testa10k");
-		  username.sendKeys("nicolas.fazzano@xappia.com.fan.sit03");
-		  password.sendKeys("xappia2019");
-//		  System.out.println("Log Sit03");	
+		  username.sendKeys("Victor-sebastian.rodriguez@atos.net.fan.sit02");
+		  password.sendKeys("Testa10k");
 		  fluentWait.until(ExpectedConditions.elementToBeClickable(loginMerge)).click();
 	}
 	
 	public void loginOOCC() {
-		driver.get(urlAmbiente);
+		driver.get(urlUAT);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
-		Ecom_User_ID.sendKeys("Ua2544674"); // UAT
-		//Ecom_User_ID.sendKeys("Ua2187979"); //UAT02
+		Ecom_User_ID.sendKeys("Ua2544674");
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
 	}
 	
 	public void loginTelefonico() {
-		driver.get(urlAmbiente);
+		driver.get(urlUAT);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
-		Ecom_User_ID.sendKeys("Ua2591324"); // UAT
+		Ecom_User_ID.sendKeys("Ua2591324");
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
 	}
 	
 	public void loginAgente() {
-		driver.get(urlAmbiente);
+		driver.get(urlUAT);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
-		Ecom_User_ID.sendKeys("Ua2554620"); // UAT
+		Ecom_User_ID.sendKeys("Ua2554620");
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
 	}
 	
 	public void loginOperativo() {
-		driver.get(urlAmbiente);
+		driver.get(urlUAT);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
-		Ecom_User_ID.sendKeys("Ua2552929"); // UAT
+		Ecom_User_ID.sendKeys("Ua2552929");
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
 	}
 	
 	public void loginBackOffice() {
-		driver.get(urlAmbiente);
+		driver.get(urlUAT);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
-		Ecom_User_ID.sendKeys("Ua2569324"); // UAT
+		Ecom_User_ID.sendKeys("Ua2569324");
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
 	}
 	
 	public void loginAdminFuncional() {
-		driver.get(urlAmbiente);
+		driver.get(urlUAT);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
-		Ecom_User_ID.sendKeys("Ua2184370"); // UAT
+		Ecom_User_ID.sendKeys("Ua2184370");
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
 	}		 
-
 }

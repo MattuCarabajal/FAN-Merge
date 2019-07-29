@@ -34,6 +34,18 @@ public class VentaDePacks extends TestBase {
 	String detalles;
 	
 	
+	@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
+		driver = setConexion.setupEze();
+		ges = new GestionDeClientes_Fw(driver);
+		cc = new CustomerCare(driver);
+		vt = new VentaDePackFw(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		ges.irAConsolaFAN();
+	}
+		
 	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
@@ -46,8 +58,7 @@ public class VentaDePacks extends TestBase {
 		log.loginOOCC();
 		ges.irAConsolaFAN();
 	}
-	
-		
+			
 	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
@@ -61,7 +72,7 @@ public class VentaDePacks extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -82,7 +93,7 @@ public class VentaDePacks extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod (alwaysRun = true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();

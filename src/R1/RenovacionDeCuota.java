@@ -32,19 +32,19 @@ public class RenovacionDeCuota extends TestBase {
 	String detalles;
 	
 	
-//	@BeforeClass (groups= "PerfilOficina")
-	public void Sit02() {
+	@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
 		driver = setConexion.setupEze();
-		cc = new CustomerCare(driver);
-		log = new LoginFw(driver);
-		ges = new GestionDeClientes_Fw(driver);
 		cbsm = new CBS_Mattu();
 		cbs = new CBS();
-		//log.LoginSit02();
-		//ges.irAConsolaFAN();
+		cc = new CustomerCare(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log = new LoginFw(driver);
+		log.LoginSit();
+		ges.irAConsolaFAN();
 	}
 	
-//	@BeforeClass (groups= "PerfilOficina")
+	//@BeforeClass (groups= "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		cbsm = new CBS_Mattu();
@@ -56,7 +56,7 @@ public class RenovacionDeCuota extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups= "PerfilTelefonico")
+	//@BeforeClass (groups= "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		cbsm = new CBS_Mattu();
@@ -76,7 +76,7 @@ public class RenovacionDeCuota extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod(alwaysRun=true)
+	@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();

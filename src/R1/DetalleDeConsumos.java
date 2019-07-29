@@ -27,13 +27,13 @@ public class DetalleDeConsumos extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups= "PerfilOficina")
-	public void Sit03() {
+	@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		log.LoginSit03();
-		//ges.irAConsolaFAN();
+		log.LoginSit();
+		ges.irAConsolaFAN();
 	}
 	
 	//@BeforeClass (groups = "PerfilOficina")
@@ -45,7 +45,7 @@ public class DetalleDeConsumos extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);
