@@ -16,11 +16,10 @@ public class LoginFw extends BasePageFw {
 	
 	//============================================== URLS ==============================================\\
 		
-	public static String urlUAT = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
-	//public static String urlUAT = "https://telecomcrm--uat.cs53.my.salesforce.com";
-	
-	public static String urlSIT = "https://telecomcrm--sit02.cs91.my.salesforce.com";
-	//public static String urlSIT = "https://telecomcrm--sit03.cs42.my.salesforce.com";
+	//public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/";
+	//public static String urlAmbiente = "https://telecomcrm--uat.cs53.my.salesforce.com";
+	public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com";
+	//public static String urlAmbiente = "https://telecomcrm--sit03.cs42.my.salesforce.com";
 	
 	// viejo public String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";
 	public static String urlSCP = "https://telecomcrm--uat.cs53.my.salesforce.com";
@@ -71,7 +70,7 @@ public class LoginFw extends BasePageFw {
 	//============================================ METODOS ============================================\\
 	
 	public void LoginSit() {
-		  driver.get(urlSIT);
+		  driver.get(urlAmbiente);
 		  fluentWait.until(ExpectedConditions.elementToBeClickable(loginMerge));
 		  username.sendKeys("Victor-sebastian.rodriguez@atos.net.fan.sit02");
 		  password.sendKeys("Testa10k");
@@ -79,7 +78,7 @@ public class LoginFw extends BasePageFw {
 	}
 	
 	public void loginOOCC() {
-		driver.get(urlUAT);
+		driver.get(urlAmbiente);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
@@ -89,7 +88,7 @@ public class LoginFw extends BasePageFw {
 	}
 	
 	public void loginTelefonico() {
-		driver.get(urlUAT);
+		driver.get(urlAmbiente);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
@@ -99,7 +98,7 @@ public class LoginFw extends BasePageFw {
 	}
 	
 	public void loginAgente() {
-		driver.get(urlUAT);
+		driver.get(urlAmbiente);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
@@ -109,7 +108,7 @@ public class LoginFw extends BasePageFw {
 	}
 	
 	public void loginOperativo() {
-		driver.get(urlUAT);
+		driver.get(urlAmbiente);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
@@ -119,7 +118,7 @@ public class LoginFw extends BasePageFw {
 	}
 	
 	public void loginBackOffice() {
-		driver.get(urlUAT);
+		driver.get(urlAmbiente);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
@@ -129,7 +128,7 @@ public class LoginFw extends BasePageFw {
 	}
 	
 	public void loginAdminFuncional() {
-		driver.get(urlUAT);
+		driver.get(urlAmbiente);
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));

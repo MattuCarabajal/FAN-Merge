@@ -133,12 +133,11 @@ public class ConsultaDeSaldo extends TestBase {
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		datoVNuevo = datoVNuevo.substring(0, datoVNuevo.length()-6);
 		int x = Integer.parseInt(datoVNuevo);
-//		String datoVNuevo2 = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:CCBalance");
-//		System.out.println("dato nuevo 2 " + datoVNuevo2);
-//		datoVNuevo2 = datoVNuevo2.substring(0, datoVNuevo2.length()-6);
-//		int y = Integer.parseInt(datoVNuevo2);
-		Assert.assertTrue(x ==z);
-		
+		String datoVNuevo2 = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:CCBalance");
+		System.out.println("dato nuevo 2 " + datoVNuevo2);
+		datoVNuevo2 = datoVNuevo2.substring(0, datoVNuevo2.length()-6);
+		int y = Integer.parseInt(datoVNuevo2);
+		Assert.assertTrue(x + y == z);		
 	}
 	
 	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "ConsultaSaldo")
@@ -195,10 +194,10 @@ public class ConsultaDeSaldo extends TestBase {
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		datoVNuevo = datoVNuevo.substring(0, datoVNuevo.length()-6);
 		int x = Integer.parseInt(datoVNuevo);
-		//String datoVNuevo2 = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:CCBalance");
-		//datoVNuevo2 = datoVNuevo2.substring(0, datoVNuevo2.length()-6);
-		//int y = Integer.parseInt(datoVNuevo2);
-		Assert.assertTrue(x ==z);
+		String datoVNuevo2 = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:CCBalance");
+		datoVNuevo2 = datoVNuevo2.substring(0, datoVNuevo2.length()-6);
+		int y = Integer.parseInt(datoVNuevo2);
+		Assert.assertTrue(x + y == z);
 		
 	}
 	
