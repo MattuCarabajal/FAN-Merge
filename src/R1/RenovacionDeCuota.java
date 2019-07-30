@@ -126,9 +126,11 @@ public class RenovacionDeCuota extends TestBase {
 		String orden = driver.findElement(By.xpath("//p [contains(text(),'Nro')]")).getText().substring(11);
 		clickBy(driver,By.xpath("//*[@id=\"PaymentMethods\"]/div/ng-include/div/section[2]/div[1]/div/div/div/fieldset/div[1]/ul/li[1]/label/span[2]"),0);
 		clickBy(driver,By.id("SelectPaymentMethodsStep_nextBtn"),0);
+		System.out.println(orden);
 		cbsm.Servicio_NotificarPago(orden);
+		
 		ges.cerrarPestaniaGestion(driver);
-		cc.buscarOrden(orden+"*");
+		cc.buscarGestion(orden+"*");
 		cc.verificarPedido(orden, "Activada");		
 		String datoNuevo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		Integer datosFinal = Integer.parseInt(datoNuevo);
