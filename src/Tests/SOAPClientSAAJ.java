@@ -10,10 +10,13 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.xml.soap.*;
 
+import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Document;
 
+import PagesPOM.LoginFw;
+
 public class SOAPClientSAAJ {
-	
+		
 	static String sPagoEnCajaSIT = "http://10.75.197.161:8080/services/ArServices";
 	static String sPagoEnCajaUAT = "http://10.75.39.146:8080/services/ArServices";		
 	static String sPagoSimuladoSIT = "http://mdwtpbust2.telecom.com.ar:8701/notificarPago";
@@ -38,49 +41,49 @@ public class SOAPClientSAAJ {
 	    		sEndPoint = sPagoSimuladoSIT;
 	    		break;
 	    	case "pago en caja":
-	    		if (TestBase.urlAmbiente.contains("sit02"))
+	    		if (LoginFw.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sPagoEnCajaSIT;
 	    		else
 	    			sEndPoint = sPagoEnCajaUAT;
 	    		break;
 	    	case "datos usuario":
-	    		if (TestBase.urlAmbiente.contains("sit02"))
+	    		if (LoginFw.urlAmbiente.contains("sit"))
 	    			sEndPoint = sQueryCustomerInfoSIT;
 	    		else
 	    			sEndPoint = sQueryCustomerInfoUAT;
 	    		break;
 	    	case "unidades libres":
-	    		if (TestBase.urlAmbiente.contains("sit02"))
+	    		if (LoginFw.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sQueryFreeUnitSIT;
 	    		else
 	    			sEndPoint = sQueryFreeUnitUAT;
 	    		break;
 	    	case "notificar resultado orden":
-	    		if (TestBase.urlAmbiente.contains("sit02"))
+	    		if (LoginFw.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sNotificarResultadoOrdenSIT;
 	    		else
 	    			sEndPoint = sNotificarResultadoOrdenUAT;
 	    		break;
 	    	case "obtener informacion orden":
-	    		if (TestBase.urlAmbiente.contains("sit02"))
+	    		if (LoginFw.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sObtenerInformacionOrdenSIT;
 	    		else
 	    			sEndPoint = sObtenerInformacionOrdenUAT;
 	    		break;
 	    	case "alta suscripcion":
-	    		if (TestBase.urlAmbiente.contains("sit02"))
+	    		if (LoginFw.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sRealizarAltaSuscripSIT;
 	    		else
 	    			sEndPoint = sRealizarAltaSuscripUAT;
 	    		break;
 	    	case "notificar pago":
-	    		if (TestBase.urlAmbiente.contains("sit02"))
+	    		if (LoginFw.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sPagoSimuladoSIT;
 	    		else
 	    			sEndPoint = sPagoSimuladoUAT;
 	    		break;
 	    	case "verificar saldo":
-	    		if (TestBase.urlAmbiente.contains("sit02"))
+	    		if (LoginFw.urlAmbiente.contains("sit02"))
 	    			sEndPoint = sVerificarSaldoEnFacturacionSIT;
 	    		else
 	    			sEndPoint = sVerificarSaldoEnFacturacionUAT;
