@@ -36,6 +36,20 @@ public class NumerosAmigos extends TestBase {
 	String detalles;
 	
 	
+	//@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
+		driver = setConexion.setupEze();
+		ges = new GestionDeClientes_Fw(driver);
+		cc = new CustomerCare(driver);
+		mk = new Marketing(driver);
+		bp = new BasePage();
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		log.LoginSit();
+		ges.irAConsolaFAN();
+	}
+		
 	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();

@@ -27,6 +27,16 @@ public class OtrosHistoriales extends TestBase {
 	private String imagen;
 	String detalles;
 	
+
+	//@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
+		driver = setConexion.setupEze();
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		cc = new CustomerCare(driver);
+		log.LoginSit();
+		ges.irAConsolaFAN();
+	}
 	
 	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {

@@ -18,6 +18,7 @@ import Pages.PagePerfilTelefonico;
 import Pages.SalesBase;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
+import PagesPOM.LoginFw;
 import Tests.GestionFlow;
 import Tests.TestBase;
 
@@ -32,9 +33,20 @@ public class ABMdeServicios extends TestBase {
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	private GestionDeClientes_Fw ges;
+	private LoginFw log;
 	String detalles;
 	
 	
+	//@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
+		driver = setConexion.setupEze();
+		cc = new CustomerCare(driver);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.LoginSit();
+		ges.irAConsolaFAN();
+	}
+		
 	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
@@ -71,7 +83,6 @@ public class ABMdeServicios extends TestBase {
 	@BeforeMethod (alwaysRun = true)
 	public void setup() throws Exception {
 		detalles = null;
-		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.cerrarPestaniaGestion(driver);
 		ges.irGestionClientes();

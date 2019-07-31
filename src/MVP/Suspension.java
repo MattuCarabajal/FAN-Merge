@@ -28,6 +28,16 @@ public class Suspension extends TestBase {
 	String detalles;
 	
 	
+	//@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
+		driver = setConexion.setupEze();
+		cc = new CustomerCare(driver);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.LoginSit();
+		ges.irAConsolaFAN();
+	}
+	
 	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC(){
 		driver = setConexion.setupEze();
