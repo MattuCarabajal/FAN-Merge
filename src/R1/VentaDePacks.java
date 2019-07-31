@@ -43,6 +43,7 @@ public class VentaDePacks extends TestBase {
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
+		log.LoginSit();
 		ges.irAConsolaFAN();
 	}
 		
@@ -200,11 +201,7 @@ public class VentaDePacks extends TestBase {
 		ges.BuscarCuenta("DNI", sDNI);
 		int datoNuevo = Integer.parseInt(ges.obtenerDatoSMSNuevo(sLinea));
 		System.out.println(datoNuevo);
-		boolean verificacion = false;
-		if(datoViejo + 40 == datoNuevo) {
-			verificacion = true;
-		}
-		Assert.assertTrue(verificacion);
+		Assert.assertTrue(datoViejo + 40 == datoNuevo);
 	}
 	
 	//----------------------------------------------- AGENTE -------------------------------------------------------\\
@@ -259,10 +256,6 @@ public class VentaDePacks extends TestBase {
 		ges.BuscarCuenta("DNI", sDNI);
 		int datoNuevo = Integer.parseInt(ges.obtenerDatoSMSNuevo(sLinea));
 		System.out.println(datoNuevo);
-		boolean verificacion = false;
-		if(datoViejo + 40 == datoNuevo) {
-			verificacion = true;
-		}
-		Assert.assertTrue(verificacion);
+		Assert.assertTrue(datoViejo + 40 == datoNuevo);
 	}
 }
