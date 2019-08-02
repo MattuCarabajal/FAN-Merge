@@ -18,7 +18,6 @@ import Pages.CustomerCare;
 import Pages.setConexion;
 import PagesPOM.GestionDeClientes_Fw;
 import PagesPOM.LoginFw;
-
 import Tests.TestBase;
 
 public class Rehabilitacion extends TestBase {
@@ -29,10 +28,20 @@ public class Rehabilitacion extends TestBase {
 	private CustomerCare cc;
 	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
-	private TestBase tb;
 	String detalles;
 	
-		
+	
+	//@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
+		driver = setConexion.setupEze();
+		ges = new GestionDeClientes_Fw(driver);
+		cc = new CustomerCare(driver);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.LoginSit();
+		ges.irAConsolaFAN();
+	}
+	
 	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
@@ -40,7 +49,6 @@ public class Rehabilitacion extends TestBase {
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		tb = new TestBase();
 		log.loginOOCC();
 		ges.irAConsolaFAN();
 	}
@@ -80,7 +88,7 @@ public class Rehabilitacion extends TestBase {
 		cambioDeFrame(driver,By.id("Contact_body"),0);
 		WebElement nombreCuenta = driver.findElement(By.xpath("//*[@id='Contact_body']//tbody/tr[2]//td[2]//a"));
 		nombreCuenta.click();
-		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='card-top']")));
 		cc.irAGestion("Suspensiones");
 		cambioDeFrame(driver, By.id("Step1-SuspensionOrReconnection_nextBtn"),0);
@@ -122,7 +130,7 @@ public class Rehabilitacion extends TestBase {
 		ges.cerrarPestaniaGestion(driver);
 		ges.irGestionClientes();
 		ges.BuscarCuenta("DNI", sDNI);
-		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
+		cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='card-top']")));
 		WebElement postestado = driver.findElement(By.xpath("//div[@class = 'card-info']//ul[@class = 'uLdetails']//span[@class = 'imagre']"));
 		Assert.assertTrue(postestado.getText().contains("Activo"));		
