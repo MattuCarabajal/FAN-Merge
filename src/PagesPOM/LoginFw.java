@@ -17,8 +17,8 @@ public class LoginFw extends BasePageFw {
 	//============================================== URLS ==============================================\\
 		
 	//public static String urlAmbiente = "https://telecomcrm--uat02.cs45.my.salesforce.com/"; // UAT02
-	//public static String urlAmbiente = "https://telecomcrm--uat.cs53.my.salesforce.com"; //UAT
-	public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com"; // SIT02
+	public static String urlAmbiente = "https://telecomcrm--uat.cs53.my.salesforce.com"; //UAT
+	//public static String urlAmbiente = "https://telecomcrm--sit02.cs91.my.salesforce.com"; // SIT02
 	//public static String urlAmbiente = "https://telecomcrm--sit03.cs42.my.salesforce.com"; //SIT03
 	
 	// viejo public String urlSCP = "https://telecomcrm--uat.cs8.my.salesforce.com";

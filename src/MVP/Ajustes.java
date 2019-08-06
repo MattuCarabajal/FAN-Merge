@@ -1076,7 +1076,7 @@ public class Ajustes extends TestBase {
 		Assert.assertTrue(cc.aprobarAjusteConPerfilBOYDirector(orden, "Ua2591324"));		
 	}
 	
-	@Test(groups = "PerfilTelefonico", dataProvider = "CuentaAjustesPRE")
+	@Test(groups = {"PerfilTelefonico", "MVP"}, dataProvider = "CuentaAjustesPRE")
 	public void TS160697CRM_Movil_Pre_Ajuste_Credito_Monto_20000_Aprobador_Director_Revisor_BO_Ordinaria_Crm_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS103596";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -1119,9 +1119,42 @@ public class Ajustes extends TestBase {
 		Assert.assertTrue(datosInicial + 20000000 == datosFinal);
 	}
 	
-	@Test
+	@Test (groups = {"PerfilTelefonico", "MVP"}, dataProvider = "CuentaAjustesPRE")
 	public void TS125225_CRM_Movil_Pre_Limitar_cantidad_Ajuste_Por_Usuario_Crm_Telefonico() {
 		Assert.assertTrue(false);  //No hay cuenta con el maximo de ajustes hecho
+	}
+	
+	@Test (groups = {"PerfilTelefonico", "MVP"}, dataProvider = "CuentaAjustesPRE")
+	public void TS135376_CRM_Movil_Prepago_Otros_Historiales_Historial_de_ajustes_Seleccion_de_Fechas_Ajuste_positivo_FAN_Front_Telefonico(String sDNI, String sLinea) throws ParseException {
+		imagen = "TS135376";
+		boolean verificarFecha = false;
+		ges.BuscarCuenta("DNI", sDNI);
+		sleep(20000);
+		cc.irAHistoriales();
+		sleep(5000);
+		WebElement historialDeAjustes = null;
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-button.slds-button_brand")));
+		for (WebElement x : driver.findElements(By.className("slds-card"))) {
+			if (x.getText().toLowerCase().contains("historial de ajustes"))
+				historialDeAjustes = x;
+		}
+		historialDeAjustes.findElement(By.cssSelector(".slds-button.slds-button_brand")).click();
+		sleep(7000);
+		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-grid.slds-wrap.slds-grid--pull-padded.slds-m-around--medium.slds-p-around--medium.negotationsfilter")));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String desde = driver.findElement(By.id("text-input-id-1")).getAttribute("value");
+		String hasta = driver.findElement(By.id("text-input-id-2")).getAttribute("value");
+		Date fechaDesde = sdf.parse(desde);
+		Date fechaHasta = sdf.parse(hasta);
+		driver.findElement(By.cssSelector(".slds-button.slds-button--brand.filterNegotiations.slds-p-horizontal--x-large.slds-p-vertical--x-small")).click();
+		sleep(3000);
+		WebElement tabla = driver.findElement(By.cssSelector(".slds-table.slds-table--bordered.slds-table--resizable-cols.via-slds-table-pinned-header")).findElements(By.tagName("tbody")).get(1);
+		String fechaDeAjuste = tabla.findElement(By.tagName("tr")).findElements(By.tagName("td")).get(0).getText();
+		fechaDeAjuste = fechaDeAjuste.substring(0, 10);
+		Date fechaAjuste = sdf.parse(fechaDeAjuste);
+		if (fechaAjuste.compareTo(fechaDesde) >= 0 && fechaAjuste.compareTo(fechaHasta) <= 0)
+			verificarFecha = true;
+		Assert.assertTrue(verificarFecha);
 	}
 	
 	
