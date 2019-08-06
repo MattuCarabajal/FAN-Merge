@@ -294,6 +294,46 @@ public class Ajustes extends TestBase {
 		Assert.assertTrue(gestion.getText().equalsIgnoreCase("Realizada exitosa"));
 	}
 	
+	@Test (groups = {"PerfilOficina", "R1"})
+	public void TS160801_CRM_Movil_Mix_Ajuste_General_Derivacion_manual_Crm_OC(){
+		imagen = "TS160801";
+		ges.BuscarCuenta("DNI", "38010123");
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='x-panel view_context x-border-panel']")));
+		cc.irAGestion("inconvenientes con cargos tasados");
+		cambioDeFrame(driver, By.id("Step-TipodeAjuste_nextBtn"),0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-TipodeAjuste_nextBtn")));
+		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO PREPAGO");
+		selectByText(driver.findElement(By.id("CboItem")), "Consumos de datos");
+		selectByText(driver.findElement(By.id("CboMotivo")), "Informacion incorrecta");
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "no");
+		driver.findElement(By.id("Step-TipodeAjuste_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-AssetSelection_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding")), "contains", "conexi\u00f3n control abono m");
+		driver.findElement(By.id("Step-AssetSelection_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-VerifyPreviousAdjustments_prevBtn")));
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si, ajustar");
+		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-AjusteNivelLinea_nextBtn")));
+		buscarYClick(driver.findElements(By.cssSelector("[class = 'slds-form-element__label ng-binding ng-scope']")), "equals", "agregar unidades");
+		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "no");
+		driver.findElement(By.id("Step-AjusteNivelLinea_nextBtn")).click();
+		sleep(5000);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SummaryDerivateToBO_nextBtn")));
+		driver.findElement(By.id("SummaryDerivateToBO_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header")));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header h1")).getText().equalsIgnoreCase("la gesti\u00f3n se deriv\u00f3 al area equipo back office centralizado"));
+		String caso = driver.findElement(By.cssSelector("[class = 'slds-box ng-scope'] [class = 'ta-care-omniscript-done'] header p label")).getText();
+		String nCaso = cc.getNumeros(caso);
+		System.out.println(cc.getNumeros(caso));
+		ges.cerrarPestaniaGestion(driver);
+		driver.findElement(By.id("phSearchInput")).sendKeys(nCaso);
+		driver.findElement(By.id("phSearchInput")).submit();
+		cambioDeFrame(driver, By.id("searchPageHolderDiv"), 0);
+		sleep(2000);
+		String estadoDelCaso = driver.findElement(By.cssSelector("[class = 'listRelatedObject caseBlock'] [class = 'bPageBlock brandSecondaryBrd secondaryPalette'] [class = 'pbBody'] table tbody tr [class = ' dataCell  cellCol3 ']")).getText();
+		Assert.assertTrue(estadoDelCaso.equalsIgnoreCase("derivada"));	
+	}
+	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	@Test (groups = {"PerfilOficina", "R1"} )
 	public void TS160902_CRM_Movil_Mix_Se_crea_caso_de_ajuste_Crm_Telefónico(){
