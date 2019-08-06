@@ -535,6 +535,7 @@ public class CustomerCare extends BasePage {
 	}
 		
 	public void obligarclick(WebElement element) {	
+		sleep(1000);
 		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+element.getLocation().y+")");
 	    element.click();
 	}
