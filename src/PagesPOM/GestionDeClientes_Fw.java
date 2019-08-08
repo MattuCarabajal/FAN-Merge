@@ -154,12 +154,17 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	}
 	
 	public void irConsolaFanSit02() {
-		driver.switchTo().defaultContent();
-		getCajon().click();
-		if (!super.matchText(this.getElementosCajon(), "Consola FAN")) {
-			System.out.println("no hace  falta  cambiar");
-		} else {
-			super.getBuscarElementoPorText(this.getElementosCajon(), "Consola FAN").click();
+//		driver.switchTo().defaultContent();
+//		getCajon().click();
+//		if (!super.matchText(this.getElementosCajon(), "Consola FAN")) {
+//			System.out.println("no hace  falta  cambiar");
+//		} else {
+////			tb = new TestBase();
+////			tb.clickBy(driver, By.xpath("//*[@id='tsidMenu']//*[@class='mbrMenuItems']//*[contains(text(),'Consola FAN')]"), 0);
+//			super.getBuscarElementoPorText(this.getElementosCajon(), "Consola FAN").click();
+//		}
+		if(!driver.getCurrentUrl().toLowerCase().contains("/console")){
+			driver.get(LoginFw.urlAmbiente+"/console?tsid=02uf3000000LGmp");
 		}
 	}
 
@@ -188,9 +193,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 	public void clickMenuIzq() {
 		driver.switchTo().defaultContent();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(MenuIzq));
-		super.getAction().moveToElement(MenuIzq)
-				.moveByOffset(MenuIzq.getLocation().getX() + 110, MenuIzq.getLocation().getY() - 90).click().build()
-				.perform();
+		super.getAction().moveToElement(MenuIzq).moveByOffset(MenuIzq.getLocation().getX() + 110, MenuIzq.getLocation().getY() - 90).click().build().perform();
 		super.getEjecutorJavaScipt().executeScript("arguments[0].click();", this.MenuIzq);
 	}
 
@@ -220,7 +223,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		switchToFrameBySrc("/home/home.jsp?i");
 		switch (this.getIndexAmbienteForList()) {
 		case 0:
-			switchToFrameBySrc("https://telecomcrm--sit02--c.cs91.visual.force.com/a");
+			switchToFrameBySrc("https://telecomcrm--sit");//02--c.cs91.visual.force.com/a");
 			System.out.println("Gestion Clinete Sit02");
 			break;
 		case 1:
