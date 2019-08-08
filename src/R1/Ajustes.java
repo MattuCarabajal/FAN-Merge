@@ -296,9 +296,8 @@ public class Ajustes extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	@Test (groups = {"PerfilOficina", "R1"} )
-	public void TS160902_CRM_Movil_Mix_Se_crea_caso_de_ajuste_Crm_Telefónico(){
+	public void TS160902_CRM_Movil_Mix_Se_crea_caso_de_ajuste_Crm_Telefonico(){
 		imagen = "TS160902";
-		
 		ges.BuscarCuenta("DNI", "42377438");
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='x-panel view_context x-border-panel']")));
 		cc.irAGestion("inconvenientes con cargos tasados");
