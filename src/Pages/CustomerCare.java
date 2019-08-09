@@ -535,7 +535,7 @@ public class CustomerCare extends BasePage {
 	}
 		
 	public void obligarclick(WebElement element) {	
-		sleep(1000);
+		sleep(500);
 		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+element.getLocation().y+")");
 	    element.click();
 	}
@@ -1916,7 +1916,7 @@ public class CustomerCare extends BasePage {
 		String status = driver.findElement(By.xpath("//*[@class='detailList']//tr//*[@id='cas7_ilecell']")).getText();
 		ges.cambiarPerfil(perfilInicial);
 		ges.irAConsolaFAN();
-		return status.equalsIgnoreCase("Realizada exitosa");		
+		return status.equalsIgnoreCase("Realizada exitosa");
 	}
 	
 	public String consutarSaldoEnCard (String sLinea){

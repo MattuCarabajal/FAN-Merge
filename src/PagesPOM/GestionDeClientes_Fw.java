@@ -173,21 +173,16 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		tb.clickBy(driver, By.xpath("//*[contains(text(),'a Consola FAN')]"), 0);
 	}
 	
-	public void cerrarPestaniaGestion(WebDriver driver) {// copiado de SalesBase Cierra todas las pesta�as de gestion
+	public void cerrarPestaniaGestion(WebDriver driver) {
 		driver.switchTo().defaultContent();
+		getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='x-btn-small x-btn-icon-small-left']")));
 		try {
-			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(locator_Pestanas), 0));
-			for (WebElement pestana : pestanas) {
-				try {
-					// System.out.println(pestana.getText());
-					((JavascriptExecutor) driver).executeScript("arguments[0].click();",
-							pestana.findElement(By.className("x-tab-strip-close")));
-				} catch (Exception ex1) {
+			if (driver.findElement(By.cssSelector("[class*='x-tab-strip-closable']")).isDisplayed()) {
+				for (WebElement pestana : pestanas) {
+					((JavascriptExecutor) driver).executeScript("arguments[0].click();", pestana.findElement(By.className("x-tab-strip-close")));
 				}
 			}
-		} catch (Exception e) {
-			// System.out.println("pestanas cerradas");
-		}
+		} catch(Exception e) {}
 	}
 	
 	public void clickMenuIzq() {
