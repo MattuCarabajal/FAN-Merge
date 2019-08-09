@@ -347,10 +347,11 @@ public class Ajustes extends TestBase {
 	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "CuentaAjustesMIX")
 	public void TS160897_CRM_Movil_Mix_Ajuste_Backoffice_modifica_cantidades_Crm_OC(String sDNI, String sLinea) {
 		imagen = "TS160897";
-//		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea, "bcs:MainBalance");
-//		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, datoViejo.length()-4));
-//		System.out.println(datosInicial);
+		boolean gestion = false;
 		ges.BuscarCuenta("DNI", sDNI);
+		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, datoViejo.length()-4));
+		System.out.println(datosInicial);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='x-panel view_context x-border-panel']")));
 		cc.irAGestion("inconvenientes con cargos tasados");
 		cambioDeFrame(driver, By.id("Step-TipodeAjuste_nextBtn"), 0);
@@ -368,47 +369,38 @@ public class Ajustes extends TestBase {
 		driver.findElement(By.id("Step-VerifyPreviousAdjustments_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-AjusteNivelLinea_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector(".slds-form-element__label.ng-binding.ng-scope")), "equals", "si");
-		driver.findElement(By.id("Desde")).sendKeys("04-07-2018");
-		driver.findElement(By.id("Hasta")).sendKeys("24-07-2018");
+		driver.findElement(By.id("Desde")).sendKeys("04-07-2019");
+		driver.findElement(By.id("Hasta")).sendKeys("24-07-2019");
 		selectByText(driver.findElement(By.id("Unidad")), "Credito");
-		driver.findElement(By.id("CantidadMonto")).sendKeys("60000");
+		driver.findElement(By.id("CantidadMonto")).sendKeys("500000");
 		driver.findElement(By.id("Step-AjusteNivelLinea_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-Summary_nextBtn")));
 		cc.obligarclick(driver.findElement(By.id("Step-Summary_nextBtn")));
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='ta-care-omniscript-done']")));
+		String orden = driver.findElement(By.xpath("//*[@class='ta-care-omniscript-done']//header//label")).getText();
+		orden = orden.substring(orden.lastIndexOf(" ")+1, orden.length());
+		ges.cambiarPerfil("Ua2569324");
+		ges.irAConsolaFAN();
+		cc.buscarCaso(orden);
+		cambioDeFrame(driver, By.id("topButtonRow"), 0);
+		driver.findElement(By.xpath("//*[@class='pbBody']//a[text()='Continuar Ajuste']")).click();
+		cambioDeFrame(driver, By.id("Step-AjusteNivelLinea-BackOffice_nextBtn"), 0);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-AjusteNivelLinea-BackOffice_nextBtn")));
+		driver.findElement(By.id("CantidadMontoBO")).clear();
+		driver.findElement(By.id("CantidadMontoBO")).sendKeys("700000");
+		driver.findElement(By.id("Step-AjusteNivelLinea-BackOffice_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-Summary_nextBtn")));
+		cc.obligarclick(driver.findElement(By.id("Step-Summary_nextBtn")));
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("NewAdjustment")));
+		if (driver.findElement(By.cssSelector("[class='slds-size--1-of-1 slds-medium-size--12-of-12'] [class='slds-form-element vlc-flex vlc-slds-text-block vlc-slds-rte ng-pristine ng-valid ng-scope'] h1")).getText().toLowerCase().contains("tu gesti\u00f3n se realiz\u00f3 con \u00e9xito"))
+			gestion = true;
+		ges.cambiarPerfil("Ua2544674");
+		ges.irAConsolaFAN();
+		Assert.assertTrue(gestion);
 		String datoNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoNuevo.substring(0, datoNuevo.length()-4));
 		System.out.println(datosFinal);
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("NewAdjustment")));
-		String orden = driver.findElement(By.xpath("//*[@id='txtSuccessConfirmation']//p//strong")).getText();
-		orden = orden.substring(orden.lastIndexOf(" ")+1, orden.length());
-		System.out.println(orden);
-		//////////////////////////////////////////////  FALTA LA VERIFICACION BO   ///////////////////////////////////////////
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("globalHeaderNameMink")));
-		driver.findElement(By.id("globalHeaderNameMink")).click();
-		driver.findElement(By.xpath("//*[@class='zen-select zen-open']//li//a[text()='Finalizar sesi\u00f3n']")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("userDropdown")));
-		driver.findElement(By.xpath("//*[@id='userDropdown']//img")).click();
-		driver.findElement(By.id("logout")).click();
-		ges.cambiarPerfil("uat518122");
-		driver.findElement(By.id("tabBar")).findElement(By.tagName("a")).click();
-		sleep(18000);
-		cc.cerrarTodasLasPestanas();
-		cc.buscarCaso(orden+"*");
-		driver.switchTo().frame(cambioFrame(driver, By.name("edit")));
-		WebElement list = driver.findElement(By.xpath("//*[@id=\"ep\"]/div[2]/div[2]/table"));
-		list.findElements(By.tagName("td")).get(1).findElements(By.tagName("a")).get(1).click();
-		sleep(5000);
-		selectByText(driver.findElement(By.id("newOwn_mlktp")), "Usuario");
-		driver.findElement(By.id("newOwn")).sendKeys("Marcelo Aletta");
-		driver.findElement(By.name("save")).click();
-		sleep(5000);
-		driver.findElements(By.className("actionLink")).get(2).click();
-		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.name("goNext")));
-		driver.findElement(By.name("goNext")).click();
-		sleep(5000);
-		driver.switchTo().frame(cambioFrame(driver, By.className("extraStatusDiv_A")));
-		Assert.assertTrue(driver.findElement(By.className("extraStatusDiv_A")).getText().equalsIgnoreCase("Aprobado"));
+		Assert.assertTrue(datosInicial + 700000 == datosFinal);
 	}
 	
 	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "CuentaAjustesMIX")
