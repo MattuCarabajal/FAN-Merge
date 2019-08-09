@@ -35,7 +35,7 @@ public class Ajustes extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (alwaysRun = true)
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -109,7 +109,7 @@ public class Ajustes extends TestBase {
 	
 	//----------------------------------------------- OOCC -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesREPRO")
+	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesPRE")
 	public void TS103596_CRM_Movil_REPRO_Ajuste_General_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS103596";
 		String datoViejo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
@@ -271,7 +271,7 @@ public class Ajustes extends TestBase {
 		}
 	}
 	
-	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesREPRO")
+	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesPRE")
 	public void TS103599_CRM_Movil_REPRO_Se_crea_caso_de_ajuste_menor_a_500_pesos_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS103599";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -325,7 +325,7 @@ public class Ajustes extends TestBase {
 		}
 	}
 	
-	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesREPRO")
+	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesPRE")
 	public void TS112437_CRM_Movil_PRE_Ajuste_Credito_MB_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS112437";
 		detalles = imagen + " -Ajustes - DNI: " + sDNI;
@@ -417,7 +417,7 @@ public class Ajustes extends TestBase {
 		}
 	}
 	
-	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesREPRO")
+	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesPRE")
 	public void TS129320_CRM_Movil_REPRO_Escalamiento_segun_RAV_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS129320";
 		boolean gest = false;
@@ -474,7 +474,7 @@ public class Ajustes extends TestBase {
 		}
 	}
 	
-	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesREPRO")
+	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesPRE")
 	public void TS129317_CRM_Movil_REPRO_Ajuste_RAV_Unidades_Libres_a_Pesos_General_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS129317";
 		WebElement monto = null;
@@ -601,7 +601,7 @@ public class Ajustes extends TestBase {
 		Assert.assertTrue(monto.getText().equalsIgnoreCase("Monto: 78.00"));
 	}
 	
-	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesREPRO")
+	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesPRE")
 	public void TS136535_CRM_Movil_REPRO_Ajuste_General_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS136535";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -644,7 +644,7 @@ public class Ajustes extends TestBase {
 		Assert.assertTrue(datosInicial + 10000 == datosFinal);
 	}
 	
-	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesREPRO")
+	@Test (groups = {"PerfilOficina", "MVP"}, dataProvider = "CuentaAjustesPRE")
 	public void TS136536_CRM_Movil_REPRO_Escalamiento_segun_RAV_FAN_Front_OOCC(String sDNI, String sLinea) {
 		imagen = "TS136536";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -903,7 +903,7 @@ public class Ajustes extends TestBase {
 	
 	//----------------------------------------------- TELEFONICO -------------------------------------------------------\\
 	
-	@Test (groups = {"PerfilTelefonico", "MVP"}, dataProvider = "CuentaAjustesREPRO")
+	@Test (groups = {"PerfilTelefonico", "MVP"}, dataProvider = "CuentaAjustesPRE")
 	public void TS121138_CRM_Movil_REPRO_Ajuste_Credito_FAN_Front_Telefonico_BO(String sDNI, String sLinea) {
 		imagen = "TS121138";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -957,7 +957,7 @@ public class Ajustes extends TestBase {
 		}
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "MVP"}, dataProvider = "CuentaAjustesREPRO")
+	@Test (groups = {"PerfilTelefonico", "MVP"}, dataProvider = "CuentaAjustesPRE")
 	public void TS129321_CRM_Movil_REPRO_Escalamiento_segun_RAV_FAN_Front_Telefonico(String sDNI, String sLinea) {
 		imagen = "TS129321";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
@@ -1040,7 +1040,7 @@ public class Ajustes extends TestBase {
 		detalles = imagen + " -Ajustes-DNI: " + sDNI + ", Caso numero: " + caso;
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "MVP"}, dataProvider = "CuentaAjustesREPRO")
+	@Test (groups = {"PerfilTelefonico", "MVP"}, dataProvider = "CuentaAjustesPRE")
 	public void TS121271_CRM_Movil_Pre_Ajuste_Nota_de_Credito_CrmTelefonico() {
 		ges.BuscarCuenta("DNI", "91021694");
 		sleep(5000);

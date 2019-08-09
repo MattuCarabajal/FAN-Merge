@@ -1459,8 +1459,8 @@ public class TestBase {
 	}
 	
 	@DataProvider
-	public Object[][] CuentaAjustesREPRO() throws Exception {
-		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Ajustes REPRO");
+	public Object[][] CuentaAjustesMIX() throws Exception {
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Ajustes MIX");
 	}
 	
 	@DataProvider
