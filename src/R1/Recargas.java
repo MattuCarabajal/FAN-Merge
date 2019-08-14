@@ -31,19 +31,20 @@ public class Recargas extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups= "PerfilOficina")
-	public void Sit03() {
+	@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
 		driver = setConexion.setupEze();
-		cc = new CustomerCare(driver);
-		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		log.LoginSit03();
+		cc = new CustomerCare(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
-		//cc.irAConsolaFAN();
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.LoginSit();
+		ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -89,7 +90,7 @@ public class Recargas extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod (alwaysRun = true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -141,14 +142,22 @@ public class Recargas extends TestBase {
 		driver.navigate().refresh();
 		cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		String credFinal = cc.consutarSaldoEnCard(sLinea);
-		credFinal = credFinal.replace("[$.,]", "");
+		credFinal = credFinal.replaceAll("[$.,]","");
 		credFinal = credFinal.substring(0, credFinal.length() -2);
 		int z = Integer.parseInt(credFinal);
 		System.out.println(z);
 		int s = Integer.parseInt(sMonto);
 		Assert.assertTrue(x + s == z);
 		cc.buscarOrdenDiag(caso+"*");
-		cc.verificarPedido(caso, "activada");			
+		cc.verificarPedido(caso, "activada");
+		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		System.out.println(datoVNuevo);
+		datoVNuevo = datoVNuevo.substring(0, datoVNuevo.length()-6);
+		int y = Integer.parseInt(datoVNuevo);
+		String datoVNuevo2 = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:CCBalance");
+		datoVNuevo2 = datoVNuevo2.substring(0, datoVNuevo2.length()-6);
+		int v = Integer.parseInt(datoVNuevo2);
+		Assert.assertTrue(y + v == z);
 	}
 	
 	
@@ -160,10 +169,10 @@ public class Recargas extends TestBase {
 		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		String credInicial = cc.consutarSaldoEnCard(sLinea);
-		credInicial = credInicial.replace("$", "");
-		credInicial = credInicial.substring(0, 3);
+		credInicial = credInicial.replaceAll("[$.,]", "");
+		credInicial = credInicial.substring(0, credInicial.length()-2);
 		int x = Integer.parseInt(credInicial);
-		System.out.println(x);
+		System.out.println(credInicial);
 		cc.irAGestion("Recarga de cr\u00e9dito");
 		cambioDeFrame(driver, By.id("AssetSelection_nextBtn"),0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("AssetSelection_nextBtn")));
@@ -199,14 +208,22 @@ public class Recargas extends TestBase {
 		driver.navigate().refresh();
 		cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		String credFinal = cc.consutarSaldoEnCard(sLinea);
-		credFinal = credFinal.replace("$", "");
-		credFinal = credFinal.substring(0, 3);
+		credFinal = credFinal.replaceAll("[$.,]", "");
+		credFinal = credFinal.substring(0, credFinal.length() -2);
 		int z = Integer.parseInt(credFinal);
 		System.out.println(z);
 		int s = Integer.parseInt(sMonto);
 		Assert.assertTrue(x + s == z);
 		cc.buscarOrdenDiag(caso+"*");
 		cc.verificarPedido(caso, "activada");	
+		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		System.out.println(datoVNuevo);
+		datoVNuevo = datoVNuevo.substring(0, datoVNuevo.length()-6);
+		int y = Integer.parseInt(datoVNuevo);
+		String datoVNuevo2 = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:CCBalance");
+		datoVNuevo2 = datoVNuevo2.substring(0, datoVNuevo2.length()-6);
+		int v = Integer.parseInt(datoVNuevo2);
+		Assert.assertTrue(y + v == z);
 	}
 	
 	
@@ -218,10 +235,10 @@ public class Recargas extends TestBase {
 		ges.BuscarCuenta("DNI", sDNI);
 		cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		String credInicial = cc.consutarSaldoEnCard(sLinea);
-		credInicial = credInicial.replace("$", "");
-		credInicial = credInicial.substring(0, 3);
+		credInicial = credInicial.replaceAll("[$.,]", "");
+		credInicial = credInicial.substring(0, credInicial.length()-2);
 		int x = Integer.parseInt(credInicial);
-		System.out.println(x);
+		System.out.println(credInicial);
 		cc.irAGestion("Recarga de cr\u00e9dito");
 		cambioDeFrame(driver, By.id("AssetSelection_nextBtn"),0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("AssetSelection_nextBtn")));
@@ -250,16 +267,20 @@ public class Recargas extends TestBase {
 		driver.navigate().refresh();
 		cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
 		String credFinal = cc.consutarSaldoEnCard(sLinea);
-		credFinal = credFinal.replace("$", "");
-		credFinal = credFinal.substring(0, 3);
+		credFinal = credFinal.replaceAll("[$.,]", "");
+		credFinal = credFinal.substring(0, credFinal.length() -2);
 		int z = Integer.parseInt(credFinal);
 		System.out.println(z);
 		int s = Integer.parseInt(sMonto);
 		Assert.assertTrue(x + s == z);
 		cc.buscarOrdenDiag(caso+"*");
-		cc.verificarPedido(caso, "activada");	
-		//String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
-		//Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
-		//Assert.assertTrue(datosInicial + 900 == datosFinal);			
+		cc.verificarPedido(caso, "activada");			
+		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
+		datoVNuevo = datoVNuevo.substring(0, datoVNuevo.length()-6);
+		int y = Integer.parseInt(datoVNuevo);
+		String datoVNuevo2 = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:CCBalance");
+		datoVNuevo2 = datoVNuevo2.substring(0, datoVNuevo2.length()-6);
+		int v = Integer.parseInt(datoVNuevo2);
+		Assert.assertTrue(y + v == z);
 	}
 }

@@ -31,14 +31,15 @@ public class HistorialDeRecargas extends TestBase {
 	private LoginFw log;
 	String detalles;
 	
-	//@BeforeClass (groups= "PerfilOficina")
-	public void Sit03() {
+	@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
+		cbsm = new CBS_Mattu();
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		log.LoginSit03();
-		//ges.irAConsolaFAN();
+		log.LoginSit();
+		ges.irAConsolaFAN();
 	}
 	
 	//@BeforeClass (groups = "PerfilOficina")
@@ -52,7 +53,7 @@ public class HistorialDeRecargas extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		sleep(5000);

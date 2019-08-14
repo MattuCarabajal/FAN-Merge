@@ -535,6 +535,7 @@ public class CustomerCare extends BasePage {
 	}
 		
 	public void obligarclick(WebElement element) {	
+		sleep(500);
 		((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+element.getLocation().y+")");
 	    element.click();
 	}
@@ -1857,7 +1858,7 @@ public class CustomerCare extends BasePage {
 		tb.cambioDeFrame(driver, By.id("Order_body"),0);
 		List<WebElement> status = driver.findElement(By.id("Order_body")).findElement(By.tagName("tbody")).findElements(By.tagName("td"));
 		for(WebElement s : status){
-			System.out.println(s.getText());
+			//System.out.println(s.getText());
 			if(s.getText().equalsIgnoreCase(estado)){
 				ord = true;
 			}
@@ -1915,7 +1916,7 @@ public class CustomerCare extends BasePage {
 		String status = driver.findElement(By.xpath("//*[@class='detailList']//tr//*[@id='cas7_ilecell']")).getText();
 		ges.cambiarPerfil(perfilInicial);
 		ges.irAConsolaFAN();
-		return status.equalsIgnoreCase("Realizada exitosa");		
+		return status.equalsIgnoreCase("Realizada exitosa");
 	}
 	
 	public String consutarSaldoEnCard (String sLinea){
@@ -1928,7 +1929,7 @@ public class CustomerCare extends BasePage {
 					h = c.findElement(By.xpath("//*[@class='card-info-hybrid']//*[@class='detail'][1]//*[@class='slds-text-body_regular value'][2]"));
 				}
 			}
-			System.out.println("saldo"+h.getText());
+			System.out.println("saldo: "+h.getText());
 		//ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='console-card active']"),1));
 //		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card active']"));
 //		WebElement cardPorLinea=ges.getBuscarElementoPorText(ges.listaDeElementosPorText(cards, sLinea),"Activo");

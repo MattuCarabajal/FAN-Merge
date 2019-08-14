@@ -28,20 +28,19 @@ public class HistorialDePacks extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups= "PerfilOficina")
-	public void Sit02() {
+	@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		log.LoginSit03();
-		//ges.irAConsolaFAN();
+		log.LoginSit();
+		ges.irAConsolaFAN();
 	}
 	
 	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
@@ -52,7 +51,6 @@ public class HistorialDePacks extends TestBase {
 	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
-		sleep(5000);
 		cc = new CustomerCare(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
@@ -60,7 +58,7 @@ public class HistorialDePacks extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -77,7 +75,7 @@ public class HistorialDePacks extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod (alwaysRun = true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();

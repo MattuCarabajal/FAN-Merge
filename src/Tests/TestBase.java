@@ -70,7 +70,8 @@ public class TestBase {
 	public static String urlBeFANUAT = "http://snapuat.telecom.com.ar/#/home";
 
 	//public static String urlBeFAN = "https://befantest2.personal.corp/#/signin";
-	 public static String urlBeFAN = "https://befanuat2.personal.corp/#/signin";
+	 //public static String urlBeFAN = "https://befanuat2.personal.corp/#/signin";
+	 public static String urlBeFAN = "http://snapuat.telecom.com.ar/#/signin";
 				
 	public void leftDropdown(WebDriver driver, String selection) {
 		driver.findElement(By.className("x-btn-mc")).click();
@@ -1458,8 +1459,8 @@ public class TestBase {
 	}
 	
 	@DataProvider
-	public Object[][] CuentaAjustesREPRO() throws Exception {
-		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Ajustes REPRO");
+	public Object[][] CuentaAjustesMIX() throws Exception {
+		return ExcelUtils.getTableArray(dataProviderE2E(),"dni linea",1,1,2,"Ajustes MIX");
 	}
 	
 	@DataProvider

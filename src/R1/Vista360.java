@@ -38,6 +38,17 @@ public class Vista360 extends TestBase {
 	String detalles;
 	
 	
+	@BeforeClass (groups = "PerfilOficina")
+	public void initSIT() {
+		driver = setConexion.setupEze();
+		ges = new GestionDeClientes_Fw(driver);
+		cc = new CustomerCare(driver);
+		mk = new Marketing(driver);
+		log = new LoginFw(driver);
+		log.LoginSit();
+		//ges.irAConsolaFAN();
+	}
+		
 	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
@@ -63,12 +74,14 @@ public class Vista360 extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
 		cc = new CustomerCare(driver);
 		mk = new Marketing(driver);
+		cbsm = new CBS_Mattu();
+		cbs = new CBS();
 		log = new LoginFw(driver);
 		log.loginAgente();
 		ges.irAConsolaFAN();
@@ -82,7 +95,7 @@ public class Vista360 extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod (alwaysRun = true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();

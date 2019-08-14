@@ -34,16 +34,19 @@ public class CambioDePlan extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (alwaysRun = true)
-	public void Sit03() {
+	@BeforeClass (alwaysRun = true)
+	public void initSIT() {
 		driver = setConexion.setupEze();
-		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		contact = new ContactSearch(driver);
-		log.LoginSit03();
+		log = new LoginFw(driver);
+		cbs = new CBS();
+		cbsm = new CBS_Mattu();
+		log.LoginSit();
+		ges.irAConsolaFAN();
 	}
 
-	@BeforeClass(groups = "PerfilOficina")
+	//@BeforeClass(groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -75,7 +78,7 @@ public class CambioDePlan extends TestBase {
 		ges.irGestionClientes();
 	}
 	
-	//@AfterMethod (alwaysRun = true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -132,7 +135,7 @@ public class CambioDePlan extends TestBase {
 	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "CAPRO")
 	public void TS145168_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO2(String sDNI, String sLinea) {
 		imagen = "TS145168";
-		Assert.assertTrue(cambioDePlan("2323232", "2932598596", "conexi\u00f3n control abono s" ));		
+		Assert.assertTrue(cambioDePlan(sDNI, sLinea, "conexi\u00f3n control abono s" ));		
 	}
 	
 	

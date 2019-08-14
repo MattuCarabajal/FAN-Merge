@@ -32,19 +32,19 @@ public class RenovacionDeCuota extends TestBase {
 	String detalles;
 	
 	
-//	@BeforeClass (groups= "PerfilOficina")
-	public void Sit02() {
+	@BeforeClass (groups= "PerfilOficina")
+	public void initSIT() {
 		driver = setConexion.setupEze();
-		cc = new CustomerCare(driver);
-		log = new LoginFw(driver);
-		ges = new GestionDeClientes_Fw(driver);
 		cbsm = new CBS_Mattu();
 		cbs = new CBS();
-		//log.LoginSit02();
-		//ges.irAConsolaFAN();
+		cc = new CustomerCare(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log = new LoginFw(driver);
+		log.LoginSit();
+		ges.irAConsolaFAN();
 	}
 	
-//	@BeforeClass (groups= "PerfilOficina")
+	//@BeforeClass (groups= "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		cbsm = new CBS_Mattu();
@@ -56,7 +56,7 @@ public class RenovacionDeCuota extends TestBase {
 		ges.irAConsolaFAN();	
 	}
 	
-	@BeforeClass (groups= "PerfilTelefonico")
+	//@BeforeClass (groups= "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		cbsm = new CBS_Mattu();
@@ -76,7 +76,7 @@ public class RenovacionDeCuota extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod(alwaysRun=true)
+	@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -126,9 +126,11 @@ public class RenovacionDeCuota extends TestBase {
 		String orden = driver.findElement(By.xpath("//p [contains(text(),'Nro')]")).getText().substring(11);
 		clickBy(driver,By.xpath("//*[@id=\"PaymentMethods\"]/div/ng-include/div/section[2]/div[1]/div/div/div/fieldset/div[1]/ul/li[1]/label/span[2]"),0);
 		clickBy(driver,By.id("SelectPaymentMethodsStep_nextBtn"),0);
+		System.out.println(orden);
 		cbsm.Servicio_NotificarPago(orden);
+		
 		ges.cerrarPestaniaGestion(driver);
-		cc.buscarOrden(orden+"*");
+		cc.buscarGestion(orden+"*");
 		cc.verificarPedido(orden, "Activada");		
 		String datoNuevo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		Integer datosFinal = Integer.parseInt(datoNuevo);

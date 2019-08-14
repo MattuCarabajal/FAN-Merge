@@ -10,9 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import Pages.ContactSearch;
 import Pages.setConexion;
@@ -33,18 +31,18 @@ public class Nominacion extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (groups = "PerfilOficina")
-	public void Sit03() {
+	@BeforeClass (groups = "PerfilOficina")
+	public void initSIT() {
 		driver = setConexion.setupEze();
-		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
-		cbsm = new CBS_Mattu();
 		contact = new ContactSearch(driver);
-		log.LoginSit03();		
-		//cc.irAConsolaFAN();
+		cbsm = new CBS_Mattu();
+		log = new LoginFw(driver);
+		log.LoginSit();		
+		ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -63,7 +61,7 @@ public class Nominacion extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	//@AfterMethod (alwaysRun = true)
+	@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
