@@ -32,18 +32,19 @@ public class Ajustes extends TestBase {
 	String detalles;
 	
 	
-	//@BeforeClass (alwaysRun = true)
+	@BeforeClass (alwaysRun = true)
 	public void initSIT() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
 		log = new LoginFw(driver);
 		cbs = new CBS();
 		cbsm = new CBS_Mattu();
+		cc = new CustomerCare(driver);
 		log.LoginSit();
 		ges.irConsolaFanSit02();
 	}
 	
-	@BeforeClass (groups = "PerfilOficina")
+	//@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);

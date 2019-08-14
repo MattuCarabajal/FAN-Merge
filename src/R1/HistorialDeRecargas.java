@@ -39,7 +39,7 @@ public class HistorialDeRecargas extends TestBase {
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		log.LoginSit();
-		ges.irAConsolaFAN();
+		ges.irConsolaFanSit02();
 	}
 	
 	//@BeforeClass (groups = "PerfilOficina")

@@ -53,7 +53,7 @@ public class RenovacionDeCuota extends TestBase {
 		ges = new GestionDeClientes_Fw(driver);
 		log = new LoginFw(driver);
 		log.loginOOCC();
-		ges.irAConsolaFAN();	
+		ges.irConsolaFanSit02();	
 	}
 	
 	//@BeforeClass (groups= "PerfilTelefonico")
