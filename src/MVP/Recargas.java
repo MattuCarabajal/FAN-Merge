@@ -130,6 +130,7 @@ public class Recargas extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		cbsm.Servicio_NotificarPago(caso);
+		cbsm.Servicio_NotificarEmisionFactura(caso);
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
 		Assert.assertTrue(datosInicial + 1000 == datosFinal);
@@ -164,6 +165,7 @@ public class Recargas extends TestBase {
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("GeneralMessageDesing")));
 		Assert.assertTrue(driver.findElement(By.id("GeneralMessageDesing")).getText().toLowerCase().contains("la orden se realiz\u00f3 con \u00e9xito"));
 		cbsm.Servicio_NotificarPago(caso);
+		cbsm.Servicio_NotificarEmisionFactura(caso);
 		String datoVNuevo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosFinal = Integer.parseInt(datoVNuevo.substring(0, (datoVNuevo.length()) - 4));
 		Assert.assertTrue(datosInicial + 1000 == datosFinal);

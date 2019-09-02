@@ -487,8 +487,14 @@ public class ContactSearch extends BasePage {
 			gender.get(1).click();
 			break;
 		}
-		BotonCrearNuevoCliente.click();
+		try {
+			BotonCrearNuevoCliente.click();
+		} catch(Exception e) {
+			driver.findElement(By.cssSelector("[class='OSradioButton radiobox ng-scope']")).click();
+		}
 		tb.waitFor(driver,By.id("FirstName"));
+		// ESTO HAY QUE SACARLO, NO DEBERIA IR
+		driver.findElement(By.xpath("//*[@id=\"Gende|0\"]/div/div[1]/label[1]/span[2]")).click();
 		nombre.clear();
 		nombre.sendKeys(sNom);
 		apellido.clear();

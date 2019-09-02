@@ -79,7 +79,7 @@ public class LoginFw extends BasePageFw {
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
-		Ecom_User_ID.sendKeys("Ua2544674");
+		Ecom_User_ID.sendKeys("Ua2544674"); //Ua2544674 //uat528737
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
 	}
