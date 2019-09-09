@@ -6,6 +6,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -36,13 +37,23 @@ public class GestionDeClientes extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups= "PerfilOficina")
+	@BeforeClass (groups= "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		sb = new SalesBase(driver);
 		log = new LoginFw(driver);
 		ges = new GestionDeClientes_Fw(driver);
 		log.loginOOCC();
+		ges.irAConsolaFAN();	
+	}
+	
+	//@BeforeClass (groups= "PerfilOficina")
+	public void initAgente() {
+		driver = setConexion.setupEze();
+		sb = new SalesBase(driver);
+		log = new LoginFw(driver);
+		ges = new GestionDeClientes_Fw(driver);
+		log.loginAgente();
 		ges.irAConsolaFAN();	
 	}
 	
@@ -72,11 +83,15 @@ public class GestionDeClientes extends TestBase {
 	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "validaDocumentacion")
 	public void TS178016_CRM_Movil_Pre_Busqueda_Apellido_OOCC(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS178016";
+		sb.BuscarAvanzada("", sApellido, "", "", "");
+		Assert.assertTrue(ges.estaEnClientes(sDNI));
 	}
 	
 	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "validaDocumentacion")
 	public void TS178038_CRM_Movil_Repro_Busqueda_Apellido_OOCC(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS178038";
+		sb.BuscarAvanzada("", sApellido, "", "", "");
+		Assert.assertTrue(ges.estaEnClientes(sDNI));
 	}
 	
 	//----------------------------------------------- AGENTE  -------------------------------------------------------\\
@@ -84,7 +99,10 @@ public class GestionDeClientes extends TestBase {
 	@Test (groups = {"PerfilAgente", "R2"}, dataProvider = "validaDocumentacion")
 	public void TS178030_CRM_Movil_Repro_Busqueda_Tipo_de_documento_DNI_Agente(String sDNI, String sNumeroDeCuenta, String sNombre, String sApellido, String sRazon, String sEmail) {
 		imagen = "TS178030";
+		sb.BuscarCuenta("DNI", sDNI);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']")));
+		WebElement cliente = driver.findElement(By.cssSelector("[class='slds-tabs--scoped__content'] tbody [class='searchClient-body slds-hint-parent ng-scope']"));
+		String dni = cliente.findElements(By.tagName("td")).get(3).getText();
+		Assert.assertTrue(sDNI.equals(dni));
 	}
-	
-	
 }
