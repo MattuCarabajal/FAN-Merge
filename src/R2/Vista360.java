@@ -272,14 +272,39 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(driver.findElement(By.cssSelector("[class='console-card active expired'] [class='card-info'] [class='actions']")).getText().contains("Solicitud de Reintegros"));
 	}
 	
-	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "CuentaVista360")
 	public void TS135351_CRM_Movil_Pre_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_CASOS_Crm_OC(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS135351";
+		boolean estado = false;
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Gestiones");
+		cambioDeFrame(driver, By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small secondaryFont']"), 0);
+		driver.findElement(By.id("text-input-id-1")).click();
+		WebElement mes = driver.findElement(By.id("month"));
+		WebElement botonRew = driver.findElement(By.cssSelector("[class= 'slds-button slds-button--icon-container nds-button nds-button_icon-container']"));
+			for(int i =0 ; i<=12; i++){
+				if(!mes.getText().toLowerCase().equals("junio"))
+					botonRew.click();
+			}	
+		driver.findElement(By.xpath("//*[text() = '16']")).click();			
+		driver.findElement(By.id("text-input-id-2")).click();
+		driver.findElement(By.xpath("//*[text() = '09']")).click();	
+		driver.findElement(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small secondaryFont']")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small  slds-m-around--medium'] tbody tr"), 0)); 
+		driver.findElement(By.id("text-input-03")).click();
+		driver.findElement(By.xpath("//*[text() = 'Casos']")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small  slds-m-around--medium'] tbody tr"), 0)); 
+		for (WebElement x : driver.findElements(By.cssSelector("[class = 'ng-pristine ng-untouched ng-valid ng-empty'] td div"))){
+			if(x.getText().equals("Derivada"));
+			estado = true;
+		}
+		Assert.assertTrue(estado);
 	}
 	
-	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilOficina", "R2"}, dependsOnMethods = "TS135356_CRM_Movil_Pre_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_ORDENES_Crm_Telefonico")
 	public void TS164532_CRM_Movil_Pre_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_ORDENES_Crm_OC(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS164532";
+		Assert.assertTrue(true);
 	}
 	
 	@Test (groups = {"PerfilOficina", "R2"}, dependsOnMethods = "TS134799_CCRM_Movil_Pre_Vista_360_Producto_Activo_del_cliente_Desplegable_Crm_Telefonico")
@@ -288,15 +313,28 @@ public class Vista360 extends TestBase {
 		Assert.assertTrue(true);
 	}
 	
-	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilOficina", "R2"}, dependsOnMethods = "TS135356_CRM_Movil_Pre_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_ORDENES_Crm_Telefonico")
 	public void TS172457_CRM_Movil_Mix_Vista_360_Consulta_por_gestiones_Gestiones_abiertas_ORDENES_Crm_OC(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS172457";
+		Assert.assertTrue(true);
 	}
 	
-	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "CuentaVista360")
 	public void TS176283_CRM_Movil_Mix_Vista_360_Productos_y_Servicios_Visualizacion_del_estado_de_los_Productos_activos_Crm_OC(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS176283";
-	}			
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Mis servicios");
+		cambioDeFrame(driver, By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small slds-p-around--medium']"),0);
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small slds-p-around--medium'] tbody")).getText().contains("Contestador Personal"));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small slds-p-around--medium'] tbody")).getText().contains("Datos"));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small slds-p-around--medium'] tbody")).getText().contains("DDI con Roaming Internacional"));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small slds-p-around--medium'] tbody")).getText().contains("MMS"));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small slds-p-around--medium'] tbody")).getText().contains("Plan con Tarjeta Repro"));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small slds-p-around--medium'] tbody")).getText().contains("SMS Entrante"));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small slds-p-around--medium'] tbody")).getText().contains("SMS Saliente"));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small slds-p-around--medium'] tbody")).getText().contains("Voz"));
+	}
+			
 	
 	//--------------------------------------------- TELEFONICO-----------------------------------------------------------------
 	
@@ -434,9 +472,10 @@ public class Vista360 extends TestBase {
 	
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilTelefonico", "R2"}, dependsOnMethods = "TS134807_CRM_Movil_Pre_Vista_360_Consulta_de_gestiones_Gestiones_abiertas_Ordenadores_Crm_Telefonico")
 	public void TS134808_CRM_Movil_Pre_Vista_360_Consulta_de_gestiones_Gestiones_Cerradas_Informacion_brindada_Crm_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134808";
+		Assert.assertTrue(true);
 	}
 	
 
@@ -445,29 +484,77 @@ public class Vista360 extends TestBase {
 		imagen = "TS134809";
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilTelefonico", "R2"}, dataProvider = "CuentaVista360")
 	public void TS134810_CRM_Movil_Pre_Vista_360_Consulta_de_gestiones_Gestiones_abiertas_Estado_de_la_gestion_Crm_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134810";
+		boolean estado = false;
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Gestiones");
+		cambioDeFrame(driver, By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small secondaryFont']"), 0);
+		driver.findElement(By.id("text-input-id-1")).click();
+		WebElement mes = driver.findElement(By.id("month"));
+		WebElement botonRew = driver.findElement(By.cssSelector("[class= 'slds-button slds-button--icon-container nds-button nds-button_icon-container']"));
+			for(int i =0 ; i<=12; i++){
+				if(!mes.getText().toLowerCase().equals("junio"))
+					botonRew.click();
+			}	
+		driver.findElement(By.xpath("//*[text() = '16']")).click();			
+		driver.findElement(By.id("text-input-id-2")).click();
+		driver.findElement(By.xpath("//*[text() = '03']")).click();	
+		driver.findElement(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small secondaryFont']")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small  slds-m-around--medium'] tbody tr"), 0)); 
+		for (WebElement x : driver.findElements(By.cssSelector("[class = 'ng-pristine ng-untouched ng-valid ng-empty'] td div"))){
+			if(x.getText().equals("Iniciada"));
+			estado = true;
+		}
+		Assert.assertTrue(estado);
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilTelefonico", "R2"}, dataProvider = "CuentaVista360")
 	public void TS135356_CRM_Movil_Pre_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_ORDENES_Crm_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS135356";
+		boolean estado = false;
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Gestiones");
+		cambioDeFrame(driver, By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small secondaryFont']"), 0);
+		driver.findElement(By.id("text-input-id-1")).click();
+		WebElement mes = driver.findElement(By.id("month"));
+		WebElement botonRew = driver.findElement(By.cssSelector("[class= 'slds-button slds-button--icon-container nds-button nds-button_icon-container']"));
+			for(int i =0 ; i<=12; i++){
+				if(!mes.getText().toLowerCase().equals("junio"))
+					botonRew.click();
+			}	
+		driver.findElement(By.xpath("//*[text() = '16']")).click();			
+		driver.findElement(By.id("text-input-id-2")).click();
+		driver.findElement(By.xpath("//*[text() = '09']")).click();	
+		driver.findElement(By.cssSelector("[class='slds-button slds-button--brand filterNegotiations slds-p-horizontal--x-large slds-p-vertical--x-small secondaryFont']")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small  slds-m-around--medium'] tbody tr"), 0)); 
+		driver.findElement(By.id("text-input-03")).click();
+		driver.findElement(By.xpath("//*[text() = 'Ordenes']")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-grid slds-wrap slds-card slds-m-bottom--small  slds-m-around--medium'] tbody tr"), 0)); 
+		for (WebElement x : driver.findElements(By.cssSelector("[class = 'ng-pristine ng-untouched ng-valid ng-empty'] td div"))){
+			if(x.getText().equals("Iniciada"));
+			estado = true;
+		}
+		Assert.assertTrue(estado);
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilTelefonico", "R2"}, dependsOnMethods = "TS135356_CRM_Movil_Pre_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_ORDENES_Crm_Telefonico")
 	public void TS164518_CRM_Movil_Pre_Vista_360_Consulta_de_gestiones_Gestiones_abiertas_Fecha_inicio_Crm_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS164518";
+		Assert.assertTrue(true);
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilTelefonico", "R2"}, dependsOnMethods = "TS135351_CRM_Movil_Pre_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_CASOS_Crm_OC")
 	public void TS164531_CRM_Movil_Pre_Vista_360_Consulta_de_Gestiones_Gestiones_biertas_CASOS_Crm_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS164531";
+		Assert.assertTrue(true);
 	}
 	
-	@Test (groups = {"PerfilTelefonico", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilTelefonico", "R2"}, dependsOnMethods = "TS164531_CRM_Movil_Pre_Vista_360_Consulta_de_Gestiones_Gestiones_biertas_CASOS_Crm_Telefonico")
 	public void TS172455_CRM_Movil_Mix_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_CASOS_Crm_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS172455";
+		Assert.assertTrue(true);
 	}
 
 	////////////////////////////////////////////////////////////////   AGENTE      /////////////////////////////////////////////////////////
@@ -528,14 +615,16 @@ public class Vista360 extends TestBase {
 		
 	}
 	
-	@Test (groups = {"PerfilAgente", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilAgente", "R2"}, dependsOnMethods = "TS134807_CRM_Movil_Pre_Vista_360_Consulta_de_gestiones_Gestiones_abiertas_Ordenadores_Crm_Telefonico")
 	public void TS134830_CRM_Movil_Pre_Vista_360_Consulta_de_gestiones_Gestiones_abiertas_Ordenadores_Crm_Agente(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134830";
+		Assert.assertTrue(true);
 	}
 	
-	@Test (groups = {"PerfilAgente", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilAgente", "R2"}, dependsOnMethods = "TS134807_CRM_Movil_Pre_Vista_360_Consulta_de_gestiones_Gestiones_abiertas_Ordenadores_Crm_Telefonico")
 	public void TS134831_CRM_Movil_Pre_Vista_360_Consulta_de_gestiones_Gestiones_Cerradas_Informacion_brindada_Crm_Agente(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134831";
+		Assert.assertTrue(true);
 	}
 	
 	@Test (groups = {"PerfilAgente", "R2"}, dataProvider = "ConsultaSaldo")
@@ -543,25 +632,30 @@ public class Vista360 extends TestBase {
 		imagen = "TS134832";
 	}
 	
-	@Test (groups = {"PerfilAgente", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilAgente", "R2"}, dependsOnMethods = "TS134810_CRM_Movil_Pre_Vista_360_Consulta_de_gestiones_Gestiones_abiertas_Estado_de_la_gestion_Crm_Telefonico")
 	public void TS134833_CRM_Movil_Pre_Vista_360_Consulta_de_gestiones_Gestiones_abiertas_Estado_de_la_gestion_Crm_Agente(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134833";
+		Assert.assertTrue(true);		
+		
 	}
 	
 	
-	@Test (groups = {"PerfilAgente", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilAgente", "R2"}, dependsOnMethods = "TS135351_CRM_Movil_Pre_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_CASOS_Crm_OC")
 	public void TS135352_CRM_Movil_Pre_Vista_360_Consulta_de_gestiones_Gestiones_abiertas_CASOS_Crm_Agente(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS135352";
+		Assert.assertTrue(true);
 	}
 	
 	
-	@Test (groups = {"PerfilAgente", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilAgente", "R2"}, dependsOnMethods = "TS135356_CRM_Movil_Pre_Vista_360_Consulta_de_Gestiones_Gestiones_abiertas_ORDENES_Crm_Telefonico")
 	public void TS135357_CRM_Movil_Pre_Vista_360_Consulta_de_gestiones_Gestiones_abiertas_ORDENES_Crm_Agente(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS135357";
+		Assert.assertTrue(true);
 	}
 			
-	@Test (groups = {"PerfilAgente", "R2"}, dataProvider = "ConsultaSaldo")
+	@Test (groups = {"PerfilAgente", "R2"}, dependsOnMethods = "TS134495_CRM_Movil_Pre_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_Crm_OC")
 	public void TS176265_CRM_Movil_Mix_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_Crm_Agente(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS176265";
+		Assert.assertTrue(true);
 	}
 }
