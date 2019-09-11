@@ -1,9 +1,11 @@
 package Pages;
 
+import java.io.File;
 import java.util.List;
 import java.util.Random;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -260,6 +262,19 @@ public class ContactSearch extends BasePage {
 		try {Thread.sleep(7000);} catch (InterruptedException ex) {Thread.currentThread().interrupt();}
 	}
 	
+	public void validacionPorDNI() {
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_prevBtn")));
+		driver.findElement(By.xpath("//*[@class='slds-size--1-of-1 slds-radio slds-grid slds-box vlc-slds-selectableItem ng-scope']//h2[text()='Validaci\u00f3n por DNI']")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='ta-imageContainer btnImage']")));
+		File directory = new File("Dni.jpg");
+		driver.findElement(By.id("FileDocumentImage")).sendKeys(new File(directory.getAbsolutePath()).toString());
+		sleep(3000);
+		driver.findElement(By.id("DocumentMethod_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='slds-button slds-button_brand']")));
+		driver.findElement(By.cssSelector("[class='slds-button slds-button_brand']")).click();		
+	}
+	
 	public void subirformulario(String uploadPath) {
 		TestBase tb = new TestBase();
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
@@ -376,6 +391,8 @@ public class ContactSearch extends BasePage {
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		tb.cambioDeFrame(driver,(By.id("state-LegalAddress")),0);
 		selectByText(CondicionImpositiva, "IVA Consumidor final");
+		sleep(5000);
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.id("state-LegalAddress")));
 		selectByText(Provincia, cProvincia);
 		sleep(750);
 		Localidad.sendKeys(cLocalidad);

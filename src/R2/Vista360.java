@@ -43,7 +43,7 @@ public class Vista360 extends TestBase {
 		//ges.irAConsolaFAN();
 	}
 		
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -55,7 +55,7 @@ public class Vista360 extends TestBase {
 	}
 	
 		
-	@BeforeClass (groups = "PerfilTelefonico")
+	//@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -66,7 +66,7 @@ public class Vista360 extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	@BeforeClass (groups = "PerfilAgente")
+	//@BeforeClass (groups = "PerfilAgente")
 	public void initAgente() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -187,16 +187,6 @@ public class Vista360 extends TestBase {
 		}
 		Assert.assertTrue(gest);
 	}
-	
-	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "ConsultaSaldo")
-	public void TS134373_CRM_Movil_Prepago_Vista_360_Consulta_de_Saldo_Verificar_credito_prepago_de_la_linea_Crm_OC(String sDNI, String sLinea, String sAccountKey) {
-		imagen = "TS134373";
-		ges.BuscarCuenta("DNI", sDNI);
-		cambioDeFrame(driver, By.className("card-top"), 0);
-		String creditoCard = driver.findElement(By.className("card-info")).findElement(By.className("uLdetails")).findElement(By.tagName("li")).findElements(By.tagName("span")).get(2).getText();
-		System.out.println(creditoCard);
-		Assert.assertTrue(creditoCard.contains("$"));
-	}	
 			
 	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "ConsultaSaldo")
 	public void TS134380_CRM_Movil_Pre_Vista_360_Mis_Servicios_Visualizacion_del_estado_de_los_Productos_activos_Crm_OC(String sDNI, String sLinea, String sAccountKey) {
@@ -235,36 +225,33 @@ public class Vista360 extends TestBase {
 			actdat = true;
 		if (perfil.getText().contains("Reseteo Clave"))
 			resetclave = true;
-	Assert.assertTrue(nombre && dni && nps && actdat && resetclave);
-	boolean mail = false, cel= false, telalterna = false, clubPer = false, cate = false , segmento = false, altarecien = false, atribur = false;
-	for(WebElement x : driver.findElements(By.cssSelector("[class = 'left-sidebar-section-container']"))){
-		if (x.getText().contains("Correo Electr\u00f3nico"))
-			mail = true;
-		if (x.getText().contains("M\u00f3vil"))
-			cel = true;
-		if (x.getText().contains("Tel\u00e9fono alternativo"))
-			telalterna = true;
-		if (x.getText().contains("Club Personal"))
-			clubPer = true;
-		if (x.getText().contains("Categor\u00eda"))
-			cate = true;
-		if (x.getText().contains("Segmento"))
-			segmento =true;
-		if(x.getText().contains("Altas Recientes - Masivo"))
-			altarecien = true;
-		if(x.getText().contains("Atributos"))
-			atribur = true;
-	}
-	boolean segmentacion = false;
-	for (WebElement y : driver.findElements(By.cssSelector("[class = 'left-sidebar-section-header']"))){
-		if(y.getText().contains("Segmentanci\u00f3n"));
-		segmentacion = true;
-	}
-	Assert.assertTrue(mail && cel && telalterna && clubPer && cate && segmento && altarecien && atribur && segmentacion);
-	
-	
-}
-	
+		Assert.assertTrue(nombre && dni && nps && actdat && resetclave);
+		boolean mail = false, cel= false, telalterna = false, clubPer = false, cate = false , segmento = false, altarecien = false, atribur = false;
+		for(WebElement x : driver.findElements(By.cssSelector("[class = 'left-sidebar-section-container']"))){
+			if (x.getText().contains("Correo Electr\u00f3nico"))
+				mail = true;
+			if (x.getText().contains("M\u00f3vil"))
+				cel = true;
+			if (x.getText().contains("Tel\u00e9fono alternativo"))
+				telalterna = true;
+			if (x.getText().contains("Club Personal"))
+				clubPer = true;
+			if (x.getText().contains("Categor\u00eda"))
+				cate = true;
+			if (x.getText().contains("Segmento"))
+				segmento =true;
+			if(x.getText().contains("Altas Recientes - Masivo"))
+				altarecien = true;
+			if(x.getText().contains("Atributos"))
+				atribur = true;
+		}
+		boolean segmentacion = false;
+		for (WebElement y : driver.findElements(By.cssSelector("[class = 'left-sidebar-section-header']"))){
+			if(y.getText().contains("Segmentanci\u00f3n"));
+				segmentacion = true;
+		}
+		Assert.assertTrue(mail && cel && telalterna && clubPer && cate && segmento && altarecien && atribur && segmentacion);	
+	}	
 
 	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "ConsultaSaldo")
 	public void TS134496_CRM_Movil_Pre_Vista_360_Distribucion_de_paneles_Perfil_Crm_OC(String sDNI, String sLinea, String sAccountKey) {
@@ -295,9 +282,10 @@ public class Vista360 extends TestBase {
 		imagen = "TS164532";
 	}
 	
-	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "ConsultaSaldo")
-	public void TS170887_CRM_Movil_Mix_Vista_360_Suscripcion_de_abono_fijo_Visualizar_las_acciones_secundarias_Crm_OC(String sDNI, String sLinea, String sAccountKey) {
+	@Test (groups = {"PerfilOficina", "R2"}, dependsOnMethods = "TS134799_CCRM_Movil_Pre_Vista_360_Producto_Activo_del_cliente_Desplegable_Crm_Telefonico")
+	public void TS170887_CRM_Movil_Mix_Vista_360_Suscripcion_de_abono_fijo_Visualizar_las_acciones_secundarias_Crm_OC() {
 		imagen = "TS170887";
+		Assert.assertTrue(true);
 	}
 	
 	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "ConsultaSaldo")
@@ -308,20 +296,17 @@ public class Vista360 extends TestBase {
 	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "ConsultaSaldo")
 	public void TS176283_CRM_Movil_Mix_Vista_360_Productos_y_Servicios_Visualizacion_del_estado_de_los_Productos_activos_Crm_OC(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS176283";
-	}
-			
+	}			
 	
 	//--------------------------------------------- TELEFONICO-----------------------------------------------------------------
 	
 	
 	@Test (groups = {"PerfilTelefonico", "R2"}, dependsOnMethods = "TS134495_CRM_Movil_Pre_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_Crm_OC")
 	public void TS134794_CRM_Movil_Pre_Vista_360_Distribucion_de_paneles_Informacion_del_cliente_Crm_Telefonico() {
-		imagen = "TS134794";
-		
-	Assert.assertTrue(true);
+		imagen = "TS134794";		
+		Assert.assertTrue(true);
 	}
 	
-
 	@Test (groups = {"PerfilTelefonico", "R2"}, dataProvider = "ConsultaSaldo")
 	public void TS134795_CRM_Movil_Pre_Vista_360_Distribucion_de_paneles_Perfil_Crm_Telefonico(String sDNI, String sLinea, String sAccountKey) {
 		imagen = "TS134795";

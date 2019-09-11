@@ -32,7 +32,7 @@ public class ProblemasConRecargas extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (groups= "PerfilOficina")
+	//@BeforeClass (groups= "PerfilOficina")
 	public void initSIT() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);
@@ -43,7 +43,7 @@ public class ProblemasConRecargas extends TestBase {
 		ges.irAConsolaFAN();
 	}
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		log = new LoginFw(driver);
@@ -73,7 +73,7 @@ public class ProblemasConRecargas extends TestBase {
 		ges.irGestionClientes();	
 	}
 
-	@AfterMethod (alwaysRun = true)
+	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -129,8 +129,6 @@ public class ProblemasConRecargas extends TestBase {
 	public void TS148767_CRM_Movil_Mix_Problemas_con_Recarga_TC_Crm_OC(String sDNI, String sLinea) {
 		imagen = "TS148758";
 		detalles = imagen + " -Problema con recargas - DNI: " + sDNI;
-		String monto = "1000";
-		String comprobante = "123";
 		String datoViejo = cbs.ObtenerValorResponse(cbsm.Servicio_queryLiteBySubscriber(sLinea), "bcs:MainBalance");
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, datoViejo.length()-6));
 		ges.BuscarCuenta("DNI", sDNI);
@@ -140,8 +138,8 @@ public class ProblemasConRecargas extends TestBase {
 		driver.findElement(By.id("RefillMethods_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("CreditCardData_nextBtn")));
 		buscarYClick(driver.findElements(By.cssSelector("[class = 'slds-form-element__label ng-binding ng-scope']")), "equals", "SI");
-		driver.findElement(By.id("CreditCardRefillAmount")).sendKeys(monto);
-		driver.findElement(By.id("CreditCardRefillReceipt")).sendKeys(comprobante);
+		driver.findElement(By.id("CreditCardRefillAmount")).sendKeys("1000");
+		driver.findElement(By.id("CreditCardRefillReceipt")).sendKeys("123");
 		driver.findElement(By.id("CreditCardData_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Summary_nextBtn")));
 		List <WebElement> documentacion = driver.findElements(By.cssSelector("[class = 'slds-p-around--medium'] [class = 'slds-list--horizontal slds-wrap'] [class = 'slds-item--label slds-text-color--weak slds-truncate ng-binding ng-scope']"));

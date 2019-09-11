@@ -352,15 +352,14 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			List<WebElement> elementos = driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li"));
 			elementos.addAll(driver.findElements(By.cssSelector("[class='card-info-hybrid'] [class='actions'] li")));
 			elementos.addAll(driver.findElements(By.cssSelector("[class='slds-button slds-button--neutral ']")));
-		//	driver.findElement(By.xpath("//a//span[contains(text(),'" + sGestion + "')]")).click();
-			// System.out.println(clickElementoPorTextExacto(elementos, sGestion));
+			driver.findElement(By.xpath("//a//span[contains(text(),'" + sGestion + "')]")).click();
 		}
 	}
 	
 	public void irRenovacionDeDatos(String sLinea) {
 		tb = new TestBase();
 		tb.cambioDeFrame(driver, By.cssSelector("[class='card-top']"), 0);
-		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card active']"));
+		List<WebElement> cards = driver.findElements(By.cssSelector("[class='card-top']"));
 		WebElement cardPorLinea = getBuscarElementoPorText(listaDeElementosPorText(cards, sLinea), "Active");
 		try {
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='community-flyout-actions-card'] ul li"), 0));

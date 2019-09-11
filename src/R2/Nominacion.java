@@ -1,18 +1,14 @@
 package R2;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+
+import org.testng.Assert;
+import org.testng.annotations.*;
 
 import Pages.ContactSearch;
 import Pages.setConexion;
@@ -28,9 +24,7 @@ public class Nominacion extends TestBase {
 	private GestionDeClientes_Fw ges;
 	private CBS_Mattu cbsm;
 	private ContactSearch contact;
-	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
-	String detalles;
 	
 	
 	//@BeforeClass (groups = "PerfilOficina")
@@ -57,7 +51,6 @@ public class Nominacion extends TestBase {
 	
 	@BeforeMethod (alwaysRun = true)
 	public void setup() {
-		detalles = null;
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();
@@ -65,8 +58,6 @@ public class Nominacion extends TestBase {
 
 	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
-		guardarListaTxt(sOrders);
-		sOrders.clear();
 		tomarCaptura(driver,imagen);
 		sleep(2000);
 	}
@@ -103,12 +94,13 @@ public class Nominacion extends TestBase {
 		cambioDeFrame(driver, By.id("DocumentTypeSearch"),0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("DocumentInputSearch")));
 		contact.crearClienteNominacion("DNI", sDni, sGenero, sNombre, sApellido, sFnac, sEmail);
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_prevBtn")));
-		driver.findElement(By.xpath("//*[@class='slds-size--1-of-1 slds-radio slds-grid slds-box vlc-slds-selectableItem ng-scope']//h2[text()='Validaci\u00f3n por DNI']")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.className("uploadFile")));
-		File directory = new File("Dni.jpg");
-		driver.findElement(By.className("uploadFile")).sendKeys(directory.getAbsolutePath().toString());
-//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("DocumentMethod_nextBtn")));
-//		driver.findElement(By.id("DocumentMethod_nextBtn")).click();
+		contact.validacionPorDNI();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("validationStatusMessageScreen_nextBtn")));
+		driver.findElement(By.id("validationStatusMessageScreen_nextBtn")).click();
+		contact.completarDomicilio(sProvincia, sLocalidad, sZona, sCalle, sNumCa, sCP, tDomic);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("FinishProcess_nextBtn")));
+		Assert.assertTrue(driver.findElement(By.id("NominacionExitosa")).getText().contains("Nominaci\u00f3n exitosa"));
+		driver.findElement(By.id("FinishProcess_nextBtn")).click();
+		cbsm.ValidarInfoCuenta(sLinea, sNombre, sApellido, "Plan con Tarjeta Repro");
 	}
 }
