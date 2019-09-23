@@ -32,7 +32,7 @@ public class Ajustes extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
+	//@BeforeClass (alwaysRun = true)
 	public void initSIT() {
 		driver = setConexion.setupEze();
 		ges = new GestionDeClientes_Fw(driver);
@@ -44,7 +44,7 @@ public class Ajustes extends TestBase {
 		ges.irConsolaFanSit02();
 	}
 	
-	//@BeforeClass (groups = "PerfilOficina")
+	@BeforeClass (groups = "PerfilOficina")
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -412,7 +412,7 @@ public class Ajustes extends TestBase {
 		Integer datosInicial = Integer.parseInt(datoViejo.substring(0, datoViejo.length()-4));
 		System.out.println(datosInicial);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='x-panel view_context x-border-panel']")));
-		cc.irAGestion("inconvenientes con cargos tasados");
+		cc.irAGestion("inconvenientes con cargos");
 		cambioDeFrame(driver, By.id("Step-TipodeAjuste_nextBtn"), 0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-TipodeAjuste_nextBtn")));
 		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO PREPAGO");
@@ -497,7 +497,7 @@ public class Ajustes extends TestBase {
 		imagen = "TS160902";
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='x-panel view_context x-border-panel']")));
-		cc.irAGestion("inconvenientes con cargos tasados");
+		cc.irAGestion("inconvenientes con cargos");
 		cambioDeFrame(driver, By.id("Step-TipodeAjuste_nextBtn"), 0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-TipodeAjuste_nextBtn")));
 		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO PREPAGO");
@@ -572,7 +572,7 @@ public class Ajustes extends TestBase {
 		System.out.println(datosInicial);
 		ges.BuscarCuenta("DNI", sDNI);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='x-panel view_context x-border-panel']")));
-		cc.irAGestion("inconvenientes con cargos tasados");
+		cc.irAGestion("inconvenientes con cargos");
 		cambioDeFrame(driver, By.id("Step-TipodeAjuste_nextBtn"), 0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-TipodeAjuste_nextBtn")));
 		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO PREPAGO");

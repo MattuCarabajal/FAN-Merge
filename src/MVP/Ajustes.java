@@ -35,7 +35,7 @@ public class Ajustes extends TestBase {
 	String detalles;
 	
 	
-	@BeforeClass (alwaysRun = true)
+	//@BeforeClass (alwaysRun = true)
 	public void initOOCC() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -47,7 +47,7 @@ public class Ajustes extends TestBase {
 		ges.irAConsolaFAN();
 	}
 		
-	//@BeforeClass (groups = "PerfilTelefonico")
+	@BeforeClass (groups = "PerfilTelefonico")
 	public void initTelefonico() {
 		driver = setConexion.setupEze();
 		cc = new CustomerCare(driver);
@@ -139,6 +139,7 @@ public class Ajustes extends TestBase {
 		driver.findElement(By.id("CantidadDatosms")).sendKeys("123");
 		driver.findElement(By.id("Step-AjusteNivelLinea_nextBtn")).click();
 		sleep(7000);
+		driver.findElement(By.id("SummaryCaseComment")).sendKeys("Campo Obligatorio");
 		driver.findElement(By.id("Step-Summary_nextBtn")).click();
 		sleep(7000);
 		List <WebElement> element = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
@@ -146,6 +147,7 @@ public class Ajustes extends TestBase {
 			if (x.getText().toLowerCase().contains("tu gesti\u00f3n se realiz\u00f3 con \u00e9xito"))
 				gest = true;
 		}
+		
 		String datoNuevo = cbs.ObtenerUnidadLibre(cbsm.Servicio_QueryFreeUnit(sLinea), "Datos Libres");
 		Integer datosFinal = Integer.parseInt(datoNuevo);
 		Assert.assertTrue(datosInicial + (123 * 1024) == datosFinal);
@@ -193,6 +195,7 @@ public class Ajustes extends TestBase {
 		driver.findElement(By.id("CantidadVoz")).sendKeys("100000");
 		driver.findElement(By.id("Step-AjusteNivelLinea_nextBtn")).click();
 		sleep(7000);
+		driver.findElement(By.id("SummaryCaseComment")).sendKeys("Campo Obligatorio");
 		driver.findElement(By.id("Step-Summary_nextBtn")).click();
 		sleep(10000);
 		List <WebElement> element = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
@@ -247,6 +250,7 @@ public class Ajustes extends TestBase {
 		driver.findElement(By.id("CantidadDatosms")).sendKeys("123");
 		driver.findElement(By.id("Step-AjusteNivelLinea_nextBtn")).click();
 		sleep(7000);
+		driver.findElement(By.id("SummaryCaseComment")).sendKeys("Campo Obligatorio");
 		driver.findElement(By.id("Step-Summary_nextBtn")).click();
 		sleep(10000);
 		List <WebElement> element = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
@@ -301,6 +305,7 @@ public class Ajustes extends TestBase {
 		driver.findElement(By.id("CantidadMonto")).sendKeys("10000");
 		driver.findElement(By.id("Step-AjusteNivelLinea_nextBtn")).click();
 		sleep(7000);
+		driver.findElement(By.id("SummaryCaseComment")).sendKeys("Campo Obligatorio");
 		driver.findElement(By.id("Step-Summary_nextBtn")).click();
 		sleep(10000);
 		List <WebElement> element = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
@@ -356,6 +361,7 @@ public class Ajustes extends TestBase {
 		driver.findElement(By.id("CantidadDatosms")).sendKeys("123");
 		driver.findElement(By.id("Step-AjusteNivelLinea_nextBtn")).click();
 		sleep(7000);
+		driver.findElement(By.id("SummaryCaseComment")).sendKeys("Campo Obligatorio");
 		driver.findElement(By.id("Step-Summary_nextBtn")).click();
 		sleep(7000);
 		List <WebElement> element = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
@@ -397,6 +403,7 @@ public class Ajustes extends TestBase {
 		driver.findElement(By.id("CantidadMonto")).sendKeys("200000");
 		driver.findElement(By.id("Step-AjusteNivelLinea_nextBtn")).click();
 		sleep(7000);
+		driver.findElement(By.id("SummaryCaseComment")).sendKeys("Campo Obligatorio");
 		driver.findElement(By.id("Step-Summary_nextBtn")).click();
 		sleep(10000);
 		List <WebElement> element = driver.findElements(By.className("ta-care-omniscript-done"));
@@ -453,6 +460,7 @@ public class Ajustes extends TestBase {
 				monto = x;
 		}
 		Assert.assertTrue(monto.getText().equalsIgnoreCase("Monto: 2000"));
+		driver.findElement(By.id("SummaryCaseComment")).sendKeys("Campo Obligatorio");
 		driver.findElement(By.id("Step-Summary_nextBtn")).click();
 		sleep(10000);
 		List <WebElement> element = driver.findElements(By.className("ta-care-omniscript-done"));
@@ -540,6 +548,7 @@ public class Ajustes extends TestBase {
 		driver.findElement(By.id("CantidadVoz")).sendKeys("100000");
 		driver.findElement(By.id("Step-AjusteNivelLinea_nextBtn")).click();
 		sleep(10000);
+		driver.findElement(By.id("SummaryCaseComment")).sendKeys("Campo Obligatorio");
 		driver.findElement(By.id("Step-Summary_nextBtn")).click();
 		sleep(10000);
 		List <WebElement> element = driver.findElements(By.cssSelector(".slds-form-element.vlc-flex.vlc-slds-text-block.vlc-slds-rte.ng-pristine.ng-valid.ng-scope"));
@@ -631,6 +640,7 @@ public class Ajustes extends TestBase {
 		driver.findElement(By.id("CantidadMonto")).sendKeys("10000");
 		driver.findElement(By.id("Step-AjusteNivelLinea_nextBtn")).click();
 		sleep(7000);
+		driver.findElement(By.id("SummaryCaseComment")).sendKeys("Campo Obligatorio");
 		driver.findElement(By.id("Step-Summary_nextBtn")).click();
 		sleep(7000);
 		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".slds-icon.slds-icon--large.ta-care-omniscript-pending-icon")));
@@ -675,6 +685,7 @@ public class Ajustes extends TestBase {
 		driver.findElement(By.id("CantidadMonto")).sendKeys("200000");
 		driver.findElement(By.id("Step-AjusteNivelLinea_nextBtn")).click();
 		sleep(7000);
+		driver.findElement(By.id("SummaryCaseComment")).sendKeys("Campo Obligatorio");
 		driver.findElement(By.id("Step-Summary_nextBtn")).click();
 		sleep(10000);
 		WebElement nroCaso = null;
@@ -773,7 +784,7 @@ public class Ajustes extends TestBase {
 	public void TS121281CRM_Movil_Pre_Ajuste_Nota_de_Credito_Monto_1500_Aprobador_BO_Sin_revisor_Exepcion_Crm_OC(String sDNI, String sLinea){
 		ges.BuscarCuenta("DNI", "91021694");
 		sleep(5000);
-		cc.irAGestion("inconvenientes con cargos tasados");
+		cc.irAGestion("inconvenientes con cargos");
 		cambioDeFrame(driver, By.id("Step-TipodeAjuste_nextBtn"), 0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Step-TipodeAjuste_nextBtn")));
 		selectByText(driver.findElement(By.id("CboConcepto")), "FACTURA EMITIDA");
@@ -911,7 +922,7 @@ public class Ajustes extends TestBase {
 		boolean gest = false;
 		ges.BuscarCuenta("DNI", sDNI);
 		sleep(20000);
-		cc.irAGestion("inconvenientes con cargos tasados");
+		cc.irAGestion("inconvenientes con cargos");
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("Step-TipodeAjuste_nextBtn")));
 		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO PREPAGO");
