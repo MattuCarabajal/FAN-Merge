@@ -1923,7 +1923,7 @@ public class CustomerCare extends BasePage {
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		WebElement h = null;
 		List<WebElement> cards = driver.findElements(By.cssSelector("[class*='console-card active']"));
-		WebElement cardPorLinea=ges.getBuscarElementoPorText(ges.listaDeElementosPorText(cards, sLinea),"Activo");
+		WebElement cardPorLinea=ges.getBuscarElementoPorText(ges.listaDeElementosPorText(cards, sLinea),"Active");
 			for(WebElement c : cards){
 				if(cardPorLinea.getText().contains(sLinea)){
 					h = c.findElement(By.xpath("//*[@class='card-info-hybrid']//*[@class='detail'][1]//*[@class='slds-text-body_regular value'][2]"));

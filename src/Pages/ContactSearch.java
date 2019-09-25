@@ -335,14 +335,14 @@ public class ContactSearch extends BasePage {
 		nombre.sendKeys(sNom);
 		apellido.sendKeys(sAp);
 		fNac.sendKeys(sFN);
-		switch (genero.toLowerCase()) {
-		case "femenino":
-			gender.get(0).click();
-			break;
-		case "masculino":
-			gender.get(1).click();
-			break;
-		}
+//		switch (genero.toLowerCase()) {
+//		case "femenino":
+//			gender.get(0).click();
+//			break;
+//		case "masculino":
+//			gender.get(1).click();
+//			break;
+//		}
 		Email.findElement(By.tagName("input")).sendKeys(mail);
 		next.click();
 	}
@@ -369,7 +369,7 @@ public class ContactSearch extends BasePage {
 		}
 	}
 	
-	public String crearCliente(String tipoDoc){
+	public String crearCliente(String tipoDoc,String genero){
 		TestBase tb = new TestBase();
 		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		tb.cambioDeFrame(driver,By.id("SearchClientDocumentType"),0);
@@ -379,6 +379,14 @@ public class ContactSearch extends BasePage {
 		selectByText(documentType,tipoDoc);
 		document.click();
 		document.sendKeys(Integer.toString(intAleatorio));
+		switch (genero.toLowerCase()) {
+		case "femenino":
+			gender.get(0).click();
+			break;
+		case "masculino":
+			gender.get(1).click();
+			break;
+		}
 		buscar.click();
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".OSradioButton.ng-scope.only-buttom")));
 		BotonCrearNuevoCliente.click();
@@ -459,7 +467,7 @@ public class ContactSearch extends BasePage {
 	public void elegirPlan(String plan){
 		TestBase tb = new TestBase();			
 		tb.cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button_neutral.icon-add_shopping_cart.icon-only.cpq-add-button"),0);
-		tb.waitForClickeable(driver, By.cssSelector(".slds-tile.cpq-product-item"));
+		//tb.waitForClickeable(driver, By.cssSelector(".slds-button slds-button_neutral icon-add_shopping_cart icon-only cpq-add-button"));
 		driver.findElement(By.cssSelector(".slds-input.input-icon.ng-pristine.ng-untouched.ng-valid.ng-empty")).sendKeys(plan);
 		sleep(2500);
 		tb.waitForClickeable(driver, By.cssSelector(".slds-media.cpq-product-item-container"));
