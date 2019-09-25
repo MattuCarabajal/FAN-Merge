@@ -112,50 +112,43 @@ public class AltaDeLinea extends TestBase {
 		sDni = contact.crearCliente("DNI", sSexo);
 		contact.Llenar_Contacto(sNombre, sApellido, sFnac, sSexo, sEmail);
 		contact.elegirPlan(sPlan);
+//		sleep(60000);
 		contact.continuar();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required")));
 		contact.completarDomicilio(sProvincia, sLocalidad, sZona, sCalle, sNumCalle, sCodPostal, sTipoDomicilio);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("LineAssignment_nextBtn")));
-		driver.findElement(By.id("SearchBlock")).clear();
-		driver.findElement(By.id("SearchBlock")).sendKeys("BAHIA BLANCA");
-		sleep(2000);
-		driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ARROW_DOWN);
-		driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ENTER);
-		driver.findElement(By.id("ChangeNumber")).click();
-		sleep(15000);
+//		driver.findElement(By.id("SearchBlock")).clear();
+//		driver.findElement(By.id("SearchBlock")).sendKeys("BAHIA BLANCA");
+//		sleep(2000);
+//		driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ARROW_DOWN);
+//		driver.findElement(By.id("SearchBlock")).sendKeys(Keys.ENTER);
+//		driver.findElement(By.id("ChangeNumber")).click();
+//		sleep(15000);
 		driver.findElement(By.id("LineAssignment_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("InvoicePreview_nextBtn")));
 		driver.findElement(By.id("InvoicePreview_nextBtn")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("ValidationMethods")));
-		File directory = new File("Dni.jpg");
-		contact.tipoValidacion("documento");
-		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderSumary_nextBtn")));
 		String orden = driver.findElement(By.className("top-data")).findElement(By.className("ng-binding")).getText();
-		String NCuenta = driver.findElements(By.className("top-data")).get(1).findElements(By.className("ng-binding")).get(3).getText();
-		String Linea = driver.findElement(By.cssSelector(".top-data.ng-scope")).findElements(By.className("ng-binding")).get(1).getText();
+		String linea = driver.findElement(By.cssSelector(".top-data.ng-scope")).findElements(By.className("ng-binding")).get(1).getText();
 		orden = orden.substring(orden.length()-8);
-		NCuenta = NCuenta.substring(NCuenta.length()-16);
-		Linea = Linea.substring(Linea.length()-10);
-		System.out.println("Orden "+orden);
-		System.out.println("cuenta "+NCuenta);
-		System.out.println("Linea "+Linea);
+		linea = linea.substring(linea.length()-10);
+		System.out.println(orden);
+		System.out.println(linea);
 		cc.obligarclick(driver.findElement(By.id("OrderSumary_nextBtn")));
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("SaleOrderMessages_nextBtn")));
 		cc.obligarclick(driver.findElement(By.id("SaleOrderMessages_nextBtn")));
 		cbsm.Servicio_NotificarPago(orden);
-		sleep(5000);
-		driver.navigate().refresh();
+		cbsm.Servicio_NotificarEmisionFactura(orden);
 		ges.selectMenuIzq("Logistica");
 		cambioDeFrame(driver, By.cssSelector("[class='slds-card__body cards-container']"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='slds-card__body cards-container']")));
-		WebElement fila = null;
-			for (WebElement x : driver.findElement(By.cssSelector(".slds-card__body.cards-container")).findElements(By.tagName("tbody"))) {
-				if (x.findElement(By.tagName("td")).getText().contains(orden)) {
-					fila = x;
-				}
-			}
-		fila.findElement(By.xpath("//button//span[text()= 'Armar pedido']")).click();
+		WebElement logistica = null;
+		for (WebElement x : driver.findElement(By.cssSelector(".slds-card__body.cards-container")).findElements(By.tagName("tbody"))) {
+			if (x.findElement(By.tagName("td")).getText().contains(orden))
+				logistica = x;
+		}
+		logistica.findElement(By.xpath("//button//span[text()= 'Armar pedido']")).click();
+//		sleep(30000);
 		cambioDeFrame(driver, By.id("OrderItemNumeration"),0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("OrderItemNumeration")));
 		String serial = driver.findElement(By.xpath("//*[@id='OrderItemNumeration']//tbody//*[@data-label='Serial']//div")).getText();
@@ -164,38 +157,25 @@ public class AltaDeLinea extends TestBase {
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Confirmation_nextBtn")));
 		driver.findElement(By.id("Confirmation_nextBtn")).click();
 		ges.cerrarPestaniaGestion(driver);
+		cbsm.Servicio_NotificarPago(orden);
 		cbsm.Servicio_NotificarEmisionFactura(orden);
-		driver.navigate().refresh();
-		sleep(15000);
 		ges.selectMenuIzq("Entregas");
 		cambioDeFrame(driver, By.cssSelector("[class='slds-card__body cards-container']"), 0);
 		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='slds-card__body cards-container']")));
 		WebElement entregas = null;
-			for (WebElement x : driver.findElement(By.cssSelector(".slds-card__body.cards-container")).findElements(By.tagName("tbody"))) {
-				if (x.findElement(By.tagName("td")).getText().contains(orden)) {
-					System.out.println("entro al if");
-					entregas = x;
-				}
-			}
+		for (WebElement x : driver.findElement(By.cssSelector(".slds-card__body.cards-container")).findElements(By.tagName("tbody"))) {
+			if (x.findElement(By.tagName("td")).getText().contains(orden))
+				entregas = x;
+		}
 		entregas.findElement(By.xpath("//button//span[text()= 'Entregar pedido']")).click();
 		cambioDeFrame(driver, By.id("checkbox-0"),0);
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("checkbox-0")));
 		driver.findElement(By.xpath("//*[@class='slds-checkbox']//span")).click();
 		cc.obligarclick(driver.findElement(By.id("OrderItemVerification_nextBtn")));
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Confirmation_nextBtn")));
-		boolean a = false;
-		WebElement text = driver.findElement(By.id("TextBlock1"));
-			if(text.getText().contains("La orden se realiz\u00f3 con \u00e9xito"))
-				a= true;
-		Assert.assertTrue(a);
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("Confirmation_nextBtn")));		
+		Assert.assertTrue(driver.findElement(By.id("TextBlock1")).getText().contains("La orden se realiz\u00f3 con \u00e9xito"));
 		driver.findElement(By.id("Confirmation_nextBtn"));
-		cbsm.ValidarInfoCuenta(Linea, sNombre, sApellido, sPlan);	
-		ges.selectMenuIzq("Inicio");
-//		driver.switchTo().frame(cambioFrame(driver, By.cssSelector(".hasMotif.orderTab.detailPage.ext-webkit.ext-chrome.sfdcBody.brandQuaternaryBgr")));
-//		tabla = driver.findElement(By.id("ep")).findElements(By.tagName("table")).get(1);
-//		datos = tabla.findElements(By.tagName("tr")).get(4).findElements(By.tagName("td")).get(1).getText();
-//		invoSer.ValidarInfoCuenta(Linea, sNombre,sApellido, sPlan);
-//		Assert.assertTrue(datos.equalsIgnoreCase("activada")||datos.equalsIgnoreCase("activated"));
+		cbsm.ValidarInfoCuenta(linea, sNombre, sApellido, sPlan);
 	}
 	
 	

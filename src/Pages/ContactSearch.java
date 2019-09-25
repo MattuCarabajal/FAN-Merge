@@ -465,20 +465,24 @@ public class ContactSearch extends BasePage {
 	}
 	
 	public void elegirPlan(String plan){
-		TestBase tb = new TestBase();			
+		TestBase tb = new TestBase();
+		GestionDeClientes_Fw ges = new GestionDeClientes_Fw(driver);
 		tb.cambioDeFrame(driver, By.cssSelector(".slds-button.slds-button_neutral.icon-add_shopping_cart.icon-only.cpq-add-button"),0);
-		//tb.waitForClickeable(driver, By.cssSelector(".slds-button slds-button_neutral icon-add_shopping_cart icon-only cpq-add-button"));
+		tb.waitForClickeable(driver, By.xpath("//*[@class='slds-radio_button__label']//span[text()='Products']"));
+		driver.findElement(By.xpath("//*[@class='slds-radio_button__label']//span[text()='Products']")).click();
+		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-media cpq-product-item-container']"), 0));
 		driver.findElement(By.cssSelector(".slds-input.input-icon.ng-pristine.ng-untouched.ng-valid.ng-empty")).sendKeys(plan);
 		sleep(2500);
 		tb.waitForClickeable(driver, By.cssSelector(".slds-media.cpq-product-item-container"));
-		List<WebElement> productos = driver.findElements(By.cssSelector(".slds-media.cpq-product-item-container"));
-		List<WebElement> botones = driver.findElements(By.cssSelector(".slds-button.slds-button_neutral.icon-add_shopping_cart.icon-only.cpq-add-button"));
-		for (int i = 0; i <= productos.size()-1; i++) {
-			if (productos.get(i).getText().substring(0, productos.get(i).getText().indexOf("\n")).equalsIgnoreCase(plan)) {
-				botones.get(i).click();
-				break;
-			}
-		}
+		driver.findElement(By.cssSelector("[class='slds-media cpq-product-item-container'] button")).click();
+//		List<WebElement> productos = driver.findElements(By.cssSelector(".slds-media.cpq-product-item-container"));
+//		List<WebElement> botones = driver.findElements(By.cssSelector(".slds-button.slds-button_neutral.icon-add_shopping_cart.icon-only.cpq-add-button"));
+//		for (int i = 0; i <= productos.size(); i++) {
+//			if (productos.get(i).getText().substring(0, productos.get(i).getText().indexOf("\n")).equalsIgnoreCase(plan)) {
+//				botones.get(i).click();
+//				break;
+//			}
+//		}
 	}
 	
 	public void continuar(){
