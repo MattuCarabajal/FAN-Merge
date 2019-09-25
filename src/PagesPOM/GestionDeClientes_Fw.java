@@ -352,7 +352,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			List<WebElement> elementos = driver.findElements(By.cssSelector("[class='community-flyout-actions-card'] ul li"));
 			elementos.addAll(driver.findElements(By.cssSelector("[class='card-info-hybrid'] [class='actions'] li")));
 			elementos.addAll(driver.findElements(By.cssSelector("[class='slds-button slds-button--neutral ']")));
-			driver.findElement(By.xpath("//a//span[contains(text(),'" + sGestion + "')]")).click();
+			driver.findElement(By.xpath("//button//span[contains(text(),'" + sGestion + "')]")).click();
 		}
 	}
 	
@@ -371,7 +371,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='community-flyout-actions-card'] ul li"), 0));
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='card-info-hybrid'] [class='actions'] li"), 0));
 			fluentWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("[class='slds-button slds-button--neutral ']"), 0));
-			driver.findElement(By.xpath("//a//span[contains(text(),'Renovacion de Datos')]")).click();
+			driver.findElement(By.xpath("//span[contains(text(),'Renovacion de Datos')]")).click();
 		}
 	}
 	

@@ -88,7 +88,7 @@ public class AltaDeLinea extends TestBase {
 		ges.irGestionClientes();
 	}
 
-	@AfterMethod(alwaysRun=true)
+	//@AfterMethod(alwaysRun=true)
 	public void after() throws IOException {
 		guardarListaTxt(sOrders);
 		sOrders.clear();
@@ -109,7 +109,7 @@ public class AltaDeLinea extends TestBase {
 	@Test (groups={"PerfilOficina","AltaDeLinea"}, dataProvider="DatosAltaLineaOfCom")
 	public void TS_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_OfCom_Efectivo_Presencial_DNI(String sDni, String sNombre, String sApellido, String sSexo, String sFnac,String sEmail, String sPlan, String sEntrega, String sProvincia, String sLocalidad,String  sZona,String  sCalle,String  sNumCalle,String  sCodPostal,String  sTipoDomicilio) throws IOException {
 		imagen = "TS_CRM_Movil_PRE_Alta_Linea_Cliente_Nuevo_OfCom_Efectivo_Presencial_DNI";
-		sDni = contact.crearCliente("DNI");
+		sDni = contact.crearCliente("DNI", sSexo);
 		contact.Llenar_Contacto(sNombre, sApellido, sFnac, sSexo, sEmail);
 		contact.elegirPlan(sPlan);
 		contact.continuar();
