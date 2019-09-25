@@ -121,7 +121,7 @@ public class GestionDeClientes_Fw extends BasePageFw {
 		super(driver);
 		super.setDriver(driver);
 		tb = new TestBase();
-		wait = new WebDriverWait(driver, 30);
+		wait = new WebDriverWait(driver, 50);
 		// PageFactory.initElements(driver, this);
 		PageFactory.initElements(getDriver(), this);
 		super.setFluentWait(new FluentWait<WebDriver>(driver));

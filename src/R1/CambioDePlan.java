@@ -96,10 +96,10 @@ public class CambioDePlan extends TestBase {
 	private boolean cambioDePlan(String DNI, String numLinea, String plan) {
 		ges.BuscarCuenta("DNI", DNI);
 		ges.irAGestionEnCard("Cambio de Plan");
-		cambioDeFrame(driver, By.id("OrderRequestDate"), 0);
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderRequestDate")));
-		driver.findElement(By.id("OrderRequestDate")).sendKeys(fecha);
-		driver.findElement(By.id("Request date_nextBtn")).click();
+		cambioDeFrame(driver, By.id("TargetOffer_nextBtn"), 0);
+//		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("OrderRequestDate")));
+//		driver.findElement(By.id("OrderRequestDate")).sendKeys(fecha);
+//		driver.findElement(By.id("Request date_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup"), 0));
 		List<WebElement> planes = driver.findElements(By.cssSelector(".slds-grid.slds-box.vlc-slds-selectableItem.arrowup"));
 		for (WebElement p : planes) {
@@ -113,10 +113,9 @@ public class CambioDePlan extends TestBase {
 		driver.findElement(By.id("Summary_nextBtn")).click();		
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("state-BillingAddress")));
 		driver.findElement(By.id("AccountData_nextBtn")).click();
-		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("MethodSelection_nextBtn")));
-		contact.tipoValidacion("documento");
-		File directory = new File("Dni.jpg");
-		contact.subirArchivo(new File(directory.getAbsolutePath()).toString(), "si");
+		contact.validacionPorDNI();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("validationStatusMessageScreen_nextBtn")));
+		driver.findElement(By.id("validationStatusMessageScreen_nextBtn")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("nextBtn-label")));
 		driver.findElement(By.id("nextBtn-label")).click();
 		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".slds-button.slds-button_brand")));
@@ -135,7 +134,7 @@ public class CambioDePlan extends TestBase {
 	@Test (groups = {"PerfilOficina", "R1"}, dataProvider = "CAPRO")
 	public void TS145168_CRM_Pospago_SalesCPQ_Cambio_de_plan_OOCC_DNI_de_Plan_con_Tarjeta_a_APRO2(String sDNI, String sLinea) {
 		imagen = "TS145168";
-		Assert.assertTrue(cambioDePlan(sDNI, sLinea, "conexi\u00f3n control abono s" ));		
+		Assert.assertTrue(cambioDePlan(sDNI, sLinea, "conexi\u00f3n control abono s"));
 	}
 	
 	

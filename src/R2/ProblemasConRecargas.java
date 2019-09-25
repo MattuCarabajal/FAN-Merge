@@ -25,11 +25,9 @@ public class ProblemasConRecargas extends TestBase {
 	private WebDriver driver;
 	private CBS cbs;
 	private CBS_Mattu cbsm;
-	private List<String> sOrders = new ArrayList<String>();
 	private String imagen;
 	private GestionDeClientes_Fw ges;
 	private LoginFw log;
-	String detalles;
 	
 	
 	//@BeforeClass (groups= "PerfilOficina")
@@ -56,7 +54,6 @@ public class ProblemasConRecargas extends TestBase {
 	
 	@BeforeMethod (alwaysRun = true)
 	public void setup() {
-		detalles = null;
 		ges.cerrarPestaniaGestion(driver);
 		ges.selectMenuIzq("Inicio");
 		ges.irGestionClientes();	
@@ -64,7 +61,6 @@ public class ProblemasConRecargas extends TestBase {
 
 	//@AfterMethod (alwaysRun = true)
 	public void after() throws IOException {
-		sOrders.clear();
 		tomarCaptura(driver,imagen);
 		sleep(2000);
 	}
@@ -160,9 +156,21 @@ public class ProblemasConRecargas extends TestBase {
 		Assert.assertTrue(driver.findElement(By.cssSelector("[class='ta-care-omniscript-done']")).getText().toLowerCase().contains("la tarjeta ya fue utilizada para una recarga"));
 	}
 	
-	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "ProblemaRecargaPrepaga")
+	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "CuentaProblemaRecargaVencida")
 	public void TS178665_CRM_Movil_Pre_Problemas_con_Recarga_Tarjeta_Scratch_Caso_Nuevo_Vencida_Crm_OC(String sDNI, String sLinea, String sBatch, String sPin) {
 		imagen = "TS178665";
+		ges.BuscarCuenta("DNI", sDNI);
+		ges.irAGestionEnCard("Inconvenientes con Recargas");
+		cambioDeFrame(driver, By.id("RefillMethods_nextBtn"), 0);
+		buscarYClick(driver.findElements(By.cssSelector(".imgItemContainer.ng-scope")), "contains", "tarjeta prepaga");
+		driver.findElement(By.id("RefillMethods_nextBtn")).click();
+		ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("PrepaidCardData_nextBtn")));
+		driver.findElement(By.id("BatchNumber")).sendKeys(sBatch);
+		driver.findElement(By.id("PIN")).sendKeys(sPin);
+		driver.findElement(By.id("PrepaidCardData_nextBtn")).click();
+		cambioDeFrame(driver, By.cssSelector("[class='ta-care-omniscript-done']"), 0);
+		ges.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='ta-care-omniscript-done']")));
+		Assert.assertTrue(driver.findElement(By.cssSelector("[class='ta-care-omniscript-done']")).getText().toLowerCase().contains("la tarjeta expir\u00f3"));
 	}
 	
 	@Test (groups = {"PerfilOficina", "R2"}, dataProvider = "CuentaProblemaRecarga")

@@ -279,7 +279,7 @@ public class Ajustes extends TestBase {
 		boolean gest = false;
 		ges.BuscarCuenta("DNI", sDNI);
 		sleep(20000);
-		cc.irAGestion("inconvenientes con cargos tasados");
+		cc.irAGestion("inconvenientes con cargos");
 		sleep(10000);
 		driver.switchTo().frame(cambioFrame(driver, By.id("Step-TipodeAjuste_nextBtn")));
 		selectByText(driver.findElement(By.id("CboConcepto")), "CREDITO PREPAGO");
