@@ -1,5 +1,8 @@
 package R2;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import org.openqa.selenium.By;
@@ -60,8 +63,8 @@ public class Preactivacion extends TestBase {
         nombreArchivo = bf.LecturaDeDatosTxt(path + "\\seriales.txt", numeroDeLineas);
         sendKeysBy(driver, By.id("fileinput"), nombreArchivo, 0);
         clickBy(driver, By.xpath("//button[contains(text(),'Importar')]"), 0);
-        ges.getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='btn btn-primary ng-binding ng-scope']")));
-        driver.findElement(By.cssSelector("[class='btn btn-primary ng-binding ng-scope']")).click();
+        ges.getWait().until(ExpectedConditions.elementToBeClickable(By.id("btnConfirmacionImportarSimsConfirm")));
+        driver.findElement(By.id("btnConfirmacionImportarSimsConfirm")).click();
         try {
         	Assert.assertTrue(getTextBy(driver, By.xpath("//h3[contains(text(),'exitosamente')]"), 0).contentEquals("Se ha importado exitosamente el archivo."));
         	clickBy(driver, By.cssSelector(".btn.btn-primary"), 0);
@@ -70,6 +73,18 @@ public class Preactivacion extends TestBase {
         }
         nombreArchivo = "seriales" + nombreArchivo.substring(nombreArchivo.length()-18, nombreArchivo.length()-4);
         DPW.main();
+        
+        File lotesSeriales = new File(System.getProperty("user.home") + "/Desktop/lotesSeriales.txt");
+        FileWriter fw = new FileWriter(lotesSeriales.getAbsoluteFile(), true);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(nombreArchivo + "\r\n");
+        bw.close();
+        
+        
+        
+        
+        
+        
 //        sleep(10000);
 //        seleccionOpcion(driver, "sims", "gestion");
 //		clickBy(driver, By.xpath("//option[contains(text(), 'Estado')]"), 0);

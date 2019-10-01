@@ -79,7 +79,7 @@ public class LoginFw extends BasePageFw {
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
-		Ecom_User_ID.sendKeys("Ua2544674"); //Ua2544674 //uat528737
+		Ecom_User_ID.sendKeys("uat528737"); //Ua2544674 //uat528737
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
 	}
@@ -89,7 +89,7 @@ public class LoginFw extends BasePageFw {
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
-		Ecom_User_ID.sendKeys("Ua2591324");
+		Ecom_User_ID.sendKeys("uat591330");  //Ua2591324 //uat591330
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
 	}
@@ -99,7 +99,7 @@ public class LoginFw extends BasePageFw {
 		fluentWait.until(ExpectedConditions.elementToBeClickable(logininterno));
 		logininterno.click();
 		fluentWait.until(ExpectedConditions.elementToBeClickable(loginButton2));
-		Ecom_User_ID.sendKeys("Ua2554620");
+		Ecom_User_ID.sendKeys("uat584163");  //uat584163  //Ua2554620
 		Ecom_Password.sendKeys("Testa10k");
 		loginButton2.click();
 	}
